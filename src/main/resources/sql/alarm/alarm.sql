@@ -14,3 +14,8 @@ create table tbl_alarm(
 );
 
 select * from tbl_alarm;
+
+use test2;
+
+drop table tbl_alarm;
+

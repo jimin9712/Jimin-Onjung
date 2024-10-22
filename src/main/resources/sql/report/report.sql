@@ -1,5 +1,5 @@
 create table tbl_report(
-    id bigint unsigned auto_increment primary key not null,
+    id bigint unsigned auto_increment primary key,
     report_reason varchar(1000) not null,
     post_id bigint unsigned not null,
     member_id bigint unsigned not null,

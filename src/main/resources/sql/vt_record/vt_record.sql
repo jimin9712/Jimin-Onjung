@@ -8,3 +8,5 @@ create table tbl_vt_record(
                           references tbl_vt_application(id)
 
 );
+
+drop table tbl_vt_record;
