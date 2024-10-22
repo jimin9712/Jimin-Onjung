@@ -7,6 +7,7 @@ create table tbl_post (
   post_content varchar(1000) not null,
   post_view_count bigint default 0,
   post_type smallint not null,
+  post_status varchar(100) default '일반',
   created_date datetime default current_timestamp,
   updated_date datetime default  current_timestamp,
   member_id bigint unsigned not null ,

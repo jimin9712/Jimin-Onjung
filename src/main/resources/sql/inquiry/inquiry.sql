@@ -1,5 +1,6 @@
 create table tbl_inquiry(
-    id bigint unsigned auto_increment primary key,
+    id bigint unsigned primary key,
+    inquiry_status varchar(100) default '답변 대기',
     constraint fk_inquiry_post foreign key (id)
     references tbl_post(id)
 );

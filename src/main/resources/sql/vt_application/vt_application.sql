@@ -11,3 +11,4 @@ create table tbl_vt_application(
                                references tbl_member(id)
 );
 
+drop table tbl_vt_application;
