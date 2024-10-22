@@ -1,6 +1,6 @@
 create table tbl_reply(
     id bigint unsigned auto_increment primary key,
-    reply_content varchar(255) not null,
+    reply_content varchar(1000) not null,
     member_id bigint unsigned not null,
     post_id bigint unsigned not null,
     created_date datetime default current_timestamp,
