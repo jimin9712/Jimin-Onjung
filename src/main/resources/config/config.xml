@@ -4,8 +4,4 @@
     <settings>
         <setting name="mapUnderscoreToCamelCase" value="true"/>
     </settings>
-    <typeAliases>
-        <typeAlias type="com.app.back.domain.post.PostVO" alias="postVO"/>
-        <typeAlias type="com.app.back.domain.qa_post.QaPostVO" alias="qaPostVO"/>
-    </typeAliases>
 </configuration>
