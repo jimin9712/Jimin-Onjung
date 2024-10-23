@@ -18,7 +18,7 @@ public class VolunteerDTO {
     private String postType;
     private String postSummary;
     private String createdDate;
-    private String updatedDate;
 
 
-public VolunteerVO toVO(){return new VolunteerVO(id,vtRecruitmentCount,postTitle,memberNickName,postViewCount,postType,postSummary,createdDate,updatedDate);}}
+public VolunteerVO toVO(){return new VolunteerVO(id,vtRecruitmentCount,postTitle,
+                memberNickName,postViewCount,postType,postSummary,createdDate);}}

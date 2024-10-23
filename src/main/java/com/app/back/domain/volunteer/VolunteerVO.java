@@ -17,7 +17,7 @@ public class VolunteerVO {
     private String postType;
     private String postSummary;
     private String createdDate;
-    private String updatedDate;
+
 
 
 }
