@@ -10,4 +10,6 @@ public interface MemberService {
     public Optional<MemberVO> getMember(Long id);
     public void update(MemberVO memberVO);
     public void delete(Long id);
+    public Optional<MemberVO> getKakaoMember(String memberKakaoEmail);
+
 }

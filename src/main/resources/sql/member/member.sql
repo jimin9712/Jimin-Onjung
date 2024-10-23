@@ -42,3 +42,4 @@ values(1,"닉네임1");
 select * from tbl_member;
 
 
+
