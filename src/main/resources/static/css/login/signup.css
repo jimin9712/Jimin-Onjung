@@ -153,7 +153,7 @@ b {
     background: #f9da49;
     color: #000 !important;
     image-rendering: -webkit-optimize-contrast;
-    margin-left: -19px;
+    margin-left: -18px;
     
 }
 .social-social-login-list-box ul li {
@@ -166,11 +166,7 @@ b {
     height: 44px;
     margin-bottom: 8px;
 }
-.social-social-login-list-box ul li img {
-    width: 24px;
-    height: 24px;
-    margin-right: 4px;
-}
+
 button, img, input, select, textarea {
     vertical-align: middle;
 } 

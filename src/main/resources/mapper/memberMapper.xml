@@ -12,10 +12,16 @@
                 insert into tbl_member (
                 kakao_email, kakao_profile_url, kakao_nickname,member_name,member_login_type)
                 values (
-                #{kakaoEmail}, #{kakaoProfileUrl},#{memberName},
+                #{kakaoEmail}, #{kakaoProfileURL},#{kakaoNickName},#{memberName},
                 #{memberLoginType})
             </otherwise>
         </choose>
     </insert>
+
+    <select id="selectByMemberKakaoEmail">
+        select MEMBER_EMAIL, MEMBER_PASSWORD, KAKAO_EMAIL, KAKAO_PROFILE_URL, MEMBER_NAME, MEMBER_LOGIN_TYPE, UPDATED_DATE, CREATED_DATE
+        from tbl_member
+        where KAKAO_EMAIL = #{memberKakaoEmail}
+    </select>
 
 </mapper>
