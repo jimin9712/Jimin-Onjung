@@ -1,5 +1,9 @@
 use test2;
 
+show databases ;
+
+create database test2;
+
 create table tbl_member (
     id bigint unsigned auto_increment primary key,
     kakao_email varchar(255),

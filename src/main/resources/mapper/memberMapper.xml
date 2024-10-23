@@ -4,13 +4,13 @@
     <insert id="insert">
         <choose>
             <when test="memberPassword != null">
-                insert into tbl_member ("member_email", "member_name", "member_phone", "member_password", "member_nickname"
+                insert into tbl_member (member_email, member_name, member_phone, member_password, member_nickname
                 )
                 values (#{memberEmail},#{memberName}, #{memberPhone}, #{memberPassword}, #{memberNickName})
             </when>
             <otherwise>
                 insert into tbl_member (
-                "kakao_email", "kakao_profile_url", "kakao_nickname","member_name","member_login_type")
+                kakao_email, kakao_profile_url, kakao_nickname,member_name,member_login_type)
                 values (
                 #{kakaoEmail}, #{kakaoProfileUrl},#{memberName},
                 #{memberLoginType})

@@ -4,7 +4,7 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>이메일로 가입하기</title>
-        <link rel="stylesheet" href="/static/css/login/email.css" />
+        <link rel="stylesheet" href="/css/login/email.css" />
     </head>
     <body>
         <div class="root">
@@ -30,13 +30,15 @@
                                     <h1 style="text-align: center">
                                         이메일로 가입하기
                                     </h1>
+
                                 </div>
                                 <p class="register-txt"></p>
                             </div>
                             <form
-                                name="register-form"
-                                class="register-register-form"
-                                action
+                                    name="register-form"
+                                    class="register-register-form"
+                                    action="/member/email"
+                                    method="post"
                             >
                                 <div
                                     class="stunning-box register-stunning-form loud"
@@ -49,7 +51,7 @@
                                             <input
                                                 class="false input-has-no-value false"
                                                 type="text"
-                                                name="name"
+                                                name="memberName"
                                                 id="name"
                                                 autocomplete="off"
                                                 value
@@ -64,7 +66,7 @@
                                             <input
                                                 class="false input-has-no-value false"
                                                 type="text"
-                                                name="phone-number"
+                                                name="memberPhone"
                                                 id="phone-number"
                                                 autocomplete="off"
                                                 value
@@ -140,7 +142,7 @@
                                             <input
                                                 class="false input-has-no-value false"
                                                 type="text"
-                                                name="email"
+                                                name="memberEmail"
                                                 id="email"
                                                 autocomplete="off"
                                                 value
@@ -213,7 +215,7 @@
                                         <input
                                             class="false"
                                             type="password"
-                                            name="password"
+                                            name="memberPassword"
                                             id="password"
                                             placeholder="6자 이상"
                                             autocomplete="new-password"
@@ -234,7 +236,7 @@
                                         <input
                                             class="false"
                                             type="password"
-                                            name="password-confirm"
+                                            name="passwordConfirm"
                                             id="password-confirm"
                                             placeholder="6자 이상"
                                             autocomplete="new-password"
@@ -285,14 +287,11 @@
                                         class="register-flex-div"
                                         style="margin-top: 48px"
                                     >
-                                        <button
-                                            type="button"
-                                            class="register-btn-previous"
-                                        >
+                                        <button class="register-btn-previous">
                                             이전
                                         </button>
                                         <button
-                                            type="button"
+                                            type="submit"
                                             class="register-btn-complete false"
                                         >
                                             완료
@@ -305,6 +304,6 @@
                 </div>
             </div>
         </div>
-        <script src="/static/js/login/email.js"></script>
+        <script src="/js/login/email.js"></script>
     </body>
 </html>
