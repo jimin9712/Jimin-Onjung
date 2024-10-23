@@ -37,3 +37,8 @@ select * from tbl_member;
 
 
 DROP TABLE tbl_member;
+
+delete from tbl_member
+where id = 5;
+
+
