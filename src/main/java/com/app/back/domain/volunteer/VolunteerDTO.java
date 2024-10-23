@@ -17,13 +17,13 @@ public class VolunteerDTO {
     private int recruitmentCount;
     private String postTitle;
     private String postContent;
-    private LocalDate vtSDate;
-    private LocalDate vtEDate;
+    private String vtSDate;
+    private String vtEDate;
     private String memberNickName;
     private int postViewCount;
     private String postType;
     private String postSummary;
-    private LocalDate createdDate;
+    private String createdDate;
     private String attachmentFileName;
     private String attachmentFilePath;
     private String attachmentFileSize;
