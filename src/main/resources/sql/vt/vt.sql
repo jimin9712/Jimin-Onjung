@@ -7,4 +7,4 @@ create table tbl_vt(
 
 
 
-drop table tbl_vt;es
+drop table tbl_vt;

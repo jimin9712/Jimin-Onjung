@@ -17,23 +17,21 @@ import org.springframework.web.servlet.view.RedirectView;
 public class MemberController {
     private final MemberService memberService;
 
-
     @GetMapping("signup")
     public String goToSignup() {
         return "member/signup";
     }
 
-    // email.html로 이동
     @GetMapping("email")
     public String goToEmailSignup() {
         return "member/email";
     }
 
-
-    @PostMapping("email")
+    @PostMapping("/email")
     public RedirectView signup(MemberDTO memberDTO) {
         log.info("회원가입 요청: {}", memberDTO);
         memberService.join(memberDTO.toVO());
         return new RedirectView("/member/login");
     }
 }
+
