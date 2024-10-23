@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>로그인</title>
+        <link rel="stylesheet" href="/static/css/login/login.css" />
+    </head>
+    <body>
+        <div id="root">
+            <div class="wrap palm-leaf">
+                <div class="main-container">
+                    <div class="main-register-wrap">
+                        <div class="login-right-area">
+                            <div class="login-login-wrap">
+                                <div class="login-login-title">
+                                    <header class="header">
+                                        <div class="logo loud"></div>
+                                    </header>
+                                </div>
+                                <div class="wrap-box loud">
+                                    <form
+                                        name="login-form"
+                                        method="post"
+                                        action
+                                    >
+                                        <div
+                                            class="login-form-input-box false id-input-box input-box"
+                                        >
+                                            <p class="label-text">이메일</p>
+                                            <input
+                                                type="text"
+                                                id="id-info"
+                                                name="id-info"
+                                                class="form-input"
+                                            />
+                                            <span class="false"></span>
+                                        </div>
+                                        <div
+                                            class="login-form-input-box undfined false input-box"
+                                        >
+                                            <p class="label-text">비밀번호</p>
+                                            <input
+                                                type="password"
+                                                id="pass-info"
+                                                name="pass-info"
+                                                class="form-input"
+                                                value
+                                            />
+                                            <img
+                                                class="password-show-btn"
+                                                src="https://accounts-front.stunning.kr/assets/img/login/ico-hidden.png"
+                                                onclick="togglePasswordVisibility()"
+                                            />
+                                            <span
+                                                class="warning-msg"
+                                                style="display: none"
+                                                >가입되어 있지 않은 계정이거나,
+                                                이메일 또는 비밀번호가 일치하지
+                                                않습니다.</span
+                                            >
+                                        </div>
+                                        <div
+                                            id="login-btn"
+                                            class="classic-black-btn login-form-popask-btn false"
+                                        >
+                                            로그인
+                                        </div>
+                                        <div
+                                            class="login-keep-box login-form-others loud"
+                                        >
+                                            <input
+                                                type="checkbox"
+                                                id="login-keep"
+                                                name="login-keep"
+                                            />
+                                            <label for="login-keep"
+                                                >로그인 유지</label
+                                            >
+                                            <a
+                                                class="find-account login-form-find-account loud"
+                                                href=""
+                                                >비밀번호 찾기</a
+                                            >
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="social-social-login-box">
+                                    <p>카카오톡 로그인 하기</p>
+                                    <ul>
+                                        <li class="social-kakao">
+                                            <a href="">카카오톡 로그인</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="login-join-area">
+                                    <div class="login-join-box">
+                                        <a href="">
+                                            <span
+                                                >아직 온정 회원이
+                                                아니세요?</span
+                                            >
+                                            <span>회원가입 하기</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="../../static/js/login/login.js"></script>
+    </body>
+</html>
