@@ -9,12 +9,23 @@ create table tbl_vt(
 
 select *from tbl_vt;
 
+DESCRIBE tbl_vt;
 
-drop table tbl_vt;
+INSERT INTO tbl_vt (id, recruitment_count, vt_s_date, vt_e_date)
+VALUES (1, 10, '2024-10-23', '2024-11-25');
 
-select v.id, v.recruitmentCount, p.postTitle, m.memberNickName,
-       v.vtSDate, v.vtEDate,p.postViewCount, p.postType, p.postSummary, p.createdDate
+
+# drop table tbl_vt;
+#
+select v.id, v.recruitment_count, p.post_title, m.member_nickname,
+       v.vt_s_date, v.vt_e_date,p.post_view_count, p.post_type, p.post_summary, p.created_Date
 from tbl_vt v
          join tbl_post p on v.id = p.id
          join tbl_member m on p.member_id = m.id
 order by v.id desc;
+
+insert into tbl_vt(post_type, post_title, postSummary, recruitmentCount, vtSDate, vtEDate, postContent,
+                   attachmentFileName,attachmentFilePath,attachmentFileSize,attachmentFiletype)
+values('1','테스트 제목인디','테스트 요약인디',10,'2024-10-23','2025-01-01','테스트내용인디');
+
+
