@@ -21,17 +21,15 @@ public class MemberDAO {
     public Optional<MemberVO> findByMemberEmailAndMemberPassword(MemberVO memberVO){
         return memberMapper.selectByMemberEmailAndMemberPassword(memberVO);
     }
-
     //    회원 정보 조회
     public Optional<MemberVO> findById(Long id){
         return memberMapper.selectById(id);
     }
-
     //    회원 정보 수정
     public void setMember(MemberVO memberVO){
         memberMapper.update(memberVO);
     }
-
+    //    회원 삭제
     public void delete(Long id){
         memberMapper.delete(id);
     }

@@ -23,9 +23,6 @@ public interface MemberMapper {
     //    회원 삭제
     public void delete(Long id);
 
-    //    회원 전체 정보 조회
-    public List<MemberVO> selectAll();
-
     //    카카오 회원 정보 조회
     public Optional<MemberVO> selectByMemberKakaoEmail(String memberKakaoEmail);
 }
