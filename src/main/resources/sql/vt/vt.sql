@@ -4,6 +4,6 @@ create table tbl_vt(
     constraint fk_vt_post foreign key(id)
                    references tbl_post(id)
 );
-_recruitment_count smallint not null;
+
 
 drop table tbl_vt;
