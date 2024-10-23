@@ -4,10 +4,4 @@
     <settings>
         <setting name="mapUnderscoreToCamelCase" value="true"/>
     </settings>
-
-    <typeAliases>
-        <typeAlias type="com.app.back.domain.volunteer.VolunteerVO" alias="volunteerVO"/>
-        <typeAlias type="com.app.back.domain.volunteer.VolunteerDTO" alias="volunteerDTO"/>
-
-    </typeAliases>
 </configuration>

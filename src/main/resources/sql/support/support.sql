@@ -4,3 +4,4 @@ create table tbl_support(
     constraint fk_support_post foreign key (id)
                         references tbl_post(id)
 );
+
