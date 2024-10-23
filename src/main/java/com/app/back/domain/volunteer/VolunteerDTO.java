@@ -6,6 +6,7 @@ import lombok.*;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Component
 @Getter @Setter @ToString
@@ -16,8 +17,8 @@ public class VolunteerDTO {
     private int recruitmentCount;
     private String postTitle;
     private String postContent;
-    private String vtSDate;
-    private String vtEDate;
+    private LocalDate vtSDate;
+    private LocalDate vtEDate;
     private String memberNickName;
     private int postViewCount;
     private String postType;
@@ -28,7 +29,23 @@ public class VolunteerDTO {
     private String attachmentFileSize;
     private String attachmentFiletype;
 
-
-public VolunteerVO toVO(){return new VolunteerVO(id,recruitmentCount,postTitle,postContent,
-        vtSDate, vtEDate, memberNickName,postViewCount,postType,postSummary,createdDate,
-        attachmentFileName, attachmentFilePath, attachmentFileSize, attachmentFiletype);}}
+    public VolunteerVO toVO() {
+        return new VolunteerVO(
+                id,
+                recruitmentCount,
+                postTitle,
+                postContent,
+                vtSDate,
+                vtEDate,
+                memberNickName,
+                postViewCount,
+                postType,
+                postSummary,
+                createdDate,
+                attachmentFileName,
+                attachmentFilePath,
+                attachmentFileSize,
+                attachmentFiletype
+        );
+    }
+}

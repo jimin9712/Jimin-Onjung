@@ -15,8 +15,8 @@ public class VolunteerVO {
     private int recruitmentCount;
     private String postTitle;
     private String postContent;
-    private String vtSDate;
-    private String vtEDate;
+    private LocalDate vtSDate;
+    private LocalDate vtEDate;
     private String memberNickName;
     private int postViewCount;
     private String postType;
