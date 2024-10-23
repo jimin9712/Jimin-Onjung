@@ -2,7 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.app.back.mapper.member.MemberMapper">
     <insert id="insert">
-        insert into tbl_member("kakao_email", "kakao_profile_url", "kakao_nickname", "member_email", "member_name", "member_phone", "member_password", "member_type", "member_nickname")
-        values (#{kakaoEmail})
+        <choose>
+            <when test="memberPassword != null">
+                insert into tbl_member ("member_email", "member_name", "member_phone", "member_password", "member_nickname"
+                )
+                values (#{memberEmail},#{memberName}, #{memberPhone}, #{memberPassword}, #{memberNickName})
+            </when>
+            <otherwise>
+                insert into tbl_member (
+                "kakao_email", "kakao_profile_url", "kakao_nickname","member_name","member_login_type")
+                values (
+                #{kakaoEmail}, #{kakaoProfileUrl},#{memberName},
+                #{memberLoginType})
+            </otherwise>
+        </choose>
     </insert>
+
 </mapper>
