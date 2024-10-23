@@ -5,4 +5,6 @@ create table tbl_vt(
                    references tbl_post(id)
 );
 
+
+
 drop table tbl_vt;
