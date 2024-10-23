@@ -12,5 +12,7 @@
         <typeAlias type="com.app.back.domain.post.PostVO" alias="postVO"/>
         <typeAlias type="com.app.back.domain.review.ReviewVO" alias="reviewVO"/>
         <typeAlias type="com.app.back.domain.review.ReviewDTO" alias="reviewDTO"/>
+        <typeAlias type="com.app.back.domain.volunteer.VolunteerVO" alias="volunteerVO"/>
+        <typeAlias type="com.app.back.domain.volunteer.VolunteerDTO" alias="volunteerDTO"/>
     </typeAliases>
 </configuration>
