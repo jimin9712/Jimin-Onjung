@@ -13,8 +13,9 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class VolunteerDTO {
     private Long id;
-    private int vtRecruitmentCount;
+    private int recruitmentCount;
     private String postTitle;
+    private String postContent;
     private String vtSDate;
     private String vtEDate;
     private String memberNickName;
@@ -28,6 +29,6 @@ public class VolunteerDTO {
     private String attachmentFiletype;
 
 
-public VolunteerVO toVO(){return new VolunteerVO(id,vtRecruitmentCount,postTitle,
+public VolunteerVO toVO(){return new VolunteerVO(id,recruitmentCount,postTitle,postContent,
         vtSDate, vtEDate, memberNickName,postViewCount,postType,postSummary,createdDate,
         attachmentFileName, attachmentFilePath, attachmentFileSize, attachmentFiletype);}}

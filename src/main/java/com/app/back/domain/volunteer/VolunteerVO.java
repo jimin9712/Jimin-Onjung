@@ -12,8 +12,9 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class VolunteerVO {
     private Long id;
-    private int vtRecruitmentCount;
+    private int recruitmentCount;
     private String postTitle;
+    private String postContent;
     private String vtSDate;
     private String vtEDate;
     private String memberNickName;

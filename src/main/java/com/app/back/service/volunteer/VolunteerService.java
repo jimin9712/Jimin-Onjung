@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface VolunteerService {
     public void write(VolunteerVO volunteerVO);
-    public List<VolunteerDTO> getList(Pagination pagination);
+//    public List<VolunteerDTO> getList(Pagination pagination);
 }
