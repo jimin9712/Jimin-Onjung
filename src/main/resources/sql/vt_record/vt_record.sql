@@ -1,6 +1,5 @@
 use test2;
 
-
 create table tbl_vt_record(
     id bigint unsigned primary key ,
     vt_time smallint default 0,
