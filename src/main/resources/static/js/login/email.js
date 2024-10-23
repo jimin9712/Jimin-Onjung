@@ -395,7 +395,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    completeButton.addEventListener("click", function () {
+    completeButton.addEventListener("click", function (e) {
+        e.preventDefault();
         const emailValue = emailInput.value.trim();
         const emailCodeValue = emailCodeInput.value.trim();
         const phoneValue = phoneInput.value.trim();

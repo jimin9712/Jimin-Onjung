@@ -14,7 +14,7 @@ public class MemberDTO{
     @EqualsAndHashCode.Include
     private Long id;
     private String kakaoEmail;
-    private String kakaoProfile;
+    private String kakaoProfileURL;
     private String kakaoNickName;
     private String memberEmail;
     private String memberName;
@@ -31,5 +31,5 @@ public class MemberDTO{
     private String updatedDate;
 
     public MemberVO toVO(){
-        return new MemberVO(id,kakaoEmail,kakaoProfile,kakaoNickName,memberEmail,memberName,memberPhone,memberPassword,memberType,memberNickName,memberJung,memberPoint,memberLoginType,memberStarRate,memberIntroduction,createdDate,updatedDate);}
+        return new MemberVO(id,kakaoEmail,kakaoProfileURL,kakaoNickName,memberEmail,memberName,memberPhone,memberPassword,memberType,memberNickName,memberJung,memberPoint,memberLoginType,memberStarRate,memberIntroduction,createdDate,updatedDate);}
 }

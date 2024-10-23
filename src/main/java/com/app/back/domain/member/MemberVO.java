@@ -13,7 +13,7 @@ public class MemberVO implements Serializable {
     @EqualsAndHashCode.Include
     private Long id;
     private String kakaoEmail;
-    private String kakaoProfile;
+    private String kakaoProfileURL;
     private String kakaoNickName;
     private String memberEmail;
     private String memberName;
@@ -34,7 +34,7 @@ public class MemberVO implements Serializable {
         MemberDTO memberDTO = new MemberDTO();
         memberDTO.setId(id);
         memberDTO.setKakaoEmail(kakaoEmail);
-        memberDTO.setKakaoProfile(kakaoProfile);
+        memberDTO.setKakaoProfileURL(kakaoProfileURL);
         memberDTO.setKakaoNickName(kakaoNickName);
         memberDTO.setMemberEmail(memberEmail);
         memberDTO.setMemberName(memberName);
