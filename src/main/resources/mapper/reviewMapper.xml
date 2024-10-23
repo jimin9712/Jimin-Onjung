@@ -1,7 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.app.back.mapper.review.ReviewMapper">
-    <select id="getTime" resultType="string">
-        SELECT CURRENT_DATE FROM DUAL
+    <insert id="insert">
+        insert into
+    </insert>
+
+    <select id="selectById" resultType="qaPostDTO">
+        SELECT
+            QP.ID,
+            P.POST_TITLE,
+            P.POST_CONTENT,
+            P.MEMBER_ID,
+            P.CREATED_DATE
+
+        FROM TBL_QA_POST QP
+                 JOIN TBL_POST P ON QP.ID = P.ID
+        WHERE QP.ID = #{id}
     </select>
+
+    <select id="selectCount">
+        SELECT COUNT(*) FROM TBL_QA_POST
+    </select>
+
+    <update id="update">
+        UPDATE TBL_POST
+        SET POST_TITLE = #{postTitle},
+            POST_CONTENT = #{postContent},
+            POST_TYPE = #{postType}
+        WHERE ID = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM TBL_QA_POST
+        WHERE ID = #{id}
+    </delete>
 </mapper>
