@@ -1,0 +1,43 @@
+section.admin-page {
+    display: none;
+}
+
+section.admin-page.selected {
+    display: block;
+}
+
+.notification-list.notification-table {
+    width: 100%;
+    height: 100%;
+}
+
+.category-notification-date.notification-table {
+    width: 546px;
+    text-align: end;
+}
+
+.notification.notification-table {
+    height: 54px;
+}
+
+.notification-num.notification-table {
+    width: 148px;
+}
+
+.notification-date.notification-table {
+    justify-content: flex-end;
+}
+
+.pagination-wrap.notification-table {
+    margin-top: 80px;
+    height: 76px;
+    padding: 12px 28px;
+}
+
+.ServiceHeader_container .ServiceHeader_title.notification-title {
+    margin: 24px 16px;
+}
+
+.sidebar > ul > li {
+    height: 40px;
+}
