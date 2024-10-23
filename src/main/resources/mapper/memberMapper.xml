@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.back.mapper.member.MemberMapper">
+    <insert id="insert">
+        insert into tbl_member("kakao_email", "kakao_profile_url", "kakao_nickname", "member_email", "member_name", "member_phone", "member_password", "member_type", "member_nickname")
+        values (#{kakaoEmail})
+    </insert>
+</mapper>

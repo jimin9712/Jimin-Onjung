@@ -10,9 +10,7 @@ create table tbl_donation_alarm(
     references tbl_donation(id)
 );
 
-select * from tbl_alarm;
 
 use test2;
 
-drop table tbl_alarm;
 
