@@ -14,6 +14,7 @@ import java.util.Optional;
 @Primary
 @Transactional(rollbackFor = Exception.class)
 public class MemberServiceImpl implements MemberService {
+    private final MemberDAO memberDAO;
     @Override
     public void join(MemberVO memberVO) {
         memberDAO.save(memberVO);

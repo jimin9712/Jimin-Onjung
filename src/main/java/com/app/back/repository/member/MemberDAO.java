@@ -35,4 +35,8 @@ public class MemberDAO {
     public void delete(Long id){
         memberMapper.delete(id);
     }
+    // 카카오 회원 조회
+    public Optional<MemberVO> findByMemberKakaoEmail(String memberKakaoEmail){
+        return memberMapper.selectByMemberKakaoEmail(memberKakaoEmail);
+    }
 }

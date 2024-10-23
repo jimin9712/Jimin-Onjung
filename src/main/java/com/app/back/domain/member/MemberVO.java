@@ -19,12 +19,12 @@ public class MemberVO implements Serializable {
     private String memberName;
     private String memberPhone;
     private String memberPassword;
-    private int memberType;
+    private String memberType;
     private String memberNickName;
     private int memberJung;
     private int memberPoint;
-    private int memberLoginType;
-    private float memberStarRate;
+    private String memberLoginType;
+    private double memberStarRate;
     private String memberIntroduction;
     private String createdDate;
     private String updatedDate;
