@@ -11,3 +11,7 @@ create table tbl_attachment(
 );
 
 select * from tbl_attachment;
+
+show databases;
+
+select * from tbl_vt;
