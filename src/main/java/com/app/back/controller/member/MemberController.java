@@ -38,22 +38,26 @@ public class MemberController {
     public void goToLoginForm(MemberDTO memberDTO){;}
 
     @PostMapping("/member/login")
-    public String login(@RequestParam String memberEmail, @RequestParam String memberPassword, Model model) {
-        // 로그인 시도
+    public RedirectView login(
+            @RequestParam String memberEmail,
+            @RequestParam String memberPassword) {
+
+        // DTO 생성 및 로그인 정보 설정
         MemberDTO loginDTO = new MemberDTO();
         loginDTO.setMemberEmail(memberEmail);
         loginDTO.setMemberPassword(memberPassword);
 
+        // 로그인 시도
         Optional<MemberVO> member = memberService.login(loginDTO.toVO());
 
         if (member.isPresent()) {
-            model.addAttribute("member", member.get()); // 로그인 성공 시 사용자 정보를 모델에 추가
-            return "redirect:/main/main"; // 로그인 성공 후 메인 페이지로 이동
+            return new RedirectView("/main/main");
         } else {
-            model.addAttribute("errorMessage", "이메일 또는 비밀번호가 잘못되었습니다.");
-            return "member/login"; // 로그인 실패 시 로그인 페이지로 다시 이동
+            // 로그인 실패 시 쿼리 파라미터
+            return new RedirectView("/member/login?error=true");
         }
     }
+
 
     @GetMapping("/main/main")
     public String goToMain() {
