@@ -1,5 +1,6 @@
 package com.app.back.service.member;
 
+import com.app.back.domain.Util.SmsUtil;
 import com.app.back.domain.member.MemberVO;
 import com.app.back.repository.member.MemberDAO;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 @RequiredArgsConstructor
@@ -17,13 +19,41 @@ import java.util.Optional;
 @Slf4j
 public class MemberServiceImpl implements MemberService {
     private final MemberDAO memberDAO;
+    private final SmsUtil smsUtil;
+    // 인증번호 저장소 (메모리에서 관리)
+    private final ConcurrentHashMap<String, String> authCodeStorage = new ConcurrentHashMap<>();
+
+    // SMS 인증번호 전송 메서드
+    @Override
+    public void sendAuthCode(String phoneNumber) {
+        String authCode = smsUtil.sendeAuthenticationCode(phoneNumber, "인증번호 전송");
+        if (authCode != null) {
+            authCodeStorage.put(phoneNumber, authCode);
+            log.info("인증번호 [{}]가 {}로 전송되었습니다.", authCode, phoneNumber);
+        }
+    }
+
+    // 인증번호 검증 메서드
+    @Override
+    public boolean verifyAuthCode(String phoneNumber, String inputCode) {
+        String storedCode = authCodeStorage.get(phoneNumber);
+        if (storedCode != null && storedCode.equals(inputCode)) {
+            authCodeStorage.remove(phoneNumber); // 인증 후 제거하기
+            log.info("인증 성공: {}", phoneNumber);
+            return true;
+        } else {
+            log.warn("인증 실패: {}", phoneNumber);
+            return false;
+        }
+    }
+
     @Override
     public void join(MemberVO memberVO) {
-        log.info("가입할 회원 정보: {}", memberVO);
+//        log.info("가입할 회원 정보: {}", memberVO);
         Optional<MemberVO> foundKakaoMember =
                 memberDAO.findByMemberKakaoEmail(memberVO.getKakaoEmail());
 
-        if(foundKakaoMember.isEmpty()){
+        if (foundKakaoMember.isEmpty()) {
             memberDAO.save(memberVO);
         }
     }
@@ -49,8 +79,9 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Optional<MemberVO> getKakaoMember(String memberKakaoEmail){
+    public Optional<MemberVO> getKakaoMember(String memberKakaoEmail) {
         return memberDAO.findByMemberKakaoEmail(memberKakaoEmail);
     }
 
 }
+
