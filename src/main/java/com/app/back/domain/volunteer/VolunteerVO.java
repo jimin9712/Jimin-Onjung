@@ -21,7 +21,7 @@ public class VolunteerVO {
     private int postViewCount;
     private String postType;
     private String postSummary;
-    private LocalDate createdDate;
+    private String createdDate;
     private String attachmentFileName;
     private String attachmentFilePath;
     private String attachmentFileSize;

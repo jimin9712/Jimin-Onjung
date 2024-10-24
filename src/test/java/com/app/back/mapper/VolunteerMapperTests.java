@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDate;
+
 @SpringBootTest
 @Slf4j
 public class VolunteerMapperTests {
@@ -24,6 +26,10 @@ public class VolunteerMapperTests {
         volunteerDTO.setVtSDate("2024-10-25");
         volunteerDTO.setVtEDate("2024-11-25");
         volunteerDTO.setPostContent("봉사활동전체내용1");
+        volunteerDTO.setAttachmentFileName("첨부파일1");
+        volunteerDTO.setAttachmentFilePath("123");
+        volunteerDTO.setAttachmentFileSize("300");
+        volunteerDTO.setAttachmentFiletype("일반");
 
         volunteerMapper.insert(volunteerDTO.toVO());
         log.info("봉사활동구인글이 작성 되었습니다: " + volunteerDTO);

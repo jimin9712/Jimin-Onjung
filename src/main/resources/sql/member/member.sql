@@ -23,17 +23,23 @@ create table tbl_member (
     created_date datetime default current_timestamp,
     updated_date datetime default current_timestamp
 );
+select * from tbl_member;
 
-alter table tbl_member
-    modify column member_type smallint not null;
+insert into tbl_member(id,member_nickname)
+values(1,"닉네임1");
 
-alter table tbl_member
-    modify column member_jung int default 0;
-
-alter table tbl_member
-    modify column member_point int default 0;
+# alter table tbl_member
+#     modify column member_type smallint not null;
+#
+# alter table tbl_member
+#     modify column member_jung int default 0;
+#
+# alter table tbl_member
+#     modify column member_point int default 0;
+#
+# DROP TABLE tbl_member;
 
 select * from tbl_member;
 
 
-DROP TABLE tbl_member;
+
