@@ -14,7 +14,7 @@ public class PostVO {
     private String postTitle;
     private String postContent;
     private String postSummary;
-    private int postType;
+    private String postType;
     private String postStatus;
     private Long postViewCount;
     private Long memberId;

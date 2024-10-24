@@ -2,19 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.app.app.mapper.VolunteerMapper">
     <insert id="insert">
-        insert into tbl_vt(ID, PROFESSOR_MAJOR, RESEARCH_FIELD, RESEARCH_PROFIT, RESEARCH_PERIOD, RESEARCH_DEADLINE, RESEARCH_START_DATE, RESEARCH_SCHEDULE, RESEARCH_REQUIREMENT)
-        VALUES (#{id}, #{professorMajor}, #{researchField}, #{researchProfit}, #{researchPeriod}, #{researchDeadline}, #{researchStartDate}, #{researchSchedule}, #{researchRequirement})
+    insert into tbl_vt(id,recruitment_count,vt_s_date,vt_e_date)
+    values(#{id}, #{recruitmentCount}, #{vtSDate}, #{vtEDate})
     </insert>
     
 
 
 </mapper>
 
-<!--<insert id="insert">-->
-<!--insert into tbl_vt(postType, postTitle, postSummary, recruitmentCount, vtSDate, vtEDate, postContent,-->
-<!--                   attachmentFileName,attachmentFilePath,attachmentFileSize,attachmentFiletype)-->
-<!--values(#{postType}, #{postTitle}, #{postSummary}, #{recruitmentCount},#{vtSDate}, #{vtEDate},#{postContent},#{attachmentFileName}, #{attachmentFilePath}, #{attachmentFileSize}, #{attachmentFiletype})-->
-<!--</insert>-->
 
 <!--<select id="selectAll" resultType="volunteerDTO">-->
 <!--select v.id, v.vtRecruitmentCount, p.postTitle, m.memberNickName,-->
@@ -31,7 +26,18 @@
 <!--limit #{pagination.startRow}, #{pagination.rowCount}-->
 <!--</select>-->
 
+<!--<insert id="insert">-->
+<!--insert into tbl_vt( id,recruitmentCount, vtSDate, vtEDate)-->
+<!--values(#{id},#{recruitmentCount},#{vtSDate}, #{vtEDate})-->
+<!--</insert>-->
 
+
+
+<!--<insert id="insert">-->
+<!--insert into tbl_vt(postType, postTitle, postSummary, recruitmentCount, vtSDate, vtEDate, postContent,-->
+<!--                   attachmentFileName,attachmentFilePath,attachmentFileSize,attachmentFiletype)-->
+<!--values(#{postType}, #{postTitle}, #{postSummary}, #{recruitmentCount},#{vtSDate}, #{vtEDate},#{postContent},#{attachmentFileName}, #{attachmentFilePath}, #{attachmentFileSize}, #{attachmentFiletype})-->
+<!--</insert>-->
 
 
 

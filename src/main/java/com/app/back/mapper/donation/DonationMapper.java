@@ -16,7 +16,7 @@ public interface DonationMapper {
     // 조회
     public Optional<ReviewVO> selectById(Long id);
     // 전체 조회
-    public List<DonationD> selectAll(Pagination pagination);
+//    public List<DonationDTO> selectAll(Pagination pagination);
     // 전체 개수
     public int selectCount();
     // 수정
