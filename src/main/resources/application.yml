@@ -11,3 +11,10 @@ spring:
 mybatis:
   config-location: classpath:/config/config.xml
   mapper-locations: classpath*:/mapper/*.xml
+
+sms:
+  api:
+    key: NCSOJNIITHN8WGRB
+    secret: WKFYHGTY3ZR0UHGG9GDYNQXLAEMILPKC
+  from:
+    number: 01053929712

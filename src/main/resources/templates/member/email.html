@@ -58,81 +58,51 @@
                                             />
                                         </div>
                                     </div>
-                                    <div
-                                        class="register-input-box register-with-btn-box input-box"
-                                    >
+                                    <div class="register-input-box register-with-btn-box input-box">
                                         <p class="label-text">전화번호</p>
                                         <div class="register-flex-div">
                                             <input
-                                                class="false input-has-no-value false"
-                                                type="text"
-                                                name="memberPhone"
-                                                id="phone-number"
-                                                autocomplete="off"
-                                                value
+                                                    class="false input-has-no-value false"
+                                                    type="text"
+                                                    name="memberPhone"
+                                                    id="phone-number"
+                                                    autocomplete="off"
                                             />
                                             <button
-                                                type="button"
-                                                class="button-btn-send-phone"
-                                                style="
-                                                    margin-top: 8px;
-                                                    margin-left: 8px;
-                                                "
+                                                    type="button"
+                                                    class="button-btn-send-phone"
+                                                    id="send-auth-code-btn"
+                                                    style="margin-top: 8px; margin-left: 8px;"
                                             >
                                                 인증
                                             </button>
                                         </div>
-                                        <span
-                                            class="desc-span successmsg-msg"
-                                            style="display: none"
-                                            >전화번호 형식이 올바르지
-                                            않습니다.</span
-                                        >
-                                        <span class="desc-span successmsg-msg"
-                                            >인증번호가 발송되었습니다.</span
-                                        >
+                                        <span class="desc-span successmsg-msg" style="display: none">
+                                            인증번호가 발송되었습니다.
+                                        </span>
                                     </div>
-                                    <div
-                                        class="register-phone-code-box register-input-box register-with-btn-box input-box false"
-                                        style="display: none"
-                                    >
+                                    <div class="register-phone-code-box input-box" id="phone-code-section" style="display: none;">
                                         <p class="label-text">인증번호 입력</p>
                                         <div class="register-flex-div">
                                             <input
-                                                class="warning false"
-                                                type="text"
-                                                name="phone-code"
-                                                id="phone-code"
-                                                autocomplete="off"
-                                                value
+                                                    type="text"
+                                                    id="phone-code"
+                                                    autocomplete="off"
                                             />
                                             <button
-                                                type="button"
-                                                class="button-btn-send-phone"
-                                                style="
-                                                    margin-top: 8px;
-                                                    margin-left: 8px;
-                                                "
+                                                    type="button"
+                                                    id="verify-auth-code-btn"
+                                                    style="margin-top: 8px; margin-left: 8px;"
                                             >
                                                 인증 완료
                                             </button>
-                                            <strong id="countdown-timer-phone"
-                                                >10:00</strong
-                                            >
                                         </div>
-                                        <span
-                                            class="desc-span warning-msg"
-                                            style="display: none"
-                                            >인증번호가 일치하지 않습니다.</span
-                                        >
-                                        <span
-                                            class="desc-span warning-msg"
-                                            style="display: none"
-                                            >입력 시간을 초과하였습니다.</span
-                                        >
-                                        <span class="desc-span successmsg-msg"
-                                            >인증되었습니다.</span
-                                        >
+                                        <span class="desc-span warning-msg" id="auth-fail-msg" style="display: none;">
+        인증번호가 일치하지 않습니다.
+    </span>
+                                        <span class="desc-span successmsg-msg" id="auth-success-msg" style="display: none;">
+        인증되었습니다.
+    </span>
                                     </div>
                                     <div
                                         class="register-input-box register-with-btn-box input-box"
