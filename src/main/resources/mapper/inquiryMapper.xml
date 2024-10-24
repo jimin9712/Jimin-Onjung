@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.back.mapper.inquiry.InquiryMapper">
+
+    <insert id="insert">
+        INSERT INTO tbl_inquiry (id, inquiry_email,inquiry_phone)
+        VALUES (#{id}, #{inquiryEmail}, #{inquiryPhone});
+    </insert>
+
+    <select id="selectAll" resultType="inquiryDTO">
+        SELECT
+            i.id,
+            p.post_title,
+            p.post_content,
+            p.post_type,
+            p.created_date,
+            p.updated_date,
+            m.member_nickname,
+            m.member_email,
+            i.inquiry_status
+        FROM tbl_inquiry i
+                 JOIN tbl_post p ON i.id = p.id
+                 JOIN tbl_member m ON p.member_id = m.id
+        ORDER BY p.created_date DESC
+            LIMIT #{pagination.startRow}, #{pagination.rowCount};
+    </select>
+
+
+
+
+</mapper>
