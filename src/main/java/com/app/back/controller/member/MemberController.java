@@ -43,6 +43,7 @@ public class MemberController {
     @PostMapping("/send-auth-code")
     @ResponseBody
     public String sendAuthCode(@RequestParam String phoneNumber) {
+        log.info("요청한 번호: {}", phoneNumber);
         memberService.sendAuthCode(phoneNumber);
         return "인증번호가 전송되었습니다.";
     }
@@ -54,6 +55,23 @@ public class MemberController {
             @RequestParam String phoneNumber,
             @RequestParam String authCode) {
         boolean isValid = memberService.verifyAuthCode(phoneNumber, authCode);
+        return isValid ? "인증 성공" : "인증 실패";
+    }
+    // 이메일 인증번호 전송 API
+    @PostMapping("/send-email-auth-code")
+    @ResponseBody
+    public String sendEmailAuthCode(@RequestParam String email) {
+        log.info("요청한 이메일: {}", email);
+        memberService.sendEmailAuthCode(email);
+        return "인증번호가 이메일로 전송되었습니다.";
+    }
+    // 이메일 인증번호 검증 API
+    @PostMapping("/verify-email-auth-code")
+    @ResponseBody
+    public String verifyEmailAuthCode(
+            @RequestParam String email,
+            @RequestParam String authCode) {
+        boolean isValid = memberService.verifyEmailAuthCode(email, authCode);
         return isValid ? "인증 성공" : "인증 실패";
     }
 
