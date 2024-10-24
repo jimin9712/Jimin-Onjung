@@ -162,6 +162,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         try {
+
             const response = await fetch("/send-email-auth-code", {
                 method: "POST",
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
