@@ -4,5 +4,6 @@ create table tbl_notice(
     references tbl_post(id)
 );
 
+select * from tbl_notice;
 
 drop table tbl_notice;

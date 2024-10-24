@@ -19,6 +19,8 @@ create table tbl_post (
       references tbl_member (id)
 );
 
+select * from tbl_post;
+
 insert into tbl_post(id, post_title, post_summary, post_content,post_view_count, post_type, post_status, member_id)
     values(1,'봉사활동구인테스트제목1','봉사활동테스트요약1','봉사활동테스트내용1',1,1,0,1);
 
