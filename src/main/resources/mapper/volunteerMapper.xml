@@ -5,7 +5,20 @@
     insert into tbl_vt(id,recruitment_count,vt_s_date,vt_e_date)
     values(#{id}, #{recruitmentCount}, #{vtSDate}, #{vtEDate})
     </insert>
-    <select id=""
+    <select id="selectAll" resultType="volunteerDTO">
+    select v.id, v.vtRecruitmentCount, p.postTitle, m.memberNickName,
+    v.vtSDate, v.vtEDate,p.postViewCount, p.postType, p.postSummary, p.createdDate
+    from tbl_vt v
+    join tbl_post p on v.id = p.post_id
+    join tbl_member m on p.member_id = m.id
+    order by
+    <choose>
+        <when test="pagination.order == 'recent'.toString()">v.id</when>
+        <otherwise>p.createdDate</otherwise>
+    </choose>
+    desc
+    limit #{pagination.startRow}, #{pagination.rowCount}
+    </select>
 
 
 
