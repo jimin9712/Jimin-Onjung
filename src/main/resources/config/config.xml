@@ -14,5 +14,6 @@
         <typeAlias type="com.app.back.domain.review.ReviewDTO" alias="reviewDTO"/>
         <typeAlias type="com.app.back.domain.volunteer.VolunteerVO" alias="volunteerVO"/>
         <typeAlias type="com.app.back.domain.volunteer.VolunteerDTO" alias="volunteerDTO"/>
+        <typeAlias type="com.app.back.domain.attachment.AttachmentVO" alias="attachmentVO"/>
     </typeAliases>
 </configuration>
