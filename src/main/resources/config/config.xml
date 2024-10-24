@@ -5,7 +5,6 @@
         <setting name="mapUnderscoreToCamelCase" value="true"/>
     </settings>
 
-
     <typeAliases>
         <typeAlias type="com.app.back.domain.member.MemberVO" alias="memberVO"/>
         <typeAlias type="com.app.back.domain.member.MemberDTO" alias="memberDTO"/>
@@ -14,11 +13,14 @@
         <typeAlias type="com.app.back.domain.review.ReviewDTO" alias="reviewDTO"/>
         <typeAlias type="com.app.back.domain.volunteer.VolunteerVO" alias="volunteerVO"/>
         <typeAlias type="com.app.back.domain.volunteer.VolunteerDTO" alias="volunteerDTO"/>
+        <typeAlias type="com.app.back.domain.donation.DonationVO" alias="donationVO"/>
+        <typeAlias type="com.app.back.domain.donation.DonationDTO" alias="donationDTO"/>
+        <typeAlias type="com.app.back.domain.notice.NoticeVO" alias="noticeVO"/>
+        <typeAlias type="com.app.back.domain.notice.NoticeDTO" alias="noticeDTO"/>
         <typeAlias type="com.app.back.domain.attachment.AttachmentVO" alias="attachmentVO"/>
-        <typeAlias type="com.app.back.domain.donation.DonationVO" alias="DonationVO"/>
-        <typeAlias type="com.app.back.domain.donation.DonationDTO" alias="DonationDTO"/>
-        <typeAlias type="com.app.back.domain.notice.NoticeVO" alias="NoticeVO"/>
-        <typeAlias type="com.app.back.domain.notice.NoticeDTO" alias="NoticeDTO"/>
-
+        <typeAlias type="com.app.back.domain.donation.DonationVO" alias="donationVO"/>
+        <typeAlias type="com.app.back.domain.donation.DonationDTO" alias="donationDTO"/>
+        <typeAlias type="com.app.back.domain.notice.NoticeVO" alias="noticeVO"/>
+        <typeAlias type="com.app.back.domain.notice.NoticeDTO" alias="noticeDTO"/>
     </typeAliases>
 </configuration>
