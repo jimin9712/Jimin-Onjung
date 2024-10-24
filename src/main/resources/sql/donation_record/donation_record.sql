@@ -5,7 +5,7 @@ create table tbl_donation_record(
     member_id bigint unsigned not null ,
     donation_id bigint unsigned not null,
     constraint fk_donation_record_member foreign key (member_id)
-                                references tbl_member(id),
+    references tbl_member(id),
     constraint fk_donation_record_donation foreign key (donation_id)
-        references tbl_donation(id)
+    references tbl_donation(id)
 );
