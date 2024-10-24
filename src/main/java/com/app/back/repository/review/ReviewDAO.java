@@ -7,6 +7,7 @@ import com.app.back.mapper.review.ReviewMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 @Repository
@@ -16,7 +17,7 @@ public class ReviewDAO {
 
     public void save(ReviewVO reviewVO) {reviewMapper.insert(reviewVO);}
 
-    public Optional<ReviewVO> findById(long id) {return reviewMapper.selectById(id);}
+    public Optional<ReviewDTO> findById(Long id) {return reviewMapper.selectById(id);}
     //    전체 조회
     public List<ReviewDTO> findAll(Pagination pagination) {
         return reviewMapper.selectAll(pagination);

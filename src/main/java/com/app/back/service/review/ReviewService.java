@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface ReviewService {
     public void write(ReviewDTO reviewDTO);
-    public Optional<ReviewVO> getById(Long id);
+    public Optional<ReviewDTO> getById(Long id);
     public List<ReviewDTO> getList(Pagination pagination);
     public int getTotal();
     public void update(ReviewDTO reviewDTO);
