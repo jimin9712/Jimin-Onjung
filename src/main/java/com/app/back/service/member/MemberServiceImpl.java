@@ -25,11 +25,11 @@ public class MemberServiceImpl implements MemberService {
 
     // SMS 인증번호 전송 메서드
     @Override
-    public void sendAuthCode(String phoneNumber) {
-        String authCode = smsUtil.sendeAuthenticationCode(phoneNumber, "인증번호 전송");
+    public void sendAuthCode(String to) {
+        String authCode = smsUtil.sendAuthenticationCode(to);
         if (authCode != null) {
-            authCodeStorage.put(phoneNumber, authCode);
-            log.info("인증번호 [{}]가 {}로 전송되었습니다.", authCode, phoneNumber);
+            authCodeStorage.put(to, authCode);
+            log.info("인증번호 [{}]가 {}로 전송되었습니다.", authCode, to);
         }
     }
 

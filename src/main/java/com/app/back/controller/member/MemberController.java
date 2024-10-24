@@ -43,6 +43,7 @@ public class MemberController {
     @PostMapping("/send-auth-code")
     @ResponseBody
     public String sendAuthCode(@RequestParam String phoneNumber) {
+        log.info("요청한 번호: {}", phoneNumber);
         memberService.sendAuthCode(phoneNumber);
         return "인증번호가 전송되었습니다.";
     }

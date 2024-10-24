@@ -34,9 +34,9 @@ public class SmsUtil {
         return authenticationCode.toString();
     }
 
-    public String sendeAuthenticationCode(String to, String text) {
-        String authenticationCode = generateAuthenticationCode();
-        String message = "인증번호는 [" + authenticationCode + "] 입니다.";
+    public String sendAuthenticationCode(String to) {
+        String authCode = generateAuthenticationCode();
+        String message = "인증번호는 [" + authCode + "] 입니다.";
 
         Message coolsms = new Message(apiKey, apiSecret);
         HashMap<String, String> params = new HashMap<>();
@@ -49,7 +49,7 @@ public class SmsUtil {
         try {
             JSONObject response = (JSONObject) coolsms.send(params);
             System.out.println("전송 성공: " + response.toString());
-            return authenticationCode;
+            return authCode;
         } catch (CoolsmsException e) {
             System.out.println("전송 실패: " + e.getMessage());
             return null;
