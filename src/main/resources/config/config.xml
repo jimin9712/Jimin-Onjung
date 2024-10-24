@@ -22,5 +22,9 @@
         <typeAlias type="com.app.back.domain.donation.DonationDTO" alias="donationDTO"/>
         <typeAlias type="com.app.back.domain.notice.NoticeVO" alias="noticeVO"/>
         <typeAlias type="com.app.back.domain.notice.NoticeDTO" alias="noticeDTO"/>
+        <typeAlias type="com.app.back.domain.inquiry.InquiryVO" alias="inquiryVO"/>
+        <typeAlias type="com.app.back.domain.inquiry.InquiryDTO" alias="inquiryDTO"/>
+        <typeAlias type="com.app.back.domain.inquiry_answer.Inquiry_answerVO" alias="inquiry_answerVO"/>
+        <typeAlias type="com.app.back.domain.inquiry_answer.Inquiry_answerDTO" alias="inquiry_answerDTO"/>
     </typeAliases>
 </configuration>
