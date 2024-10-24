@@ -22,7 +22,7 @@
                                     <form
                                         name="login-form"
                                         method="post"
-                                        action
+                                        action="/member/login"
                                     >
                                         <div
                                             class="login-form-input-box false id-input-box input-box"
@@ -31,7 +31,7 @@
                                             <input
                                                 type="text"
                                                 id="id-info"
-                                                name="id-info"
+                                                name="memberEmail"
                                                 class="form-input"
                                             />
                                             <span class="false"></span>
@@ -43,7 +43,7 @@
                                             <input
                                                 type="password"
                                                 id="pass-info"
-                                                name="pass-info"
+                                                name="memberPassword"
                                                 class="form-input"
                                                 value
                                             />
@@ -64,7 +64,7 @@
                                             id="login-btn"
                                             class="classic-black-btn login-form-popask-btn false"
                                         >
-                                            로그인
+                                            <button type="submit">로그인</button>
                                         </div>
                                         <div
                                             class="login-keep-box login-form-others loud"
@@ -112,5 +112,6 @@
             </div>
         </div>
         <script src="/js/login/login.js"></script>
+
     </body>
 </html>

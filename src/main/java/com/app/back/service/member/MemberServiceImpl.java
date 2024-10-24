@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -112,6 +113,10 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Optional<MemberVO> getKakaoMember(String memberKakaoEmail) {
         return memberDAO.findByMemberKakaoEmail(memberKakaoEmail);
+    }
+    @Override
+    public List<MemberVO> getAllMembers() {
+        return memberDAO.findAll();
     }
 
 }

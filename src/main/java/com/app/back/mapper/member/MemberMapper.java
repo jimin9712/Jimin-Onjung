@@ -25,5 +25,9 @@ public interface MemberMapper {
 
     //    카카오 회원 정보 조회
     public Optional<MemberVO> selectByMemberKakaoEmail(String memberKakaoEmail);
+
+    // 회원 전체 정보 조회
+    public List<MemberVO> selectAll();
+
 }
 

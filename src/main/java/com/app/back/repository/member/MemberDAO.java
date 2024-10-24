@@ -5,6 +5,7 @@ import com.app.back.mapper.member.MemberMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -36,5 +37,9 @@ public class MemberDAO {
     // 카카오 회원 조회
     public Optional<MemberVO> findByMemberKakaoEmail(String memberKakaoEmail){
         return memberMapper.selectByMemberKakaoEmail(memberKakaoEmail);
+    }
+    // 회원 전체 조회 메서드 구현
+    public List<MemberVO> findAll() {
+        return memberMapper.selectAll();
     }
 }
