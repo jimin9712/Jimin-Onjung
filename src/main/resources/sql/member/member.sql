@@ -23,7 +23,7 @@ create table tbl_member (
     created_date datetime default current_timestamp,
     updated_date datetime default current_timestamp
 );
-
+select * from tbl_member;
 
 insert into tbl_member(id,member_nickname)
 values(1,"닉네임1");
