@@ -3,12 +3,14 @@ package com.app.back.service.member;
 import com.app.back.domain.Util.SmsUtil;
 import com.app.back.domain.member.MemberVO;
 import com.app.back.repository.member.MemberDAO;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -20,8 +22,12 @@ import java.util.concurrent.ConcurrentHashMap;
 public class MemberServiceImpl implements MemberService {
     private final MemberDAO memberDAO;
     private final SmsUtil smsUtil;
+    private final com.app.back.util.EmailUtil emailUtil; // EmailUtil 주입
+
+
     // 인증번호 저장소 (메모리에서 관리)
     private final ConcurrentHashMap<String, String> authCodeStorage = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<String, String> emailAuthCodeStorage = new ConcurrentHashMap<>();
 
     // SMS 인증번호 전송 메서드
     @Override
@@ -43,6 +49,31 @@ public class MemberServiceImpl implements MemberService {
             return true;
         } else {
             log.warn("인증 실패: {}", phoneNumber);
+            return false;
+        }
+    }
+    // 이메일 인증번호 전송 메서드 추가
+    @Override
+    public void sendEmailAuthCode(String email) {
+        String authCode = emailUtil.generateAuthCode();
+        try {
+            emailUtil.sendAuthEmail(email, authCode);
+            emailAuthCodeStorage.put(email, authCode);
+            log.info("인증번호 [{}]가 {}로 이메일 전송되었습니다.", authCode, email);
+        } catch (MessagingException | UnsupportedEncodingException e) {
+            log.error("이메일 전송 실패: {}", e.getMessage());
+        }
+    }
+
+    @Override
+    public boolean verifyEmailAuthCode(String email, String inputCode) {
+        String storedCode = emailAuthCodeStorage.get(email);
+        if (storedCode != null && storedCode.equals(inputCode)) {
+            emailAuthCodeStorage.remove(email);
+            log.info("이메일 인증 성공: {}", email);
+            return true;
+        } else {
+            log.warn("이메일 인증 실패: {}", email);
             return false;
         }
     }
