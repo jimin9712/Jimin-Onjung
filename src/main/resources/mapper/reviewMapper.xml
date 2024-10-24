@@ -8,13 +8,14 @@
     <select id="selectById" resultType="reviewDTO">
         select
             r.id,
+            r.review_star_rate
             p.post_title,
             p.post_content,
             p.member_id,
             p.created_date
 
         from tbl_review r
-                 join tbl_post p on r.id = p.id
+                 join  tbl_post p on r.id = p.id
         where r.id = #{id}
     </select>
 
