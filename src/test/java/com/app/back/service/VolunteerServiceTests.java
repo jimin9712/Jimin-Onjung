@@ -23,6 +23,7 @@ public class VolunteerServiceTests {
         volunteerDTO.setVtSDate("2024-11-25");
         volunteerDTO.setVtEDate("2025-11-25");
         volunteerDTO.setPostContent("봉사활동전체내용1");
+        volunteerDTO.setPostSummary("봉사활동요약내용1");
         volunteerDTO.setMemberId(2L);
 
         volunteerMapper.insert(volunteerDTO.toVO());

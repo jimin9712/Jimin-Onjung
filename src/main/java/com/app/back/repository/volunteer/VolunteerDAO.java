@@ -11,6 +11,6 @@ import org.springframework.stereotype.Repository;
 public class VolunteerDAO {
     private final VolunteerMapper volunteerMapper;
 
-//    봉사활동구인 저장
+//    봉사활동모집 작성
     public void save(VolunteerVO volunteerVO) {volunteerMapper.insert(volunteerVO);}
 }
