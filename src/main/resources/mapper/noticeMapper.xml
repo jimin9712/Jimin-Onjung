@@ -13,9 +13,24 @@
         where id = #{id}
     </select>
 
-    <select id="selectALL" resultType="noticeDTO">
-        select id, post_title, created_date
-        from tbl_post
-        where id = #{id}
+    <select id="selectAll" resultType="noticeDTO">
+        select n.id, post_title, created_date, updated_date
+        from tbl_post p join tbl_notice n
+        on p.id = n.id
+        order by created_date desc
+        limit #{pagination.startRow}, #{pagination.rowCount};
     </select>
+
+    <update id="updateById">
+        update tbl_post
+        set post_title = #{postTitle},
+            post_content = #{postContent}
+        where id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        delete from tbl_notice
+        where id = #{id}
+    </delete>
+
 </mapper>
