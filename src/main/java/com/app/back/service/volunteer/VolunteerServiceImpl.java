@@ -6,7 +6,6 @@ import com.app.back.domain.member.MemberVO;
 import com.app.back.domain.post.PostVO;
 import com.app.back.domain.volunteer.VolunteerDTO;
 import com.app.back.mapper.attachment.AttachmentMapper;
-import com.app.back.mapper.member.MemberMapper;
 import com.app.back.mapper.post.PostMapper;
 import com.app.back.mapper.volunteer.VolunteerMapper;
 import com.app.back.repository.volunteer.VolunteerDAO;
