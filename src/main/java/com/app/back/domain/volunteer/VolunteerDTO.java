@@ -15,15 +15,15 @@ import java.time.format.DateTimeFormatter;
 public class VolunteerDTO {
     private Long id;
     private int recruitmentCount;
-    private String postTitle;
-    private String postContent;
     private String vtSDate;
     private String vtEDate;
-    private String memberNickName;
+    private String postTitle;
+    private String postContent;
     private int postViewCount;
     private String postType;
     private String postSummary;
     private String createdDate;
+    private String memberNickName;
     private String attachmentFileName;
     private String attachmentFilePath;
     private String attachmentFileSize;

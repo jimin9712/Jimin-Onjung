@@ -15,8 +15,8 @@ INSERT INTO tbl_vt (id, recruitment_count, vt_s_date, vt_e_date)
 VALUES (1, 10, '2024-10-23', '2024-11-25');
 
 
-# drop table tbl_vt;
-#
+drop table tbl_vt;
+
 # select v.id, v.recruitment_count, p.post_title, m.member_nickname,
 #        v.vt_s_date, v.vt_e_date,p.post_view_count, p.post_type, p.post_summary, p.created_Date
 # from tbl_vt v
