@@ -17,15 +17,17 @@ public class VolunteerMapperTests {
     @Test
     public void testInsert(){
         VolunteerDTO volunteerDTO = new VolunteerDTO();
+        volunteerDTO.setId(5L);
         volunteerDTO.setPostType("1");
-        volunteerDTO.setPostTitle("봉사활동구인제목1");
-        volunteerDTO.setRecruitmentCount(10);
+        volunteerDTO.setPostTitle("봉사활동모집제목5");
+        volunteerDTO.setRecruitmentCount(40);
         volunteerDTO.setVtSDate("2024-11-25");
         volunteerDTO.setVtEDate("2025-11-25");
-        volunteerDTO.setPostContent("봉사활동전체내용1");
+        volunteerDTO.setPostContent("봉사활동전체내용5");
+        volunteerDTO.setPostSummary("봉사활동모집요약5");
         volunteerDTO.setMemberId(2L);
 
         volunteerMapper.insert(volunteerDTO.toVO());
-        log.info("봉사활동구인글이 작성 되었습니다: " + volunteerDTO);
+        log.info("봉사활동구인글이 작성 되었습니다: {}", volunteerDTO);
     }
 }
