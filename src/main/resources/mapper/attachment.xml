@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.back.mapper.member.MemberMapper">
+    <insert id="insert">
+        insert into tbl_attachment(attachment_file_name, attachment_file_path,attachment_file_size, attachment_file_type)
+        values (#{attachmentFileName}, #{attachmentFilePath}, #{attachmentFileSize}, #{attachmentFileType})
+    </insert>
+
+</mapper>

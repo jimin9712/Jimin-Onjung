@@ -23,8 +23,8 @@ public class VolunteerMapperTests {
         volunteerDTO.setPostTitle("봉사활동구인제목1");
         volunteerDTO.setPostSummary("봉사활동축약내용1");
         volunteerDTO.setRecruitmentCount(10);
-        volunteerDTO.setVtSDate(LocalDate.parse("2024-10-25"));
-        volunteerDTO.setVtEDate(LocalDate.parse("2024-11-25"));
+        volunteerDTO.setVtSDate("2024-10-25");
+        volunteerDTO.setVtEDate("2024-11-25");
         volunteerDTO.setPostContent("봉사활동전체내용1");
         volunteerDTO.setAttachmentFileName("첨부파일1");
         volunteerDTO.setAttachmentFilePath("123");
