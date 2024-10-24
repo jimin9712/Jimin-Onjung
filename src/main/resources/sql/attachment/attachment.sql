@@ -20,5 +20,6 @@ select * from tbl_vt;
 # ALTER TABLE [테이블명] MODIFY [컬럼명] [변경할 컬럼타입];
 
 alter table tbl_attachment modify attachment_file_type varchar(255);
+
 insert into tbl_attachment(id,attachment_file_name,attachment_file_path,attachment_file_size,attachment_file_type,post_id)
 values (1,'테스트이름','테스트path','테스트size','테스트type',1)
