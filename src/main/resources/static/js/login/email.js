@@ -43,6 +43,8 @@ document.addEventListener("DOMContentLoaded", function () {
     emailCodeBox.style.display = "none";
     phoneCodeBox.style.display = "none";
 
+
+
     // 전화번호 인증번호 발송 로직
     sendPhoneAuthButton.addEventListener("click", async function () {
         const phoneValue = phoneInput.value.trim();
@@ -154,6 +156,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // 이메일 인증번호 발송 로직 추가
     sendAuthButton.addEventListener("click", async function () {
         const emailValue = emailInput.value.trim();
+        const loadingImg = document.querySelector(".loading-img");
+
 
         if (!emailRegex.test(emailValue)) {
             showWarningMessage("이메일 형식이 올바르지 않습니다.", emailInput);
@@ -162,6 +166,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         try {
+            loadingImg.style.display = "inline-block";
+
 
             const response = await fetch("/send-email-auth-code", {
                 method: "POST",
@@ -175,6 +181,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 startCountdown(emailCountdownTimer, 10 * 60, 'email');
                 isEmailCodeSent = true;
                 sendAuthButton.textContent = "재전송";
+                loadingImg.style.display = "none";
+
             } else {
                 throw new Error("인증번호 전송 실패");
             }
@@ -333,64 +341,63 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // 비밀번호 유효성 검사 함수
     function validatePasswords() {
-        const passwordValue = passwordInput.value.trim(); // 비밀번호 입력값
-        const passwordConfirmValue = passwordConfirmInput.value.trim(); // 비밀번호 확인 입력값
+        const passwordValue = passwordInput.value.trim();
+        const passwordConfirmValue = passwordConfirmInput.value.trim();
 
         // 초기화: 경고 메시지와 테두리 색상 리셋
         passwordWarningMessage.style.display = "none";
         passwordWarningMessage2.style.display = "none";
         passwordInput.classList.remove("warning");
         passwordConfirmInput.classList.remove("warning");
-        passwordInput.style.borderColor = "#ccc"; // 기본 테두리 색상
-        passwordConfirmInput.style.borderColor = "#ccc"; // 기본 테두리 색상
+        passwordInput.style.borderColor = "#ccc";
+        passwordConfirmInput.style.borderColor = "#ccc";
 
-        // 비밀번호가 입력되지 않았을 때 경고 메시지 표시
-        if (passwordValue.length === 0 && passwordConfirmValue.length === 0) {
+        if (passwordValue.length === 0 || passwordConfirmValue.length === 0) {
             passwordWarningMessage.textContent = "비밀번호를 입력하세요";
             passwordWarningMessage.style.display = "block";
-            passwordWarningMessage.classList.add("warning-msg"); // 경고 스타일 추가
+            passwordWarningMessage.classList.add("warning-msg");
             passwordInput.classList.add("warning");
             passwordConfirmInput.classList.add("warning");
-            passwordInput.style.borderColor = "#f05050"; // 경고 색상
-            passwordConfirmInput.style.borderColor = "#f05050"; // 경고 색상
-            return; // 함수 종료
+            passwordInput.style.borderColor = "#f05050";
+            passwordConfirmInput.style.borderColor = "#f05050";
+            return false;
         }
 
-        // 비밀번호가 6자 미만일 때 경고 메시지 표시
         if (passwordValue.length < 6 || passwordConfirmValue.length < 6) {
             passwordWarningMessage.textContent = "6자 이상 입력하세요";
             passwordWarningMessage.style.display = "block";
-            passwordWarningMessage.classList.add("warning-msg"); // 경고 스타일 추가
+            passwordWarningMessage.classList.add("warning-msg");
             passwordInput.classList.add("warning");
             passwordConfirmInput.classList.add("warning");
-            passwordInput.style.borderColor = "#f05050"; // 경고 색상
-            passwordConfirmInput.style.borderColor = "#f05050"; // 경고 색상
-            return; // 함수 종료
+            passwordInput.style.borderColor = "#f05050";
+            passwordConfirmInput.style.borderColor = "#f05050";
+            return false;
         }
 
-        // 비밀번호와 확인 비밀번호가 일치하지 않을 때 경고 메시지 표시
         if (passwordValue !== passwordConfirmValue) {
-            passwordWarningMessage2.textContent =
-                "비밀번호가 일치하지 않습니다.";
+            passwordWarningMessage2.textContent = "비밀번호가 일치하지 않습니다.";
             passwordWarningMessage2.style.display = "block";
-            passwordWarningMessage2.classList.add("warning-msg"); // 경고 스타일 추가
+            passwordWarningMessage2.classList.add("warning-msg");
             passwordInput.classList.add("warning");
             passwordConfirmInput.classList.add("warning");
-            passwordInput.style.borderColor = "#f05050"; // 경고 색상
-            passwordConfirmInput.style.borderColor = "#f05050"; // 경고 색상
-            return; // 함수 종료
+            passwordInput.style.borderColor = "#f05050";
+            passwordConfirmInput.style.borderColor = "#f05050";
+            return false;
         }
 
-        // 비밀번호가 일치하고 6자 이상이면 성공 메시지 표시 및 스타일 적용
-        passwordWarningMessage.style.display = "block"; // 성공 메시지 표시
-        passwordWarningMessage.textContent = "비밀번호가 일치합니다."; // 성공 메시지
-        passwordWarningMessage.classList.remove("warning-msg"); // 경고 스타일 제거
-        passwordWarningMessage.classList.add("success-msg"); // 성공 스타일 추가
-        passwordInput.style.border = "1px solid #189f14"; // 성공 색상
-        passwordConfirmInput.style.border = "1px solid #189f14"; // 성공 색상
+        // 비밀번호가 유효한 경우
+        passwordWarningMessage.style.display = "block";
+        passwordWarningMessage.textContent = "비밀번호가 일치합니다.";
+        passwordWarningMessage.classList.remove("warning-msg");
+        passwordWarningMessage.classList.add("success-msg");
+        passwordInput.style.border = "1px solid #189f14";
+        passwordConfirmInput.style.border = "1px solid #189f14";
+        return true;
     }
 
-    // 비밀번호 보이기/숨기기 기능
+
+
+
     passwordShowBtns.forEach((btn) => {
         btn.addEventListener("click", function () {
             const inputElement = btn.parentElement.querySelector("input");
@@ -476,9 +483,16 @@ document.addEventListener("DOMContentLoaded", function () {
     // 성공 메시지 출력 함수
     function showSuccessMessage(message, element) {
         const parentElement = element.closest(".register-with-btn-box");
-        const existingMessage = parentElement.querySelector(".desc-span.success-msg");
 
-        if (existingMessage) existingMessage.remove();
+        // 기존 경고 메시지 숨기기
+        const existingWarningMessage = parentElement.querySelector(".desc-span.warning-msg");
+        if (existingWarningMessage) {
+            existingWarningMessage.style.display = "none";
+        }
+
+        // 기존 성공 메시지 제거
+        const existingSuccessMessage = parentElement.querySelector(".desc-span.success-msg");
+        if (existingSuccessMessage) existingSuccessMessage.remove();
 
         const successMessage = document.createElement("span");
         successMessage.className = "desc-span success-msg";
@@ -486,5 +500,63 @@ document.addEventListener("DOMContentLoaded", function () {
         successMessage.style.display = "block";
         parentElement.appendChild(successMessage);
     }
+
+    completeButton.addEventListener("click", function (event) {
+        let isValid = true;
+
+        const emailValue = emailInput.value.trim();
+        const emailCodeValue = emailCodeInput.value.trim();
+        const phoneValue = phoneInput.value.trim();
+        const phoneCodeValue = phoneCodeInput.value.trim();
+
+        // 이메일 입력 필드가 비어 있을 때 경고 메시지 표시
+        if (emailValue.length === 0) {
+            showWarningMessage("이메일 주소를 입력해 주세요.", emailInput);
+            emailInput.classList.add("warning");
+            emailInput.style.borderColor = "#f05050"; // 경고 색상으로 변경
+            isValid = false;
+        }
+
+        // 인증번호 입력 필드가 비어 있을 때 경고 메시지 표시
+        if (emailCodeValue.length === 0) {
+            showWarningMessage("인증번호를 입력해 주세요.", emailCodeInput);
+            emailCodeInput.classList.add("warning");
+            emailCodeInput.style.borderColor = "#f05050"; // 경고 색상으로 변경
+            isValid = false;
+        }
+
+        // 전화번호 입력 필드가 비어 있을 때 경고 메시지 표시
+        if (phoneValue.length === 0) {
+            showWarningMessage("전화번호를 입력해 주세요.", phoneInput);
+            phoneInput.classList.add("warning");
+            phoneInput.style.borderColor = "#f05050"; // 경고 색상으로 변경
+            isValid = false;
+        }
+
+        // 전화번호 인증번호 입력 필드가 비어 있을 때 경고 메시지 표시
+        if (phoneCodeValue.length === 0) {
+            showWarningMessage("인증번호를 입력해 주세요.", phoneCodeInput);
+            phoneCodeInput.classList.add("warning");
+            phoneCodeInput.style.borderColor = "#f05050"; // 경고 색상으로 변경
+            isValid = false;
+        }
+
+        checkbox.addEventListener("change", function () {
+            if (checkbox.checked) {
+                checkboxWarningMessage.style.display = "none";
+            } else {
+                checkboxWarningMessage.style.display = "block";
+            }
+        });
+        // 비밀번호 유효성 검사
+        if (!validatePasswords()) {
+            isValid = false;
+        }
+
+        // 유효성 검사를 통과하지 못한 경우 폼 제출 막기
+        if (!isValid) {
+            event.preventDefault();
+        }
+    });
 
 });
