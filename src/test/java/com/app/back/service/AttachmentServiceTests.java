@@ -19,5 +19,6 @@ public class AttachmentServiceTests {
     private AttachmentService attachmentService;
 
     @Test
-    public void testInsert(){
+    public void testInsert() {
+    }
 }
