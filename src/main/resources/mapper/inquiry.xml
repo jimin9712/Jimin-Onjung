@@ -8,7 +8,7 @@
     </insert>
 
     <insert id="insertAnswer">
-        insert into tbl_inquiry(id,inquiry_answer)
+        insert into tbl_inquiry_answer(id,inquiry_answer)
         values (#{id},#{inquiryAnswer})
     </insert>
 
