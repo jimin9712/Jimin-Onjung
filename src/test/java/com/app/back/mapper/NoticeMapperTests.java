@@ -25,6 +25,7 @@ public class NoticeMapperTests {
         noticeDTO.setPostContent("내용2");
         noticeDTO.setPostSummary("요약2");
         noticeDTO.setPostType("0");
+        noticeDTO.setPostType("Notice");
         noticeDTO.setPostStatus("VISIBLE");
         noticeDTO.setMemberId(1L);
         noticeMapper.insert(noticeDTO.toVO());
