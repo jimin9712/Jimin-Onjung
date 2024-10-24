@@ -1,5 +1,6 @@
 package com.app.back.domain.donation;
 
+import com.app.back.domain.attachment.AttachmentVO;
 import com.app.back.domain.post.PostVO;
 import com.app.back.domain.review.ReviewVO;
 import lombok.*;
@@ -16,7 +17,7 @@ public class DonationDTO {
     private String postTitle;
     private String postContent;
     private String postSummary;
-    private int postType;
+    private String postType;
     private String postStatus;
     private Long postViewCount;
     private Long memberId;
@@ -26,7 +27,7 @@ public class DonationDTO {
     private String donationSDate;
     private String donationEDate;
 
-    public PostVO toPostVO(){
+    public PostVO toPostVO() {
         return new PostVO(id, postTitle, postContent, postSummary, postType, postStatus, postViewCount, memberId, createdDate, updatedDate);
     }
 
