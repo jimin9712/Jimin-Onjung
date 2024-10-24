@@ -20,6 +20,7 @@ public class InquiryMapperTests {
     public void testwrite() {
         InquiryDTO inquiryDTO = new InquiryDTO();
         inquiryDTO.setId(1L);
+        inquiryDTO.setInquriryStatus("일반문의");
         inquiryDTO.setPostTitle("제목3");
         inquiryDTO.setPostContent("내용3");
         inquiryDTO.setPostSummary("요약3");
