@@ -1,10 +1,7 @@
 package com.app.back.mapper.inquiryAnswer;
 
-import com.app.back.domain.Inquiry_answer.Inquiry_answerVO;
-import com.app.back.domain.post.Pagination;
+import com.app.back.domain.inquiry_answer.Inquiry_answerVO;
 import org.apache.ibatis.annotations.Mapper;
-
-import java.util.List;
 
 @Mapper
 public interface InquiryAnswerMapper {

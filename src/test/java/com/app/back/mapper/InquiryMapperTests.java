@@ -23,11 +23,10 @@ public class InquiryMapperTests {
         inquiryDTO.setPostTitle("제목3");
         inquiryDTO.setPostContent("내용3");
         inquiryDTO.setPostSummary("요약3");
-        inquiryDTO.setPostType(0);
+        inquiryDTO.setPostType("Inquiry");
         inquiryDTO.setPostStatus("VISIBLE");
         inquiryDTO.setMemberId(1L);
         inquiryMapper.insert(inquiryDTO.toVO());
-
     }
 
 }

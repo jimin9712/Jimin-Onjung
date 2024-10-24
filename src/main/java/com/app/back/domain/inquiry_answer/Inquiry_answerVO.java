@@ -1,4 +1,4 @@
-package com.app.back.domain.Inquiry_answer;
+package com.app.back.domain.inquiry_answer;
 
 import lombok.*;
 import org.springframework.stereotype.Component;
