@@ -2,6 +2,7 @@ package com.app.back.controller.member;
 
 import com.app.back.domain.member.MemberDTO;
 import com.app.back.domain.member.MemberVO;
+import com.app.back.enums.MemberLoginType;
 import com.app.back.service.member.MemberService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -53,6 +54,7 @@ public class MemberController {
 
         if (member.isPresent()) {
             session.setAttribute("loginMember", member.get());
+            session.setAttribute("loginType", MemberLoginType.NORMAL);
             return ResponseEntity.ok("로그인 성공");
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 실패");
@@ -61,14 +63,13 @@ public class MemberController {
 
     @GetMapping("/main/main")
     public String goToMain(HttpSession session, Model model) {
-        // 세션에서 회원 정보 가져오기
         MemberVO loginMember = (MemberVO) session.getAttribute("loginMember");
+        MemberLoginType loginType = (MemberLoginType) session.getAttribute("loginType");
 
         if (loginMember != null) {
-            // 회원 정보를 모델에 추가하여 뷰로 전달
             model.addAttribute("member", loginMember);
+            model.addAttribute("loginType", loginType);
         } else {
-            // 로그인 정보가 없으면 로그인 페이지로 리다이렉트
             return "redirect:/member/login";
         }
 
