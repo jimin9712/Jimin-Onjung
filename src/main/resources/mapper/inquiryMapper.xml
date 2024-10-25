@@ -3,34 +3,32 @@
 <mapper namespace="com.app.back.mapper.inquiry.InquiryMapper">
 
     <insert id="insert">
-        insert into tbl_inquiry(id,inquiry_status)
-        values (#{id},#{inquiryStatus})
+        insert into tbl_inquiry (id, inquiry_email,inquiry_phone,inquiry_type)
+        values (#{id}, #{inquiryEmail}, #{inquiryPhone},#{inquiryType});
     </insert>
 
-    <select id="selectById" resultType="inquiryDTO">
-        select p.id, p.post_title, p.post_content, i.inquiry_answer
-        from tbl_post p
-                 join tbl_inquiry i on p.id = i.id
-        where p.id = #{id}
-    </select>
-
     <select id="selectAll" resultType="inquiryDTO">
-        select i.id,
-               p.post_title,
-               p.post_content,
-               p.post_status,
-               m.member_nickname,
-               m.kakao_email,
-               m.member_email,
-               p.created_date,
-               p.updated_date
+        select
+            i.id,
+            p.post_title,
+            p.post_content,
+            p.created_date,
+            p.updated_date,
+            m.member_nickname,
+            i.inquiry_email,
+            i.inquiry_type,
+            i.inquiry_status
         from tbl_inquiry i
                  join tbl_post p on i.id = p.id
                  join tbl_member m on p.member_id = m.id
-        order by p.created_date desc
+        order by
+        <choose>
+        <when test="pagination.order == 'recent'.toString()">p.created_date</when>
+        <otherwise>i.inquiry_status</otherwise>
+        </choose>
+        desc
             limit #{pagination.startRow}, #{pagination.rowCount};
     </select>
-
 
     <update id="updateById">
         update tbl_post
@@ -40,8 +38,11 @@
     </update>
 
     <delete id="deleteById">
-        delete from tbl_notice
+        delete from tbl_inquiry
         where id = #{id}
     </delete>
+
+
+
 
 </mapper>
