@@ -1,7 +1,5 @@
 package com.app.back.mapper.volunteer;
 
-import com.app.back.domain.member.MemberVO;
-import com.app.back.domain.post.PostVO;
 import com.app.back.domain.volunteer.Pagination;
 import com.app.back.domain.volunteer.VolunteerDTO;
 import com.app.back.domain.volunteer.VolunteerVO;

@@ -22,5 +22,7 @@
         <typeAlias type="com.app.back.domain.inquiry.InquiryDTO" alias="inquiryDTO"/>
         <typeAlias type="com.app.back.domain.inquiry_answer.Inquiry_answerVO" alias="inquiry_answerVO"/>
         <typeAlias type="com.app.back.domain.inquiry_answer.Inquiry_answerDTO" alias="inquiry_answerDTO"/>
+        <typeAlias type="com.app.back.domain.vt_application.VtApplicationVO" alias="vtApplicationVO"/>
+        <typeAlias type="com.app.back.domain.vt_application.VtApplicationDTO" alias="vtApplicationDTO"/>
     </typeAliases>
 </configuration>
