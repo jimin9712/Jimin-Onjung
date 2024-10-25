@@ -15,23 +15,22 @@ public class VolunteerMapperTests {
     @Autowired
     private VolunteerMapper volunteerMapper;
 
+
+//    봉사 모집 게시글 작성
     @Test
     public void testInsert(){
         VolunteerDTO volunteerDTO = new VolunteerDTO();
-        volunteerDTO.setId(6L);
-        volunteerDTO.setPostType("1");
-        volunteerDTO.setPostTitle("봉사활동모집제목5");
-        volunteerDTO.setRecruitmentCount(40);
-        volunteerDTO.setVtSDate("2024-11-25");
-        volunteerDTO.setVtEDate("2025-11-25");
-        volunteerDTO.setPostContent("봉사활동전체내용5");
-        volunteerDTO.setPostSummary("봉사활동모집요약5");
-        volunteerDTO.setMemberId(2L);
+        volunteerDTO.setId(11L);
+        volunteerDTO.setRecruitmentCount(7);
+        volunteerDTO.setVtSDate("2024-09-25");
+        volunteerDTO.setVtEDate("2024-10-15");
 
         volunteerMapper.insert(volunteerDTO.toVO());
         log.info("봉사활동구인글이 작성 되었습니다: {}", volunteerDTO);
     }
 
+
+//    봉사 모집 게시글 최신순 조회
     @Test
     public void testSelectAll(){
         Pagination pagination = new Pagination();
@@ -43,6 +42,7 @@ public class VolunteerMapperTests {
 
     }
 
+//  봉사 모집 게시글 조회수 순 조회
     @Test
     public void testSelectByViewCount() {
         Pagination pagination = new Pagination();
@@ -52,6 +52,17 @@ public class VolunteerMapperTests {
         volunteerMapper.selectByViewCount(pagination).stream()
                 .map(VolunteerDTO::toString).forEach(log::info);
     }
+
+//    봉사모집 게시글 마감 임박 순 조회
+@Test
+public void testSelectByDeadline() {
+    Pagination pagination = new Pagination();
+    pagination.setTotal(volunteerMapper.selectTotal());
+    pagination.progress();
+    log.info("{}, {}", pagination.getStartRow(), pagination.getRowCount());
+    volunteerMapper.selectByDeadline(pagination).stream()
+            .map(VolunteerDTO::toString).forEach(log::info);
+}
 
 
 }

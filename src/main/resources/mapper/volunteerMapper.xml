@@ -7,11 +7,13 @@
     </insert>
 
     <select id="selectAll" resultType="volunteerDTO">
-    select v.id, v.recruitment_count, p.post_title, m.member_nickname,
+    select v.id, v.recruitment_count, p.post_title, m.member_nickname, p.post_status,
+    pf.profile_file_name, pf.profile_file_path, pf.profile_file_size, pf.profile_file_type,
     v.vt_s_date, v.vt_e_date,p.post_view_count, p.post_type, p.post_summary, p.created_date
     from tbl_vt v
     join tbl_post p on v.id = p.id
     join tbl_member m on p.member_id = m.id
+    join tbl_profile pf on p.member_id = pf.id
     order by
     <choose>
         <when test="pagination.order == 'recent'.toString()">v.id</when>
@@ -20,28 +22,47 @@
     desc
     limit #{pagination.startRow}, #{pagination.rowCount}
     </select>
+
     <select id="selectTotal">
         select count(*) from tbl_post
     </select>
 
     <select id="selectByViewCount" resultType="volunteerDTO">
-        select v.id, v.recruitment_count, p.post_title, m.member_nickname,
+        select v.id, v.recruitment_count, p.post_title, m.member_nickname, p.post_status,
+        pf.profile_file_name, pf.profile_file_path, pf.profile_file_size, pf.profile_file_type,
+        v.vt_s_date, v.vt_e_date,p.post_view_count, p.post_type, p.post_summary, p.created_date
+        from tbl_vt v
+        join tbl_post p on v.id = p.id
+        join tbl_member m on p.member_id = m.id
+        join tbl_profile pf on p.member_id = pf.id
+        order by
+        <choose>
+            <otherwise>p.post_view_count desc</otherwise>
+        </choose>
+        limit #{pagination.startRow}, #{pagination.rowCount}
+    </select>
+
+
+
+    <select id="selectByDeadline" resultType="volunteerDTO">
+        select v.id, v.recruitment_count, p.post_title, m.member_nickname, p.post_status,
         v.vt_s_date, v.vt_e_date, p.post_view_count, p.post_type, p.post_summary, p.created_date
         from tbl_vt v
         join tbl_post p on v.id = p.id
         join tbl_member m on p.member_id = m.id
         order by
         <choose>
-            <when test="pagination.order == 'recent'.toString()">v.id</when>
-            <when test="pagination.order == 'viewCount'.toString()">p.post_view_count</when>
-            <otherwise>p.created_date</otherwise>
+            <otherwise>test="pagination.order == 'endingSoon'.toString()">
+                (datediff(v.vt_e_date, current_date)) asc</otherwise>
         </choose>
-        desc
         limit #{pagination.startRow}, #{pagination.rowCount}
     </select>
 
 
 
 
+
 </mapper>
+
+
 
