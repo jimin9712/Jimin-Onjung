@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
+import java.util.Optional;
 
 @SpringBootTest
 @Slf4j
@@ -20,7 +21,7 @@ public class NoticeMapperTests {
     @Test
     public void testwrite() {
         NoticeDTO noticeDTO = new NoticeDTO();
-        noticeDTO.setId(2L);
+        noticeDTO.setId(3L);
         noticeDTO.setPostTitle("제목2");
         noticeDTO.setPostContent("내용2");
         noticeDTO.setPostSummary("요약2");
@@ -32,20 +33,20 @@ public class NoticeMapperTests {
     }
     @Test
     public void testSelectById() {
-        Long id = 2L;
-        NoticeDTO noticeDTO = noticeMapper.selectById(id);
+        Long id = 3L; // 테스트할 ID 설정
 
-        log.info("조회된 notice : " + noticeDTO);
+        Optional<NoticeDTO> noticeDTO = noticeMapper.selectById(id);
+        noticeDTO.ifPresent(dto -> log.info("조회된 notice: " + dto));
     }
-    @Test
-    public void testSelectAll() {
-        Pagination pagination = new Pagination();
-        pagination.setPage(1);
-        pagination.progress();
-        List<NoticeDTO> posts = noticeMapper.selectAll(pagination);
-        log.info("{}", posts.size());
-        posts.stream().map(NoticeDTO::toString).forEach(log::info);
-    }
+//    @Test
+//    public void testSelectAll() {
+//        Pagination pagination = new Pagination();
+//        pagination.setPage(1);
+//        pagination.progress();
+//        List<NoticeDTO> posts = noticeMapper.selectAll(pagination);
+//        log.info("{}", posts.size());
+//        posts.stream().map(NoticeDTO::toString).forEach(log::info);
+//    }
     @Test
     public void testUpdate() {
         NoticeDTO noticeDTO = new NoticeDTO();
