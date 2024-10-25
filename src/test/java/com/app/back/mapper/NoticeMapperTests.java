@@ -32,7 +32,7 @@ public class NoticeMapperTests {
     }
     @Test
     public void testSelectById() {
-        Long id = 1L;
+        Long id = 2L;
         NoticeDTO noticeDTO = noticeMapper.selectById(id);
 
         log.info("조회된 notice : " + noticeDTO);

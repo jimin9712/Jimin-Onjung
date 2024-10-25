@@ -8,21 +8,18 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Optional;
+
 @Mapper
 public interface NoticeMapper {
 //    추가
     public void insert(NoticeVO noticeVO);
 //    조회
-    public NoticeDTO selectById(Long id);
-
+//    public NoticeDTO selectById(Long id);
+    public Optional<NoticeDTO> selectById(Long id);
 //  전체조회
-    public List<NoticeDTO> selectAll(Pagination pagination);
-
-//  게시글 전체 개수 조회
-    public int selectTotal();
-
-//   검색 결과 개수 조회
-    public int selectTotalWithSearch(@Param("search") Search search);
+//    public List<NoticeDTO> selectAll(Pagination pagination);
+    public List<NoticeDTO> selectAll(@Param("pagination") Pagination pagination, @Param("search")Search search);
 
 //    수정
     void updateById(NoticeDTO noticeDTO);
