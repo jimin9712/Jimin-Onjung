@@ -10,6 +10,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MemberVO implements Serializable {
+    private final Long serialVersionUID = 1L;
+
     @EqualsAndHashCode.Include
     private Long id;
     private String kakaoEmail;
@@ -28,6 +30,7 @@ public class MemberVO implements Serializable {
     private String memberIntroduction;
     private String createdDate;
     private String updatedDate;
+    private String resetUuid;
 
 
     public MemberDTO toDTO() {
@@ -49,6 +52,7 @@ public class MemberVO implements Serializable {
         memberDTO.setMemberIntroduction(memberIntroduction);
         memberDTO.setCreatedDate(createdDate);
         memberDTO.setUpdatedDate(updatedDate);
+        memberDTO.setResetUuid(resetUuid);
         return memberDTO;
     }
 }

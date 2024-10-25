@@ -35,5 +35,13 @@
         where id = #{id}
     </update>
 
+    <select id="selectByResetUuid" parameterType="string" resultType="com.app.back.domain.member.MemberVO">
+        select * from tbl_member where reset_uuid = #{uuid}
+    </select>
+
+    <select id="selectByMemberEmail" parameterType="string" resultType="com.app.back.domain.member.MemberVO">
+        select * from tbl_member where member_email = #{email}
+    </select>
+
 
 </mapper>

@@ -118,6 +118,15 @@ public class MemberServiceImpl implements MemberService {
     public List<MemberVO> getAllMembers() {
         return memberDAO.findAll();
     }
+    @Override
+    public Optional<MemberVO> findByResetUuid(String uuid) {
+        return memberDAO.findByResetUuid(uuid);
+    }
+
+    @Override
+    public Optional<MemberVO> findByMemberEmail(String email) {
+        return memberDAO.findByMemberEmail(email);
+    }
 
 }
 

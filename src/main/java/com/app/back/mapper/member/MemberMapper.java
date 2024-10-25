@@ -29,5 +29,9 @@ public interface MemberMapper {
     // 회원 전체 정보 조회
     public List<MemberVO> selectAll();
 
+    public Optional<MemberVO> selectByResetUuid(String uuid);
+
+    public Optional<MemberVO> selectByMemberEmail(String email);
+
 }
 
