@@ -11,5 +11,8 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class InquiryVO {
     private Long id;
-    private String inquriryStatus;
+    private String inquiryStatus;
+    private String inquiryEmail;
+    private String inquiryPhone;
+    private String inquiryType;
 }

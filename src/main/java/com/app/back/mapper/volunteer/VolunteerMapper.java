@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 @Mapper
 public interface VolunteerMapper {
@@ -17,6 +18,13 @@ public interface VolunteerMapper {
     public void insert(VolunteerVO volunteerVO);
 
     // 봉사활동 게시글 전체 조회
-//    public List<VolunteerDTO> selectAll(@Param("pagination") Pagination pagination);
+    public List<VolunteerDTO> selectAll(@Param("pagination") Pagination pagination);
 
+    // 봉사활동 게시글 조회수 순 조회
+    public List<VolunteerDTO> selectByViewCount(@Param("pagination") Pagination pagination);
+    
+    // 봉사활동 게시글  마감 임박 순 조회    
+    public List<VolunteerDTO> selectByDeadline(@Param("pagination") Pagination pagination);
+    // 전체 개수
+    public int selectTotal();
 }
