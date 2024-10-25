@@ -29,8 +29,11 @@ public interface VolunteerMapper {
     // 전체 개수
     public int selectTotal();
 
+    //  봉사활동 게시글 조회
+    public Optional<VolunteerDTO> selectById(@Param("id") Long id);
+
     // 봉사활동 지원자 증가
-    public void updateNowRecruitment(Long id);
+    public void updateNowRecruitment(@Param("id") int id);
 
 
 

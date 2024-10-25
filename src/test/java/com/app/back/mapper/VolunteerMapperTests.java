@@ -2,11 +2,14 @@ package com.app.back.mapper;
 
 import com.app.back.domain.volunteer.Pagination;
 import com.app.back.domain.volunteer.VolunteerDTO;
+import com.app.back.domain.volunteer.VolunteerVO;
 import com.app.back.mapper.volunteer.VolunteerMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.Optional;
 
 @SpringBootTest
 @Slf4j
@@ -14,9 +17,13 @@ public class VolunteerMapperTests {
 
     @Autowired
     private VolunteerMapper volunteerMapper;
+    @Autowired
+    private VolunteerDTO volunteerDTO;
+    @Autowired
+    private VolunteerVO volunteerVO;
 
 
-//    봉사 모집 게시글 작성
+    //    봉사 모집 게시글 작성
     @Test
     public void testInsert(){
         VolunteerDTO volunteerDTO = new VolunteerDTO();
@@ -30,7 +37,7 @@ public class VolunteerMapperTests {
     }
 
 
-//    봉사 모집 게시글 최신순 조회
+//    봉사 모집 게시글 최신순 목록 조회
     @Test
     public void testSelectAll(){
         Pagination pagination = new Pagination();
@@ -39,6 +46,22 @@ public class VolunteerMapperTests {
         log.info("{}, {}", pagination.getStartRow(), pagination.getRowCount());
         volunteerMapper.selectAll(pagination).stream()
             .map(VolunteerDTO::toString).forEach(log::info);
+
+    }
+
+//    봉사 모집 게시글 조회
+    @Test
+    public void testSelectById(){
+        volunteerDTO.setId(9L);
+        Optional<VolunteerDTO> foundVolunteer = volunteerMapper.selectById(volunteerDTO.getId());
+        log.info(foundVolunteer.toString());
+    }
+
+//    봉사 승인 인원 증가
+    @Test
+    public void updateNowRecruitment(){
+        volunteerMapper.updateNowRecruitment(1);
+        log.info("승인된 봉사인원이 증가하였습니다" + volunteerVO.getNowRecruitmentCount());
 
     }
 

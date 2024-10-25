@@ -6,54 +6,56 @@
     values(#{id}, #{recruitmentCount}, #{vtSDate}, #{vtEDate})
     </insert>
 
+    <insert id="insertApplication">
+        insert into tbl_vt_application (application_status, vt_id, member_id)
+        values (#{applicationStatus}, #{vtId}, #{memberId})
+    </insert>
+
     <select id="selectAll" resultType="volunteerDTO">
-    select v.id, v.recruitment_count, p.post_title, m.member_nickname, p.post_status,
-    pf.profile_file_name, pf.profile_file_path, pf.profile_file_size, pf.profile_file_type,
-    v.vt_s_date, v.vt_e_date,p.post_view_count, p.post_type, p.post_summary, p.created_date
-    from tbl_vt v
-    join tbl_post p on v.id = p.id
-    join tbl_member m on p.member_id = m.id
-    join tbl_profile pf on p.member_id = pf.id
-        <where>
-            <if test="pagination.order == 'endingSoon'">
-                v.vt_e_date >= current_date
-            </if>
-        </where>
-    order by
-    <choose>
-        <when test="pagination.order == 'recent'.toString()">v.created_date</when>
-        <when test="pagination.order == 'ViewCount'.toString()">p.post_view_count desc</when>
-        <when test="pagination.order == 'endingSoon'.toString()">v.vt_e_date asc</when>
-        <otherwise>v.created_date</otherwise>
-    </choose>
-    desc
-    limit #{pagination.startRow}, #{pagination.rowCount}
+        select v.id, v.recruitment_count, p.post_title, m.member_nickname, p.post_status,
+        pf.profile_file_name, pf.profile_file_path, pf.profile_file_size, pf.profile_file_type,
+        v.vt_s_date, v.vt_e_date, p.post_view_count, p.post_type, p.post_summary, p.created_date
+        from tbl_vt v
+        join tbl_post p on v.id = p.id
+        join tbl_member m on p.member_id = m.id
+        join tbl_profile pf on p.member_id = pf.id
+
+        order by
+        <choose>
+            <when test="pagination.order == 'recent'">p.created_date desc</when>
+            <when test="pagination.order == 'viewCount'">p.post_view_count desc</when>
+            <when test="pagination.order == 'endingSoon'">v.vt_e_date asc</when>
+            <otherwise>p.created_date desc</otherwise>
+        </choose>
+        limit #{pagination.startRow}, #{pagination.rowCount}
     </select>
+
 
     <select id="selectTotal">
         select count(*) from tbl_post
     </select>
 
-    <select id="selectById" resultType="volunteerDTO">
-        select v.id, v.recruitment_count, p.post_title, m.member_nickname, p.post_status,
-               pf.profile_file_name, pf.profile_file_path, pf.profile_file_size, pf.profile_file_type,
+    <select id="selectById" resultType="VolunteerDTO">
+        select v.id, v.recruitment_count, p.id as post_id, p.post_title, m.member_nickname, p.post_status,
+               at.attachment_file_name, at.attachment_file_path, at.attachment_file_size, at.attachment_file_type,
                v.vt_s_date, v.vt_e_date, p.post_view_count, p.post_type, p.post_summary, p.created_date
         from tbl_vt v
-                 join tbl_post p on v.id = p.id
-                 join tbl_member m on p.member_id = m.id
-                 join tbl_profile pf on p.member_id = pf.id
+                 left join tbl_post p on v.id = p.id
+                 left join tbl_member m on p.member_id = m.id
+                 left join tbl_attachment at on at.post_id = p.id
         where v.id = #{id}
     </select>
 
+
+
     <update id="updateNowRecruitment">
         update tbl_vt
-        set  = post_read_count + 1
+        set  now_recruitment_count = tbl_vt.now_recruitment_count + 1
         where id = #{id}
     </update>
 
 
 </mapper>
-
         <!--    <select id="selectByViewCount" resultType="volunteerDTO">-->
         <!--        select v.id, v.recruitment_count, p.post_title, m.member_nickname, p.post_status,-->
         <!--        pf.profile_file_name, pf.profile_file_path, pf.profile_file_size, pf.profile_file_type,-->
@@ -71,25 +73,25 @@
 
 
 
-        <!--    <select id="selectByDeadline" resultType="volunteerDTO">-->
-        <!--        select v.id, v.recruitment_count, p.post_title, m.member_nickname, p.post_status,-->
-        <!--        pf.profile_file_name, pf.profile_file_path, pf.profile_file_size, pf.profile_file_type,-->
-        <!--        v.vt_s_date, v.vt_e_date,p.post_view_count, p.post_type, p.post_summary, p.created_date-->
-        <!--        from tbl_vt v-->
-        <!--        join tbl_post p on v.id = p.id-->
-        <!--        join tbl_member m on p.member_id = m.id-->
-        <!--        join tbl_profile pf on p.member_id = pf.id-->
-        <!--        <where>-->
-        <!--            <if test="pagination.order == 'endingSoon'">-->
-        <!--                v.vt_e_date >= current_date-->
-        <!--            </if>-->
-        <!--        </where>-->
-        <!--        order by-->
-        <!--        <choose>-->
-        <!--            <otherwise>v.vt_e_date asc</otherwise>-->
-        <!--        </choose>-->
-        <!--        limit #{pagination.startRow}, #{pagination.rowCount}-->
-        <!--    </select>-->
+        <!--<select id="selectByDeadline" resultType="volunteerDTO">-->
+        <!--select v.id, v.recruitment_count, p.post_title, m.member_nickname, p.post_status,-->
+        <!--pf.profile_file_name, pf.profile_file_path, pf.profile_file_size, pf.profile_file_type,-->
+        <!--v.vt_s_date, v.vt_e_date,p.post_view_count, p.post_type, p.post_summary, p.created_date-->
+        <!--from tbl_vt v-->
+        <!--join tbl_post p on v.id = p.id-->
+        <!--join tbl_member m on p.member_id = m.id-->
+        <!--join tbl_profile pf on p.member_id = pf.id-->
+        <!--<where>-->
+        <!--    <if test="pagination.order == 'endingSoon'">-->
+        <!--        v.vt_e_date >= current_date-->
+        <!--    </if>-->
+        <!--</where>-->
+        <!--order by-->
+        <!--<choose>-->
+        <!--    <otherwise>v.vt_e_date asc</otherwise>-->
+        <!--</choose>-->
+        <!--limit #{pagination.startRow}, #{pagination.rowCount}-->
+        <!--</select>-->
 
 
 
