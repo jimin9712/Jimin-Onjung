@@ -497,3 +497,9 @@ form div.register-input-box {
     border-color: blue; /* 포커스 시 테두리 색상 */
     outline: none; /* 기본 outline 제거 */
 }
+.loading-img{
+    display: none;
+
+    padding: 13px;
+    width: 24px;
+}
