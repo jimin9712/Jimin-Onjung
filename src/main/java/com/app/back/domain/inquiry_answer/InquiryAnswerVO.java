@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class Inquiry_answerVO {
+public class InquiryAnswerVO {
     private Long id;
     private String inquiryAnswer;
     private Long inquiryId;

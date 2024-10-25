@@ -1,6 +1,5 @@
 package com.app.back.domain.inquiry_answer;
 
-import com.app.back.domain.inquiry.InquiryVO;
 import lombok.*;
 import org.springframework.stereotype.Component;
 
@@ -10,14 +9,10 @@ import org.springframework.stereotype.Component;
 @ToString
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
-public class Inquiry_answerDTO {
+public class InquiryAnswerDTO {
     private Long id;
     private String inquiryAnswer;
     private Long inquiryId;
-    private String inquiryStatus;
 
-    public InquiryVO toInquiryVO(){
-        return new InquiryVO(id,inquiryStatus);
-    }
-    public Inquiry_answerVO toVO() {return new Inquiry_answerVO(id,inquiryAnswer,inquiryId);}
+    public InquiryAnswerVO toVO() {return new InquiryAnswerVO(id,inquiryAnswer, inquiryId);}
 }
