@@ -2,14 +2,20 @@ package com.app.back.controller.member;
 
 import com.app.back.domain.member.MemberDTO;
 import com.app.back.domain.member.MemberVO;
+import com.app.back.enums.MemberLoginType;
 import com.app.back.service.member.MemberService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -38,32 +44,37 @@ public class MemberController {
     public void goToLoginForm(MemberDTO memberDTO){;}
 
     @PostMapping("/member/login")
-    public RedirectView login(
-            @RequestParam String memberEmail,
-            @RequestParam String memberPassword) {
-
-        // DTO 생성 및 로그인 정보 설정
-        MemberDTO loginDTO = new MemberDTO();
-        loginDTO.setMemberEmail(memberEmail);
-        loginDTO.setMemberPassword(memberPassword);
+    @ResponseBody
+    public ResponseEntity<String> login(
+            @RequestBody MemberDTO loginDTO,
+            HttpSession session) {
 
         // 로그인 시도
         Optional<MemberVO> member = memberService.login(loginDTO.toVO());
 
         if (member.isPresent()) {
-            return new RedirectView("/main/main");
+            session.setAttribute("loginMember", member.get());
+            session.setAttribute("loginType", MemberLoginType.NORMAL);
+            return ResponseEntity.ok("로그인 성공");
         } else {
-            // 로그인 실패 시 쿼리 파라미터
-            return new RedirectView("/member/login?error=true");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 실패");
         }
     }
 
-
     @GetMapping("/main/main")
-    public String goToMain() {
+    public String goToMain(HttpSession session, Model model) {
+        MemberVO loginMember = (MemberVO) session.getAttribute("loginMember");
+        MemberLoginType loginType = (MemberLoginType) session.getAttribute("loginType");
+
+        if (loginMember != null) {
+            model.addAttribute("member", loginMember);
+            model.addAttribute("loginType", loginType);
+        } else {
+            return "redirect:/member/login";
+        }
+
         return "main/main";
     }
-
 
     // SMS 인증번호 전송 API
     @PostMapping("/send-auth-code")
@@ -100,6 +111,9 @@ public class MemberController {
         boolean isValid = memberService.verifyEmailAuthCode(email, authCode);
         return isValid ? "인증 성공" : "인증 실패";
     }
+
+    @GetMapping("/member/password")
+    public void goToFindPassword(MemberDTO memberDTO){;}
 
 }
 
