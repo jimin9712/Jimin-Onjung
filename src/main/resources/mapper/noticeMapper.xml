@@ -39,6 +39,16 @@
         limit #{pagination.startRow}, #{pagination.rowCount};
     </select>
 
+    <select id="selectTotal">
+        select count(*) from tbl_notice
+    </select>
+
+    <select id="selectTotalWithSearch">
+        select count(*) from tbl_post p join tbl_notice n
+        on p.id = n.id
+        <include refid="search"/>
+    </select>
+
     <update id="updateById">
         update tbl_post
         set post_title = #{postTitle},
