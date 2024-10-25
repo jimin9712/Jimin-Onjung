@@ -21,7 +21,7 @@
                     <h3 class="write-introduce">
                         👉 봉사 후기를 작성해주세요!
                     </h3>
-                    <form action="/review/review-write" method="post">
+                    <form th:action="@{/review/review-write}" method="post" enctype="multipart/form-data">
                         <div class="form">
                             <div class="write-info" direction="row">
                                 <div class="option">
