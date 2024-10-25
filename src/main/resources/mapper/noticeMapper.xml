@@ -22,7 +22,7 @@
 
     <insert id="insert">
         insert into tbl_notice(id)
-        values (#{id})
+        values (#{id});
     </insert>
 
     <select id="selectById" resultType="noticeDTO">

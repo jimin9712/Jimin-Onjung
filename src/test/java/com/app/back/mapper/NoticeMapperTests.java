@@ -22,15 +22,15 @@ public class NoticeMapperTests {
     @Test
     public void testwrite() {
         NoticeDTO noticeDTO = new NoticeDTO();
-        noticeDTO.setId(2L);
-        noticeDTO.setPostTitle("제목2");
-        noticeDTO.setPostContent("내용2");
-        noticeDTO.setPostSummary("요약2");
+        noticeDTO.setId(3L);
+        noticeDTO.setPostTitle("제목5");
+        noticeDTO.setPostContent("내용5");
+        noticeDTO.setPostSummary("요약5");
         noticeDTO.setPostType("NOTICE");
         noticeDTO.setPostStatus("VISIBLE");
         noticeDTO.setMemberId(1L);
+        log.info("{}", noticeDTO);
         noticeMapper.insert(noticeDTO.toVO());
-
     }
     @Test
     public void testSelectById() {

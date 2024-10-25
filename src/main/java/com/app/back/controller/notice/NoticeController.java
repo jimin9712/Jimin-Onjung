@@ -14,15 +14,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/notice/*")
+@RequestMapping("/help/*")
 @RequiredArgsConstructor
 @Slf4j
 public class NoticeController {
     private final NoticeService noticeService;
     private final HttpSession session;
 
-    @GetMapping("list")
+    @GetMapping("help-notification-list")
     public void getList(Pagination pagination, Search search, Model model, HttpServletRequest request) {
+        log.info("조회된 게시물 목록: " + noticeService.getList(pagination, search));
 
         // 요청에서 "data"라는 속성 값을 로그로 출력
         log.info((String) request.getAttribute("data"));
