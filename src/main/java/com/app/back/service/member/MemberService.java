@@ -2,6 +2,7 @@ package com.app.back.service.member;
 
 import com.app.back.domain.member.MemberVO;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface MemberService {
@@ -19,5 +20,7 @@ public interface MemberService {
     public void update(MemberVO memberVO);
     public void delete(Long id);
     public Optional<MemberVO> getKakaoMember(String memberKakaoEmail);
+    public List<MemberVO> getAllMembers();
+
 
 }

@@ -13,6 +13,8 @@ public interface InquiryMapper {
 
     //    추가
     public void insert(InquiryVO inquiryVO);
+
+
     //    조회
     public InquiryDTO selectById(Long id);
 

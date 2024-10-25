@@ -7,11 +7,6 @@
         values (#{id},#{inquiryStatus})
     </insert>
 
-    <insert id="insertAnswer">
-        insert into tbl_inquiry(id,inquiry_answer)
-        values (#{id},#{inquiryAnswer})
-    </insert>
-
     <select id="selectById" resultType="inquiryDTO">
         select p.id, p.post_title, p.post_content, i.inquiry_answer
         from tbl_post p
