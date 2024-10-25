@@ -11,7 +11,10 @@
             p.post_title,
             p.post_content,
             p.member_id,
-            p.created_date
+            p.created_date,
+            d.goal_point,
+            d.donation_s_date,
+            d.donation_e_date
 
         from tbl_donation d
                  join tbl_post p on d.id = p.id
