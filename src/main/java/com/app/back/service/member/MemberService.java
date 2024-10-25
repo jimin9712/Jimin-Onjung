@@ -22,5 +22,7 @@ public interface MemberService {
     public Optional<MemberVO> getKakaoMember(String memberKakaoEmail);
     public List<MemberVO> getAllMembers();
 
+    public Optional<MemberVO> findByResetUuid(String uuid);
 
+    public Optional<MemberVO> findByMemberEmail(String email);
 }

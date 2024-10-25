@@ -42,4 +42,11 @@ public class MemberDAO {
     public List<MemberVO> findAll() {
         return memberMapper.selectAll();
     }
+
+    public Optional<MemberVO> findByResetUuid(String uuid) {
+        return memberMapper.selectByResetUuid(uuid);
+    }
+    public Optional<MemberVO> findByMemberEmail(String email) {
+        return memberMapper.selectByMemberEmail(email);
+    }
 }

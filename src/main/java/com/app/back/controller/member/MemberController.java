@@ -1,9 +1,11 @@
 package com.app.back.controller.member;
 
+import com.app.back.domain.Util.EmailUtil;
 import com.app.back.domain.member.MemberDTO;
 import com.app.back.domain.member.MemberVO;
 import com.app.back.enums.MemberLoginType;
 import com.app.back.service.member.MemberService;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,15 +16,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
 @Slf4j
 public class MemberController {
     private final MemberService memberService;
+    private final EmailUtil emailUtil;
+
 
     @GetMapping("/member/signup")
     public String goToSignup() {
@@ -114,6 +120,45 @@ public class MemberController {
 
     @GetMapping("/member/password")
     public void goToFindPassword(MemberDTO memberDTO){;}
+
+    @GetMapping("/member/password-reset")
+    public void goToFindPasswordReset(MemberDTO memberDTO){;}
+
+    @PostMapping("/password-reset/send-email")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> sendResetEmail(@RequestBody Map<String, String> request) {
+        String email = request.get("email");
+        Optional<MemberVO> memberOptional = memberService.findByMemberEmail(email);
+
+        Map<String, Object> response = new HashMap<>();
+        if (memberOptional.isPresent()) {
+            // VO를 DTO로 변환
+            MemberVO memberVO = memberOptional.get();
+            MemberDTO memberDTO = memberVO.toDTO();
+
+            // UUID 생성 및 DTO에 설정
+            String uuid = UUID.randomUUID().toString();
+            memberDTO.setResetUuid(uuid);
+
+            // DTO를 VO로 변환하여 업데이트
+            memberService.update(memberDTO.toVO());
+
+            try {
+                String resetLink = "http://localhost:10000/member/password-reset?uuid=" + uuid;
+                emailUtil.sendHtmlEmail(email, resetLink);
+                response.put("success", true);
+            } catch (MessagingException | UnsupportedEncodingException e) {
+                e.printStackTrace();
+                response.put("success", false);
+            }
+        } else {
+            response.put("success", false);
+        }
+
+        return ResponseEntity.ok(response);
+    }
+
+
 
 }
 

@@ -42,4 +42,10 @@ values(1,"닉네임1");
 select * from tbl_member;
 
 
+alter table tbl_member
+add column reset_uuid varchar(255) unique;
+
+delete from tbl_member
+where id = 9;
+
 

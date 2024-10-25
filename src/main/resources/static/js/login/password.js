@@ -60,4 +60,25 @@ document.addEventListener("DOMContentLoaded", function () {
             emailInput.style.borderColor = "blue"; // 입력 중 포커스 색상 유지
         }
     });
+
+    document.getElementById('send-email-btn').addEventListener('click', () => {
+        const email = document.getElementById('email').value;
+
+        fetch('/password-reset/send-email', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email: email }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('이메일이 발송되었습니다.');
+                } else {
+                    document.querySelector('.waring-msg').style.display = 'block';
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    });
 });
