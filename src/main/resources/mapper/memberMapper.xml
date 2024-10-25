@@ -29,4 +29,11 @@
         where member_email = #{memberEmail} and member_password = #{memberPassword}
     </select>
 
+    <update id="update">
+        update tbl_member
+        set member_email = #{memberEmail}, member_name = #{memberName}
+        where id = #{id}
+    </update>
+
+
 </mapper>
