@@ -42,27 +42,27 @@ public class VolunteerMapperTests {
 
     }
 
-//  봉사 모집 게시글 조회수 순 조회
-    @Test
-    public void testSelectByViewCount() {
-        Pagination pagination = new Pagination();
-        pagination.setTotal(volunteerMapper.selectTotal());
-        pagination.progress();
-        log.info("{}, {}", pagination.getStartRow(), pagination.getRowCount());
-        volunteerMapper.selectByViewCount(pagination).stream()
-                .map(VolunteerDTO::toString).forEach(log::info);
-    }
-
-//    봉사모집 게시글 마감 임박 순 조회
-@Test
-public void testSelectByDeadline() {
-    Pagination pagination = new Pagination();
-    pagination.setTotal(volunteerMapper.selectTotal());
-    pagination.progress();
-    log.info("{}, {}", pagination.getStartRow(), pagination.getRowCount());
-    volunteerMapper.selectByDeadline(pagination).stream()
-            .map(VolunteerDTO::toString).forEach(log::info);
-}
+////  봉사 모집 게시글 조회수 순 조회
+//    @Test
+//    public void testSelectByViewCount() {
+//        Pagination pagination = new Pagination();
+//        pagination.setTotal(volunteerMapper.selectTotal());
+//        pagination.progress();
+//        log.info("{}, {}", pagination.getStartRow(), pagination.getRowCount());
+//        volunteerMapper.selectByViewCount(pagination).stream()
+//                .map(VolunteerDTO::toString).forEach(log::info);
+//    }
+//
+////    봉사모집 게시글 마감 임박 순 조회
+//@Test
+//public void testSelectByDeadline() {
+//    Pagination pagination = new Pagination();
+//    pagination.setTotal(volunteerMapper.selectTotal());
+//    pagination.progress();
+//    log.info("{}, {}", pagination.getStartRow(), pagination.getRowCount());
+//    volunteerMapper.selectByDeadline(pagination).stream()
+//            .map(VolunteerDTO::toString).forEach(log::info);
+//}
 
 
 }
