@@ -9,7 +9,10 @@
         <link rel="stylesheet" href="/css/rank/rank.css" />
     </head>
     <body>
-        <div id="root">
+    <h1 th:text="'안녕하세요, ' + ${member.memberName} + '님!'"></h1>
+    <p th:text="'로그인 유형: ' + ${loginType}"></p>
+
+    <div id="root">
             <div id="app" class="bfedap app">
                 <div class="wrap">
                     <div class="eucbbu content">

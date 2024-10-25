@@ -1,7 +1,8 @@
 package com.app.back.controller.member;
 
-
 import com.app.back.domain.member.MemberDTO;
+import com.app.back.domain.member.MemberVO;
+import com.app.back.enums.MemberLoginType;
 import com.app.back.service.member.KakaoService;
 import com.app.back.service.member.MemberService;
 import jakarta.servlet.http.HttpSession;
@@ -21,32 +22,17 @@ public class KakaoController {
     private final MemberService memberService;
 
     @GetMapping("/kakao/login")
-    public RedirectView login(String code, HttpSession session){
+    public RedirectView kakaoLogin(String code, HttpSession session) {
         String token = kakaoService.getKakaoAccessToken(code);
         Optional<MemberDTO> kakaoInfo = kakaoService.getKakaoInfo(token);
 
-        if(kakaoInfo.isPresent()){
-            memberService.join(kakaoInfo.get().toVO());
-            session.setAttribute("member", memberService.getKakaoMember(kakaoInfo.get().getKakaoEmail()).get());
-        }else{
-            log.info("비어있음");
+        if (kakaoInfo.isPresent()) {
+            MemberVO kakaoMember = memberService.getKakaoMember(kakaoInfo.get().getKakaoEmail()).orElseThrow();
+            session.setAttribute("loginMember", kakaoMember);
+            session.setAttribute("loginType", MemberLoginType.KAKAO);  // Enum 사용
         }
-
 
         return new RedirectView("/main/main");
     }
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
