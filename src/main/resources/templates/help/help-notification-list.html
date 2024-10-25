@@ -99,5 +99,9 @@
             </div>
         </main>
     </body>
+    <script th:inline="javascript">
+        const posts = [[${posts}]];
+        const pagination = [[${pagination}]];
+    </script>
     <script src="../../static/js/help/help-notification-list.js"></script>
 </html>
