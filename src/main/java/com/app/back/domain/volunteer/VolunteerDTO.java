@@ -33,6 +33,7 @@ public class VolunteerDTO {
 
     private Long id;
     private int recruitmentCount;
+    private int nowRecruitmentCount;
     private String vtSDate;
     private String vtEDate;
 
@@ -44,5 +45,5 @@ public class VolunteerDTO {
         return new AttachmentVO(id,attachmentFileName,attachmentFilePath,attachmentFileSize,attachmentFiletype,postId,createdDate);
     }
 
-    public VolunteerVO toVO() {return new VolunteerVO(id, recruitmentCount, vtSDate, vtEDate);}
+    public VolunteerVO toVO() {return new VolunteerVO(id, recruitmentCount, nowRecruitmentCount, vtSDate, vtEDate);}
 }

@@ -16,19 +16,24 @@ VALUES (2, 10, '2024-10-23', '2024-11-25');
 
 drop table tbl_vt;
 
-select v.id, v.recruitment_count, p.post_title, m.member_nickname, p.post_status,
-       pf.profile_file_name, pf.profile_file_path, pf.profile_file_size, pf.profile_file_type,
-       v.vt_s_date, v.vt_e_date,p.post_view_count, p.post_type, p.post_summary, p.created_date
-from tbl_vt v
-         join tbl_post p on v.id = p.id
-         join tbl_member m on p.member_id = m.id
-         join tbl_profile pf on p.member_id = pf.id
-order by v.id desc;
+# select v.id, v.recruitment_count, p.post_title, m.member_nickname, p.post_status,
+#        pf.profile_file_name, pf.profile_file_path, pf.profile_file_size, pf.profile_file_type,
+#        v.vt_s_date, v.vt_e_date,p.post_view_count, p.post_type, p.post_summary, p.created_date
+# from tbl_vt v
+#          join tbl_post p on v.id = p.id
+#          join tbl_member m on p.member_id = m.id
+#          join tbl_profile pf on p.member_id = pf.id
+# order by v.id desc;
 
-# insert into tbl_vt(post_type, post_title, post_summary, recruitment_Count, vt_s_date, vt_e_date, post_id, post_content,
-#                    attachment_file_name,attachment_file_path,attachment_file_size,attachment_file_type)
-# values('1','테스트 제목인디','테스트 요약인디',30,'2024-10-23','2025-01-01',1,'테스트내용인디');
+# alter table tbl_vt add now_recruitment_count smallint after recruitment_count;
+alter table tbl_vt modify recruitment_count smallint default 0;
 
-
-SELECT recruitment_Count FROM tbl_vt ;
+SELECT v.id, v.recruitment_count, p.post_title, m.member_nickname, p.post_status,
+       at.attachment_file_name, at.attachment_file_path, at.attachment_file_size, at.attachment_file_type,
+       v.vt_s_date, v.vt_e_date, p.post_view_count, p.post_type, p.post_summary, p.created_date
+FROM tbl_vt v
+         LEFT JOIN tbl_post p ON v.id = p.id
+         LEFT JOIN tbl_member m ON p.member_id = m.id
+         LEFT JOIN tbl_attachment at ON at.post_id = p.id
+WHERE v.id = 9;
 
