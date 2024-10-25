@@ -10,4 +10,5 @@ create table tbl_inquiry(
 
 select * from tbl_inquiry;
 
+
 drop table tbl_inquiry;

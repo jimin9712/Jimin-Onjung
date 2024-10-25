@@ -22,7 +22,7 @@
 
     <insert id="insert">
         insert into tbl_notice(id)
-        values (#{id})
+        values (#{id});
     </insert>
 
     <select id="selectById" resultType="noticeDTO">
@@ -37,6 +37,16 @@
         on p.id = n.id
         order by created_date desc
         limit #{pagination.startRow}, #{pagination.rowCount};
+    </select>
+
+    <select id="selectTotal">
+        select count(*) from tbl_notice
+    </select>
+
+    <select id="selectTotalWithSearch">
+        select count(*) from tbl_post p join tbl_notice n
+        on p.id = n.id
+        <include refid="search"/>
     </select>
 
     <update id="updateById">
