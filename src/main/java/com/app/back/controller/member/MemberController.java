@@ -52,11 +52,9 @@ public class MemberController {
         Optional<MemberVO> member = memberService.login(loginDTO.toVO());
 
         if (member.isPresent()) {
-            // 로그인 성공 시 세션에 회원 정보 저장
             session.setAttribute("loginMember", member.get());
             return ResponseEntity.ok("로그인 성공");
         } else {
-            // 로그인 실패 시 401 Unauthorized 상태 반환
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 실패");
         }
     }
@@ -112,6 +110,9 @@ public class MemberController {
         boolean isValid = memberService.verifyEmailAuthCode(email, authCode);
         return isValid ? "인증 성공" : "인증 실패";
     }
+
+    @GetMapping("/member/password")
+    public void goToFindPassword(MemberDTO memberDTO){;}
 
 }
 
