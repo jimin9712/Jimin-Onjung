@@ -17,6 +17,7 @@ public class InquiryDTO {
     private String inquiryStatus;
     private String inquiryEmail;
     private String inquiryPhone;
+    private String inquiryType;
 
     private String postTitle;
     private String postContent;
@@ -33,6 +34,6 @@ public class InquiryDTO {
     }
 
     public InquiryVO toVO() {
-        return new InquiryVO(id, inquiryStatus, inquiryEmail, inquiryPhone); // 수정
+        return new InquiryVO(id, inquiryStatus, inquiryEmail, inquiryPhone,inquiryType);
     }
 }

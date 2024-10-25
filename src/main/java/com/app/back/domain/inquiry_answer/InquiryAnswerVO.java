@@ -1,4 +1,4 @@
-package com.app.back.domain.inquiry;
+package com.app.back.domain.inquiry_answer;
 
 import lombok.*;
 import org.springframework.stereotype.Component;
@@ -9,10 +9,8 @@ import org.springframework.stereotype.Component;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class InquiryVO {
+public class InquiryAnswerVO {
     private Long id;
-    private String inquiryStatus;
-    private String inquiryEmail;
-    private String inquiryPhone;
-    private String inquiryType;
+    private String inquiryAnswer;
+    private Long inquiryId;
 }

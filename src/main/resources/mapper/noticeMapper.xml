@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.app.back.mapper.notice.NoticeMapper">
+    <sql id="search">
+        <if test="search.keyword != null and search.keyword != 'null'.toString()">
+            <choose>
+                <when test="search.types != null">
+                    <foreach item="type" collection="search.types">
+                        <if test="type == 'post-title'.toString()">
+                            and post_title like concat('%', #{search.keyword}, '%')
+                        </if>
+                    </foreach>
+                </when>
+                <otherwise>
+                    and (
+                    post_title like concat('%', #{search.keyword}, '%')
+                    )
+                </otherwise>
+            </choose>
+        </if>
+    </sql>
 
     <insert id="insert">
         insert into tbl_notice(id)
