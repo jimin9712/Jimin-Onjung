@@ -11,12 +11,12 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AttachmentVO {
-    private long id;
+    private Long id;
     private String attachmentFileName;
     private String attachmentFilePath;
     private String attachmentType;
     private String attachmentFileType;
-    private long postId;
+    private Long postId;
     private String createdDate;
 
 

@@ -21,5 +21,5 @@ public interface ReviewMapper {
     // 수정
     public void update(ReviewDTO reviewDTO);
     // 삭제
-    void deleteById(Long id);
+    public void deleteById(Long id);
 }
