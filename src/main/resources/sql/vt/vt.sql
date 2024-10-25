@@ -14,8 +14,6 @@ DESCRIBE tbl_vt;
 INSERT INTO tbl_vt (id, recruitment_count, vt_s_date, vt_e_date)
 VALUES (2, 10, '2024-10-23', '2024-11-25');
 
-
-
 drop table tbl_vt;
 
 select v.id, v.recruitment_count, p.post_title, m.member_nickname,
@@ -29,4 +27,6 @@ insert into tbl_vt(post_type, post_title, post_summary, recruitment_Count, vt_s_
                    attachment_file_name,attachment_file_path,attachment_file_size,attachment_file_type)
 values('1','테스트 제목인디','테스트 요약인디',10,'2024-10-23','2025-01-01',1,'테스트내용인디');
 
+
+SELECT recruitment_Count FROM tbl_vt ;
 
