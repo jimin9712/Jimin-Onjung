@@ -23,7 +23,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class MemberServiceImpl implements MemberService {
     private final MemberDAO memberDAO;
     private final SmsUtil smsUtil;
-    private final com.app.back.util.EmailUtil emailUtil; // EmailUtil 주입
+    private final com.app.back.domain.Util.EmailUtil emailUtil; // EmailUtil 주입
 
 
     // 인증번호 저장소 (메모리에서 관리)
