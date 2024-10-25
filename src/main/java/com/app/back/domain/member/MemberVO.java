@@ -10,7 +10,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MemberVO implements Serializable {
-    private Long serialVersionUID = 1L;
+    private final Long serialVersionUID = 1L;
 
     @EqualsAndHashCode.Include
     private Long id;
