@@ -25,8 +25,8 @@ const showList = () => {
     let text = ``; // HTML 내용을 저장할 변수 초기화
     posts.forEach((post) => {
         text += `<li class="notification-container">
-        <a href="" class="notification"
-            ><p class="notification-num">${post.postId}</p>
+        <a href="/help/help-notification-inquiry?id=${post.id}" class="notification"
+            ><p class="notification-num">${post.id}</p>
             <h4 class="notification-title">${post.postTitle}</h4>
             <p class="notification-date">${post.createdDate}</p></a>
         </li>`;
@@ -68,8 +68,10 @@ const showPaging = () => {
         }
     }
 
-    // 다음 페이지 버튼 추가
-    if (pagination.next) {
+    // 다음 페이지 버튼 추가: endPage가 realEnd보다 작거나, 더 로드할 데이터가 있을 경우
+    const shouldShowNext = pagination.endPage < pagination.realEnd || (pagination.endRow < pagination.total);
+
+    if (shouldShowNext) {
         text += `
         <div class="pagination-num-container" id="page-next-button">
             <a href="/help/help-notification-list?page=${pagination.endPage + 1}" class="pagination-num">다음</a>
@@ -80,6 +82,7 @@ const showPaging = () => {
     // 페이지 네비게이션을 HTML 요소에 삽입
     pagingdiv.innerHTML = text;
 }
+
 
 
 // 게시글 목록과 페이지 네비게이션 표시 함수 호출

@@ -25,6 +25,7 @@ create table tbl_member (
 );
 select * from tbl_member;
 
+
 insert into tbl_member(id,member_nickname)
 values(2,"닉네임2");
 

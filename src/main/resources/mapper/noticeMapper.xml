@@ -25,6 +25,7 @@
         values (#{id});
     </insert>
 
+
     <select id="selectById" resultType="noticeDTO">
         select id, post_title, post_content
         from tbl_post

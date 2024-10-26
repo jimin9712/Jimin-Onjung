@@ -22,14 +22,15 @@ public class NoticeMapperTests {
     @Test
     public void testwrite() {
         NoticeDTO noticeDTO = new NoticeDTO();
-        noticeDTO.setId(3L);
-        noticeDTO.setPostTitle("제목5");
-        noticeDTO.setPostContent("내용5");
-        noticeDTO.setPostSummary("요약5");
-        noticeDTO.setPostType("NOTICE");
+        noticeDTO.setId(11L);
+        noticeDTO.setPostTitle("제목1");
+        noticeDTO.setPostContent("내용1");
+        noticeDTO.setPostSummary("요약1");
+        noticeDTO.setPostType("0");
         noticeDTO.setPostStatus("VISIBLE");
         noticeDTO.setMemberId(1L);
         log.info("{}", noticeDTO);
+        log.info("Converted to VO: {}", noticeDTO.toVO());
         noticeMapper.insert(noticeDTO.toVO());
     }
     @Test
@@ -56,6 +57,7 @@ public class NoticeMapperTests {
             noticeMapper.selectAll(pagination, new Search()).stream()
         .map(NoticeDTO::toString).forEach(log::info);
         }
+
     @Test
     public void testUpdate() {
         NoticeDTO noticeDTO = new NoticeDTO();
