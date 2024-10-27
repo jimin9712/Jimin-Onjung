@@ -10,7 +10,7 @@ import java.io.Serializable;
 @ToString @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class MemberDTO {
+public class MemberDTO{
     @EqualsAndHashCode.Include
     private Long id;
     private String kakaoEmail;
@@ -25,13 +25,13 @@ public class MemberDTO {
     private int memberJung;
     private int memberPoint;
     private String memberLoginType;
-    private double memberStarRate;
+    private  double memberStarRate;
     private String memberIntroduction;
     private String createdDate;
     private String updatedDate;
+    private String resetUuid;
 
-    public MemberVO toVO() {
-        return new MemberVO(id, kakaoEmail, kakaoProfileURL, kakaoNickName, memberEmail, memberName, memberPhone, memberPassword, memberType, memberNickName, memberJung, memberPoint, memberLoginType, memberStarRate, memberIntroduction, createdDate, updatedDate);
-    }
+
+    public MemberVO toVO(){
+        return new MemberVO(id,kakaoEmail,kakaoProfileURL,kakaoNickName,memberEmail,memberName,memberPhone,memberPassword,memberType,memberNickName,memberJung,memberPoint,memberLoginType,memberStarRate,memberIntroduction,createdDate,updatedDate,resetUuid);}
 }
-

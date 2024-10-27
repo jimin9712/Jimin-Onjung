@@ -24,29 +24,55 @@
                             <li title="온정 공지사항">온정 공지사항</li>
                         </ol>
                         <div class="search-container">
+<!--                            <form-->
+<!--                                action="/help/notification/search"-->
+<!--                                class="search"-->
+<!--                                accept-charset="UTF-8"-->
+<!--                                method="get"-->
+<!--                            >-->
+<!--                                <input-->
+<!--                                    name="utf-8"-->
+<!--                                    type="hidden"-->
+<!--                                    value="✓"-->
+<!--                                    autocomplete="off"-->
+<!--                                />-->
+<!--                                <input-->
+<!--                                    type="search"-->
+<!--                                    name="query"-->
+<!--                                    id="query"-->
+<!--                                    placeholder="검색"-->
+<!--                                    role="combobox"-->
+<!--                                />-->
+<!--                                <input-->
+<!--                                    type="submit"-->
+<!--                                    name="commit"-->
+<!--                                    value="검색"-->
+<!--                                />-->
+<!--                            </form>-->
                             <form
-                                action="/help/notification/search"
-                                class="search"
-                                accept-charset="UTF-8"
-                                method="get"
+                                    action="/help/help-notification-list"
+                                    class="search"
+                                    accept-charset="UTF-8"
+                                    method="get"
                             >
                                 <input
-                                    name="utf-8"
-                                    type="hidden"
-                                    value="✓"
-                                    autocomplete="off"
+                                        name="utf-8"
+                                        type="hidden"
+                                        value="✓"
+                                        autocomplete="off"
                                 />
                                 <input
-                                    type="search"
-                                    name="query"
-                                    id="query"
-                                    placeholder="검색"
-                                    role="combobox"
+                                        type="search"
+                                        name="keyword"
+                                        id="query"
+                                        placeholder="검색"
+                                        role="combobox"
+                                        th:value="${search != null and search.keyword != null ? search.keyword : ''}"
                                 />
                                 <input
-                                    type="submit"
-                                    name="commit"
-                                    value="검색"
+                                        type="submit"
+                                        name="commit"
+                                        value="검색"
                                 />
                             </form>
                         </div>
