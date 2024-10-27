@@ -29,9 +29,11 @@ public void testInsertSelective() {
     vtApplicationDTO.setApplicationStatus(String.valueOf(WAITING));
     vtApplicationDTO.setVtId(10L);  // 봉사활동 ID
     vtApplicationDTO.setMemberId(2L);  // 신청자 ID (Long 타입으로 설정)
-    }
 
     vtApplicationMapper.insert(vtApplicationDTO.toVO());
+    }
+
+
 
 
 }
