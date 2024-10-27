@@ -1,9 +1,9 @@
 package com.app.back.repository.donation;
 
+import com.app.back.domain.donation.DonationDTO;
+import com.app.back.domain.donation.DonationVO;
 import com.app.back.domain.post.Pagination;
-import com.app.back.domain.review.ReviewDTO;
-import com.app.back.domain.review.ReviewVO;
-import com.app.back.mapper.review.ReviewMapper;
+import com.app.back.mapper.donation.DonationMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -13,27 +13,28 @@ import java.util.Optional;
 @Repository
 @RequiredArgsConstructor
 public class DonationDAO {
-    private final ReviewMapper reviewMapper;
+    private final DonationMapper donationMapper;
+    private final DonationDTO donationDTO;
 
-    public void save(ReviewVO reviewVO) {reviewMapper.insert(reviewVO);}
+    public void save(DonationVO donationVO) {donationMapper.insert(donationVO);}
 
-    public Optional<ReviewDTO> findById(Long id) {return reviewMapper.selectById(id);}
+    public Optional<DonationDTO> findById(Long id) {return donationMapper.selectById(id);}
     //    전체 조회
-    public List<ReviewDTO> findAll(Pagination pagination) {
-        return reviewMapper.selectAll(pagination);
+    public List<DonationDTO> findAll(Pagination pagination) {
+        return donationMapper.selectAll(pagination);
     }
     //    전체 개수
     public int findCount(){
-        return reviewMapper.selectCount();
+        return donationMapper.selectCount();
     }
 
     // ID로 프로젝트 포스트 수정
-    public void update(ReviewDTO reviewDTO) {
-        reviewMapper.update(reviewDTO);
+    public void update(DonationDTO donationDTO) {
+        donationMapper.update(donationDTO);
     }
 
     // ID로 프로젝트 포스트 삭제
     public void delete(Long id) {
-        reviewMapper.deleteById(id);
+        donationMapper.deleteById(id);
     }
 }
