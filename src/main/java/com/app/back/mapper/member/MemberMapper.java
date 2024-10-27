@@ -2,6 +2,7 @@ package com.app.back.mapper.member;
 
 import com.app.back.domain.member.MemberVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,5 +30,11 @@ public interface MemberMapper {
     // 회원 전체 정보 조회
     public List<MemberVO> selectAll();
 
+    public Optional<MemberVO> selectByResetUuid(String uuid);
+
+    public Optional<MemberVO> selectByMemberEmail(String email);
+
+
+    public void updatePassword(MemberVO memberVO);
 }
 

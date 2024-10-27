@@ -51,4 +51,14 @@ public class NoticeServiceImpl implements NoticeService{
         noticeDAO.delete(id);
     }
 
+    @Override
+    public int getTotal() {
+        return noticeDAO.getTotal();
+    }
+
+    @Override
+    public int getTotalWithSearch(Search search) {
+        return noticeDAO.getTotalWithSearch(search);
+    }
+
 }

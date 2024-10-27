@@ -27,4 +27,9 @@ public interface NoticeMapper {
 //    삭제
     void deleteById(Long id);
 
+    //    게시글 전체 개수 조회
+    public int selectTotal();
+    //    검색 결과 개수 조회
+    public int selectTotalWithSearch(@Param("search") Search search);
+
 }

@@ -3,6 +3,7 @@ package com.app.back.mapper;
 
 import com.app.back.domain.notice.NoticeDTO;
 import com.app.back.domain.post.Pagination;
+import com.app.back.domain.post.Search;
 import com.app.back.mapper.notice.NoticeMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -21,19 +22,38 @@ public class NoticeMapperTests {
     @Test
     public void testwrite() {
         NoticeDTO noticeDTO = new NoticeDTO();
-        noticeDTO.setId(3L);
-        noticeDTO.setPostTitle("제목2");
-        noticeDTO.setPostContent("내용2");
-        noticeDTO.setPostSummary("요약2");
-        noticeDTO.setPostType("NOTICE");
+        noticeDTO.setId(51L);
+        noticeDTO.setPostTitle("제목51");
+        noticeDTO.setPostContent("내용51");
+        noticeDTO.setPostSummary("요약51");
+        noticeDTO.setPostType("0");
         noticeDTO.setPostStatus("VISIBLE");
         noticeDTO.setMemberId(1L);
+        log.info("{}", noticeDTO);
+        log.info("Converted to VO: {}", noticeDTO.toVO());
         noticeMapper.insert(noticeDTO.toVO());
-
     }
     @Test
+    public void testWriteMultiple() {
+        for (long i = 52; i <= 101; i++) {
+            NoticeDTO noticeDTO = new NoticeDTO();
+            noticeDTO.setId(i);
+            noticeDTO.setPostTitle("제목" + i);
+            noticeDTO.setPostContent("내용" + i);
+            noticeDTO.setPostSummary("요약" + i);
+            noticeDTO.setPostType("0");
+            noticeDTO.setPostStatus("VISIBLE");
+            noticeDTO.setMemberId(1L);
+
+            log.info("{}", noticeDTO);
+            log.info("Converted to VO: {}", noticeDTO.toVO());
+            noticeMapper.insert(noticeDTO.toVO());
+        }
+    }
+
+    @Test
     public void testSelectById() {
-        Long id = 3L; // 테스트할 ID 설정
+        Long id = 51L; // 테스트할 ID 설정
 
         Optional<NoticeDTO> noticeDTO = noticeMapper.selectById(id);
         noticeDTO.ifPresent(dto -> log.info("조회된 notice: " + dto));
@@ -47,12 +67,21 @@ public class NoticeMapperTests {
 //        log.info("{}", posts.size());
 //        posts.stream().map(NoticeDTO::toString).forEach(log::info);
 //    }
+        @Test
+        public void testSelectAll(){
+        Pagination pagination = new Pagination();
+        pagination.progress();
+        log.info("{}, {}", pagination.getStartRow(), pagination.getRowCount());
+            noticeMapper.selectAll(pagination, new Search()).stream()
+        .map(NoticeDTO::toString).forEach(log::info);
+        }
+
     @Test
     public void testUpdate() {
         NoticeDTO noticeDTO = new NoticeDTO();
-        noticeDTO.setId(1L);
-        noticeDTO.setPostTitle("제목수정1");
-        noticeDTO.setPostContent("내용수정1");
+        noticeDTO.setId(4L);
+        noticeDTO.setPostTitle("제목수정4");
+        noticeDTO.setPostContent("내용수정4");
         noticeMapper.updateById(noticeDTO);
         log.info("noice가 수정되었습니다: " + noticeDTO);
     }

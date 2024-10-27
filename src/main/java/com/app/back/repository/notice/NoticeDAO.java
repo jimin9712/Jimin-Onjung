@@ -29,6 +29,16 @@ public class NoticeDAO {
     public List<NoticeDTO> findAll(Pagination pagination, Search search){
         return noticeMapper.selectAll(pagination, search);
     }
+    //    게시글 전체 개수 조회
+    public int getTotal(){
+        return noticeMapper.selectTotal();
+    }
+
+    //    검색 결과 개수 조회
+    public int getTotalWithSearch(Search search){
+        return noticeMapper.selectTotalWithSearch(search);
+    }
+
     //    게시글 조회
     public Optional<NoticeDTO> findById(Long id){
         return noticeMapper.selectById(id);
