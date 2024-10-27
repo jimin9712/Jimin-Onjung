@@ -5,6 +5,7 @@ import jakarta.mail.internet.*;
 import org.springframework.stereotype.Component;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Base64;
 import java.util.Date;
 import java.util.Properties;
 import java.util.Random;
@@ -131,6 +132,9 @@ public class EmailUtil {
         // 이메일 발송
         Transport.send(message);
     }
+
+
+
     private Properties getMailProperties() {
         Properties props = new Properties();
         props.put("mail.smtp.starttls.enable", "true");

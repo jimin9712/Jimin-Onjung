@@ -27,50 +27,29 @@ document.addEventListener("DOMContentLoaded", function () {
         ".alert-btn-complete-1qcb1"
     ); // 모달의 "확인" 버튼
 
-    // 비밀번호 유효성 검사 함수
     function validatePasswords() {
-        const passwordValue = passwordInput.value.trim(); // 비밀번호 입력 값
-        const passwordConfirmValue = passwordConfirmInput.value.trim(); // 비밀번호 확인 입력 값
+        const passwordValue = passwordInput.value.trim();
+        const passwordConfirmValue = passwordConfirmInput.value.trim();
 
-        // 초기화: 경고 메시지와 테두리 색상 리셋
+        // 초기화
         passwordWarningMessage.style.display = "none";
         passwordWarningMessage2.style.display = "none";
-        passwordInput.classList.remove("warning");
-        passwordConfirmInput.classList.remove("warning");
         passwordInput.style.borderColor = "#ccc";
         passwordConfirmInput.style.borderColor = "#ccc";
 
-        // 비밀번호가 6자 미만일 때 경고 메시지 표시
         if (passwordValue.length < 6) {
-            passwordWarningMessage.textContent =
-                "6자 이상의 비밀번호를 입력해주세요.";
             passwordWarningMessage.style.display = "block";
-            passwordWarningMessage.classList.add("reset-password-warning");
-            passwordInput.classList.add("warning");
-            passwordInput.style.borderColor = "#f05050"; // 경고 스타일 적용
-            return;
+            passwordInput.style.borderColor = "#f05050";
+            return false;  // 유효성 실패 시 false 반환
         }
 
-        // 비밀번호와 비밀번호 확인 값이 일치하지 않을 때 경고 메시지 표시
         if (passwordValue !== passwordConfirmValue) {
-            passwordWarningMessage2.textContent =
-                "비밀번호가 일치하지 않습니다.";
             passwordWarningMessage2.style.display = "block";
-            passwordWarningMessage2.classList.add("reset-password-warning");
-            passwordConfirmInput.classList.add("warning");
-            passwordConfirmInput.style.borderColor = "#f05050"; // 경고 스타일 적용
-            return;
+            passwordConfirmInput.style.borderColor = "#f05050";
+            return false;  // 비밀번호 불일치 시 false 반환
         }
 
-        // 비밀번호가 6자 이상이고 일치할 때 성공 스타일 적용
-        passwordWarningMessage.style.display = "none";
-        passwordWarningMessage2.style.display = "none";
-        passwordInput.style.borderColor = "#189f14"; // 성공 색상 적용
-        passwordConfirmInput.style.borderColor = "#189f14";
-
-        // 모달창과 오버레이 표시
-        modalContainer.style.display = "flex";
-        overlay.style.display = "block";
+        return true;  // 유효성 통과 시 true 반환
     }
 
     // 완료 버튼 클릭 시 비밀번호 유효성 검사 실행
@@ -131,10 +110,44 @@ document.addEventListener("DOMContentLoaded", function () {
                 "https://accounts-front.stunning.kr/assets/img/login/ico-hidden.png"; // 아이콘 변경
         }
     }
+    const urlParams = new URLSearchParams(window.location.search);
+    const uuid = urlParams.get("uuid");
+    console.log("UUID:", uuid);  // 확인용 로그
+
+    function resetPassword() {
+        const password = passwordInput.value.trim();
+        console.log("Sending password reset request:", { uuid, password });
+
+        fetch("/member/password-reset", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ uuid, password })
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log("Response from server:", data);
+                if (data.success) {
+                    modalContainer.style.display = "flex";  // 모달 표시
+                } else {
+                    alert(data.message || "비밀번호 변경에 실패했습니다.");
+                }
+            })
+            .catch((error) => console.error("Error:", error));
+    }
+
+    completeButton.addEventListener("click", function () {
+        if (validatePasswords()) {
+            console.log("Password validation passed, attempting reset.");
+            resetPassword();  // 비밀번호 리셋 호출
+        } else {
+            console.warn("Password validation failed.");
+        }
+    });
 
     // 모달의 "확인" 버튼 클릭 시 모달창 및 오버레이 숨기기
     modalConfirmButton.addEventListener("click", function () {
-        modalContainer.style.display = "none"; // 모달창 숨기기
-        overlay.style.display = "none"; // 오버레이 숨기기
+        window.location.href = "/member/login";
     });
+
 });
+

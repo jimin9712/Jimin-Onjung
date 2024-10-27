@@ -102,6 +102,8 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void update(MemberVO memberVO) {
+        log.info("업데이트할 회원 ID: {}", memberVO.getId());
+        log.info("업데이트할 UUID: {}", memberVO.getResetUuid());
         memberDAO.setMember(memberVO);
     }
 
@@ -128,5 +130,10 @@ public class MemberServiceImpl implements MemberService {
         return memberDAO.findByMemberEmail(email);
     }
 
+    @Override
+    public void passwordUpdate(MemberVO memberVO) {
+        log.info("Updating password for UUID: {}", memberVO);
+        memberDAO.updatePassword(memberVO);
+    }
 }
 

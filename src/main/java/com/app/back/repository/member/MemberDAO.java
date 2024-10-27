@@ -49,4 +49,10 @@ public class MemberDAO {
     public Optional<MemberVO> findByMemberEmail(String email) {
         return memberMapper.selectByMemberEmail(email);
     }
+    // 비밀번호 업데이트 메서드 추가
+    public void updatePassword(MemberVO memberVO) {
+        memberMapper.updatePassword(memberVO);
+    }
+
+
 }
