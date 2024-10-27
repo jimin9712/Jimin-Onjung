@@ -18,7 +18,7 @@
         where id = #{id}
     </update>
 
-    <delete id="delete">
+    <delete id="deleteById">
         delete from tbl_review
         where id = #{id}
     </delete>

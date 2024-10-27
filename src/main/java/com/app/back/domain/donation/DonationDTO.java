@@ -26,6 +26,11 @@ public class DonationDTO {
     private int goalPoint;
     private String donationSDate;
     private String donationEDate;
+    private String attachmentFileName;
+    private String attachmentFilePath;
+    private String attachmentType;
+    private String attachmentFileType;
+    private Long postId;
 
     public PostVO toPostVO() {
         return new PostVO(id, postTitle, postContent, postSummary, postType, postStatus, postViewCount, memberId, createdDate, updatedDate);
@@ -33,5 +38,9 @@ public class DonationDTO {
 
     public DonationVO toVO() {
         return new DonationVO(id, goalPoint, donationSDate, donationEDate);
+    }
+
+    public AttachmentVO toAttachmentVO(){
+        return new AttachmentVO(id, attachmentFileName, attachmentFilePath, attachmentType, attachmentFileType, postId,createdDate);
     }
 }

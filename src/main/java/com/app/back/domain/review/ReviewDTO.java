@@ -1,5 +1,6 @@
 package com.app.back.domain.review;
 
+import com.app.back.domain.attachment.AttachmentVO;
 import com.app.back.domain.post.PostVO;
 import lombok.*;
 import org.springframework.stereotype.Component;
@@ -22,6 +23,11 @@ public class ReviewDTO {
     private String createdDate;
     private String updatedDate;
     private double reviewStarRate;
+    private String attachmentFileName;
+    private String attachmentFilePath;
+    private String attachmentType;
+    private String attachmentFileType;
+    private Long postId;
 
     public PostVO toPostVO(){
         return new PostVO(id, postTitle, postContent, postSummary, postType, postStatus, postViewCount, memberId, createdDate, updatedDate);
@@ -29,5 +35,9 @@ public class ReviewDTO {
 
     public ReviewVO toVO() {
         return new ReviewVO(id, reviewStarRate);
+    }
+
+    public AttachmentVO toAttachmentVO(){
+        return new AttachmentVO(id, attachmentFileName, attachmentFilePath, attachmentType, attachmentFileType, postId,createdDate);
     }
 }

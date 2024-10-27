@@ -40,6 +40,11 @@ public class ReviewMapperTests {
         reviewMapper.update(reviewDTO);
     }
 
+    @Test
+    public void testDelete() {
+        reviewMapper.deleteById(1L);
+    }
+
 
 
 }

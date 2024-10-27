@@ -28,8 +28,8 @@ public class ReviewDAO {
     }
 
     // ID로 프로젝트 포스트 수정
-    public void update(ReviewDTO qaPostDTO) {
-        reviewMapper.update(qaPostDTO);
+    public void update(ReviewDTO reviewDTO) {
+        reviewMapper.update(reviewDTO);
     }
 
     // ID로 프로젝트 포스트 삭제
