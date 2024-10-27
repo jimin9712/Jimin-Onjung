@@ -4,7 +4,7 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Onjung - 마이페이지</title>
-        <link rel="stylesheet" href="../../static/css/mypage/mypage.css" />
+        <link rel="stylesheet" href="/css/mypage/mypage.css" />
         <style>
             @import url(https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap);
         </style>
@@ -39,21 +39,9 @@
                                                             ></div>
                                                         </div>
                                                         <div class="member-id">
-                                                            <div
-                                                                class="info-role"
-                                                            >
-                                                                일반 회원
-                                                            </div>
-                                                            <div
-                                                                class="info-nick"
-                                                            >
-                                                                동양적인퍼플3324님
-                                                            </div>
-                                                            <div
-                                                                class="info-email"
-                                                            >
-                                                                hmk4079@naver.com
-                                                            </div>
+                                                            <div class="info-role" id="memberType"></div>
+                                                            <div class="info-nick" id="memberName"></div>
+                                                            <div class="info-email" id="memberEmail"></div>
                                                         </div>
                                                         <button
                                                             class="profile-edit-button share-btn"
@@ -280,6 +268,7 @@
                                                             <div
                                                                 class="profile-page-self-introduction"
                                                             >
+
                                                                 <div
                                                                     class="sub-title1"
                                                                     style="
@@ -289,9 +278,7 @@
                                                                         font-size: 30px;
                                                                     "
                                                                 >
-                                                                    동양적인퍼플3324님
-                                                                    프로필
-                                                                    입니다.
+                                                                    <span id="profileName"></span>님의 프로필 입니다
                                                                 </div>
 
                                                                 <div
@@ -406,10 +393,8 @@
                                                                             class="fpiAVl tooltip"
                                                                         ></div>
                                                                     </div>
-                                                                    <div
-                                                                        class="h1 career-info-content"
-                                                                    >
-                                                                        100,000
+                                                                    <div class="h1 career-info-content">
+                                                                        <span id="memberPoint"></span> 포인트
                                                                     </div>
                                                                 </div>
                                                                 <div
@@ -430,22 +415,8 @@
                                                                         총 후원
                                                                         정 수
                                                                     </div>
-                                                                    <div
-                                                                        class="h1 career-info-content"
-                                                                    >
-                                                                        30,000<span
-                                                                            class="diff"
-                                                                            ><svg
-                                                                                viewBox="0 0 12 12"
-                                                                                class="iFpvod"
-                                                                            >
-                                                                                <path
-                                                                                    d="M6 7.65687L10.4497 7.65687C10.8952 7.65687 11.1183 7.11829 10.8033 6.80331L6.35355 2.35357C6.15829 2.1583 5.84171 2.1583 5.64645 2.35357L1.1967 6.80331C0.881716 7.1183 1.1048 7.65687 1.55025 7.65687L6 7.65687Z"
-                                                                                ></path>
-                                                                                <defs></defs>
-                                                                            </svg>
-                                                                            1000
-                                                                        </span>
+                                                                    <div class="h1 career-info-content">
+                                                                        <span id="memberJung"></span> 정
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -3008,6 +2979,6 @@
             </div>
         </div>
     </body>
-    <script src="../../static/js/mypage/mypage.js"></script>
-    <script src="../../static/js/mypage/mypage-event.js"></script>
+    <script src="/js/mypage/mypage.js"></script>
+    <script src="/js/mypage/mypage-event.js"></script>
 </html>

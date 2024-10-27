@@ -35,5 +35,22 @@
         where id = #{id}
     </update>
 
+    <select id="selectByResetUuid" parameterType="string" resultType="memberVO">
+        select * from tbl_member where reset_uuid = #{uuid}
+    </select>
+
+    <select id="selectByMemberEmail" parameterType="string" resultType="memberVO">
+        select * from tbl_member where member_email = #{email}
+    </select>
+
+    <update id="updatePassword" parameterType="memberVO">
+        UPDATE tbl_member
+        SET member_password = #{memberPassword}, reset_uuid = NULL
+        WHERE member_email = #{memberEmail}
+    </update>
+
+    <select id="findByResetUuid" parameterType="string" resultType="memberVO">
+        SELECT * FROM tbl_member WHERE reset_uuid = #{uuid}
+    </select>
 
 </mapper>
