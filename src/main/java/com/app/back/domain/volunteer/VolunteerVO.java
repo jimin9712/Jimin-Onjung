@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 public class VolunteerVO {
     private Long id;
     private int recruitmentCount;
+    private int nowRecruitmentCount;
     private String vtSDate;
     private String vtEDate;
 }

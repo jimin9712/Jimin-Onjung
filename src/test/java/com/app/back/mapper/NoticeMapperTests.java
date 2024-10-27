@@ -3,6 +3,7 @@ package com.app.back.mapper;
 
 import com.app.back.domain.notice.NoticeDTO;
 import com.app.back.domain.post.Pagination;
+import com.app.back.domain.post.Search;
 import com.app.back.mapper.notice.NoticeMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
+import java.util.Optional;
 
 @SpringBootTest
 @Slf4j
@@ -20,32 +22,40 @@ public class NoticeMapperTests {
     @Test
     public void testwrite() {
         NoticeDTO noticeDTO = new NoticeDTO();
-        noticeDTO.setId(2L);
-        noticeDTO.setPostTitle("제목2");
-        noticeDTO.setPostContent("내용2");
-        noticeDTO.setPostSummary("요약2");
+        noticeDTO.setId(3L);
+        noticeDTO.setPostTitle("제목5");
+        noticeDTO.setPostContent("내용5");
+        noticeDTO.setPostSummary("요약5");
         noticeDTO.setPostType("NOTICE");
         noticeDTO.setPostStatus("VISIBLE");
         noticeDTO.setMemberId(1L);
+        log.info("{}", noticeDTO);
         noticeMapper.insert(noticeDTO.toVO());
-
     }
     @Test
     public void testSelectById() {
-        Long id = 1L;
-        NoticeDTO noticeDTO = noticeMapper.selectById(id);
+        Long id = 1L; // 테스트할 ID 설정
 
-        log.info("조회된 notice : " + noticeDTO);
+        Optional<NoticeDTO> noticeDTO = noticeMapper.selectById(id);
+        noticeDTO.ifPresent(dto -> log.info("조회된 notice: " + dto));
     }
-    @Test
-    public void testSelectAll() {
+//    @Test
+//    public void testSelectAll() {
+//        Pagination pagination = new Pagination();
+//        pagination.setPage(1);
+//        pagination.progress();
+//        List<NoticeDTO> posts = noticeMapper.selectAll(pagination);
+//        log.info("{}", posts.size());
+//        posts.stream().map(NoticeDTO::toString).forEach(log::info);
+//    }
+        @Test
+        public void testSelectAll(){
         Pagination pagination = new Pagination();
-        pagination.setPage(1);
         pagination.progress();
-        List<NoticeDTO> posts = noticeMapper.selectAll(pagination);
-        log.info("{}", posts.size());
-        posts.stream().map(NoticeDTO::toString).forEach(log::info);
-    }
+        log.info("{}, {}", pagination.getStartRow(), pagination.getRowCount());
+            noticeMapper.selectAll(pagination, new Search()).stream()
+        .map(NoticeDTO::toString).forEach(log::info);
+        }
     @Test
     public void testUpdate() {
         NoticeDTO noticeDTO = new NoticeDTO();

@@ -3,8 +3,8 @@
 <mapper namespace="com.app.back.mapper.inquiry.InquiryMapper">
 
     <insert id="insert">
-        INSERT INTO tbl_inquiry (id, inquiry_email,inquiry_phone,inquiry_type)
-        VALUES (#{id}, #{inquiryEmail}, #{inquiryPhone},#{inquiryType});
+        insert into tbl_inquiry (id, inquiry_email,inquiry_phone,inquiry_type)
+        values (#{id}, #{inquiryEmail}, #{inquiryPhone},#{inquiryType});
     </insert>
 
     <select id="selectAll" resultType="inquiryDTO">
