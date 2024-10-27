@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -144,44 +144,11 @@
                         </section>
                         <article class="notification-container">
                             <header class="notification-header">
-                                <h1 style="font-size: 20px">
-                                    10.22 사이트 업데이트 내용 및 새로운 후원
-                                    방식에 대한 소개
-                                </h1>
+                                <h1 th:text="${notice.postTitle}" style="font-size: 20px"></h1>
                             </header>
                             <section class="notification-info">
                                 <div class="notification-content">
-                                    <div class="notification-body">
-                                        <p>&nbsp;</p>
-                                        <p>안녕하세요! 라우드소싱입니다.</p>
-                                        <p>&nbsp;</p>
-                                        <p>
-                                            <span class="underline"
-                                                ><strong
-                                                    >10월 9일 수요일은 고객센터
-                                                    업무가 운영되지
-                                                    않습니다.</strong
-                                                ></span
-                                            >
-                                        </p>
-                                        <p>
-                                            채팅, 전화, 이메일, 문의하기 등 답변
-                                            및 응대가 불가한 점 양해의
-                                            말씀드립니다.
-                                        </p>
-                                        <p>&nbsp;</p>
-                                        <p>
-                                            미운영 시간에 남겨주신 문의 내용은
-                                            다음 정상 영업일 10/10 (목) 운영
-                                            시간 내,
-                                        </p>
-                                        <p>
-                                            순차적으로 확인하여 최대한 신속하고
-                                            빠른 안내 도와드리겠습니다.
-                                        </p>
-                                        <p>&nbsp;</p>
-                                        <p>감사합니다.</p>
-                                    </div>
+                                    <div class="notification-body" th:utext="${notice.postContent}"></div>
                                     <div class="notification-attachments">
                                         <ul class="attachments"></ul>
                                     </div>

@@ -23,12 +23,12 @@ const pagingdiv = document.querySelector(".pagination-container");
 // 게시글 목록을 표시하는 함수
 const showList = () => {
     let text = ``; // HTML 내용을 저장할 변수 초기화
-    posts.forEach((post) => {
+    posts.forEach((notice) => {
         text += `<li class="notification-container">
-        <a href="/help/help-notification-inquiry?id=${post.id}" class="notification"
-            ><p class="notification-num">${post.id}</p>
-            <h4 class="notification-title">${post.postTitle}</h4>
-            <p class="notification-date">${post.createdDate}</p></a>
+        <a href="/help/help-notification-inquiry?id=${notice.id}" class="notification"
+            ><p class="notification-num">${notice.id}</p>
+            <h4 class="notification-title">${notice.postTitle}</h4>
+            <p class="notification-date">${notice.createdDate}</p></a>
         </li>`;
     });
 
@@ -62,7 +62,7 @@ const showPaging = () => {
             // 다른 페이지인 경우
             text += `
                 <div class="pagination-num-container">
-                    <a href="/help/help-notification-list?page=${i}" class="pagination-num">${i}</a>
+                    <a href="/help/help-notification-list?page=${i}&query=${pagination.keyword || ''}" class="pagination-num">${i}</a>
                 </div>
             `;
         }
@@ -74,7 +74,7 @@ const showPaging = () => {
     if (shouldShowNext) {
         text += `
         <div class="pagination-num-container" id="page-next-button">
-            <a href="/help/help-notification-list?page=${pagination.endPage + 1}" class="pagination-num">다음</a>
+            <a href="/help/help-notification-list?page=${pagination.endPage + 1}&query=${pagination.keyword || ''}" class="pagination-num">다음</a>
         </div>
         `;
     }

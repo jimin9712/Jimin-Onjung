@@ -36,7 +36,8 @@
         select n.id, post_title, created_date, updated_date
         from tbl_post p join tbl_notice n
         on p.id = n.id
-        order by created_date desc
+        <include refid="search"/>
+        order by created_date desc, n.id desc
         limit #{pagination.startRow}, #{pagination.rowCount};
     </select>
 

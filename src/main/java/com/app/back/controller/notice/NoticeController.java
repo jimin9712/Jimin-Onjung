@@ -26,29 +26,32 @@ public class NoticeController {
     private final NoticeService noticeService;
     private final HttpSession session;
 
+    @GetMapping
+    public String showHelpPage() {
+        return "help/help";
+    }
+    @GetMapping("/write")
+    public String showWriteForm() {
+        return "help/help-write"; // 문의 작성 페이지로 이동
+    }
+
     @GetMapping("help-notification-list")
     public void getList(Pagination pagination, Search search, Model model, HttpServletRequest request) {
-        // 기본 페이지 설정
-        if (pagination.getPage() == null) {
-            pagination.setPage(1);
+        log.info((String)request.getAttribute("data"));
+        log.info("검색어: " + search.getKeyword());
+
+        if (pagination.getOrder() == null) {
+            pagination.setOrder("created_date desc, n.id desc"); // 기본 정렬 기준
         }
-        // 전체 게시글 수 조회 및 설정
-        int total = noticeService.getTotalWithSearch(search);
-        pagination.setTotal(total);
-
-        // 페이징 진행 설정
+        if (search.getKeyword() != null || search.getTypes() != null) {
+            pagination.setTotal(noticeService.getTotalWithSearch(search));
+        } else {
+            pagination.setTotal(noticeService.getTotal());
+        }
         pagination.progress();
-
-        // 게시글 목록 조회 및 로그 출력
-        List<NoticeDTO> posts = noticeService.getList(pagination, search);
-        log.info("조회된 게시물 목록: " + posts);
-        log.info("검색 조건: " + search);
-        log.info("페이징 정보: " + pagination);
-
-        // 모델에 게시물 추가
-        model.addAttribute("posts", posts);
-        model.addAttribute("pagination", pagination);
+        model.addAttribute("posts", noticeService.getList(pagination, search));
     }
+
 
     @GetMapping("/help/help-notification-inquiry")
     public String getNoticeDetail(@RequestParam("id") Long id, Model model) {
@@ -60,6 +63,9 @@ public class NoticeController {
             return "redirect:/help/help-notification-list"; // 없는 경우 목록 페이지로 리다이렉트
         }
     }
+
+
+
 
 
 }
