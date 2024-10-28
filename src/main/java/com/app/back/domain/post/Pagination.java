@@ -28,7 +28,7 @@ public class Pagination {
         // 더보기 구현 시, 다음 페이지의 게시글 1개를 더 가져오기 위해 설정
         this.moreRowcount = rowCount + 1;
         // 한 블록에 보여줄 페이지 수 (예: 1, 2, 3, 4, 5)
-        this.pageCount = 10;
+        this.pageCount = 5;
         // 조회 끝 행 번호 계산
         this.endRow = page * rowCount;
         // 조회 시작 행 번호 계산
@@ -50,4 +50,5 @@ public class Pagination {
         // limit 문법에서 시작 인덱스는 0부터 시작하기 때문에 1 감소해준다.
         this.startRow--;
     }
+
 }
