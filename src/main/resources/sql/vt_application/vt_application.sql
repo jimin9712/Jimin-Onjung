@@ -12,6 +12,5 @@ create table tbl_vt_application(
                                references tbl_member(id)
 );
 
-drop table tbl_vt_application;
 
 # alter table tbl_vt_application change created_date application_date datetime default current_timestamp;

@@ -340,12 +340,12 @@ document.getElementById("boost-totalCount").textContent = boostTotalCount;
 // 서버에서 기부 데이터를 가져오기 ▼
 const fetchDonations = async () => {
     try {
-        const response = await fetch('/donation-records/all'); // API 호출
+        const response = await fetch('/donation-records/all');
         if (!response.ok) {
             throw new Error('서버로부터 데이터를 가져오는 데 실패했습니다.');
         }
-        const data = await response.json(); // JSON 형식으로 응답 처리
-        renderDonations(data); // 가져온 데이터 렌더링
+        const data = await response.json();
+        renderDonations(data);
     } catch (error) {
         console.error('Error fetching donation records:', error);
     }
@@ -375,7 +375,7 @@ const renderDonations = (donations) => {
                         <th>기부 번호</th>
                         <th>구분</th>
                         <th>금액</th>
-                        <th>결제 일</th>
+                        <th>기부일</th>
                     </tr>
                 </thead>
                 <tbody class="news-center-table-body">
@@ -384,8 +384,8 @@ const renderDonations = (donations) => {
                 (donation) => `
                     <tr class="news-data-rows" data-forloop="${donation.id}">
                         <td class="news-center-table-body-number">${donation.id}</td>
-                        <td class="news-center-table-body-category">기부</td>
-                        <td class="news-center-table-body-title"><span>${donation.donationAmount}원</span></td>
+                        <td class="news-center-table-body-category">기부 완료</td>
+                        <td class="news-center-table-body-title"><span>${donation.donationAmount}포인트</span></td>
                         <td class="news-center-table-body-date">${new Date(donation.createdDate).toLocaleDateString()}</td>
                     </tr>
                 `
