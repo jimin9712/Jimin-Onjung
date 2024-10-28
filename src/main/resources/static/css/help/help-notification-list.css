@@ -414,7 +414,14 @@ button {
 }
 
 
-
+.iFpvod {
+    user-select: none;
+    display: inline-block;
+    fill: currentcolor;
+    flex-shrink: 0;
+    width: 12px;
+    height: 12px;
+}
 
 
 

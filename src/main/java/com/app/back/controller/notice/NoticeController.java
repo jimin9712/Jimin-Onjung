@@ -45,7 +45,6 @@ public class NoticeController {
         return "redirect:/help/help";
     }
 
-
     @GetMapping("help-notification-list")
     public void getList(Pagination pagination, Search search, Model model, HttpServletRequest request) {
         log.info((String)request.getAttribute("data"));
@@ -54,26 +53,46 @@ public class NoticeController {
         if (pagination.getOrder() == null) {
             pagination.setOrder("created_date desc, n.id desc"); // 기본 정렬 기준
         }
-        if (search.getKeyword() != null || search.getTypes() != null) {
+        if (search.getKeyword() != null) {
             pagination.setTotal(noticeService.getTotalWithSearch(search));
         } else {
             pagination.setTotal(noticeService.getTotal());
         }
         pagination.progress();
         model.addAttribute("posts", noticeService.getList(pagination, search));
+        model.addAttribute("search", search);
     }
 
 
     @GetMapping("/help/help-notification-inquiry")
-    public String getNoticeDetail(@RequestParam("id") Long id, Model model) {
+    public String getNoticeDetail(@RequestParam("id") Long id, Model model, Pagination pagination, Search search) {
         Optional<NoticeDTO> notice = noticeService.getPost(id);
         if (notice.isPresent()) {
             model.addAttribute("notice", notice.get());
+
+            // 기본 정렬 기준 설정
+            if (pagination.getOrder() == null) {
+                pagination.setOrder("created_date desc, n.id desc");
+            }
+
+            // 검색어에 따라 전체 게시물 수 설정
+            if (search.getKeyword() != null || search.getTypes() != null) {
+                pagination.setTotal(noticeService.getTotalWithSearch(search));
+            } else {
+                pagination.setTotal(noticeService.getTotal());
+            }
+
+            // 사이드바에 표시할 공지사항 목록 추가
+            pagination.progress();
+            model.addAttribute("posts", noticeService.getList(pagination, search));
+
             return "help/help-notification-inquiry"; // 조회 페이지로 이동
         } else {
             return "redirect:/help/help-notification-list"; // 없는 경우 목록 페이지로 리다이렉트
         }
     }
+
+
 
 
 
