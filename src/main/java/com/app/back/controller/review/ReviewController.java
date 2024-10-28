@@ -41,4 +41,13 @@ public class ReviewController {
 
     @GetMapping("review-list")
     public String goToList(ReviewDTO reviewDTO) { return "review/review-list"; }
+
+    @GetMapping("review-update")
+    public String goToUpdateForm(ReviewDTO reviewDTO) { return "review/review-update"; }
+
+    @PostMapping("review-update")
+    public RedirectView reviewUpdate(ReviewDTO reviewDTO) { return new RedirectView("/review/review-list"); }
+
+    @GetMapping("review-delete")
+    public RedirectView reviewDelete(ReviewDTO reviewDTO) { return new RedirectView("/review/review-list"); }
 }

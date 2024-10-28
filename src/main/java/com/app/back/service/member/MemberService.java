@@ -1,6 +1,7 @@
 package com.app.back.service.member;
 
 import com.app.back.domain.member.MemberVO;
+import com.app.back.mapper.member.MemberMapper;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,5 +23,15 @@ public interface MemberService {
     public Optional<MemberVO> getKakaoMember(String memberKakaoEmail);
     public List<MemberVO> getAllMembers();
 
+    public Optional<MemberVO> findByResetUuid(String uuid);
 
+    public Optional<MemberVO> findByMemberEmail(String email);
+
+    public void passwordUpdate(MemberVO memberVO);
+
+    public int getTotalVtTime(Long memberId);
+
+    public int getVtCountByMemberId(Long memberId);
+
+    public void updateProfile(MemberVO memberVO);
 }

@@ -20,6 +20,9 @@ public interface NoticeService {
     public void update(NoticeDTO noticeDTO);
 //    삭제
     public void delete(Long id);
-
+//    전체 게시물 수
+    public int getTotal();
+//    검색 조건에 맞는 게시물 수
+    public int getTotalWithSearch(Search search);
 
 }
