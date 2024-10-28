@@ -22,5 +22,5 @@ public class PaymentDTO {
     public PaymentVO toVO() {
         return new PaymentVO(id, paymentStatus, paymentAmount, memberId, createdDate, updatedDate);
     }
-    
+
 }
