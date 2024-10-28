@@ -54,6 +54,22 @@
         where id = #{id}
     </update>
 
+    <update id="update">
+        update tbl_post
+       set id = #{id},
+        post_title = #{postTitle},
+        post_summary = #{postSummary},
+        post_content = #{postContent}, 
+        post_status
+
+
+        WHERE ID = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM TBL_QA_POST
+        WHERE ID = #{id}
+    </delete>
 
 </mapper>
         <!--    <select id="selectByViewCount" resultType="volunteerDTO">-->
