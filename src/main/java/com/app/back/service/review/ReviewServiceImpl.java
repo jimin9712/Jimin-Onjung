@@ -9,30 +9,31 @@ import com.app.back.mapper.review.ReviewMapper;
 import com.app.back.repository.post.PostDAO;
 import com.app.back.repository.review.ReviewDAO;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Primary;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service // 이 클래스가 서비스임을 나타냄
 @Primary // 우선 순위가 높은 서비스
 @RequiredArgsConstructor // 생성자 자동 생성
 @Transactional(rollbackFor = Exception.class) // 예외 발생 시 롤백 처리
 public class ReviewServiceImpl implements ReviewService {
-    private final PostMapper postMapper;
-    private final ReviewMapper reviewMapper;
     private final ReviewDAO reviewDAO;
     private final PostDAO postDAO; // 게시글 DAO
 
     @Override
     public void write(ReviewDTO reviewDTO) {
-        Long id = postMapper.selectCurrentId();
+        postDAO.save(reviewDTO.toPostVO());
+        Long id = postDAO.selectCurrentId();
+        log.info("id: {}", id);
         reviewDTO.setId(id);
-        PostVO postVO = reviewDTO.toPostVO();
-        postMapper.insert(postVO);
-        reviewMapper.insert(reviewDTO.toVO());
+        reviewDAO.save(reviewDTO.toVO());
     }
 
     @Override
