@@ -18,7 +18,6 @@ public class VtApplicationDTO {
     private Long vtId;
     private Long memberId;
 
-
     public VtApplicationVO toVO() {
         return new VtApplicationVO(id,applicationDate,applicationStatus,vtId,memberId);}
 
