@@ -45,4 +45,9 @@ public class DonationMapperTests {
         donationDTO.setDonationEDate("2024-11-28");
         donationMapper.update(donationDTO);
     }
+
+    @Test
+    public void testDelete() {
+        donationMapper.deleteById(1L);
+    }
 }

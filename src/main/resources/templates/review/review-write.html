@@ -54,6 +54,7 @@
                                                 type="text"
                                                 placeholder="제목"
                                                 maxlength="19"
+                                                name="postTitle"
                                                 value=""
                                                 oninput="updateCharCount(this)"
                                         />
@@ -91,6 +92,7 @@
                                     <textarea
                                             placeholder="실제로 한 봉사 내용을 명확하고 간략하게 작성해주세요.
 ex) 경로식당 배식 봉사"
+                                            name="postContent"
                                             maxlength="300"
                                     ></textarea>
                                     </label>
@@ -110,6 +112,7 @@ ex) 경로식당 배식 봉사"
                                 <textarea
                                         id="briefing"
                                         aria-hidden="true"
+                                        name="postSummary"
                                         placeholder="봉사활동 후기를 등록해주세요!"
                                 ></textarea>
 
@@ -117,6 +120,7 @@ ex) 경로식당 배식 봉사"
                                             id="multipulfile-briefing"
                                             type="file"
                                             multiple=""
+                                            name="postContent"
                                             accept="image/jpeg, image/jpg, image/png, image/webp"
                                             hidden=""
                                     />
@@ -139,6 +143,7 @@ ex) 경로식당 배식 봉사"
                                                 type="file"
                                                 id="drop-zone-input"
                                                 class="attach-file-zone2"
+                                                name=""
                                         /><svg
                                             viewBox="0 0 24 24"
                                             class="attach-file-img"

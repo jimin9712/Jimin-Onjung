@@ -43,4 +43,14 @@ values(2,"닉네임2");
 select * from tbl_member;
 
 
+alter table tbl_member
+add column reset_uuid varchar(255) unique;
 
+delete from tbl_member
+where id = 9;
+
+SELECT reset_uuid FROM tbl_member WHERE reset_uuid IS NOT NULL;
+
+UPDATE tbl_member
+SET reset_uuid = '98a8eb28-1a1a-401e-b302-c1e033ee12b4'
+WHERE member_email = 'ljm21000@gmail.com';

@@ -51,8 +51,8 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public void update(ReviewDTO qaPostDTO) {
-        reviewDAO.update(qaPostDTO); // Q&A 게시글 수정
+    public void update(ReviewDTO reviewDTO) {
+        reviewDAO.update(reviewDTO); // Q&A 게시글 수정
     }
 
     @Override

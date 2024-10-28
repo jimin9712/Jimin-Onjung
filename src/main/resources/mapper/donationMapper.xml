@@ -29,7 +29,7 @@
         where id = #{id}
     </update>
 
-    <delete id="delete">
+    <delete id="deleteById">
         delete from tbl_donation
         where id = #{id}
     </delete>

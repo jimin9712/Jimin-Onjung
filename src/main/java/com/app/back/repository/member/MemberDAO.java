@@ -42,4 +42,26 @@ public class MemberDAO {
     public List<MemberVO> findAll() {
         return memberMapper.selectAll();
     }
+
+    public Optional<MemberVO> findByResetUuid(String uuid) {
+        return memberMapper.selectByResetUuid(uuid);
+    }
+    public Optional<MemberVO> findByMemberEmail(String email) {
+        return memberMapper.selectByMemberEmail(email);
+    }
+    // 비밀번호 업데이트 메서드 추가
+    public void updatePassword(MemberVO memberVO) {
+        memberMapper.updatePassword(memberVO);
+    }
+
+    public int getTotalVtTime(Long memberId) {
+        return memberMapper.getTotalVtTimeByMemberId(memberId);
+    }
+    public int getVtCountByMemberId(Long memberId) {
+        return memberMapper.getVtCountByMemberId(memberId);
+    }
+
+    public void updateProfile(MemberVO memberVO) {
+        memberMapper.updateProfile(memberVO);
+    }
 }
