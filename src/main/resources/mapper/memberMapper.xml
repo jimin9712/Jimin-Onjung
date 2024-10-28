@@ -30,20 +30,20 @@
 
 
     <select id="selectByMemberKakaoEmail" parameterType="string" resultType="memberVO">
-        SELECT id, kakao_email, kakao_profile_url, kakao_nickname, member_star_rate, member_introduction,
+        select id, kakao_email, kakao_profile_url, kakao_nickname, member_star_rate, member_introduction,
                member_name, member_phone, member_password, member_nickname, member_jung,
                member_point, member_type, member_login_type, created_date, updated_date
-        FROM tbl_member
-        WHERE kakao_email = #{memberKakaoEmail}
+        from tbl_member
+        where kakao_email = #{memberKakaoEmail}
     </select>
 
     <select id="selectByMemberEmailAndMemberPassword" parameterType="map" resultType="memberVO">
-        SELECT id, member_email, member_star_rate, member_introduction
+        select id, member_email, member_star_rate, member_introduction,
                member_name, member_phone, member_password, member_nickname, member_jung,
                member_point, member_type, member_login_type, created_date, updated_date
-        FROM tbl_member
-        WHERE member_email = #{memberEmail}
-          AND member_password = #{memberPassword}
+        from tbl_member
+        where member_email = #{memberEmail}
+          and member_password = #{memberPassword}
     </select>
 
     <update id="update">
@@ -61,13 +61,34 @@
     </select>
 
     <update id="updatePassword" parameterType="memberVO">
-        UPDATE tbl_member
-        SET member_password = #{memberPassword}, reset_uuid = NULL
-        WHERE member_email = #{memberEmail}
+        update tbl_member
+        set member_password = #{memberPassword}, reset_uuid = NULL
+        where member_email = #{memberEmail}
     </update>
 
     <select id="findByResetUuid" parameterType="string" resultType="memberVO">
-        SELECT * FROM tbl_member WHERE reset_uuid = #{uuid}
+        select * from tbl_member where reset_uuid = #{uuid}
     </select>
 
+    <select id="getTotalVtTimeByMemberId" parameterType="long" resultType="int">
+        select coalesce(SUM(vr.vt_time), 0) as totalVtTime
+        from tbl_vt_application va
+                 join tbl_vt_record vr on va.id = vr.id
+        where va.member_id = #{memberId}
+    </select>
+
+    <select id="getVtCountByMemberId" parameterType="long" resultType="int">
+        select count(*)
+        from tbl_vt_application
+        where member_id = #{memberId}
+    </select>
+
+    <update id="updateProfile" parameterType="memberVO">
+        UPDATE tbl_member
+        SET
+            member_nickname = #{memberNickName},
+            member_introduction = #{memberIntroduction},
+            updated_date = CURRENT_TIMESTAMP
+        WHERE id = #{id}
+    </update>
 </mapper>

@@ -56,48 +56,52 @@ const showTab = (tabId, element) => {
     // 현재 클릭된 요소의 부모 li에 active 클래스 추가
     element.parentElement.classList.add("active");
 };
+document.addEventListener("DOMContentLoaded", () => {
+    // 최신 회원 정보 가져오기
     fetch("/member/info")
-        .then(response => response.json())
-        .then(data => {
-            console.log("받은 데이터:", data); // 디버그 용도
+        .then((response) => response.json())
+        .then((data) => {
+            console.log("받은 데이터:", data);
 
             if (data) {
-                // 회원 정보에 따라 HTML 업데이트
-                document.getElementById("memberName").textContent = data.memberName + "님";
+                // 닉네임이 있으면 닉네임을 표시, 없으면 이름 표시함
+                const displayName = data.memberNickName || data.memberName;
+                document.getElementById("memberName").textContent = `${displayName}님`;
                 document.getElementById("memberEmail").textContent = data.memberEmail;
-                document.getElementById("memberPoint").textContent = data.memberPoint.toLocaleString(); // 포인트 표시
-                document.getElementById("memberJung").textContent = data.memberJung.toLocaleString(); // 정 표시
-                document.getElementById("profileName").textContent = data.memberName;
+                document.getElementById("memberType").textContent = data.memberType;
+                document.getElementById("memberPoint").textContent = data.memberPoint.toLocaleString();
+                document.getElementById("memberJung").textContent = data.memberJung.toLocaleString();
+                document.getElementById("profileName").textContent = displayName;
+                document.getElementById("profileIntroduction").textContent = data.memberIntroduction || "한 줄 소개가 없습니다.";
             } else {
                 alert("회원 정보를 가져오지 못했습니다.");
             }
         })
-        .catch(error => console.error("Error fetching member info:", error));
+        .catch((error) => console.error("Error fetching member info:", error));
+});
 
-
-    fetch("/member/info")
-    .then(response => response.json())
-    .then(data => {
-        console.log("받은 데이터:", data); // 받은 데이터를 확인
-
-        if (data && data.memberType) {
-            console.log("회원 타입:", data.memberType); // 디버그: 정확한 값 출력
-
-            // 회원 정보에 따라 HTML 업데이트
-            document.getElementById("memberName").textContent = data.memberName + "님";
-            document.getElementById("memberEmail").textContent = data.memberEmail;
-
-            // memberType에 따라 역할 설정
-            const memberTypeText =
-                data.memberType === "NORMAL"
-                    ? "일반 회원"
-                    : data.memberType === "ORGANIZATION"
-                        ? "단체 회원"
-                        : "알 수 없는 회원";
-
-            document.getElementById("memberType").textContent = memberTypeText;
-        } else {
-            alert("회원 정보를 가져오지 못했습니다.");
+fetch("/mypage/total-time")
+    .then((response) => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
         }
+        return response.json();
     })
-    .catch(error => console.error("Error fetching member info:", error));
+    .then((data) => {
+        console.log("총 봉사 시간:", data);
+        document.getElementById("totalVtTime").textContent = `${data}시간`;
+    })
+    .catch((error) => console.error("총 봉사시간 조회 실패:", error));
+
+fetch("/mypage/vt-count")
+    .then((response) => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then((data) => {
+        console.log("봉사활동 횟수:", data);
+        document.getElementById("vtCount").textContent = `${data} 회`;
+    })
+    .catch((error) => console.error("봉사활동 횟수 조회 실패:", error));

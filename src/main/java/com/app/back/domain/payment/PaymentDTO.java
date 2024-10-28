@@ -6,12 +6,12 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 
 @Component
-@Getter
+@Getter @Setter
 @ToString
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class PaymentVO {
+public class PaymentDTO {
     private Long id;
     private String paymentStatus;
     private int paymentAmount;
@@ -19,15 +19,8 @@ public class PaymentVO {
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
 
-    public PaymentDTO toPaymentDTO() {
-        PaymentDTO paymentDTO = new PaymentDTO();
-        paymentDTO.setId(id);
-        paymentDTO.setPaymentStatus(paymentStatus);
-        paymentDTO.setPaymentAmount(paymentAmount);
-        paymentDTO.setMemberId(memberId);
-        paymentDTO.setCreatedDate(createdDate);
-        paymentDTO.setUpdatedDate(updatedDate);
-        return paymentDTO;
+    public PaymentVO toVO() {
+        return new PaymentVO(id, paymentStatus, paymentAmount, memberId, createdDate, updatedDate);
     }
-
+    
 }
