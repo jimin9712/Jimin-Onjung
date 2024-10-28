@@ -2,6 +2,7 @@ package com.app.back.controller.notice;
 
 
 import com.app.back.domain.notice.NoticeDTO;
+import com.app.back.domain.notice.NoticeVO;
 import com.app.back.domain.post.Pagination;
 import com.app.back.domain.post.Search;
 import com.app.back.service.notice.NoticeService;
@@ -12,8 +13,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,10 +33,18 @@ public class NoticeController {
     public String showHelpPage() {
         return "help/help";
     }
+
     @GetMapping("write")
     public String showWriteForm() {
         return "help/help-write"; // 문의 작성 페이지로 이동
     }
+
+    @PostMapping("/write")
+    public String submitInquiry() {
+        // 데이터 처리를 하지 않고, 바로 리다이렉트
+        return "redirect:/help/help";
+    }
+
 
     @GetMapping("help-notification-list")
     public void getList(Pagination pagination, Search search, Model model, HttpServletRequest request) {
