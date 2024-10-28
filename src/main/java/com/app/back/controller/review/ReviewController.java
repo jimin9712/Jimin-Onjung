@@ -16,6 +16,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -32,7 +33,7 @@ public class ReviewController {
     public String goToWriteForm(ReviewDTO reviewDTO) { return "review/review-write"; }
 
     @PostMapping("review-write")
-    public RedirectView reviewWrite(@RequestParam("file") List<MultipartFile> files,  ReviewDTO reviewDTO) {
+    public RedirectView reviewWrite(@RequestParam("file") List<MultipartFile> files,  ReviewDTO reviewDTO) throws IOException {
         reviewDTO.setMemberId(1L);
         reviewDTO.setPostType("REVIEW");
         reviewDTO.setPostTitle(reviewDTO.getVtGroupName());
@@ -41,7 +42,7 @@ public class ReviewController {
             return new RedirectView("/review/review-write");
         }
 
-        String rootPath = "D:\\dev\\OnjungSpring\\back\\src\\main\\resources\\static\\files" + getPath();
+        String rootPath = "D:/dev/OnjungSpring/back/src/main/resources/static/files" + getPath();
 
         File directory = new File(rootPath);
         if(!directory.exists()){
@@ -51,7 +52,7 @@ public class ReviewController {
         for(int i=0; i<files.size(); i++){
             files.get(i).transferTo(new File(rootPath, files.get(i).getOriginalFilename()));
             if(files.get(i).getContentType().startsWith("image")){
-                FileOutputStream fileOutputStream = new FileOutputStream(new File(rootPath, files.get(i).getOriginalFilename());
+                FileOutputStream fileOutputStream = new FileOutputStream(new File(rootPath, files.get(i).getOriginalFilename()));
                         Thumbnailator.createThumbnail(files.get(i).getInputStream(), fileOutputStream, 100, 100);
                         fileOutputStream.close();
             }
