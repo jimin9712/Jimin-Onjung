@@ -13,7 +13,7 @@ public interface ReviewMapper {
     // 추가
     public void insert(ReviewVO reviewVO);
     // 조회
-    public Optional<ReviewVO> selectById(Long id);
+    public Optional<ReviewDTO> selectById(Long id);
     // 전체 조회
     public List<ReviewDTO> selectAll(Pagination pagination);
     // 전체 개수
@@ -21,5 +21,5 @@ public interface ReviewMapper {
     // 수정
     public void update(ReviewDTO reviewDTO);
     // 삭제
-    void deleteById(Long id);
+    public void deleteById(Long id);
 }

@@ -22,7 +22,17 @@ create table tbl_post (
 select * from tbl_post;
 
 insert into tbl_post(id, post_title, post_summary, post_content,post_view_count, post_type, post_status, member_id)
-    values(1,'봉사활동구인테스트제목1','봉사활동테스트요약1','봉사활동테스트내용1',1,1,0,1);
+values(51,'봉사활동구인테스트제목51','봉사활동테스트요약51','봉사활동테스트내용51',1,1,0,1);
+
+SELECT * FROM tbl_post WHERE id = 1;
+
+
+
+SHOW CREATE TABLE tbl_notice;
+SHOW CREATE TABLE tbl_post;
 
 
 drop table tbl_post;
+
+
+

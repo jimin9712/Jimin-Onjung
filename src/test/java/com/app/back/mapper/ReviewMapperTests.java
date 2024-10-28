@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Optional;
+
 @SpringBootTest
 @Slf4j
 public class ReviewMapperTests {
@@ -20,4 +22,29 @@ public class ReviewMapperTests {
         reviewDTO.setReviewStarRate(4.99);
         reviewMapper.insert(reviewDTO.toVO());
     }
+
+    @Test
+    public void testSelectById() {
+        ReviewDTO reviewDTO = new ReviewDTO();
+        reviewDTO.setId(1L);
+        Optional<ReviewDTO> foundReview = reviewMapper.selectById(reviewDTO.getId());
+
+        log.info("{}",foundReview);
+    }
+
+    @Test
+    public void testUpdate() {
+        ReviewDTO reviewDTO = new ReviewDTO();
+        reviewDTO.setId(1L);
+        reviewDTO.setReviewStarRate(3.99);
+        reviewMapper.update(reviewDTO);
+    }
+
+    @Test
+    public void testDelete() {
+        reviewMapper.deleteById(1L);
+    }
+
+
+
 }

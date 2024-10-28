@@ -1,11 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.app.back.mapper.notice.NoticeMapper">
+    <sql id="search">
+        <if test="search.keyword != null and search.keyword != 'null'.toString()">
+            <choose>
+                <when test="search.types != null">
+                    <foreach item="type" collection="search.types">
+                        <if test="type == 'post-title'.toString()">
+                            and post_title like concat('%', #{search.keyword}, '%')
+                        </if>
+                    </foreach>
+                </when>
+                <otherwise>
+                    and (
+                    post_title like concat('%', #{search.keyword}, '%')
+                    )
+                </otherwise>
+            </choose>
+        </if>
+    </sql>
 
     <insert id="insert">
         insert into tbl_notice(id)
-        values (#{id})
+        values (#{id});
     </insert>
+
 
     <select id="selectById" resultType="noticeDTO">
         select id, post_title, post_content
@@ -13,9 +32,35 @@
         where id = #{id}
     </select>
 
-    <select id="selectALL" resultType="noticeDTO">
-        select id, post_title, created_date
-        from tbl_post
-        where id = #{id}
+    <select id="selectAll" resultType="noticeDTO">
+        select n.id, post_title, created_date, updated_date
+        from tbl_post p join tbl_notice n
+        on p.id = n.id
+        <include refid="search"/>
+        order by created_date desc, n.id desc
+        limit #{pagination.startRow}, #{pagination.rowCount};
     </select>
+
+    <select id="selectTotal">
+        select count(*) from tbl_notice
+    </select>
+
+    <select id="selectTotalWithSearch">
+        select count(*) from tbl_post p join tbl_notice n
+        on p.id = n.id
+        <include refid="search"/>
+    </select>
+
+    <update id="updateById">
+        update tbl_post
+        set post_title = #{postTitle},
+            post_content = #{postContent}
+        where id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        delete from tbl_notice
+        where id = #{id}
+    </delete>
+
 </mapper>

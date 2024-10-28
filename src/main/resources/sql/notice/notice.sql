@@ -7,3 +7,7 @@ create table tbl_notice(
 select * from tbl_notice;
 
 drop table tbl_notice;
+
+
+-- `tbl_notice` 테이블의 외래 키 제약 조건 확인
+show create table tbl_notice;

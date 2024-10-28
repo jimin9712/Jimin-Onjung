@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.back.mapper.inquiry.InquiryMapper">
+
+    <insert id="insert">
+        insert into tbl_inquiry (id, inquiry_email,inquiry_phone,inquiry_type)
+        values (#{id}, #{inquiryEmail}, #{inquiryPhone},#{inquiryType});
+    </insert>
+
+    <select id="selectAll" resultType="inquiryDTO">
+        select
+            i.id,
+            p.post_title,
+            p.post_content,
+            p.created_date,
+            p.updated_date,
+            m.member_nickname,
+            i.inquiry_email,
+            i.inquiry_type,
+            i.inquiry_status
+        from tbl_inquiry i
+                 join tbl_post p on i.id = p.id
+                 join tbl_member m on p.member_id = m.id
+        order by
+        <choose>
+        <when test="pagination.order == 'recent'.toString()">p.created_date</when>
+        <otherwise>i.inquiry_status</otherwise>
+        </choose>
+        desc
+            limit #{pagination.startRow}, #{pagination.rowCount};
+    </select>
+
+    <update id="updateById">
+        update tbl_post
+        set post_title = #{postTitle},
+            post_content = #{postContent}
+        where id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        delete from tbl_inquiry
+        where id = #{id}
+    </delete>
+
+
+
+
+</mapper>
