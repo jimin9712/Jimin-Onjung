@@ -26,11 +26,11 @@ public class NoticeController {
     private final NoticeService noticeService;
     private final HttpSession session;
 
-    @GetMapping
+    @GetMapping("help")
     public String showHelpPage() {
         return "help/help";
     }
-    @GetMapping("/write")
+    @GetMapping("write")
     public String showWriteForm() {
         return "help/help-write"; // 문의 작성 페이지로 이동
     }
