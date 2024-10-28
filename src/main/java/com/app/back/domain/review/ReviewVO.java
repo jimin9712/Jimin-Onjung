@@ -12,4 +12,5 @@ import org.springframework.stereotype.Component;
 public class ReviewVO {
     private Long id;
     private double reviewStarRate;
+    private String vtGroupName;
 }
