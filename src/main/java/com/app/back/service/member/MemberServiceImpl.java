@@ -23,7 +23,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class MemberServiceImpl implements MemberService {
     private final MemberDAO memberDAO;
     private final SmsUtil smsUtil;
-    private final com.app.back.domain.Util.EmailUtil emailUtil; // EmailUtil 주입
+    private final com.app.back.domain.Util.EmailUtil emailUtil;
 
 
     // 인증번호 저장소 (메모리에서 관리)
@@ -53,6 +53,7 @@ public class MemberServiceImpl implements MemberService {
             return false;
         }
     }
+
     // 이메일 인증번호 전송 메서드 추가
     @Override
     public void sendEmailAuthCode(String email) {
@@ -116,10 +117,12 @@ public class MemberServiceImpl implements MemberService {
     public Optional<MemberVO> getKakaoMember(String memberKakaoEmail) {
         return memberDAO.findByMemberKakaoEmail(memberKakaoEmail);
     }
+
     @Override
     public List<MemberVO> getAllMembers() {
         return memberDAO.findAll();
     }
+
     @Override
     public Optional<MemberVO> findByResetUuid(String uuid) {
         return memberDAO.findByResetUuid(uuid);
@@ -134,6 +137,21 @@ public class MemberServiceImpl implements MemberService {
     public void passwordUpdate(MemberVO memberVO) {
         log.info("Updating password for UUID: {}", memberVO);
         memberDAO.updatePassword(memberVO);
+    }
+
+    @Override
+    public int getTotalVtTime(Long memberId) {
+        return memberDAO.getTotalVtTime(memberId);
+    }
+
+    @Override
+    public int getVtCountByMemberId(Long memberId) {
+        return memberDAO.getVtCountByMemberId(memberId);
+    }
+    @Override
+    public void updateProfile(MemberVO memberVO) {
+        log.info("프로필 업데이트: {}", memberVO);
+        memberDAO.updateProfile(memberVO);  // DAO 호출
     }
 }
 

@@ -19,8 +19,8 @@ public class MemberMapperTests {
     public void testInsertMember() {
         // 테스트용 DTO 생성
         MemberDTO memberDTO = new MemberDTO();
-        memberDTO.setMemberEmail("ljm21222@naver.com");
-        memberDTO.setMemberName("테스트 유저2");
+        memberDTO.setMemberEmail("ljm21@naver.com");
+        memberDTO.setMemberName("테스트 유저3");
         memberDTO.setMemberPhone("01012345678");
         memberDTO.setMemberJung(1000);
         memberDTO.setMemberPoint(10000);
@@ -63,12 +63,10 @@ public class MemberMapperTests {
         // 이메일로 회원 조회
         MemberVO memberVO = memberMapper.selectByMemberEmail(email).orElse(null);
         if (memberVO != null) {
-            // MemberVO -> MemberDTO 변환 후 값 수정
             MemberDTO memberDTO = memberVO.toDTO();
             memberDTO.setMemberPassword(newPassword);  // 새 비밀번호 설정
             memberDTO.setResetUuid(null);  // UUID 초기화
 
-            // MemberDTO -> MemberVO 변환 후 업데이트 수행
             memberMapper.updatePassword(memberDTO.toVO());
             log.info("비밀번호 업데이트 성공: {}", memberDTO);
 

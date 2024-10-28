@@ -148,3 +148,52 @@ document.getElementById("closeModal").addEventListener("click", (e) => {
         document.querySelector(".modal").style.display = "none";
     }
 });
+window.addEventListener("DOMContentLoaded", () => {
+    fetch("/member/info")
+        .then((response) => {
+            if (!response.ok) throw new Error("회원 정보 로드 실패");
+            return response.json();
+        })
+        .then((data) => {
+            console.log("회원 정보:", data);
+
+            // 각 필드에 회원 정보 설정
+            document.querySelector(".nickName input").value = data.memberNickName || "";
+            document.querySelector(".oneLine input").value = data.memberIntroduction || "";
+            document.querySelector(".name input").value = data.memberName || "";
+            document.querySelector(".phoneNumber input").value = data.memberPhone || "";
+        })
+        .catch((error) => console.error(error));
+});
+
+document.getElementById("disableButton").addEventListener("click", (e) => {
+    e.preventDefault();
+
+    const updatedData = {
+        memberNickName: document.querySelector(".nickName input").value,
+        memberIntroduction: document.querySelector(".oneLine input").value,
+    };
+
+    fetch("/member/update-profile", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedData),
+    })
+        .then((response) => {
+            if (response.ok) {
+                document.querySelector(".modal").style.display = "flex";
+            } else {
+                alert("프로필 수정에 실패했습니다.");
+            }
+        })
+        .catch((error) => console.error("프로필 수정 요청 실패:", error));
+});
+
+document.getElementById("closeModal").addEventListener("click", (e) => {
+    if (e.target.id === "closeModal") {
+        document.querySelector(".modal").style.display = "none";
+        window.location.href = "/mypage/mypage";
+    }
+});

@@ -9,3 +9,6 @@ create table tbl_donation_record(
     constraint fk_donation_record_donation foreign key (donation_id)
     references tbl_donation(id)
 );
+
+select * from tbl_donation_record;
+

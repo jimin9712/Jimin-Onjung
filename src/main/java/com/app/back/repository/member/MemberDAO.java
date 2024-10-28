@@ -54,5 +54,14 @@ public class MemberDAO {
         memberMapper.updatePassword(memberVO);
     }
 
+    public int getTotalVtTime(Long memberId) {
+        return memberMapper.getTotalVtTimeByMemberId(memberId);
+    }
+    public int getVtCountByMemberId(Long memberId) {
+        return memberMapper.getVtCountByMemberId(memberId);
+    }
 
+    public void updateProfile(MemberVO memberVO) {
+        memberMapper.updateProfile(memberVO);
+    }
 }

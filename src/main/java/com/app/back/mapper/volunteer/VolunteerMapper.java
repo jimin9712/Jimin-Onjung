@@ -1,10 +1,9 @@
 package com.app.back.mapper.volunteer;
 
-import com.app.back.domain.member.MemberVO;
-import com.app.back.domain.post.PostVO;
 import com.app.back.domain.volunteer.Pagination;
 import com.app.back.domain.volunteer.VolunteerDTO;
 import com.app.back.domain.volunteer.VolunteerVO;
+import com.app.back.domain.vt_application.VtApplicationDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -31,6 +30,19 @@ public interface VolunteerMapper {
 
     //  봉사활동 게시글 조회
     public Optional<VolunteerDTO> selectById(@Param("id") Long id);
+
+//    봉사활동 게시글 수정
+@Mapper
+//public interface PostMapper {
+//    void updatePost(VtApplicationDTO vtApplicationDTO);
+//    void updateVt(VtApplicationDTO vtApplicationDTO);
+//    void updateAttachment(VtApplicationDTO vtApplicationDTO);
+//
+//    VtApplicationDTO selectPostById(Long id);
+//    VtApplicationDTO selectVtById(Long id);
+//    VtApplicationDTO selectAttachmentByPostId(Long postId);
+//}
+
 
     // 봉사활동 지원자 증가
     public void updateNowRecruitment(@Param("id") int id);
