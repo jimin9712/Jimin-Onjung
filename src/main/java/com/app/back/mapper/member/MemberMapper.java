@@ -36,5 +36,14 @@ public interface MemberMapper {
 
 
     public void updatePassword(MemberVO memberVO);
+
+    public int getTotalVtTimeByMemberId(@Param("memberId") Long memberId);
+
+    public int getVtCountByMemberId(@Param("memberId") Long memberId);
+
+    public void updateProfile(MemberVO memberVO);  // 프로필 업데이트 메서드 선언
+
+
+
 }
 

@@ -52,21 +52,33 @@ public class MemberController {
     @PostMapping("/member/login")
     @ResponseBody
     public ResponseEntity<String> login(
-            @RequestBody MemberDTO loginDTO,
+            @RequestBody MemberDTO memberDTO,
             HttpSession session) {
 
         // 로그인 시도
-        Optional<MemberVO> member = memberService.login(loginDTO.toVO());
+        Optional<MemberVO> member = memberService.login(memberDTO.toVO());
 
         if (member.isPresent()) {
+            log.info("로그인 성공, MemberVO: {}", member.get());
             session.setAttribute("loginMember", member.get());
             session.setAttribute("loginType", MemberLoginType.NORMAL);
             log.info("로그인 성공: {}", member.get()); // 로그 추가
             return ResponseEntity.ok("로그인 성공");
         } else {
-            log.warn("로그인 실패: {}", loginDTO);
+            log.warn("로그인 실패: {}", memberDTO);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 실패");
         }
+    }
+    // 로그아웃 처리
+    @GetMapping("/member/logout")
+    public RedirectView logout(HttpSession session) {
+        log.info("로그아웃 시도: {}", session.getAttribute("loginMember"));
+
+        // 세션 무효화
+        session.invalidate();
+
+        log.info("로그아웃 성공: 세션이 무효화되었습니다.");
+        return new RedirectView("/member/login"); // 로그인 페이지로 리다이렉트
     }
 
     @GetMapping("/main/main")
@@ -199,12 +211,79 @@ public class MemberController {
         MemberVO loginMember = (MemberVO) session.getAttribute("loginMember");
 
         if (loginMember != null) {
+            log.info("세션에서 가져온 회원 정보: {}", loginMember);
             MemberDTO memberDTO = loginMember.toDTO();
-            log.info("세션에서 가져온 회원 정보: {}", memberDTO);
             return ResponseEntity.ok(memberDTO);
         } else {
             log.warn("세션에 로그인 정보가 없습니다.");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+    @GetMapping("/mypage/total-time")
+    @ResponseBody
+    public ResponseEntity<Integer> getTotalVtTime(HttpSession session) {
+        MemberVO loginMember = (MemberVO) session.getAttribute("loginMember");
+
+        if (loginMember != null) {
+            Long memberId = loginMember.getId();
+            log.info("총 봉사시간 요청: memberId = {}", memberId);
+            int totalVtTime = memberService.getTotalVtTime(memberId);
+            log.info("총 봉사시간: {}", totalVtTime);
+            return ResponseEntity.ok(totalVtTime);
+        } else {
+            log.warn("세션에 로그인된 회원 정보가 없습니다.");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
+    @GetMapping("/mypage/vt-count")
+    @ResponseBody
+    public ResponseEntity<Integer> getVtCount(HttpSession session) {
+        MemberVO loginMember = (MemberVO) session.getAttribute("loginMember");
+
+        if (loginMember != null) {
+            Long memberId = loginMember.getId();
+            log.info("봉사활동 횟수 요청: memberId = {}", memberId);
+            int vtCount = memberService.getVtCountByMemberId(memberId);
+            log.info("봉사활동 횟수: {}", vtCount);
+            return ResponseEntity.ok(vtCount);
+        } else {
+            log.warn("세션에 로그인된 회원 정보가 없습니다.");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+    @GetMapping("/mypage/mypage-profile-edit")
+    public String goToProfileEdit(HttpSession session, Model model) {
+        MemberVO loginMember = (MemberVO) session.getAttribute("loginMember");
+
+        if (loginMember != null) {
+            model.addAttribute("member", loginMember);
+            return "mypage/mypage-profile-edit"; // 프로필 수정 페이지로 이동
+        } else {
+            return "redirect:/member/login"; // 로그인 안 된 경우 로그인 페이지로 리다이렉트
+        }
+    }
+    @PostMapping("/member/update-profile")
+    @ResponseBody
+    public ResponseEntity<String> updateProfile(
+            @RequestBody MemberDTO memberDTO1, HttpSession session) {
+        MemberVO memberVO = (MemberVO) session.getAttribute("loginMember");
+
+        if (memberVO != null) {
+            MemberDTO memberDTO = memberVO.toDTO();
+
+            // 요청된 정보로 기존 DTO 업데이트
+            memberDTO.setMemberNickName(memberDTO1.getMemberNickName());
+            memberDTO.setMemberIntroduction(memberDTO1.getMemberIntroduction());
+
+            MemberVO updatedMemberVO = memberDTO.toVO();
+            memberService.updateProfile(updatedMemberVO);
+
+            session.setAttribute("loginMember", updatedMemberVO);
+
+            return ResponseEntity.ok("프로필이 성공적으로 수정되었습니다.");
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
         }
     }
 

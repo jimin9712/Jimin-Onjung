@@ -4,34 +4,51 @@
     <insert id="insert">
         <choose>
             <when test="memberPassword != null">
-                insert into tbl_member (member_email, member_name, member_phone, member_password, member_nickname
+                insert into tbl_member (
+                member_email, member_name, member_phone, member_password,
+                member_nickname, member_jung, member_point, member_type,
+                member_login_type, created_date, updated_date
+                ) values (
+                #{memberEmail}, #{memberName}, #{memberPhone}, #{memberPassword},
+                #{memberNickName}, #{memberJung}, #{memberPoint}, #{memberType},
+                #{memberLoginType}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
                 )
-                values (#{memberEmail},#{memberName}, #{memberPhone}, #{memberPassword}, #{memberNickName})
             </when>
             <otherwise>
                 insert into tbl_member (
-                kakao_email, kakao_profile_url, kakao_nickname,member_name,member_login_type)
-                values (
-                #{kakaoEmail}, #{kakaoProfileURL},#{kakaoNickName},#{memberName},
-                #{memberLoginType})
+                kakao_email, kakao_profile_url, kakao_nickname, member_name,
+                member_type, member_login_type, member_jung, member_point,
+                created_date, updated_date
+                ) values (
+                #{kakaoEmail}, #{kakaoProfileURL}, #{kakaoNickName}, #{memberName},
+                #{memberType}, #{memberLoginType}, #{memberJung}, #{memberPoint},
+                CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
+                )
             </otherwise>
         </choose>
     </insert>
 
-    <select id="selectByMemberKakaoEmail">
-        select MEMBER_EMAIL, MEMBER_PASSWORD, KAKAO_EMAIL, KAKAO_PROFILE_URL, MEMBER_NAME, MEMBER_LOGIN_TYPE, UPDATED_DATE, CREATED_DATE
+
+    <select id="selectByMemberKakaoEmail" parameterType="string" resultType="memberVO">
+        select id, kakao_email, kakao_profile_url, kakao_nickname, member_star_rate, member_introduction,
+               member_name, member_phone, member_password, member_nickname, member_jung,
+               member_point, member_type, member_login_type, created_date, updated_date
         from tbl_member
-        where KAKAO_EMAIL = #{memberKakaoEmail}
+        where kakao_email = #{memberKakaoEmail}
     </select>
 
-    <select id="selectByMemberEmailAndMemberPassword" resultType="memberVO">
-        select id, member_email, member_password, member_name from tbl_member
-        where member_email = #{memberEmail} and member_password = #{memberPassword}
+    <select id="selectByMemberEmailAndMemberPassword" parameterType="map" resultType="memberVO">
+        select id, member_email, member_star_rate, member_introduction,
+               member_name, member_phone, member_password, member_nickname, member_jung,
+               member_point, member_type, member_login_type, created_date, updated_date
+        from tbl_member
+        where member_email = #{memberEmail}
+          and member_password = #{memberPassword}
     </select>
 
     <update id="update">
         update tbl_member
-        set member_email = #{memberEmail}, member_name = #{memberName}
+        set member_email = #{memberEmail}, member_name = #{memberName}, reset_uuid = #{resetUuid}
         where id = #{id}
     </update>
 
@@ -40,17 +57,38 @@
     </select>
 
     <select id="selectByMemberEmail" parameterType="string" resultType="memberVO">
-        select * from tbl_member where member_email = #{email}
+        select * from tbl_member where member_email = #{memberEmail}
     </select>
 
     <update id="updatePassword" parameterType="memberVO">
-        UPDATE tbl_member
-        SET member_password = #{memberPassword}, reset_uuid = NULL
-        WHERE member_email = #{memberEmail}
+        update tbl_member
+        set member_password = #{memberPassword}, reset_uuid = NULL
+        where member_email = #{memberEmail}
     </update>
 
     <select id="findByResetUuid" parameterType="string" resultType="memberVO">
-        SELECT * FROM tbl_member WHERE reset_uuid = #{uuid}
+        select * from tbl_member where reset_uuid = #{uuid}
     </select>
 
+    <select id="getTotalVtTimeByMemberId" parameterType="long" resultType="int">
+        select coalesce(SUM(vr.vt_time), 0) as totalVtTime
+        from tbl_vt_application va
+                 join tbl_vt_record vr on va.id = vr.id
+        where va.member_id = #{memberId}
+    </select>
+
+    <select id="getVtCountByMemberId" parameterType="long" resultType="int">
+        select count(*)
+        from tbl_vt_application
+        where member_id = #{memberId}
+    </select>
+
+    <update id="updateProfile" parameterType="memberVO">
+        UPDATE tbl_member
+        SET
+            member_nickname = #{memberNickName},
+            member_introduction = #{memberIntroduction},
+            updated_date = CURRENT_TIMESTAMP
+        WHERE id = #{id}
+    </update>
 </mapper>

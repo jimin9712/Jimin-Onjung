@@ -28,4 +28,10 @@ public interface MemberService {
     public Optional<MemberVO> findByMemberEmail(String email);
 
     public void passwordUpdate(MemberVO memberVO);
+
+    public int getTotalVtTime(Long memberId);
+
+    public int getVtCountByMemberId(Long memberId);
+
+    public void updateProfile(MemberVO memberVO);
 }
