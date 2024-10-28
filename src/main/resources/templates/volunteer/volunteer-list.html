@@ -6,7 +6,7 @@
         <title>봉사 모집 게시판 페이지 - 목록</title>
         <link
             rel="stylesheet"
-            href="../../static/css/volunteer/voluntere-list.css"
+            href="/css/volunteer/volunteer-list.css"
         />
     </head>
     <body>
@@ -188,5 +188,9 @@
             </main>
         </div>
     </body>
-    <script src="../../static/js/volunteer/volunteer-list.js"></script>
+    <script src="/js/volunteer/volunteer-list.js"></script>
+    <script th:inline="javascript">
+        const lists = [[${lists}]];
+        const pagination = [[${pagination}]];
+    </script>
 </html>

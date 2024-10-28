@@ -18,8 +18,9 @@ public class ReviewMapperTests {
     @Test
     public void testWrite() {
         ReviewDTO reviewDTO = new ReviewDTO();
-        reviewDTO.setId(1L);
+        reviewDTO.setId(2L);
         reviewDTO.setReviewStarRate(4.99);
+        reviewDTO.setVtGroupName("test");
         reviewMapper.insert(reviewDTO.toVO());
     }
 
