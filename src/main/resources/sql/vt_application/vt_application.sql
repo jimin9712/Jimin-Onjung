@@ -14,4 +14,6 @@ create table tbl_vt_application(
 
 drop table tbl_vt_application;
 
+select *from tbl_vt_application;
+
 # alter table tbl_vt_application change created_date application_date datetime default current_timestamp;
