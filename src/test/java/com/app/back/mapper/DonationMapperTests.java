@@ -20,12 +20,13 @@ public class DonationMapperTests {
     @Test
     public void testWrite() {
         DonationDTO donationDTO = new DonationDTO();
-        donationDTO.setId(1L);
+        donationDTO.setId(22L);
         donationDTO.setGoalPoint(2000000);
         donationDTO.setDonationSDate("2024-10-25");
         donationDTO.setDonationEDate("2024-10-28");
         donationMapper.insert(donationDTO.toVO());
     }
+
 
     @Test
     public void testSelectById() {

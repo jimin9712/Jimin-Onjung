@@ -1,107 +1,150 @@
-// 사이드배너 해당 세션 클릭이벤트
 document.addEventListener("DOMContentLoaded", () => {
     // 모든 lnb-item 요소를 선택
     const Items = document.querySelectorAll(".lnb-item");
 
-    // if (Items.length === 0) { /**점검**/
-    //     console.error("lnb-item 요소를 찾을 수 없습니다. HTML을 확인해주세요.");
-    // } else {
-    //     console.log(`총 ${Items.length}개의 lnb-item 요소를 찾았습니다.`);
-
     // 각 lnb-item 요소에 클릭 이벤트 리스너를 추가
-    Items.forEach((item, index) => {
-        // console.log(`이벤트 리스너를 추가 중인 요소 인덱스: ${index}`);
+    Items.forEach((item) => {
         item.addEventListener("click", (e) => {
             try {
-                // 기본 동작 방지 및 이벤트 전파 차단
                 e.preventDefault();
                 e.stopPropagation();
-                // console.log("클릭 이벤트 발생. 요소:", item);
 
                 // 모든 항목에서 active 클래스 제거
-                Items.forEach((i) => {
-                    i.classList.remove("active");
-                    // console.log("active 클래스 제거된 항목:", i);
-                });
+                Items.forEach((i) => i.classList.remove("active"));
 
                 // 클릭된 항목에 active 클래스 추가
                 item.classList.add("active");
-                // console.log("active 클래스 추가된 항목:", item);
             } catch (error) {
-                // console.error("클릭 이벤트 처리 중 오류 발생:", error);
+                console.error("클릭 이벤트 처리 중 오류 발생:", error);
             }
         });
     });
-});
-// });
 
-// z-index로 화면 보이기 / 숨기기
-//  클릭 이벤트 추가 div 보여주기
+    // 최신 회원 정보 가져오기
+    fetch("/member/info")
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`HTTP 오류! 상태 코드: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then((data) => {
+            console.log("받은 데이터:", data);
+
+            if (data) {
+                const displayName = data.memberNickName || data.memberName;
+                document.getElementById("memberName").textContent = `${displayName}님`;
+                document.getElementById("memberEmail").textContent = data.memberEmail;
+                document.getElementById("memberType").textContent = data.memberType;
+                document.getElementById("memberJung").textContent = data.memberJung.toLocaleString();
+                document.getElementById("profileName").textContent = displayName;
+                document.getElementById("profileIntroduction").textContent =
+                    data.memberIntroduction || "한 줄 소개가 없습니다.";
+
+                // memberId를 data.id로 명확하게 설정
+                const memberId = data.id;
+                console.log("사용되는 memberId:", memberId);
+
+                if (!memberId) {
+                    console.error("memberId가 존재하지 않습니다. 응답 데이터 구조를 확인하세요:", data);
+                    alert("회원 ID를 가져오지 못했습니다.");
+                    return; // 더 이상 진행하지 않음
+                }
+
+                // 총 기부 포인트 조회
+                fetch(`/donation-records/total/${memberId}`)
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP 오류! 상태 코드: ${response.status}`);
+                        }
+                        return response.json();
+                    })
+                    .then((responseData) => {
+                        console.log("총 기부 포인트 응답 데이터:", responseData);
+
+                        let totalDonation;
+
+                        // 서버 응답이 숫자인지 객체인지를 확인
+                        if (typeof responseData === 'number') {
+                            totalDonation = responseData;
+                        } else if (responseData.totalDonation) {
+                            totalDonation = responseData.totalDonation;
+                        } else {
+                            // 예상치 못한 응답 구조
+                            console.warn("예상치 못한 응답 구조:", responseData);
+                            totalDonation = 0;
+                        }
+
+                        document.getElementById("memberPoint").textContent =
+                            totalDonation.toLocaleString() + " 포인트";
+                    })
+                    .catch((error) => {
+                        console.error("총 기부 포인트 조회 실패:", error);
+                        document.getElementById("memberPoint").textContent = "포인트 정보를 불러올 수 없습니다.";
+                    });
+            } else {
+                alert("회원 정보를 가져오지 못했습니다.");
+            }
+        })
+        .catch((error) => {
+            console.error("회원 정보 조회 실패:", error);
+            alert("회원 정보를 불러오는 중 오류가 발생했습니다.");
+        });
+
+    // 총 봉사 시간 조회
+    fetch("/mypage/total-time")
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`HTTP 오류! 상태 코드: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then((responseData) => {
+            console.log("총 봉사 시간 응답 데이터:", responseData);
+
+            // 응답 데이터에서 총 봉사 시간 추출
+            const totalTime = responseData.totalTime || responseData.time || 0;
+            document.getElementById("totalVtTime").textContent = `${totalTime} 시간`;
+        })
+        .catch((error) => {
+            console.error("총 봉사 시간 조회 실패:", error);
+            document.getElementById("totalVtTime").textContent = "0 시간";
+        });
+
+    // 봉사활동 횟수 조회
+    fetch("/mypage/vt-count")
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`HTTP 오류! 상태 코드: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then((responseData) => {
+            console.log("봉사활동 횟수 응답 데이터:", responseData);
+
+            // 응답 데이터에서 봉사활동 횟수 추출
+            const vtCount = responseData.vtCount || responseData.count || 0;
+            document.getElementById("vtCount").textContent = `${vtCount} 회`;
+        })
+        .catch((error) => {
+            console.error("봉사활동 횟수 조회 실패:", error);
+            document.getElementById("vtCount").textContent = "0 회";
+        });
+});
+
+// z-index로 화면 보이기 / 숨기기 - 클릭 이벤트 추가
 const showTab = (tabId, element) => {
-    // 일단 모든 tab-content를 숨김
     const tabcontent = document.getElementsByClassName("tab-content");
     Array.from(tabcontent).forEach((content) => {
         content.classList.remove("active");
     });
 
-    // 클릭된 tab만 표시
     document.getElementById(tabId).classList.add("active");
 
-    // 사이드바 메뉴의 활성화 상태 변경
     const tablinks = document.querySelectorAll(".side-baner-wrap a");
     tablinks.forEach((link) => {
         link.classList.remove("active");
     });
 
-    // 현재 클릭된 요소의 부모 li에 active 클래스 추가
     element.parentElement.classList.add("active");
 };
-document.addEventListener("DOMContentLoaded", () => {
-    // 최신 회원 정보 가져오기
-    fetch("/member/info")
-        .then((response) => response.json())
-        .then((data) => {
-            console.log("받은 데이터:", data);
-
-            if (data) {
-                // 닉네임이 있으면 닉네임을 표시, 없으면 이름 표시함
-                const displayName = data.memberNickName || data.memberName;
-                document.getElementById("memberName").textContent = `${displayName}님`;
-                document.getElementById("memberEmail").textContent = data.memberEmail;
-                document.getElementById("memberType").textContent = data.memberType;
-                document.getElementById("memberPoint").textContent = data.memberPoint.toLocaleString();
-                document.getElementById("memberJung").textContent = data.memberJung.toLocaleString();
-                document.getElementById("profileName").textContent = displayName;
-                document.getElementById("profileIntroduction").textContent = data.memberIntroduction || "한 줄 소개가 없습니다.";
-            } else {
-                alert("회원 정보를 가져오지 못했습니다.");
-            }
-        })
-        .catch((error) => console.error("Error fetching member info:", error));
-});
-
-fetch("/mypage/total-time")
-    .then((response) => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json();
-    })
-    .then((data) => {
-        console.log("총 봉사 시간:", data);
-        document.getElementById("totalVtTime").textContent = `${data}시간`;
-    })
-    .catch((error) => console.error("총 봉사시간 조회 실패:", error));
-
-fetch("/mypage/vt-count")
-    .then((response) => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json();
-    })
-    .then((data) => {
-        console.log("봉사활동 횟수:", data);
-        document.getElementById("vtCount").textContent = `${data} 회`;
-    })
-    .catch((error) => console.error("봉사활동 횟수 조회 실패:", error));

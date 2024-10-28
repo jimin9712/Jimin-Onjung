@@ -312,7 +312,7 @@ const renderBoosts = () => {
                             "후원 " + boost.status
                         }</td>
                         <td class="news-center-table-body-title"><span>${
-                            boost.price + "원"
+                            boost.price + "포인트"
                         }</span></td>
                         <td class="news-center-table-body-date">${
                             boost.date
@@ -335,96 +335,34 @@ const boostTotalCount = boosts.filter(
 document.getElementById("boost-totalCount").textContent = boostTotalCount;
 
 /*********************기부**********************/
-const donaitions = [
-    {
-        id: 1,
-        status: "완료",
-        price: "100",
-        date: "2024.03.01",
-    },
-    {
-        id: 2,
-        status: "완료",
-        price: "3000",
-        date: "2024.03.02",
-    },
-    {
-        id: 3,
-        status: "완료",
-        price: "1000",
-        date: "2024.03.03",
-    },
-    {
-        id: 4,
-        status: "완료",
-        price: "700",
-        date: "2024.03.04",
-    },
-    {
-        id: 5,
-        status: "완료",
-        price: "1500",
-        date: "2024.03.05",
-    },
-    {
-        id: 6,
-        status: "취소",
-        price: "100",
-        date: "2024.03.01",
-    },
-    {
-        id: 7,
-        status: "취소",
-        price: "3000",
-        date: "2024.03.02",
-    },
-    {
-        id: 8,
-        status: "취소",
-        price: "1000",
-        date: "2024.03.03",
-    },
-    {
-        id: 9,
-        status: "취소",
-        price: "700",
-        date: "2024.03.04",
-    },
-    {
-        id: 10,
-        status: "취소",
-        price: "1500",
-        date: "2024.03.05",
-    },
-    {
-        id: 11,
-        status: "취소",
-        price: "1000",
-        date: "2024.03.11",
-    },
-];
 
 // 기부 내역 렌더링▼
-const renderDonaitions = () => {
-    // 1. boost 배열 확인
-    console.log(donaitions); // boost 배열이 제대로 정의되고, 데이터가 있는지 확인
+// 서버에서 기부 데이터를 가져오기 ▼
+const fetchDonations = async () => {
+    try {
+        const response = await fetch('/donation-records/all'); // API 호출
+        if (!response.ok) {
+            throw new Error('서버로부터 데이터를 가져오는 데 실패했습니다.');
+        }
+        const data = await response.json(); // JSON 형식으로 응답 처리
+        renderDonations(data); // 가져온 데이터 렌더링
+    } catch (error) {
+        console.error('Error fetching donation records:', error);
+    }
+};
 
-    // 2. HTML 요소 선택 확인
-    const donaitionList = document.querySelector(".donaition-list");
-    const emptyComponent = document.querySelector(
-        "#donaition .empty-component"
-    );
+// 기부 내역 렌더링 ▼
+const renderDonations = (donations) => {
+    const donationList = document.querySelector(".donaition-list");
+    const emptyComponent = document.querySelector("#donaition .empty-component");
 
-    console.log(donaitionList, emptyComponent); // 요소들이 정상적으로 선택되고 있는지 확인
-
-    // 이후 기존의 코드
-    if (donaitions.length === 0) {
-        donaitionList.style.display = "none";
+    if (donations.length === 0) {
+        donationList.style.display = "none";
         emptyComponent.style.display = "block";
     } else {
-        donaitionList.style.display = "block";
+        donationList.style.display = "block";
         emptyComponent.style.display = "none";
-        donaitionList.innerHTML = `
+        donationList.innerHTML = `
             <table class="news-center-table" style="margin-top: 0; margin-bottom: 20px;">
                 <colgroup>
                     <col style="width: 57px;">
@@ -441,39 +379,29 @@ const renderDonaitions = () => {
                     </tr>
                 </thead>
                 <tbody class="news-center-table-body">
-                ${donaitions
-                    .map(
-                        (donaition) => `
-                    <tr class="news-data-rows" data-forloop="${donaition.id}">
-                        <td class="news-center-table-body-number">${
-                            donaition.id
-                        }</td>
-                        <td class="news-center-table-body-category">${
-                            "기부 " + donaition.status
-                        }</td>
-                        <td class="news-center-table-body-title"><span>${
-                            donaition.price + "원"
-                        }</span></td>
-                        <td class="news-center-table-body-date">${
-                            donaition.date
-                        }</td>
+                ${donations
+            .map(
+                (donation) => `
+                    <tr class="news-data-rows" data-forloop="${donation.id}">
+                        <td class="news-center-table-body-number">${donation.id}</td>
+                        <td class="news-center-table-body-category">기부</td>
+                        <td class="news-center-table-body-title"><span>${donation.donationAmount}원</span></td>
+                        <td class="news-center-table-body-date">${new Date(donation.createdDate).toLocaleDateString()}</td>
                     </tr>
                 `
-                    )
-                    .join("")}
+            )
+            .join("")}
                 </tbody>
             </table>
         `;
     }
-};
-renderDonaitions(donaitions);
 
-// 전체 항목 숫자 증가
-const donaitionTotalCount = donaitions.filter(
-    (donaition) => donaition.status === "완료" || donaition.status === "취소"
-).length;
-document.getElementById("donaition-totalCount").textContent =
-    donaitionTotalCount;
+    // 총 기부 건수 업데이트
+    document.getElementById("donaition-totalCount").textContent = donations.length;
+};
+
+// 페이지 로드 시 기부 데이터를 가져오기 ▼
+document.addEventListener('DOMContentLoaded', fetchDonations);
 
 /*******************충전 하기********************/
 const charges = [
