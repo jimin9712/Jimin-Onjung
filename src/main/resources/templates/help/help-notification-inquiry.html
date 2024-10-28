@@ -25,7 +25,7 @@
                         </ol>
                         <div class="search-container">
                             <form
-                                action="/help/notification/search"
+                                action="/help/help-notification-list"
                                 class="search"
                                 accept-charset="UTF-8"
                                 method="get"
@@ -38,7 +38,7 @@
                                 />
                                 <input
                                     type="search"
-                                    name="query"
+                                    name="keyword"
                                     id="query"
                                     placeholder="검색"
                                     role="combobox"
@@ -137,7 +137,7 @@
 <!--                                        >-->
 <!--                                    </li>-->
 <!--                                    <li>-->
-<!--                                        <a class="more-button">+ 더보기</a>-->
+<!--                                         <a href="/help/help-notification-list" class="more-button">더보기</a>
 <!--                                    </li>-->
                                 </ul>
                             </section>
@@ -162,6 +162,7 @@
     </body>
     <script th:inline="javascript">
         const posts = [[${posts}]];
+        const search = [[${search}]];
     </script>
     <script src="/js/help/help-notification-inquiry.js"></script>
 </html>

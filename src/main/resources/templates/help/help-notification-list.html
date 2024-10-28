@@ -67,7 +67,6 @@
                                         id="query"
                                         placeholder="검색"
                                         role="combobox"
-                                        th:value="${search != null and search.keyword != null ? search.keyword : ''}"
                                 />
                                 <input
                                         type="submit"
@@ -108,7 +107,7 @@
                                     <a class="next-button" href=""
                                         ><svg
                                             viewBox="0 0 12 12"
-                                            class="sc-gKXOVf iFpvod"
+                                            class="iFpvod"
                                         >
                                             <path
                                                 fill-rule="evenodd"
@@ -128,6 +127,7 @@
     <script th:inline="javascript">
         const posts = [[${posts}]];
         const pagination = [[${pagination}]];
+        const search = [[${search}]];
     </script>
     <script src="/js/help/help-notification-list.js"></script>
 </html>
