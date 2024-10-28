@@ -8,4 +8,5 @@ import org.springframework.stereotype.Controller;
 @RequiredArgsConstructor
 @Slf4j
 public class PaymentController  {
+
 }
