@@ -7,10 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnailator;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -91,4 +88,22 @@ public class ReviewController {
 
     @GetMapping("review-delete")
     public RedirectView reviewDelete(ReviewDTO reviewDTO) { return new RedirectView("/review/review-list"); }
+
+    // 특정 회원의 리뷰 조회 - JSON 응답
+    @GetMapping("/my-reviews/{memberId}")
+    @ResponseBody
+    public List<ReviewDTO> getMyReviews(
+            @PathVariable Long memberId,
+            @RequestParam(required = false) String startDate,
+            @RequestParam(required = false) String endDate) {
+
+        log.info("받은 회원 ID: {}, 시작 날짜: {}, 끝 날짜: {}", memberId, startDate, endDate);
+
+        if (startDate != null && endDate != null) {
+            return reviewService.findByMemberIdAndDateRange(memberId, startDate, endDate);
+        } else {
+            return reviewService.findByMemberId(memberId);
+        }
+    }
 }
+

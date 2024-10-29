@@ -18,7 +18,7 @@ public class ReviewServiceTests {
         ReviewDTO reviewDTO = new ReviewDTO();
         reviewDTO.setPostTitle("hi");
         reviewDTO.setPostContent("hihi");
-        reviewDTO.setMemberId(1L);
+        reviewDTO.setMemberId(22L);
         reviewDTO.setPostType("REVIEW");
         reviewDTO.setVtGroupName("group");
         reviewDTO.setReviewStarRate(4.00);
