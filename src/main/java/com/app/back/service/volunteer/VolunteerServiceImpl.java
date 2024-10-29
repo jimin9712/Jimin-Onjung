@@ -1,13 +1,10 @@
 package com.app.back.service.volunteer;
 
 import com.app.back.domain.attachment.AttachmentVO;
-import com.app.back.domain.member.MemberDTO;
-import com.app.back.domain.member.MemberVO;
 import com.app.back.domain.post.PostVO;
 import com.app.back.domain.volunteer.Pagination;
 import com.app.back.domain.volunteer.VolunteerDTO;
 import com.app.back.mapper.attachment.AttachmentMapper;
-import com.app.back.mapper.member.MemberMapper;
 import com.app.back.mapper.post.PostMapper;
 import com.app.back.mapper.volunteer.VolunteerMapper;
 import com.app.back.repository.volunteer.VolunteerDAO;
@@ -57,7 +54,29 @@ public class VolunteerServiceImpl implements VolunteerService {
         return 0;
     }
 
+    // 최신순 정렬 조회
+    @Override
+    public List<VolunteerDTO> getListByRecent(Pagination pagination) {
+        pagination.setOrder("recent");
+        return volunteerMapper.selectAll(pagination);
+    }
+
+    // 마감 임박순 정렬 조회
+    @Override
+    public List<VolunteerDTO> getListByEndingSoon(Pagination pagination) {
+        pagination.setOrder("endingSoon");
+        return volunteerMapper.selectAll(pagination);
+    }
+
+    // 조회수 순 정렬 조회
+    @Override
+    public List<VolunteerDTO> getListByViewCount(Pagination pagination) {
+        pagination.setOrder("viewCount");
+        return volunteerMapper.selectAll(pagination);
+    }
+
 }
+
 
 
 

@@ -4,6 +4,7 @@ import com.app.back.domain.post.Pagination;
 import com.app.back.domain.review.ReviewDTO;
 import com.app.back.domain.review.ReviewVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +16,7 @@ public interface ReviewMapper {
     // 조회
     public Optional<ReviewDTO> selectById(Long id);
     // 전체 조회
-    public List<ReviewDTO> selectAll(Pagination pagination);
+    public List<ReviewDTO> selectAll(@Param("pagination") Pagination pagination);
     // 전체 개수
     public int selectCount();
     // 수정
