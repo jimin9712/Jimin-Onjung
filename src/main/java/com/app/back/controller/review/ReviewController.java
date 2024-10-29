@@ -1,5 +1,6 @@
 package com.app.back.controller.review;
 
+import com.app.back.domain.post.Pagination;
 import com.app.back.domain.review.ReviewDTO;
 import com.app.back.service.review.ReviewService;
 import jakarta.servlet.http.HttpSession;
@@ -7,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnailator;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -78,7 +80,16 @@ public class ReviewController {
     }
 
     @GetMapping("review-list")
-    public String goToList(ReviewDTO reviewDTO) { return "review/review-list"; }
+    public String goToList(Pagination pagination, Model model) {
+        if (pagination.getOrder() == null) {
+            pagination.setOrder("created_date desc, n.id desc"); // 기본 정렬 기준
+        }
+
+        pagination.progressReview();
+        model.addAttribute("reviews", reviewService.getList(pagination));
+
+        return "review/review-list";
+    }
 
     @GetMapping("review-update")
     public String goToUpdateForm(ReviewDTO reviewDTO) { return "review/review-update"; }
