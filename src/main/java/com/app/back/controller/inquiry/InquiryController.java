@@ -26,11 +26,34 @@ public class InquiryController {
 
     @GetMapping
     public String getList(Pagination pagination, Search search, Model model, HttpServletRequest request) {
+        log.info("Controller - getList() 호출됨");
+        log.info("페이지네이션 정보: {}", pagination);
+        log.info("검색 조건: {}", search);
+
+        if (pagination.getOrder() == null) {
+            pagination.setOrder("created_date desc, n.id desc"); // 기본 정렬 기준
+        }
+        if (search.getKeyword() != null) {
+            pagination.setTotal(inquiryService.getTotalWithSearch(search));
+        } else {
+            pagination.setTotal(inquiryService.getTotal());
+        }
+        log.info("총 데이터 개수 설정됨: {}", pagination.getTotal());
+
+        pagination.progress();
+        log.info("페이지네이션 정보 (progress 후): {}", pagination);
         List<InquiryDTO> inquiries = inquiryService.getList(pagination, search);
+        System.out.println("조회된 데이터: " + inquiries);
+
+
         model.addAttribute("inquiries", inquiries);
+        model.addAttribute("pagination", pagination);
+        model.addAttribute("search", search);
+
 
         return "admin";
     }
 
 
 }
+

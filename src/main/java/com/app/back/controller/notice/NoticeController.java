@@ -2,7 +2,6 @@ package com.app.back.controller.notice;
 
 
 import com.app.back.domain.notice.NoticeDTO;
-import com.app.back.domain.notice.NoticeVO;
 import com.app.back.domain.post.Pagination;
 import com.app.back.domain.post.Search;
 import com.app.back.service.notice.NoticeService;

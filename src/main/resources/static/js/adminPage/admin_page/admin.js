@@ -1,5 +1,5 @@
 // 버튼 요소를 가져오기.
-const infoButton = document.querySelector(".ProjectInfo_infoButton");
+const projectInfoButton = document.querySelector(".ProjectInfo_infoButton");
 // 보이거나 숨겨야 할 div 요소를 가져오기.
 const infoBox = document.querySelector(".ProjectInfo_infoBox");
 
@@ -7,15 +7,15 @@ const infoBox = document.querySelector(".ProjectInfo_infoBox");
 if (infoBox) {
     // 기본값: infoBox를 숨기기.
     infoBox.style.display = "none";
-    infoButton.setAttribute("aria-expanded", "false");
+    projectInfoButton.setAttribute("aria-expanded", "false");
 
     // 버튼 클릭 시 이벤트 처리
-    infoButton.addEventListener("click", function () {
+    projectInfoButton.addEventListener("click", function () {
         // 현재 aria-expanded 속성 값을 가져오기.
-        const expanded = infoButton.getAttribute("aria-expanded") === "true";
+        const expanded = projectInfoButton.getAttribute("aria-expanded") === "true";
 
         // 속성 값에 따라 표시 여부를 토글.
-        infoButton.setAttribute("aria-expanded", !expanded);
+        projectInfoButton.setAttribute("aria-expanded", !expanded);
         infoBox.style.display = expanded ? "none" : "block";
     });
 }

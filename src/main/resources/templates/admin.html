@@ -2908,6 +2908,8 @@
     </body>
     <script th:inline="javascript">
         const inquiries = [[${inquiries}]];
+        const pagination = [[${pagination}]];
+        console.log("프론트엔드 pagination 데이터:", pagination);
         const search = [[${search}]];
     </script>
     <!-- 관리자 홈 -->
