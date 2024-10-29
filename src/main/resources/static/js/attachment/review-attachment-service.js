@@ -10,4 +10,4 @@ const reviewAttachmentService = (() => {
     }
 
     return {upload: upload};
-})()
+})();
