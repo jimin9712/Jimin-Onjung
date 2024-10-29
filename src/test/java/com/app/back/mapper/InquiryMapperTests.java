@@ -22,15 +22,34 @@ public class InquiryMapperTests {
     @Test
     public void testwrite() {
         InquiryDTO inquiryDTO = new InquiryDTO();
-        inquiryDTO.setId(1L);
+        inquiryDTO.setId(4L);
         inquiryDTO.setPostStatus("");
-        inquiryDTO.setInquiryEmail("1@gmail.com");
-        inquiryDTO.setInquiryPhone("1");
-        inquiryDTO.setInquiryType("일반 문의");
-        inquiryDTO.setPostTitle("1번제목");
-        inquiryDTO.setPostContent("1번내용");
+        inquiryDTO.setInquiryEmail("4@gmail.com");
+        inquiryDTO.setInquiryPhone("4");
+        inquiryDTO.setInquiryType("봉사단체 가입 문의");
+        inquiryDTO.setPostTitle("4번제목");
+        inquiryDTO.setPostContent("4번내용");
         inquiryMapper.insert(inquiryDTO.toVO());
     }
+    @Test
+    public void testWriteMultiple() {
+        for (long i = 5; i <= 101; i++) {
+            InquiryDTO inquiryDTO = new InquiryDTO();
+            inquiryDTO.setId(i);
+            inquiryDTO.setPostStatus("");
+            inquiryDTO.setInquiryEmail(i+ "@gmail.com");
+            inquiryDTO.setInquiryPhone("i");
+            if (i % 2 == 0) {
+                inquiryDTO.setInquiryType("일반 문의");
+            } else {
+                inquiryDTO.setInquiryType("봉사단체 가입 문의");
+            }
+            inquiryDTO.setPostTitle(i + "번 제목");
+            inquiryDTO.setPostContent(i + "번 내용");
+            inquiryMapper.insert(inquiryDTO.toVO());
+        }
+    }
+
 //    @Test
 //    public void testSelectAll() {
 //        Pagination pagination = new Pagination();

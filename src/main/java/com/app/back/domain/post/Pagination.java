@@ -49,6 +49,15 @@ public class Pagination {
         this.next = endPage < realEnd;
         // limit 문법에서 시작 인덱스는 0부터 시작하기 때문에 1 감소해준다.
         this.startRow--;
+        // 디버깅용 로그 추가
+        log.info("Pagination progress() 계산 결과:");
+        log.info("현재 페이지: {}", page);
+        log.info("시작 페이지: {}", startPage);
+        log.info("끝 페이지: {}", endPage);
+        log.info("실제 마지막 페이지: {}", realEnd);
+        log.info("총 게시물 수: {}", total);
+        log.info("이전 페이지 존재 여부: {}", prev);
+        log.info("다음 페이지 존재 여부: {}", next);
     }
 
     public void progressReview() {
