@@ -53,8 +53,8 @@ public class ReviewController {
             files.get(i).transferTo(new File(rootPath, files.get(i).getOriginalFilename()));
             if(files.get(i).getContentType().startsWith("image")){
                 FileOutputStream fileOutputStream = new FileOutputStream(new File(rootPath, files.get(i).getOriginalFilename()));
-                        Thumbnailator.createThumbnail(files.get(i).getInputStream(), fileOutputStream, 100, 100);
-                        fileOutputStream.close();
+                Thumbnailator.createThumbnail(files.get(i).getInputStream(), fileOutputStream, 100, 100);
+                fileOutputStream.close();
             }
         }
 

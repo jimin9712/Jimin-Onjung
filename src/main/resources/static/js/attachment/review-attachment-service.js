@@ -1,4 +1,4 @@
-const reviewAttachmentReview = (() => {
+const reviewAttachmentService = (() => {
     // 파일 업로드
     const upload = async (formData) => {
         const response = await fetch("/review/review-write", {

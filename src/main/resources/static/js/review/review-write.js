@@ -6,6 +6,7 @@ const maxFiles = 10;
 const maxTotalSize = 20 * 1024 * 1024; // 20MB
 
 let uploadedFiles = new Set(); // 업로드된 파일을 저장하는 Set
+let i = 0;
 
 // 파일 선택 시 호출되는 함수
 fileInput.addEventListener("change", (event) => {
@@ -65,6 +66,7 @@ const addFileToList = (file) => {
     deleteButton.textContent = "삭제";
     deleteButton.classList.add("delete-button");
     deleteButton.onclick = () => removeFile(file, listItem);
+    deleteButton.id = `attachment-${++i}`;
 
     listItem.appendChild(deleteButton);
     fileList.appendChild(listItem);

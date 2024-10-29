@@ -116,13 +116,13 @@ ex) 경로식당 배식 봉사"
                                         placeholder="봉사활동 후기를 등록해주세요!"
                                 ></textarea>
 
-                                    <input
-                                            id="multipulfile-briefing"
-                                            type="file"
-                                            multiple=""
-                                            accept="image/jpeg, image/jpg, image/png, image/webp"
-                                            hidden=""
-                                    />
+<!--                                    <input-->
+<!--                                            id="multipulfile-briefing"-->
+<!--                                            type="file"-->
+<!--                                            multiple=""-->
+<!--                                            accept="image/jpeg, image/jpg, image/png, image/webp"-->
+<!--                                            hidden=""-->
+<!--                                    />-->
                                 </div>
                             </div>
                         </div>
@@ -253,5 +253,39 @@ ex) 경로식당 배식 봉사"
             </div>
         </div>
     </body>
-    <script src="../../static/js/review/review-write.js"></script>
+    <script src="/js/review/review-write.js"></script>
+    <script src="/js/attachment/review-attachment-service.js"></script>
+    <script>
+        // const button = document.querySelector("button[type=button]");
+        // const files = document.querySelectorAll("input[type=file]");
+
+
+        fileInput.addEventListener("change", (e) => {
+            const file = document.querySelector(`attachment-${i}`);
+            console.log(file);
+            const formData = new FormData();
+            formData.append("file", file);
+            reviewAttachmentService.upload(formData);
+        })
+
+        // 다운로드 포함 로직
+        // const ths = document.querySelectorAll("img.th");
+        // const downloads = document.querySelectorAll("a.download");
+        //
+        // files.forEach((file, i) => {
+        //     file.addEventListener("change", async (e) => {
+        //         const file = e.target.files[0];
+        //         const formData = new FormData();
+        //         formData.append("file", file);
+        //         const fileInfo = await fileService.upload(formData);
+        //         console.log(fileInfo);
+        //         ths[i].src = `/file/display?fileName=${fileInfo.filePath + "/t_" + fileInfo.fileName}`;
+        //         downloads[i].href = `/file/download?fileName=${fileInfo.filePath + "/" + fileInfo.fileName}`;
+        //     });
+        // });
+
+        // button.addEventListener("click", (e) => {
+        //
+        // });
+    </script>
 </html>
