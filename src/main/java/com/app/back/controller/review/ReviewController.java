@@ -1,5 +1,6 @@
 package com.app.back.controller.review;
 
+import com.app.back.domain.post.Pagination;
 import com.app.back.domain.review.ReviewDTO;
 import com.app.back.service.review.ReviewService;
 import jakarta.servlet.http.HttpSession;
@@ -7,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnailator;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +22,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Controller
@@ -45,7 +48,7 @@ public class ReviewController {
 //        }
 
 //        String rootPath = "D:/dev/OnjungSpring/back/src/main/resources/static/files" + getPath();
-        String rootPath = "C:/upload" + getPath();
+        String rootPath = "C:/upload/" + getPath();
         UUID uuid = UUID.randomUUID();
 
         File directory = new File(rootPath);
@@ -53,16 +56,16 @@ public class ReviewController {
             directory.mkdirs();
         }
 
-//        for(int i=0; i<files.size(); i++){
-//            files.get(i).transferTo(new File(rootPath, files.get(i).getOriginalFilename()));
-//            reviewDTO.setAttachmentFileName(uuid.toString() + "_" + files.get(i).getOriginalFilename());
-//
-//            if(files.get(i).getContentType().startsWith("image")){
-//                FileOutputStream fileOutputStream = new FileOutputStream(new File(rootPath, "t_" + uuid.toString() + "_" + files.get(i).getOriginalFilename()));
-//                Thumbnailator.createThumbnail(files.get(i).getInputStream(), fileOutputStream, 100, 100);
-//                fileOutputStream.close();
-//            }
-//        }
+        for(int i=0; i<files.size(); i++){
+            files.get(i).transferTo(new File(rootPath, files.get(i).getOriginalFilename()));
+            reviewDTO.setAttachmentFileName(uuid.toString() + "_" + files.get(i).getOriginalFilename());
+
+            if(files.get(i).getContentType().startsWith("image")){
+                FileOutputStream fileOutputStream = new FileOutputStream(new File(rootPath, "t_" + uuid.toString() + "_" + files.get(i).getOriginalFilename()));
+                Thumbnailator.createThumbnail(files.get(i).getInputStream(), fileOutputStream, 100, 100);
+                fileOutputStream.close();
+            }
+        }
 
 //        // 데이터가 문제없으면 세션에 저장
 //        session.setAttribute("review", reviewDTO);
@@ -78,17 +81,38 @@ public class ReviewController {
     }
 
     @GetMapping("review-list")
-    public String goToList(ReviewDTO reviewDTO) { return "review/review-list"; }
+    public String goToList(Pagination pagination, Model model) {
+        if (pagination.getOrder() == null) {
+            pagination.setOrder("created_date desc, n.id desc"); // 기본 정렬 기준
+        }
+
+        pagination.progressReview();
+        model.addAttribute("reviews", reviewService.getList(pagination));
+
+        return "review/review-list";
+    }
 
     @GetMapping("review-update")
-    public String goToUpdateForm(ReviewDTO reviewDTO) { return "review/review-update"; }
+    public String goToUpdateForm(@RequestParam("postId") Long postId, Model model) {
+        Optional<ReviewDTO> reviewDTO =reviewService.getById(postId);
+
+        if (reviewDTO.isPresent()) {
+            model.addAttribute("review", reviewDTO.get());
+        } else {
+//            return "redirect:/review/review-list"; // 마이페이지로 리턴하기
+        }
+
+        return "review/review-update";
+    }
 
     @PostMapping("review-update")
     public RedirectView reviewUpdate(ReviewDTO reviewDTO) {
         reviewService.update(reviewDTO);
-        return new RedirectView("/review/review-list");
+        return new RedirectView("/review/review-list"); // 마이페이지로 리턴
     }
 
     @GetMapping("review-delete")
-    public RedirectView reviewDelete(ReviewDTO reviewDTO) { return new RedirectView("/review/review-list"); }
-}
+    public RedirectView reviewDelete(@RequestParam("postId") Long postId) {
+        reviewService.delete(postId);
+        return new RedirectView("/review/review-list"); } // 마이페이지로 리턴
+    }
