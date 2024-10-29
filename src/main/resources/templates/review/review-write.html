@@ -116,13 +116,13 @@ ex) 경로식당 배식 봉사"
                                         placeholder="봉사활동 후기를 등록해주세요!"
                                 ></textarea>
 
-<!--                                    <input-->
-<!--                                            id="multipulfile-briefing"-->
-<!--                                            type="file"-->
-<!--                                            multiple=""-->
-<!--                                            accept="image/jpeg, image/jpg, image/png, image/webp"-->
-<!--                                            hidden=""-->
-<!--                                    />-->
+                                    <input
+                                            id="multipulfile-briefing"
+                                            type="file"
+                                            multiple=""
+                                            accept="image/jpeg, image/jpg, image/png, image/webp"
+                                            hidden=""
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -195,7 +195,7 @@ ex) 경로식당 배식 봉사"
                                     <input
                                             type="radio"
                                             id="star5"
-                                            name="review_star_rate"
+                                            name="reviewStarRate"
                                             value="5"
                                     />
                                     <label for="star5" title="5 stars"
@@ -204,7 +204,7 @@ ex) 경로식당 배식 봉사"
                                     <input
                                             type="radio"
                                             id="star4"
-                                            name="review_star_rate"
+                                            name="reviewStarRate"
                                             value="4"
                                     />
                                     <label for="star4" title="4 stars"
@@ -213,7 +213,7 @@ ex) 경로식당 배식 봉사"
                                     <input
                                             type="radio"
                                             id="star3"
-                                            name="review_star_rate"
+                                            name="reviewStarRate"
                                             value="3"
                                     />
                                     <label for="star3" title="3 stars"
@@ -222,7 +222,7 @@ ex) 경로식당 배식 봉사"
                                     <input
                                             type="radio"
                                             id="star2"
-                                            name="review_star_rate"
+                                            name="reviewStarRate"
                                             value="2"
                                     />
                                     <label for="star2" title="2 stars"
@@ -231,7 +231,7 @@ ex) 경로식당 배식 봉사"
                                     <input
                                             type="radio"
                                             id="star1"
-                                            name="review_star_rate"
+                                            name="reviewStarRate"
                                             value="1"
                                     />
                                     <label for="star1" title="1 star"
@@ -253,20 +253,21 @@ ex) 경로식당 배식 봉사"
             </div>
         </div>
     </body>
-    <script src="/js/review/review-write.js"></script>
     <script src="/js/attachment/review-attachment-service.js"></script>
+    <script src="/js/review/review-write.js"></script>
     <script>
         // const button = document.querySelector("button[type=button]");
         // const files = document.querySelectorAll("input[type=file]");
 
-
-        fileInput.addEventListener("change", (e) => {
-            const file = document.querySelector(`attachment-${i}`);
-            console.log(file);
-            const formData = new FormData();
-            formData.append("file", file);
-            reviewAttachmentService.upload(formData);
-        })
+// document.addEventListener("DOMContentLoaded", (e) => {
+//     fileInput.addEventListener("change", (e) => {
+//         const file = document.querySelector(`attachment-${i}`);
+//         console.log(file);
+//         const formData = new FormData();
+//         formData.append("file", file);
+//         reviewAttachmentService.upload(formData);
+//     })
+// });
 
         // 다운로드 포함 로직
         // const ths = document.querySelectorAll("img.th");

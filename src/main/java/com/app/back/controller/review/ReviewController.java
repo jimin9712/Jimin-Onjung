@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/review/*")
@@ -37,26 +38,31 @@ public class ReviewController {
         reviewDTO.setMemberId(1L);
         reviewDTO.setPostType("REVIEW");
         reviewDTO.setPostTitle(reviewDTO.getVtGroupName());
-        if (reviewDTO.getPostTitle() == null || reviewDTO.getPostContent() == null) {
-            log.error("필수 데이터가 없습니다.");
-            return new RedirectView("/review/review-write");
-        }
+        reviewDTO.setAttachmentFilePath(getPath());
+//        if (reviewDTO.getPostTitle() == null || reviewDTO.getPostContent() == null) {
+//            log.error("필수 데이터가 없습니다.");
+//            return new RedirectView("/review/review-write");
+//        }
 
-        String rootPath = "D:/dev/OnjungSpring/back/src/main/resources/static/files" + getPath();
+//        String rootPath = "D:/dev/OnjungSpring/back/src/main/resources/static/files" + getPath();
+        String rootPath = "C:/upload" + getPath();
+        UUID uuid = UUID.randomUUID();
 
         File directory = new File(rootPath);
         if(!directory.exists()){
             directory.mkdirs();
         }
 
-        for(int i=0; i<files.size(); i++){
-            files.get(i).transferTo(new File(rootPath, files.get(i).getOriginalFilename()));
-            if(files.get(i).getContentType().startsWith("image")){
-                FileOutputStream fileOutputStream = new FileOutputStream(new File(rootPath, files.get(i).getOriginalFilename()));
-                Thumbnailator.createThumbnail(files.get(i).getInputStream(), fileOutputStream, 100, 100);
-                fileOutputStream.close();
-            }
-        }
+//        for(int i=0; i<files.size(); i++){
+//            files.get(i).transferTo(new File(rootPath, files.get(i).getOriginalFilename()));
+//            reviewDTO.setAttachmentFileName(uuid.toString() + "_" + files.get(i).getOriginalFilename());
+//
+//            if(files.get(i).getContentType().startsWith("image")){
+//                FileOutputStream fileOutputStream = new FileOutputStream(new File(rootPath, "t_" + uuid.toString() + "_" + files.get(i).getOriginalFilename()));
+//                Thumbnailator.createThumbnail(files.get(i).getInputStream(), fileOutputStream, 100, 100);
+//                fileOutputStream.close();
+//            }
+//        }
 
 //        // 데이터가 문제없으면 세션에 저장
 //        session.setAttribute("review", reviewDTO);
