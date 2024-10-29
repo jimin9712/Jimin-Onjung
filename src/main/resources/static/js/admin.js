@@ -285,3 +285,60 @@ inquiryAnswerButtons.forEach((inquiryAnswerButton) => {
         console.log(inquiryAnswerSection[0].classList.add("selected"));
     });
 });
+
+//여기서부터 서버 ==============================================================================
+
+const lisdiv = document.querySelector(".inquiryTable_container");
+const pagingdiv = document.querySelector(".pagination-container");
+const keyword = document.querySelector("input[name='keyword']");
+const notificationWrap = document.getElementById("notification-wrap");
+const pageWrap = document.getElementById("page-wrap");
+
+let content = ``;
+
+
+// 게시글 목록을 표시하는 함수
+const showList = () => {
+    let text = ``; // HTML 내용을 저장할 변수 초기화
+    inquiries.forEach((inquiry) => {
+        text += `<div class="inquiryTable_row data_row">
+                                            <div class="inquiryTable_cell">
+                                                <input
+                                                    type="checkbox"
+                                                    class="inquiryCheckbox"
+                                                />
+                                            </div>
+                                            <div class="inquiryTable_cell inquiry_type">
+                                                ${inquiry.inquirytype}
+                                            </div>
+                                            <div class="inquiryTable_cell inquiry_date">
+                                                ${inquiry.createdDate}
+                                            </div>
+                                            <div class="inquiryTable_cell">
+                                                ${inquiry.postTitle}
+                                            </div>
+
+                                            <div class="inquiryTable_cell">
+                                                ${inquiry.postContent}
+                                            </div>
+                                            <div class="inquiryTable_cell">
+                                                ${inquiry.memberNickName}
+                                            </div>
+                                            <div class="inquiryTable_cell">
+                                                ${inquiry.inquiryEmail}
+                                            </div>
+                                            <div class="inquiryTable_cell">
+                                                ${inquiry.inquiryStatus}
+                                            </div>
+
+                                            <div class="inquiryTable_cell">
+                                                <button class="editBtn">
+                                                    답변하기
+                                                </button>
+                                            </div>
+                                        </div>`;
+    });
+
+    // 게시글 목록을 HTML 요소에 삽입
+    lisdiv.innerHTML = text;
+}
