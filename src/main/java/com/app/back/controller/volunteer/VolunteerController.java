@@ -26,21 +26,17 @@ public class VolunteerController {
         pagination.progress(); // 페이지 진행 상태 업데이트
 
         // 정렬 기준에 따른 게시글 목록 조회
-        List<VolunteerDTO> lists;
-        if ("recent".equals(view)) {
-            lists = volunteerService.getListByRecent(pagination);
-        } else if ("endingSoon".equals(view)) {
-            lists = volunteerService.getListByEndingSoon(pagination);
-        } else if ("viewCount".equals(view)) {
-            lists = volunteerService.getListByViewCount(pagination);
-        } else {
-            lists = volunteerService.getList(pagination); // 기본 조회
-        }
+        List<VolunteerDTO> lists = volunteerService.getList(pagination);
+//        if ("recent".equals(view)) {
+//            lists = volunteerService.getListByRecent(pagination);
+//        } else if ("endingSoon".equals(view)) {
+//            lists = volunteerService.getListByEndingSoon(pagination);
+//        } else if ("viewCount".equals(view)) {
+//            lists = volunteerService.getListByViewCount(pagination);
+//        } else {
+//            lists = volunteerService.getList(pagination); // 기본 조회
+//        }
 
-        if (lists.isEmpty()) { // 게시글이 없는 경우
-            log.info("포스트 없음"); // 로그에 정보 기록
-            model.addAttribute("message", "게시된 봉사활동이 없습니다.");
-        }
 
         // 각 DTO에 남은 일수를 계산
         for (VolunteerDTO volunteerDTO : lists) {
