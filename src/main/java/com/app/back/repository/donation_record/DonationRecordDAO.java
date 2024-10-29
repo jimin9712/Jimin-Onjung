@@ -35,5 +35,8 @@ public class DonationRecordDAO {
     public int findTotalDonationByMemberId(Long memberId) {
         return donationRecordMapper.selectTotalDonationByMemberId(memberId);
     }
+    public List<DonationRecordDTO> findByMemberId(Long memberId) { // 반환 타입 수정
+        return donationRecordMapper.selectByMemberId(memberId);
+    }
 
 }

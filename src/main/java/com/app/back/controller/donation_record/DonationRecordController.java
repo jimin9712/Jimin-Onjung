@@ -50,9 +50,15 @@ public class DonationRecordController {
     //   기부한 내역 합산
     @GetMapping("/total/{memberId}")
     public int getTotalDonationByMemberId(@PathVariable Long memberId) {
-        log.info("Received memberId: {}", memberId); // 로그로 memberId 확인
+        log.info("Received memberId: {}", memberId);
         int total = donationRecordService.getTotalDonationByMemberId(memberId);
         log.info("Total Donation for memberId {}: {}", memberId, total); // 결과 로그
         return total;
+    }
+    @GetMapping("/my-donation/{memberId}")
+    public List<DonationRecordDTO> getMyDonationRecords(@PathVariable Long memberId) {
+        log.info("Received my Donation Id: {}", memberId);
+        donationRecordService.findByMemberId(memberId);
+        return donationRecordService.findByMemberId(memberId);
     }
 }
