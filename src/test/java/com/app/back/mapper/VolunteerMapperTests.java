@@ -1,5 +1,6 @@
 package com.app.back.mapper;
 
+import com.app.back.domain.donation.DonationDTO;
 import com.app.back.domain.volunteer.Pagination;
 import com.app.back.domain.volunteer.VolunteerDTO;
 import com.app.back.domain.volunteer.VolunteerVO;
@@ -54,11 +55,14 @@ public class VolunteerMapperTests {
 
 //    봉사 모집 게시글 조회
     @Test
-    public void testSelectById(){
-        volunteerDTO.setId(9L);
+    public void testSelectById() {
+        VolunteerDTO volunteerDTO = new VolunteerDTO();
+        volunteerDTO.setId(1L);
         Optional<VolunteerDTO> foundVolunteer = volunteerMapper.selectById(volunteerDTO.getId());
-        log.info(foundVolunteer.toString());
+
+        log.info("{}",foundVolunteer);
     }
+
 
 //    봉사 승인 인원 증가
     @Test
