@@ -103,16 +103,15 @@ const createListItem = () => {
                                                     >
                                                         <label
                                                             class="deadline state active"
-                                                            >18일 남음</label
+                                                            th:text="$lists.daysLeft} + 일 남음"></label
                                                         >기타<span
                                                         ></span>일반/기타
                                                     </div>
                                                     <div
                                                         class="outline-info-title"
+                                                        th:each="volunteer : ${lists}"
                                                     >
-                                                        <h2>
-                                                            제 2회 하나카드
-                                                            plate 디자인 공모전
+                                                        <h2 th:text="${volunteer.postTitle}">
                                                         </h2>
                                                     </div>
                                                     <div
@@ -230,7 +229,50 @@ const createListItem = () => {
                                                         ></path>
                                                         <defs></defs>
                                                     </svg>
-                                                    <span>목표 기부액
+                                                    <span>모집된 봉사 인원
+                                                    </span>
+                                                </div>
+                                                <div
+                                                    class="prize-info-row-label"
+                                                >
+                                                
+                                                </div>
+                                            </li>
+                                            <li class="prize-info-row">
+                                                <div class="prize-info-row-key">
+                                                    <svg
+                                                        type="contest16"
+                                                        color="#8E94A0"
+                                                        viewBox="0 0 16 16"
+                                                        class="trophy-svg"
+                                                    >
+                                                        <path
+                                                            d="M8.10192 14.5629H4.95866C4.95866 11.6908 8.10192 11.7272 8.10192 11.7272V9.8596C4.71508 9.8596 4.59534 7.1023 4.59534 7.1023L4.23682 2H8.10192"
+                                                            stroke-width="1.2"
+                                                            stroke-linecap="round"
+                                                            stroke-linejoin="round"
+                                                        ></path>
+                                                        <path
+                                                            d="M8.10193 14.5629H11.2452C11.2452 11.6908 8.10193 11.7272 8.10193 11.7272V9.8596C11.4881 9.8596 11.6078 7.1023 11.6078 7.1023L11.9663 2H8.10193"
+                                                            stroke-width="1.2"
+                                                            stroke-linecap="round"
+                                                            stroke-linejoin="round"
+                                                        ></path>
+                                                        <path
+                                                            d="M4.68623 7.73717C2.83544 7.65737 2.20118 6.73757 2.05681 5.96687C1.80707 4.63127 2.40918 4.05797 3.30549 4.21617"
+                                                            stroke-width="1.2"
+                                                            stroke-linecap="round"
+                                                            stroke-linejoin="round"
+                                                        ></path>
+                                                        <path
+                                                            d="M11.5037 7.73717C13.3538 7.65737 13.9887 6.73757 14.1331 5.96687C14.3828 4.63127 13.7807 4.05797 12.8837 4.21617"
+                                                            stroke-width="1.2"
+                                                            stroke-linecap="round"
+                                                            stroke-linejoin="round"
+                                                        ></path>
+                                                        <defs></defs>
+                                                    </svg>
+                                                    <span>모집 인원 수
                                                     </span>
                                                 </div>
                                                 <div
@@ -305,6 +347,7 @@ const createListItem = () => {
                                     >
     `;
     return liElement;
+    console.log(lists);
 };
 
 for (let i = 0; i < 10; i++) {

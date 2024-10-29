@@ -37,3 +37,5 @@ FROM tbl_vt v
          LEFT JOIN tbl_attachment at ON at.post_id = p.id
 WHERE v.id = 9;
 
+
+SELECT * FROM tbl_vt WHERE id = 5;
