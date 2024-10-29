@@ -14,8 +14,6 @@ select * from tbl_attachment;
 
 show databases;
 
-select * from tbl_vt;
-
 # - 컬럼 타입 변경
 # ALTER TABLE [테이블명] MODIFY [컬럼명] [변경할 컬럼타입];
 

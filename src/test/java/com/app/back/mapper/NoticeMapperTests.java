@@ -22,7 +22,7 @@ public class NoticeMapperTests {
     @Test
     public void testwrite() {
         NoticeDTO noticeDTO = new NoticeDTO();
-        noticeDTO.setId(51L);
+        noticeDTO.setId(102L);
         noticeDTO.setPostTitle("제목51");
         noticeDTO.setPostContent("내용51");
         noticeDTO.setPostSummary("요약51");

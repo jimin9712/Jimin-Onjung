@@ -1,49 +1,50 @@
-const notificationService = (() => {
-    const getList = async (page, callback) => {
-        const response = await fetch(`/help/notifications/${page}`); // 공지사항 목록을 가져오는 URL
-        const notifications = await response.json();
-        console.log("Fetched notifications:", notifications); // 데이터 확인용 로그
+const lisdiv = document.querySelector(".sidebar-wrap");
+const keyword = document.querySelector("input[name='keyword']");
+const notificationWrap = document.getElementById("notification-wrap");
+const pageWrap = document.getElementById("page-wrap");
 
-        if (callback) {
-            callback(notifications);
-        }
-    };
+let content = ``;
 
-    return { getList: getList };
-})();
-
-// 공지사항 목록을 동적으로 렌더링하는 함수
-const renderNotifications = (notifications) => {
-    const sidebarContainer = document.querySelector(".sidebar");
-    console.log(sidebarContainer); // 선택된 요소를 로그로 확인
-    let content = ``;
-
-    notifications.forEach(notification => {
-        content += `
-            <li>
-                <a href="/help/help-notification-inquiry?id=${notification.id}" class="sidebar-item">
-                    ${notification.postTitle}
-                </a>
-            </li>
-        `;
+// 게시글 목록을 표시하는 함수
+const showList = () => {
+    let text = ``; // HTML 내용을 저장할 변수 초기화
+    console.log(posts);
+    posts.forEach((notice) => {
+        text += `<li class="sidebar-item-container">
+            <a href="/help/help-notification-inquiry?id=${notice.id}"
+               class="sidebar-item">${notice.postTitle}
+               (${notice.createdDate})</a>
+        </li>`;
     });
+    text += `<li>
+                <a href="/help/help-notification-list" class="more-button">더보기</a>
+             </li>`;
 
-    sidebarContainer.innerHTML += content;
+    // 게시글 목록을 HTML 요소에 삽입
+    lisdiv.innerHTML = text;
 };
 
-// 더보기 버튼 이벤트 처리
-const moreButton = document.querySelector(".more-button");
-let currentPage = 1;
-moreButton.addEventListener("click", () => {
-    notificationService.getList(++currentPage, (notifications) => {
-        renderNotifications(notifications);
+showList();
 
-        // 만약 가져온 데이터가 없거나 더 이상 로드할 페이지가 없으면 더보기 버튼 숨김 처리
-        if (notifications.length === 0) {
-            moreButton.style.display = "none";
-        }
-    });
+// 키워드 검색 입력 처리
+if (search.keyword === null) {
+    search.keyword = '';
+}
+keyword.value = search.keyword;
+
+posts.forEach((notice) => {
+    content += `<li class="notification-container">
+        <a href="/help/help-notification-inquiry?id=${notice.id}" class="notification"
+            ><p class="notification-num">${notice.id}</p>
+            <h4 class="notification-title">${notice.postTitle}</h4>
+            <p class="notification-date">${notice.createdDate}</p></a>
+        </li>`;
 });
+notificationWrap.innerHTML = content;
 
-// 초기 로드 시 첫 페이지 공지사항 목록 불러오기
-notificationService.getList(currentPage, renderNotifications);
+// 페이지 네비게이션 링크 생성 및 삽입
+content = ``;
+for (let i = pagination.startPage; i <= pagination.endPage; i++) {
+    content += `<a href="/help/help-notification-list?keyword=${search.keyword}&page=${i}">${i}</a>`;
+}
+pageWrap.innerHTML = content;

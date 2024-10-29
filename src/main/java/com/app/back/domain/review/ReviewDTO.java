@@ -23,6 +23,7 @@ public class ReviewDTO {
     private String createdDate;
     private String updatedDate;
     private double reviewStarRate;
+    private String vtGroupName;
     private String attachmentFileName;
     private String attachmentFilePath;
     private String attachmentType;
@@ -34,7 +35,7 @@ public class ReviewDTO {
     }
 
     public ReviewVO toVO() {
-        return new ReviewVO(id, reviewStarRate);
+        return new ReviewVO(id, reviewStarRate, vtGroupName);
     }
 
     public AttachmentVO toAttachmentVO(){

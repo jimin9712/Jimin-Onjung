@@ -16,6 +16,8 @@ public class PostDAO {
         postMapper.insert(postVO);
     }
 
+    public Long selectCurrentId() { return postMapper.selectCurrentId(); };
+
     public PostVO findById(Long id) {
         return postMapper.selectById(id);
     }

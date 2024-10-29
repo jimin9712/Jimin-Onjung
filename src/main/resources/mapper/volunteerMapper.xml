@@ -54,6 +54,50 @@
         where id = #{id}
     </update>
 
+    <update id="updatePost">
+        update tbl_post
+        set id = #{id},
+            post_title = #{postTitle},
+            post_summary = #{postSummary},
+            post_content = #{postContent},
+            updated_date = #{updatedDate}
+            WHERE ID = #{id}
+    </update>
+
+    <update id="updateVt">
+        update tbl_vt
+        set id = #{id},
+            recruitment_count = #{recruitmentCount},
+            vt_s_date = #{vtSDate},
+            vt_e_date = #{vtEDate}
+        WHERE ID = #{id}
+    </update>
+
+    <update id="update">
+        update tbl_post
+        set id = #{id},
+            post_title = #{postTitle},
+            post_summary = #{postSummary},
+            post_content = #{postContent},
+            updated_date = #{updatedDate}
+        WHERE ID = #{id}
+    </update>
+
+    <update id="updateAttachment">
+        update tbl_attachment
+        set attachment_file_name = #{attachmentFileName},
+            attachment_file_path = #{attachmentFilePath},
+            attachment_file_size = #{attachmentFileSize},
+            attachment_file_type = #{attachmentFileType},
+            created_date = #{createdDate}
+        where post_id = #{postId}
+    </update>
+
+
+    <delete id="delete">
+        delete from tbl_vt
+        WHERE ID = #{id}
+    </delete>
 
 </mapper>
         <!--    <select id="selectByViewCount" resultType="volunteerDTO">-->

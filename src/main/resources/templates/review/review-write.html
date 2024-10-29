@@ -52,9 +52,9 @@
                                     <label class="company-name">
                                         <input
                                                 type="text"
-                                                placeholder="제목"
+                                                placeholder="봉사 단체명"
                                                 maxlength="19"
-                                                name="postTitle"
+                                                name="vtGroupName"
                                                 value=""
                                                 oninput="updateCharCount(this)"
                                         />
@@ -92,7 +92,7 @@
                                     <textarea
                                             placeholder="실제로 한 봉사 내용을 명확하고 간략하게 작성해주세요.
 ex) 경로식당 배식 봉사"
-                                            name="postContent"
+                                            name="postSummary"
                                             maxlength="300"
                                     ></textarea>
                                     </label>
@@ -112,18 +112,17 @@ ex) 경로식당 배식 봉사"
                                 <textarea
                                         id="briefing"
                                         aria-hidden="true"
-                                        name="postSummary"
+                                        name="postContent"
                                         placeholder="봉사활동 후기를 등록해주세요!"
                                 ></textarea>
 
-                                    <input
-                                            id="multipulfile-briefing"
-                                            type="file"
-                                            multiple=""
-                                            name="postContent"
-                                            accept="image/jpeg, image/jpg, image/png, image/webp"
-                                            hidden=""
-                                    />
+<!--                                    <input-->
+<!--                                            id="multipulfile-briefing"-->
+<!--                                            type="file"-->
+<!--                                            multiple=""-->
+<!--                                            accept="image/jpeg, image/jpg, image/png, image/webp"-->
+<!--                                            hidden=""-->
+<!--                                    />-->
                                 </div>
                             </div>
                         </div>
@@ -143,7 +142,7 @@ ex) 경로식당 배식 봉사"
                                                 type="file"
                                                 id="drop-zone-input"
                                                 class="attach-file-zone2"
-                                                name=""
+                                                name="file"
                                         /><svg
                                             viewBox="0 0 24 24"
                                             class="attach-file-img"
@@ -196,7 +195,7 @@ ex) 경로식당 배식 봉사"
                                     <input
                                             type="radio"
                                             id="star5"
-                                            name="rating"
+                                            name="review_star_rate"
                                             value="5"
                                     />
                                     <label for="star5" title="5 stars"
@@ -205,7 +204,7 @@ ex) 경로식당 배식 봉사"
                                     <input
                                             type="radio"
                                             id="star4"
-                                            name="rating"
+                                            name="review_star_rate"
                                             value="4"
                                     />
                                     <label for="star4" title="4 stars"
@@ -214,7 +213,7 @@ ex) 경로식당 배식 봉사"
                                     <input
                                             type="radio"
                                             id="star3"
-                                            name="rating"
+                                            name="review_star_rate"
                                             value="3"
                                     />
                                     <label for="star3" title="3 stars"
@@ -223,7 +222,7 @@ ex) 경로식당 배식 봉사"
                                     <input
                                             type="radio"
                                             id="star2"
-                                            name="rating"
+                                            name="review_star_rate"
                                             value="2"
                                     />
                                     <label for="star2" title="2 stars"
@@ -232,7 +231,7 @@ ex) 경로식당 배식 봉사"
                                     <input
                                             type="radio"
                                             id="star1"
-                                            name="rating"
+                                            name="review_star_rate"
                                             value="1"
                                     />
                                     <label for="star1" title="1 star"
@@ -245,7 +244,7 @@ ex) 경로식당 배식 봉사"
                             </div>
                         </div>
                         <div class="submit-button-container">
-                            <button id="submit-review" class="submit-button">
+                            <button id="submit-review" class="submit-button" type="submit">
                                 작성 완료
                             </button>
                         </div>
@@ -254,5 +253,39 @@ ex) 경로식당 배식 봉사"
             </div>
         </div>
     </body>
-    <script src="../../static/js/review/review-write.js"></script>
+    <script src="/js/review/review-write.js"></script>
+    <script src="/js/attachment/review-attachment-service.js"></script>
+    <script>
+        // const button = document.querySelector("button[type=button]");
+        // const files = document.querySelectorAll("input[type=file]");
+
+
+        fileInput.addEventListener("change", (e) => {
+            const file = document.querySelector(`attachment-${i}`);
+            console.log(file);
+            const formData = new FormData();
+            formData.append("file", file);
+            reviewAttachmentService.upload(formData);
+        })
+
+        // 다운로드 포함 로직
+        // const ths = document.querySelectorAll("img.th");
+        // const downloads = document.querySelectorAll("a.download");
+        //
+        // files.forEach((file, i) => {
+        //     file.addEventListener("change", async (e) => {
+        //         const file = e.target.files[0];
+        //         const formData = new FormData();
+        //         formData.append("file", file);
+        //         const fileInfo = await fileService.upload(formData);
+        //         console.log(fileInfo);
+        //         ths[i].src = `/file/display?fileName=${fileInfo.filePath + "/t_" + fileInfo.fileName}`;
+        //         downloads[i].href = `/file/download?fileName=${fileInfo.filePath + "/" + fileInfo.fileName}`;
+        //     });
+        // });
+
+        // button.addEventListener("click", (e) => {
+        //
+        // });
+    </script>
 </html>

@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Primary
 @RequiredArgsConstructor
@@ -14,9 +16,27 @@ public class AttachmentServiceImpl implements AttachmentService{
     private final AttachmentDAO attachmentDAO;
 
     @Override
-    public void register(AttachmentVO attachmentVO){
+    public void register(AttachmentVO attachmentVO) {
         attachmentDAO.save(attachmentVO);
     }
 
+    @Override
+    public AttachmentVO getFile(Long id) {
+        return attachmentDAO.findById(id);
+    }
 
+    @Override
+    public List<AttachmentVO> getList(Long postId) {
+        return attachmentDAO.findAll(postId);
+    }
+
+    @Override
+    public void delete(Long id) {
+        attachmentDAO.delete(id);
+    }
+
+    @Override
+    public void deleteAll(Long postId) {
+        attachmentDAO.deleteByPostId(postId);
+    }
 }

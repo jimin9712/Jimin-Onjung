@@ -5,12 +5,12 @@ import lombok.*;
 import org.springframework.stereotype.Component;
 
 @Component
-@Getter
+@Getter @Setter
 @ToString
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class VtApplicationVO {
+public class VtApplicationDTO {
 
     private Long id;
     private String applicationDate;
@@ -18,6 +18,7 @@ public class VtApplicationVO {
     private Long vtId;
     private Long memberId;
 
-
+    public VtApplicationVO toVO() {
+        return new VtApplicationVO(id,applicationDate,applicationStatus,vtId,memberId);}
 
 }

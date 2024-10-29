@@ -316,7 +316,7 @@ button {
     padding: 24px 40px;
     margin-top: 24px;
     background-color: rgb(255, 255, 255);
-    border: 1px solid rgb(233, 235, 237);
+    /*border: 1px solid rgb(233, 235, 237);*/
     border-radius: 16px;
     width: 360px;
     margin-left: auto;
@@ -333,7 +333,7 @@ button {
     position: relative;
     flex-wrap: nowrap;
     width: 100%;
-    overflow: auto;
+    /*overflow: auto;*/
     margin: 0 auto;
     scroll-behavior: smooth;
     -webkit-box-pack: start;
@@ -414,7 +414,14 @@ button {
 }
 
 
-
+.iFpvod {
+    user-select: none;
+    display: inline-block;
+    fill: currentcolor;
+    flex-shrink: 0;
+    width: 12px;
+    height: 12px;
+}
 
 
 

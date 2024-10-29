@@ -1,6 +1,6 @@
 package com.app.back.enums;
 
-public enum vtApplicationType {
+public enum vtApplicationStatus {
     WAITING,
     YES,
     NO

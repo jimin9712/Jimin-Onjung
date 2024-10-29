@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.back.mapper.vt_application.VtApplicationMapper">
+
+    <insert id="insertApplication">
+        insert into tbl_vt_application (application_status, vt_id, member_id)
+        values (#{applicationStatus}, #{vtId}, #{memberId})
+    </insert>
+</mapper>
