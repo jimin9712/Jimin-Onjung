@@ -27,15 +27,15 @@ public class VolunteerController {
 
         // 정렬 기준에 따른 게시글 목록 조회
         List<VolunteerDTO> lists = volunteerService.getList(pagination);
-//        if ("recent".equals(view)) {
-//            lists = volunteerService.getListByRecent(pagination);
-//        } else if ("endingSoon".equals(view)) {
-//            lists = volunteerService.getListByEndingSoon(pagination);
-//        } else if ("viewCount".equals(view)) {
-//            lists = volunteerService.getListByViewCount(pagination);
-//        } else {
-//            lists = volunteerService.getList(pagination); // 기본 조회
-//        }
+        if ("recent".equals(view)) {
+            lists = volunteerService.getListByRecent(pagination);
+        } else if ("endingSoon".equals(view)) {
+            lists = volunteerService.getListByEndingSoon(pagination);
+        } else if ("viewCount".equals(view)) {
+            lists = volunteerService.getListByViewCount(pagination);
+        } else {
+            lists = volunteerService.getList(pagination); // 기본 조회
+        }
 
 
         // 각 DTO에 남은 일수를 계산

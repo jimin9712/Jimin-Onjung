@@ -497,6 +497,31 @@ showList();
 
 
 
+
+fetch(`/volunteer/list?sort=${sortType}`, {
+
+    method: 'GET'
+})
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data && Array.isArray(data.lists)) {
+            lists = data.lists;
+            showList(); // 리스트 갱신
+        } else {
+            console.error('Invalid data format:', data);
+        }
+    })
+    .catch(error => console.error('Fetch error:', error));
+
+
+
+
+
 //
 //     if(pagination.prev){
 //         pagingText += `
