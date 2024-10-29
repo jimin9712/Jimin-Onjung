@@ -357,11 +357,12 @@ const listLayout = document.querySelector("#contest-list");
 const showList = () => {
     let text = ``;
     let pagingText = ``;
+    // lists 데이터가 없을 떄 처리 로직
     if (!lists || lists.length === 0) {
         text = `<div class="no-lists">게시글이 없습니다.</div>`;
     } else {
-    lists.forEach((list) => {
-        text += `
+        lists.forEach((list) => {
+            text += `
                                       <a
                                         href="/contest/view/149724/brief"
                                         class="donation-list-a"
@@ -374,20 +375,20 @@ const showList = () => {
                                                     >
                                                         <label
                                                             class="deadline state active"
-                                                            >${list.daysLeft||'날짜없음'}</label
+                                                            >${list.daysLeft || '남은기간없음'}</label
                                                         ><span
-                                                        ></span>${list.postType||'타입없음'}
+                                                        ></span>${list.postType || '타입없음'}
                                                     </div>
                                                     <div
                                                         class="outline-info-title"
                                                     >
-                                                        <h2>${list.postTitle||'제목없음'}
+                                                        <h2>${list.postTitle || '제목없음'}
                                                         </h2>
                                                     </div>
                                                     <div
                                                         class="outline-info-companyDesc"
                                                     >
-                                                        ${list.postsummary||'요약본없음'}
+                                                        ${list.postsummary || '요약본없음'}
                                                     </div>
                                                 </div>
 
@@ -416,7 +417,7 @@ const showList = () => {
                                                 <div
                                                     class="contest-info-bottom-user-nick"
                                                 >
-                                                    ${list.memberNickName||'닉네임없음'}
+                                                    ${list.memberNickName || '닉네임없음'}
                                                 </div>
                                                 <div
                                                     class="contest-info-bottom-view-icon"
@@ -445,7 +446,7 @@ const showList = () => {
                                                 <div
                                                     class="contest-info-bottom-view-count"
                                                 >
-                                                    ${list.postViewCount||'뷰카운트없음'}
+                                                    ${list.postViewCount || '뷰카운트없음'}
                                                 </div>
                                             </div>
                                         </div>
@@ -490,7 +491,7 @@ const showList = () => {
                                                 <div
                                                     class="prize-info-row-label"
                                                 >
-                                                ${list.nowRecruitmentCount||'모집인원없음'}
+                                                ${list.nowRecruitmentCount || '모집인원없음'}
                                                 </div>
                                             </li>
                                             <li class="prize-info-row">
@@ -533,7 +534,7 @@ const showList = () => {
                                                 <div
                                                     class="prize-info-row-label"
                                                 >
-                                                    ${list.recruitmentCount||'모집인원없음'}
+                                                    ${list.recruitmentCount || '모집인원없음'}
                                                 </div>
                                             </li>
                                             <li class="prize-info-row">
@@ -580,7 +581,7 @@ const showList = () => {
                                                 <div
                                                     class="prize-info-row-label"
                                                 >
-                                                    ${list.daysLeft||'남은기간없음'}
+                                                    ${list.daysLeft || '남은기간없음'}
                                                 </div>
                                             </li>
                                             <li class="prize-info-row">
@@ -593,7 +594,7 @@ const showList = () => {
                                                     <div
                                                         class="prize-info-row-label-date"
                                                     >
-                                                        ${list.vtSDate||'시작시간없음'} ~ ${list.vtEDate||'끝나는시간없음'}
+                                                        ${list.vtSDate || '시작시간없음'} ~ ${list.vtEDate || '끝나는시간없음'}
                                                         (24시까지)
                                                     </div>
                                                 </div>
@@ -601,12 +602,13 @@ const showList = () => {
                                         </ul>
                                      </a>
         `;
-        listLayout.innerHTML = text;
-        console.log(lists);
-    });
+            listLayout.innerHTML = text;
+            console.log(lists);
+        });
+    }
+    showList();
+    console.log('lists Data:', lists);
 }
-showList();
-console.log('lists Data:', lists);
 //
 //     if(pagination.prev){
 //         pagingText += `
