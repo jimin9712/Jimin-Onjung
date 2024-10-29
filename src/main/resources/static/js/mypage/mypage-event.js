@@ -1,3 +1,22 @@
+// 회원 정보 가져오기
+const getMemberInfo = async () => {
+    try {
+        const response = await fetch("/member/info");
+        if (!response.ok) throw new Error("로그인 상태를 확인할 수 없습니다.");
+
+        const data = await response.json();
+        console.log("받은 회원 데이터:", data);
+
+        // memberId 반환
+        return data.id;
+    } catch (error) {
+        console.error("회원 정보 조회 실패:", error);
+        return null;
+    }
+};
+
+
+
 // date-input 클래스를 가진 div 요소 가져오기
 const dateInput = document.querySelector(".date-input");
 
@@ -335,26 +354,46 @@ const boostTotalCount = boosts.filter(
 document.getElementById("boost-totalCount").textContent = boostTotalCount;
 
 /*********************기부**********************/
-
 // 기부 내역 렌더링▼
 // 서버에서 기부 데이터를 가져오기 ▼
-const fetchDonations = async () => {
+// 페이지 로드 시 실행
+document.addEventListener("DOMContentLoaded", async () => {
     try {
-        const response = await fetch('/donation-records/all');
-        if (!response.ok) {
-            throw new Error('서버로부터 데이터를 가져오는 데 실패했습니다.');
+        const memberId = await getMemberInfo(); // 회원 정보 가져오기
+
+        if (!memberId) {
+            console.error("회원 정보가 없습니다.");
+            alert("로그인이 필요합니다.");
+            window.location.href = "/member/login";
+            return;
         }
+
+        console.log("사용되는 memberId:", memberId);
+        await fetchDonations(memberId); // 기부 내역 가져오기
+    } catch (error) {
+        console.error("초기화 중 오류:", error);
+        alert("페이지를 불러오는 중 오류가 발생했습니다.");
+    }
+});
+
+// 기부 내역 가져오기
+const fetchDonations = async (memberId) => {
+    try {
+        const response = await fetch(`/donation-records/my-donation/${memberId}`);
+        if (!response.ok) throw new Error("서버로부터 데이터를 가져오는 데 실패했습니다.");
+
         const data = await response.json();
         renderDonations(data);
     } catch (error) {
-        console.error('Error fetching donation records:', error);
+        console.error("Error fetching donation records:", error);
+        alert("기부 내역을 불러오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.");
     }
 };
 
-// 기부 내역 렌더링 ▼
+// 기부 내역 렌더링
 const renderDonations = (donations) => {
-    const donationList = document.querySelector(".donaition-list");
-    const emptyComponent = document.querySelector("#donaition .empty-component");
+    const donationList = document.querySelector(".donation-list");
+    const emptyComponent = document.querySelector("#donation .empty-component");
 
     if (donations.length === 0) {
         donationList.style.display = "none";
@@ -363,45 +402,44 @@ const renderDonations = (donations) => {
         donationList.style.display = "block";
         emptyComponent.style.display = "none";
         donationList.innerHTML = `
-            <table class="news-center-table" style="margin-top: 0; margin-bottom: 20px;">
-                <colgroup>
-                    <col style="width: 57px;">
-                    <col style="width: 132px;">
-                    <col style="width: 150px;">
-                    <col style="width: 104px;">
-                </colgroup>
-                <thead class="news-center-table-head">
-                    <tr>
-                        <th>기부 번호</th>
-                        <th>구분</th>
-                        <th>금액</th>
-                        <th>기부일</th>
-                    </tr>
-                </thead>
-                <tbody class="news-center-table-body">
-                ${donations
+    <table class="news-center-table" style="margin-top: 0; margin-bottom: 20px;">
+        <colgroup>
+            <col style="width: 57px;">
+            <col style="width: 132px;">
+            <col style="width: 150px;">
+            <col style="width: 104px;">
+        </colgroup>
+        <thead class="news-center-table-head">
+            <tr>
+                <th>기부 번호</th>
+                <th>구분</th>
+                <th>금액</th>
+                <th>기부일</th>
+            </tr>
+        </thead>
+        <tbody class="news-center-table-body">
+            ${donations
             .map(
                 (donation) => `
-                    <tr class="news-data-rows" data-forloop="${donation.id}">
-                        <td class="news-center-table-body-number">${donation.id}</td>
-                        <td class="news-center-table-body-category">기부 완료</td>
-                        <td class="news-center-table-body-title"><span>${donation.donationAmount}포인트</span></td>
-                        <td class="news-center-table-body-date">${new Date(donation.createdDate).toLocaleDateString()}</td>
-                    </tr>
-                `
+                        <tr class="news-data-rows" data-forloop="${donation.id}">
+                            <td class="news-center-table-body-number">${donation.id}</td>
+                            <td class="news-center-table-body-category">기부 완료</td>
+                            <td class="news-center-table-body-title">
+                                <span>${parseInt(donation.donationAmount).toLocaleString()} 포인트</span>
+                            </td>
+                            <td class="news-center-table-body-date">
+                                ${new Date(donation.createdDate).toLocaleDateString('ko-KR')}
+                            </td>
+                        </tr>
+                    `
             )
             .join("")}
-                </tbody>
-            </table>
-        `;
+        </tbody>
+    </table>`;
     }
 
-    // 총 기부 건수 업데이트
-    document.getElementById("donaition-totalCount").textContent = donations.length;
+    document.getElementById("donation-totalCount").textContent = donations.length;
 };
-
-// 페이지 로드 시 기부 데이터를 가져오기 ▼
-document.addEventListener('DOMContentLoaded', fetchDonations);
 
 /*******************충전 하기********************/
 const charges = [
@@ -1171,10 +1209,10 @@ const applicationStanby = applications.filter(
 document.getElementById("application-stanby").textContent = applicationStanby;
 
 // 봉사 승인 숫자 증가
-const donaitionApproval = applications.filter(
+const donationApproval = applications.filter(
     (application) => application.status === "승인"
 ).length;
-document.getElementById("application-approval").textContent = donaitionApproval;
+document.getElementById("application-approval").textContent = donationApproval;
 
 // // 전체 선택 체크박스 로직
 

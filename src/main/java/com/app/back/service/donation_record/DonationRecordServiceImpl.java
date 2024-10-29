@@ -44,4 +44,9 @@ public class DonationRecordServiceImpl implements DonationRecordService {
     public int getTotalDonationByMemberId(Long memberId) {
         return donationRecordDAO.findTotalDonationByMemberId(memberId);
     }
+
+    @Override
+    public List<DonationRecordDTO> findByMemberId(Long memberId) { // 반환 타입 수정
+        return donationRecordDAO.findByMemberId(memberId);
+    }
 }
