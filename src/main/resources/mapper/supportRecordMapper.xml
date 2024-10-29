@@ -2,5 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.app.back.mapper.support_record.SupportRecordMapper">
 
+    <insert id="insert" parameterType="supportRecordDTO">
+        insert into tbl_support_record(
+            member_id, support_id, support_amount, created_date
+        ) VALUES (
+                  #{memberId}, #{supportId}, #{supportAmount}, #{createdDate}
+                         )
+    </insert>
 
 </mapper>

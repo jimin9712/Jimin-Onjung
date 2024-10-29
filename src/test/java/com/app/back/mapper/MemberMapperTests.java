@@ -19,13 +19,13 @@ public class MemberMapperTests {
     public void testInsertMember() {
         // 테스트용 DTO 생성
         MemberDTO memberDTO = new MemberDTO();
-        memberDTO.setMemberEmail("ljm21@naver.com");
+        memberDTO.setMemberEmail("ljm21000@naver.com");
         memberDTO.setMemberName("테스트 유저3");
         memberDTO.setMemberPhone("01012345678");
-        memberDTO.setMemberJung(1000);
+        memberDTO.setMemberJung(10000);
         memberDTO.setMemberPoint(10000);
         memberDTO.setMemberPassword("123123");
-        memberDTO.setMemberType("ORGANIZATION");
+        memberDTO.setMemberType("NORMAL");
         memberDTO.setMemberLoginType("NORMAL");
 
 
