@@ -348,16 +348,18 @@ document.addEventListener("DOMContentLoaded", () => {
 //     return liElement;
 //     console.log(lists);
 // };
-
-for (let i = 0; i < 10; i++) {
-    ulElement.appendChild(createListItem());
-}
+//
+// for (let i = 0; i < 10; i++) {
+//     ulElement.appendChild(createListItem());
+// }
 const listLayout = document.querySelector("#contest-list");
 
-const showList = ({lists, pagination}) => {
+const showList = () => {
     let text = ``;
     let pagingText = ``;
-
+    if (!lists || lists.length === 0) {
+        text = `<div class="no-lists">게시글이 없습니다.</div>`;
+    } else {
     lists.forEach((list) => {
         text += `
                                       <a
@@ -372,23 +374,23 @@ const showList = ({lists, pagination}) => {
                                                     >
                                                         <label
                                                             class="deadline state active"
-                                                            >${list.daysLeft}</label
+                                                            >${list.daysLeft||'날짜없음'}</label
                                                         ><span
-                                                        ></span>${list.postType}
+                                                        ></span>${list.postType||'타입없음'}
                                                     </div>
                                                     <div
                                                         class="outline-info-title"
                                                     >
-                                                        <h2>${list.postTitle}
+                                                        <h2>${list.postTitle||'제목없음'}
                                                         </h2>
                                                     </div>
                                                     <div
                                                         class="outline-info-companyDesc"
                                                     >
-                                                        ${list.postContent}
+                                                        ${list.postsummary||'요약본없음'}
                                                     </div>
                                                 </div>
-                                              
+
                                             </div>
                                             <div class="contest-info-bottom">
                                                 <div
@@ -414,7 +416,7 @@ const showList = ({lists, pagination}) => {
                                                 <div
                                                     class="contest-info-bottom-user-nick"
                                                 >
-                                                    하나카드
+                                                    ${list.memberNickName||'닉네임없음'}
                                                 </div>
                                                 <div
                                                     class="contest-info-bottom-view-icon"
@@ -443,7 +445,7 @@ const showList = ({lists, pagination}) => {
                                                 <div
                                                     class="contest-info-bottom-view-count"
                                                 >
-                                                    14,173
+                                                    ${list.postViewCount||'뷰카운트없음'}
                                                 </div>
                                             </div>
                                         </div>
@@ -482,13 +484,13 @@ const showList = ({lists, pagination}) => {
                                                         ></path>
                                                         <defs></defs>
                                                     </svg>
-                                                    <span>모집된 봉사 인원
+                                                    <span>모집된 인원
                                                     </span>
                                                 </div>
                                                 <div
                                                     class="prize-info-row-label"
                                                 >
-                                                
+                                                ${list.nowRecruitmentCount||'모집인원없음'}
                                                 </div>
                                             </li>
                                             <li class="prize-info-row">
@@ -525,13 +527,13 @@ const showList = ({lists, pagination}) => {
                                                         ></path>
                                                         <defs></defs>
                                                     </svg>
-                                                    <span>모집 인원 수
+                                                    <span>총 모집 인원
                                                     </span>
                                                 </div>
                                                 <div
                                                     class="prize-info-row-label"
                                                 >
-                                                    1,600만원
+                                                    ${list.recruitmentCount||'모집인원없음'}
                                                 </div>
                                             </li>
                                             <li class="prize-info-row">
@@ -578,7 +580,7 @@ const showList = ({lists, pagination}) => {
                                                 <div
                                                     class="prize-info-row-label"
                                                 >
-                                                    18일
+                                                    ${list.daysLeft||'남은기간없음'}
                                                 </div>
                                             </li>
                                             <li class="prize-info-row">
@@ -591,20 +593,20 @@ const showList = ({lists, pagination}) => {
                                                     <div
                                                         class="prize-info-row-label-date"
                                                     >
-                                                        24.09.13 ~ 24.10.31
+                                                        ${list.vtSDate||'시작시간없음'} ~ ${list.vtEDate||'끝나는시간없음'}
                                                         (24시까지)
                                                     </div>
                                                 </div>
                                             </li>
                                         </ul>
                                      </a>
-        
-        
         `;
+        listLayout.innerHTML = text;
+        console.log(lists);
     });
-
 }
-    listLayout.innerHTML = text;
+showList();
+console.log('lists Data:', lists);
 //
 //     if(pagination.prev){
 //         pagingText += `

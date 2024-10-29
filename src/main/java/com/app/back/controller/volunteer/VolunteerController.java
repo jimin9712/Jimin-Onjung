@@ -53,9 +53,6 @@ public class VolunteerController {
 
         return "volunteer/volunteer-list"; // volunteer 목록 페이지로 이동
     }
-
-
-
 }
 
 
