@@ -1,8 +1,7 @@
 package com.app.back.domain.inquiry;
 
-import com.app.back.domain.member.MemberVO;
-import com.app.back.domain.notice.NoticeVO;
 import com.app.back.domain.post.PostVO;
+import com.app.back.domain.member.MemberVO;
 import lombok.*;
 import org.springframework.stereotype.Component;
 
@@ -28,6 +27,8 @@ public class InquiryDTO {
     private Long memberId;
     private String createdDate;
     private String updatedDate;
+    private String memberNickName;
+
 
     public PostVO toPostVO() {
         return new PostVO(id, postTitle, postContent, postSummary, postType, postStatus, postViewCount, memberId, createdDate, updatedDate);

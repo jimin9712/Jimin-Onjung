@@ -6,53 +6,54 @@
         <!-- 관리자 홈 -->
         <link
             rel="stylesheet"
-            href="/static/css/admin_page/amdin_main/sub_main.css"
+            href="/css/admin_page/amdin_main/sub_main.css"
         />
         <link
             rel="stylesheet"
-            href="/static/css/admin_page/amdin_main/common_main.css"
+            href="/css/admin_page/amdin_main/common_main.css"
         />
-        <link rel="stylesheet" href="/static/css/admin.css">
+        <link rel="stylesheet" href="/css/admin.css">
         <!-- 회원 목록 -->
         <link
             rel="stylesheet"
-            href="/static/css/admin_page/admin_user_list/common_user_list.css"
+            href="/css/admin_page/admin_user_list/common_user_list.css"
         />
         <link
             rel="stylesheet"
-            href="/static/css/admin_page/admin_user_list/sub_user_list.css"
+            href="/css/admin_page/admin_user_list/sub_user_list.css"
         />
         <link
             rel="stylesheet"
-            href="/static/css/admin_page/admin_user_list/modal_user.css"
+            href="/css/admin_page/admin_user_list/modal_user.css"
         />
         <!-- 공지사항 목록 -->
         <link
             rel="stylesheet"
-            href="/static/css/help/help-notification-list.css"
+            href="/css/help/help-notification-list.css"
         />
         <!-- 공지사항 조회 -->
         <link
             rel="stylesheet"
-            href="../../static/css/help/help-notification-inquiry.css"
+            href="/css/help/help-notification-inquiry.css"
         />
         <!-- 고객센터 문의 목록 -->
-        <link rel="stylesheet" href="/admin/admin.css" />
+        <link rel="stylesheet" href="/css/admin/admin.css" />
+        <link rel="stylesheet" href="/admin/admin.css">
         <!-- 고객센터 문의 답변 -->
-        <link rel="stylesheet" href="/static/css/help/help-write.css" />
+        <link rel="stylesheet" href="/css/help/help-write.css" />
         <!-- 게시글 목록 -->
         <link
             rel="stylesheet"
-            href="/static/css/admin_page/admin_service/sub_service.css"
+            href="/css/admin_page/admin_service/sub_service.css"
         />
         <link
             rel="stylesheet"
-            href="/static/css/admin_page/admin_service/main_service.css"
+            href="/css/admin_page/admin_service/main_service.css"
         />
         <!-- 게시글 조회 -->
         <link
             rel="stylesheet"
-            href="../../static/css/donation/donation-inquiry.css"
+            href="/css/donation/donation-inquiry.css"
         />
         <!-- 신고 목록 -->
         
@@ -2905,24 +2906,28 @@
             </div>
         </div>
     </body>
+    <script th:inline="javascript">
+        const inquiries = [[${inquiries}]];
+        const search = [[${search}]];
+    </script>
     <!-- 관리자 홈 -->
-    <script src="/static/js/admin.js"></script>
-    <script src="/static/js/adminPage/admin_page/admin.js"></script>
+    <script src="/js/admin.js"></script>
+    <script src="/js/adminPage/admin_page/admin.js"></script>
     <!-- 회원 목록 -->
-    <script src="/static/js/adminPage/admin_user/admin_user.js"></script>
-    <script src="/static/js/adminPage/admin_page/admin.js"></script>
-    <script src="/static/js/adminPage/admin_user/modal_user.js"></script>
+    <script src="/js/adminPage/admin_user/admin_user.js"></script>
+    <script src="/js/adminPage/admin_page/admin.js"></script>
+    <script src="/js/adminPage/admin_user/modal_user.js"></script>
     <!-- 공지사항 목록 -->
     <!-- <script src="/static/js/admin.js"> -->
     <!-- 공지사항 조회 -->
-    <script src="../../static/js/help/help-notification-inquiry.js"></script>
+    <script src="/js/help/help-notification-inquiry.js"></script>
     <!-- 고객센터 문의 목록 -->
 
     <!-- 고객센터 문의 답변 -->
-    <script src="/static/js/help/help-write.js"></script>
+    <script src="/js/help/help-write.js"></script>
     <!-- 게시글 목록 -->
-    <script src="/static/js/adminPage/admin_service/service_Main.js"></script>
-    <script src="/static/js/adminPage/admin_post/postList_filter.js"></script>
+    <script src="/js/adminPage/admin_service/service_Main.js"></script>
+    <script src="/js/adminPage/admin_post/postList_filter.js"></script>
     <!-- 게시글 조회 -->
-    <script src="../../static/js/donation/donation-inquiry.js"></script>
+    <script src="/js/donation/donation-inquiry.js"></script>
 </html>
