@@ -13,5 +13,6 @@ public interface DonationRecordService {
     public void deleteById(Long id);
     public int getTotalDonationByMemberId(Long memberId);
     public List<DonationRecordDTO> findByMemberId(Long memberId); // 반환 타입 수정
+    public List<DonationRecordDTO> findByMemberIdAndDateRange(Long memberId, String startDate, String endDate);
 
 }

@@ -362,19 +362,61 @@ document.addEventListener("DOMContentLoaded", async () => {
         const memberId = await getMemberInfo(); // 회원 정보 가져오기
 
         if (!memberId) {
-            console.error("회원 정보가 없습니다.");
             alert("로그인이 필요합니다.");
             window.location.href = "/member/login";
             return;
         }
 
         console.log("사용되는 memberId:", memberId);
-        await fetchDonations(memberId); // 기부 내역 가져오기
+        await fetchDonations(memberId); // 기본 기부 내역 가져오기
+
+        // 필터 이벤트 설정
+        document.getElementById("filter-1year").addEventListener("change", () => applyFilter(memberId, 12));
+        document.getElementById("filter-6months").addEventListener("change", () => applyFilter(memberId, 6));
+        document.getElementById("filter-3months").addEventListener("change", () => applyFilter(memberId, 3));
+        document.getElementById("Initialization").addEventListener("click", () => fetchDonations(memberId));
+
     } catch (error) {
         console.error("초기화 중 오류:", error);
         alert("페이지를 불러오는 중 오류가 발생했습니다.");
     }
 });
+
+// 특정 기간의 기부 내역 가져오기
+const applyFilter = async (memberId, months) => {
+    const today = new Date();
+    const startDate = new Date(today.setMonth(today.getMonth() - months)).toISOString().split("T")[0];
+    const endDate = new Date().toISOString().split("T")[0];
+
+    await fetchFilteredDonations(memberId, startDate, endDate);
+};
+
+// 날짜 지정 시 기부 내역 조회
+const updateDateRange = async () => {
+    const startDate = document.getElementById("start-date-donation").value;
+    const endDate = document.getElementById("end-date-donation").value;
+    const memberId = await getMemberInfo();
+
+    if (startDate && endDate) {
+        await fetchFilteredDonations(memberId, startDate, endDate);
+    }
+};
+
+// 필터된 기부 내역 가져오기
+const fetchFilteredDonations = async (memberId, startDate, endDate) => {
+    try {
+        const response = await fetch(
+            `/donation-records/my-donation/${memberId}?startDate=${startDate}&endDate=${endDate}`
+        );
+        if (!response.ok) throw new Error("서버로부터 데이터를 가져오는 데 실패했습니다.");
+
+        const data = await response.json();
+        renderDonations(data);
+    } catch (error) {
+        console.error("Error fetching filtered donation records:", error);
+        alert("기부 내역을 불러오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.");
+    }
+};
 
 // 기부 내역 가져오기
 const fetchDonations = async (memberId) => {
@@ -440,6 +482,7 @@ const renderDonations = (donations) => {
 
     document.getElementById("donation-totalCount").textContent = donations.length;
 };
+
 
 /*******************충전 하기********************/
 const charges = [
@@ -863,38 +906,7 @@ document.getElementById("inquiry-standbyCount").textContent =
     inquiryStandbyCount;
 
 /*********************봉사 활동 후기**********************/
-const postscripts = [
-    {
-        id: 1,
-        title: "후기 제목1",
-        content: "후기 내용 요약1",
-        date: "2024.03.01",
-    },
-    {
-        id: 2,
-        title: "후기 제목2",
-        content: "후기 내용 요약2",
-        date: "2024.03.02",
-    },
-    {
-        id: 3,
-        title: "후기 제목3",
-        content: "후기 내용 요약3",
-        date: "2024.03.03",
-    },
-    {
-        id: 4,
-        title: "후기 제목4",
-        content: "후기 내용 요약4",
-        date: "2024.03.04",
-    },
-    {
-        id: 5,
-        title: "후기 제목5",
-        content: "후기 내용 요약5",
-        date: "2024.03.05",
-    },
-];
+
 
 // 후기 내역 렌더링▼
 const renderPostscripts = () => {

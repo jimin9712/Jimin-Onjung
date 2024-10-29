@@ -38,5 +38,8 @@ public class DonationRecordDAO {
     public List<DonationRecordDTO> findByMemberId(Long memberId) { // 반환 타입 수정
         return donationRecordMapper.selectByMemberId(memberId);
     }
+    public List<DonationRecordDTO> findByMemberIdAndDateRange(Long memberId, String startDate, String endDate) {
+        return donationRecordMapper.selectByMemberIdAndDateRange(memberId, startDate, endDate);
+    }
 
 }
