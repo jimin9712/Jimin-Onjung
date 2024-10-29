@@ -53,4 +53,16 @@
         FROM tbl_donation_record
         WHERE member_id = #{memberId}
     </select>
+    <select id="selectByMemberId" parameterType="long" resultType="donationRecordDTO">
+        SELECT
+            id, donation_amount, created_date,member_id, donation_id
+        FROM
+            tbl_donation_record
+        WHERE
+            member_id = #{memberId}
+        ORDER BY
+            id DESC
+    </select>
+
+
 </mapper>

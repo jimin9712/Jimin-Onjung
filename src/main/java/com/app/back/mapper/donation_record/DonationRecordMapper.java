@@ -15,4 +15,5 @@ public interface DonationRecordMapper {
     public void update(DonationRecordDTO donationRecordDTO);
     public void deleteById(Long id);
     public int selectTotalDonationByMemberId(@Param("memberId") Long memberId);
+    public List<DonationRecordDTO> selectByMemberId(@Param("memberId") Long memberId); // 반환 타입 수정
 }
