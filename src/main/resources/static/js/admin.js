@@ -289,7 +289,7 @@ notificationLinks.forEach((notificationLink) => {
 //여기서부터 서버 ==============================================================================
 
 const lisdiv = document.querySelector(".inquiryTable_container");
-const pagingdiv = document.querySelector(".pagination-container");
+const pagingdiv = document.querySelector(".pagination-list");
 const keyword = document.querySelector("input[name='keyword']");
 const notificationWrap = document.getElementById("notificationWrap");
 const pageWrap = document.getElementById("page-wrap");
@@ -415,7 +415,7 @@ inquiryAnswerButtons.forEach((inquiryAnswerButton) => {
 });
 
 const showPaging = () => {
-    let text = `<ul class="pagination-list">`; // HTML 내용을 저장할 변수 초기화
+    let text = ``;
 
     // 처음 페이지로 이동하는 버튼
     text += `
@@ -493,3 +493,4 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error("pagination 데이터가 존재하지 않습니다.");
     }
 });
+//안돼

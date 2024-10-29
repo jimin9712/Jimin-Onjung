@@ -30,11 +30,6 @@ public class InquiryController {
         log.info("페이지네이션 정보: {}", pagination);
         log.info("검색 조건: {}", search);
 
-        // page가 null인 경우 기본값으로 1을 설정
-        if (pagination.getPage() == null) {
-            pagination.setPage(1);
-        }
-
         if (pagination.getOrder() == null) {
             pagination.setOrder("created_date desc, n.id desc"); // 기본 정렬 기준
         }
@@ -43,9 +38,10 @@ public class InquiryController {
         } else {
             pagination.setTotal(inquiryService.getTotal());
         }
+        log.info("총 데이터 개수 설정됨: {}", pagination.getTotal());
 
         pagination.progress();
-
+        log.info("페이지네이션 정보 (progress 후): {}", pagination);
         List<InquiryDTO> inquiries = inquiryService.getList(pagination, search);
         System.out.println("조회된 데이터: " + inquiries);
 
@@ -57,7 +53,6 @@ public class InquiryController {
 
         return "admin";
     }
-
 
 
 }
