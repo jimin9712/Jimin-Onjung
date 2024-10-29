@@ -30,7 +30,7 @@ let content = ``;
 // 게시글 목록을 표시하는 함수
 const showList = () => {
     let text = ``; // HTML 내용을 저장할 변수 초기화
-    posts.forEach((notice) => {
+    notices.forEach((notice) => {
         text += `<li class="notification-container">
         <a href="/help/help-notification-inquiry?id=${notice.id}" class="notification"
             ><p class="notification-num">${notice.id}</p>
@@ -112,7 +112,7 @@ if (search.keyword === null) {
 }
 keyword.value = search.keyword;
 
-posts.forEach((notice) => {
+notices.forEach((notice) => {
     content += `<li class="notification-container">
         <a href="/help/help-notification-inquiry?id=${notice.id}" class="notification"
             ><p class="notification-num">${notice.id}</p>

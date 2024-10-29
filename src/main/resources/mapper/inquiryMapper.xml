@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.app.back.mapper.inquiry.InquiryMapper">
+    <sql id="search">
+        <if test="search.keyword != null and search.keyword != 'null'.toString()">
+            <choose>
+                <when test="search.types != null">
+                    <foreach item="type" collection="search.types">
+                        <if test="type == 'post-title'.toString()">
+                            and post_title like concat('%', #{search.keyword}, '%')
+                        </if>
+                    </foreach>
+                </when>
+                <otherwise>
+                    and (
+                    post_title like concat('%', #{search.keyword}, '%')
+                    )
+                </otherwise>
+            </choose>
+        </if>
+    </sql>
 
     <insert id="insert">
         insert into tbl_inquiry (id, inquiry_email,inquiry_phone,inquiry_type)
@@ -21,6 +39,7 @@
         from tbl_inquiry i
                  join tbl_post p on i.id = p.id
                  join tbl_member m on p.member_id = m.id
+        <include refid="search"/>
         order by
         <choose>
         <when test="pagination.order == 'recent'.toString()">p.created_date</when>
@@ -28,6 +47,22 @@
         </choose>
         desc
             limit #{pagination.startRow}, #{pagination.rowCount};
+    </select>
+
+    <select id="selectById" resultType="inquiryDTO">
+        select id, post_title, post_content
+        from tbl_post
+        where id = #{id}
+    </select>
+
+    <select id="selectTotal">
+        select count(*) from tbl_inquiry
+    </select>
+
+    <select id="selectTotalWithSearch">
+        select count(*) from tbl_post p join tbl_inquiry n
+        on p.id = n.id
+        <include refid="search"/>
     </select>
 
     <update id="updateById">
@@ -41,8 +76,5 @@
         delete from tbl_inquiry
         where id = #{id}
     </delete>
-
-
-
 
 </mapper>

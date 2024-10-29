@@ -59,7 +59,7 @@ public class NoticeController {
             pagination.setTotal(noticeService.getTotal());
         }
         pagination.progress();
-        model.addAttribute("posts", noticeService.getList(pagination, search));
+        model.addAttribute("notices", noticeService.getList(pagination, search));
         model.addAttribute("search", search);
     }
 
@@ -84,7 +84,7 @@ public class NoticeController {
 
             // 사이드바에 표시할 공지사항 목록 추가
             pagination.progress();
-            model.addAttribute("posts", noticeService.getList(pagination, search));
+            model.addAttribute("notices", noticeService.getList(pagination, search));
 
             return "help/help-notification-inquiry"; // 조회 페이지로 이동
         } else {
