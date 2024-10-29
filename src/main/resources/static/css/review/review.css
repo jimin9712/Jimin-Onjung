@@ -69,7 +69,7 @@
         max-width: 360px;
         height: auto;
         max-height: 200px;
-        margin: 0 auto;
+        margin: 0px auto;
         border-radius: 8px;
         object-fit: cover;
     }
@@ -598,6 +598,7 @@ main .review-list-wrap {
 .review-card-divider .review-part {
     display: flex;
     flex-direction: row;
+    margin: 4px 0;
 }
 .review-card-divider .review-part .review-thumbnail {
     overflow: hidden;

@@ -170,5 +170,9 @@
             </main>
         </div>
     </body>
-    <script src="/js/review/review.js"></script>
+    <script th:inline="javascript">
+        const reviews = [[${reviews}]];
+        const pagination = [[${pagination}]];
+    </script>
+    <script src="/js/review/review-list.js"></script>
 </html>
