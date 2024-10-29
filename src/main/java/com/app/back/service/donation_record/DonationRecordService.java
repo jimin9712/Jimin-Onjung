@@ -12,5 +12,6 @@ public interface DonationRecordService {
     public void update(DonationRecordDTO donationRecordDTO);
     public void deleteById(Long id);
     public int getTotalDonationByMemberId(Long memberId);
+    public List<DonationRecordDTO> findByMemberId(Long memberId); // 반환 타입 수정
 
 }

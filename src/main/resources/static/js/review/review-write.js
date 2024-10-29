@@ -6,6 +6,7 @@ const maxFiles = 10;
 const maxTotalSize = 20 * 1024 * 1024; // 20MB
 
 let uploadedFiles = new Set(); // 업로드된 파일을 저장하는 Set
+let i = 0;
 
 // 파일 선택 시 호출되는 함수
 fileInput.addEventListener("change", (event) => {
@@ -32,11 +33,14 @@ dropZone.addEventListener("drop", (event) => {
 
 // 파일 처리 함수
 const handleFiles = (files) => {
+    const formData = new FormData();
+    formData.append("file", files[0]);
+    reviewAttachmentService.upload(formData);
+    console.log(files[0]);
     let totalSize = Array.from(uploadedFiles).reduce(
         (acc, file) => acc + file.size,
         0
     );
-
     for (const file of files) {
         if (uploadedFiles.size >= maxFiles) {
             alert("최대 10개의 파일만 업로드할 수 있습니다.");
@@ -93,7 +97,7 @@ document.getElementById("submit-review").addEventListener("click", (e) => {
         .querySelector(".service-contents textarea")
         .value.trim();
     const reviewContent = document.getElementById("briefing").value.trim();
-    const rating = document.querySelector('input[name="rating"]:checked');
+    const rating = document.querySelector('input[name="reviewStarRate"]:checked');
 
     // 필수 항목 검증
     if (!companyName) {

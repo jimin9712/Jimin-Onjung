@@ -6,6 +6,7 @@ import com.app.back.domain.review.ReviewDTO;
 import com.app.back.domain.review.ReviewVO;
 import com.app.back.mapper.post.PostMapper;
 import com.app.back.mapper.review.ReviewMapper;
+import com.app.back.repository.attachment.AttachmentDAO;
 import com.app.back.repository.post.PostDAO;
 import com.app.back.repository.review.ReviewDAO;
 import lombok.RequiredArgsConstructor;
@@ -26,13 +27,16 @@ import java.util.Optional;
 public class ReviewServiceImpl implements ReviewService {
     private final ReviewDAO reviewDAO;
     private final PostDAO postDAO; // 게시글 DAO
+    private final AttachmentDAO attachmentDAO;
 
     @Override
     public void write(ReviewDTO reviewDTO) {
         postDAO.save(reviewDTO.toPostVO());
         Long id = postDAO.selectCurrentId();
-        log.info("id: {}", id);
         reviewDTO.setId(id);
+        if(reviewDTO.getAttachmentFileName() != null && reviewDTO.getAttachmentFilePath() != null && reviewDTO.getAttachmentFileType() != null && reviewDTO.getAttachmentFileSize() != null) {
+            attachmentDAO.save(reviewDTO.toAttachmentVO());
+        }
         reviewDAO.save(reviewDTO.toVO());
     }
 
