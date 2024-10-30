@@ -33,6 +33,8 @@ public class MemberVO implements Serializable {
     private String resetUuid;
 
 
+
+
     public MemberDTO toDTO() {
         MemberDTO memberDTO = new MemberDTO();
         memberDTO.setId(id);
