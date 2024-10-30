@@ -34,6 +34,7 @@ public class InquiryController {
         if (pagination.getOrder() == null) {
             pagination.setOrder("created_date desc, n.id desc"); // 기본 정렬 기준
         }
+
         if (search.getKeyword() != null) {
             pagination.setTotal(inquiryService.getTotalWithSearch(search));
         } else {

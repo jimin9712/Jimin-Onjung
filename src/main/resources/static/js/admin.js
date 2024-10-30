@@ -96,6 +96,7 @@ document.addEventListener("DOMContentLoaded", function () {
             inquiryTableContainer.appendChild(help);
         });
     }
+
     // 최신순으로 정렬
     sortHelps("최신순");
 
@@ -249,23 +250,23 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-let notificationContainer = `<li class="notification-container">
-                                <a href="#" class="notification notification-table"
-                                    ><p class="notification-num notification-table">8</p>
-                                    <h4 class="notification-title">10.22 업데이트 내용 및 바뀐 회원정보 관리 방식 안내</h4>
-                                    <p class="notification-date notification-table">2024.10.21</p></a>
-                            </li>`;
-let text = ``;
-text += notificationContainer;
-text += notificationContainer;
-text += notificationContainer;
-text += notificationContainer;
-text += notificationContainer;
-text += notificationContainer;
-text += notificationContainer;
-text += notificationContainer;
-
-notificationListWrap.innerHTML = text;
+// let notificationContainer = `<li class="notification-container">
+//                                 <a href="#" class="notification notification-table"
+//                                     ><p class="notification-num notification-table">8</p>
+//                                     <h4 class="notification-title">10.22 업데이트 내용 및 바뀐 회원정보 관리 방식 안내</h4>
+//                                     <p class="notification-date notification-table">2024.10.21</p></a>
+//                             </li>`;
+// let text = ``;
+// text += notificationContainer;
+// text += notificationContainer;
+// text += notificationContainer;
+// text += notificationContainer;
+// text += notificationContainer;
+// text += notificationContainer;
+// text += notificationContainer;
+// text += notificationContainer;
+//
+// notificationListWrap.innerHTML = text;
 
 let notificationLinks = document.querySelectorAll(
     "a.notification.notification-table"
@@ -285,12 +286,12 @@ notificationLinks.forEach((notificationLink) => {
 });
 
 
-
 //여기서부터 서버 ==============================================================================
-
-const lisdiv = document.querySelector(".inquiryTable_container");
+const Inquriy = document.querySelector(".inquiryTable_container");
 const pagingdiv = document.querySelector(".pagination-list.inquiry-page");
 const keyword = document.querySelector("input[name='keyword']");
+const inquiryPage = document.getElementById(".pagination-list.inquiry-page");
+const Notice = document.querySelector(".notification-list-wrap");
 
 
 
@@ -298,9 +299,9 @@ let content = ``;
 
 
 // 게시글 목록을 표시하는 함수
-const showList = () => {
+const showInquiry = () => {
     let text = ``; // HTML 내용을 저장할 변수 초기화
-    text +=`<div
+    text += `<div
                                             class="inquiryTable_row inquiryTable_header"
                                         >
                                             <div
@@ -393,10 +394,10 @@ const showList = () => {
     });
 
     // 게시글 목록을 HTML 요소에 삽입
-    lisdiv.innerHTML = text;
+    Inquriy.innerHTML = text;
 }
 
-showList();
+showInquiry();
 
 const inquiryAnswerButtons = document.querySelectorAll(
     ".inquiryTable_cell button.editBtn"
@@ -445,6 +446,7 @@ const showPaging = () => {
             console.log(pagination.realEnd);
             console.log(pagination.rowCount);
             console.log(pagination.total);
+
             // 현재 페이지인 경우
             text += `
                 <li class="pagination-page active">
@@ -452,7 +454,9 @@ const showPaging = () => {
                 </li>
             `;
 
-        } else { console.log(":들어옴");
+        } else {
+            console.log(":들어옴");
+            console.log(pagination.keyword);
             // 다른 페이지인 경우
             text += `
                 <li class="pagination-page">
@@ -499,3 +503,71 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error("pagination 데이터가 존재하지 않습니다.");
     }
 });
+// 키워드 검색 입력 처리
+if (search.keyword === null) {
+    search.keyword = '';
+}
+keyword.value = search.keyword;
+
+notices.forEach((inquiry) => {
+    content += `<div class="inquiryTable_row data_row">
+                                            <div class="inquiryTable_cell">
+                                                <input
+                                                    type="checkbox"
+                                                    class="inquiryCheckbox"
+                                                />
+                                            </div>
+                                            <div class="inquiryTable_cell inquiry_type">
+                                                ${inquiry.inquiryType}
+                                            </div>
+                                            <div class="inquiryTable_cell inquiry_date">
+                                                ${inquiry.createdDate}
+                                            </div>
+                                            <div class="inquiryTable_cell">
+                                                ${inquiry.postTitle}
+                                            </div>
+
+                                            <div class="inquiryTable_cell">
+                                                ${inquiry.postContent}
+                                            </div>
+                                            <div class="inquiryTable_cell">
+                                                ${inquiry.memberNickName}
+                                            </div>
+                                            <div class="inquiryTable_cell">
+                                                ${inquiry.inquiryEmail}
+                                            </div>
+                                            <div class="inquiryTable_cell">
+                                                ${inquiry.inquiryStatus}
+                                            </div>
+
+                                            <div class="inquiryTable_cell">
+                                                <button class="editBtn">
+                                                    답변하기
+                                                </button>
+                                            </div>
+                                        </div>`;
+});
+inquiryPage.innerHTML = content;
+
+// 페이지 네비게이션 링크 생성 및 삽입
+content = ``;
+for (let i = pagination.startPage; i <= pagination.endPage; i++) {
+    content += `<a href="/admin?keyword=${search.keyword}&page=${i}">${i}</a>`;
+}
+
+// 게시글 목록을 표시하는 함수
+const showNotice = () => {
+    let text = ``; // HTML 내용을 저장할 변수 초기화
+    notices.forEach((notice) => {
+        text += `<li class="notification-container">
+        <a href="/help/help-notification-inquiry?id=${notice.id}" class="notification notification-table"
+            ><p class="notification-num notification-table">${notice.id}</p>
+            <h4 class="notification-title">${notice.postTitle}</h4>
+            <p class="notification-date notification-table">${notice.createdDate}</p></a>
+        </li>`;
+    });
+
+    // 게시글 목록을 HTML 요소에 삽입
+    Notice.innerHTML = text;
+}
+showNotice();
