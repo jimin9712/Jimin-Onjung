@@ -22,7 +22,7 @@ const lisdiv = document.querySelector(".notification-wrap");
 const pagingdiv = document.querySelector(".pagination-container");
 const keyword = document.querySelector("input[name='keyword']");
 const notificationWrap = document.getElementById("notification-wrap");
-const pageWrap = document.getElementById("page-wrap");
+
 
 let content = ``;
 
@@ -127,4 +127,3 @@ content = ``;
 for (let i = pagination.startPage; i <= pagination.endPage; i++) {
     content += `<a href="/help/help-notification-list?keyword=${search.keyword}&page=${i}">${i}</a>`;
 }
-pageWrap.innerHTML = content;

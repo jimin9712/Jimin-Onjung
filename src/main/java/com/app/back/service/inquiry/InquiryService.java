@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public interface InquiryService {
     //    작성
-    public void write(InquiryVO inquiryVO, List<AttachmentVO> attachments);
+    public void write(InquiryDTO inquiryDTO);
     //    목록
     public List<InquiryDTO> getList(Pagination pagination, Search search);
     //    조회
