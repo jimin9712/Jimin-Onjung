@@ -5,13 +5,17 @@ import com.app.back.domain.volunteer.VolunteerDTO;
 import com.app.back.service.volunteer.VolunteerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller // 이 클래스가 컨트롤러임을 나타냄
 @RequestMapping("/volunteer/*") // QA 관련 요청을 처리
@@ -20,8 +24,11 @@ import java.util.List;
 public class VolunteerController {
     private final VolunteerService volunteerService;
 
+
+    
     @GetMapping("/list") // Q&A 게시글 목록 조회
-    public String getList(Pagination pagination, Model model, @RequestParam(defaultValue = "recent") String view) {
+    @ResponseBody
+    public List<VolunteerDTO> getList(Pagination pagination, Model model, @RequestParam(defaultValue = "recent") String view) {
         pagination.setTotal(volunteerService.getTotal()); // 전체 게시글 수 설정
         pagination.progress(); // 페이지 진행 상태 업데이트
 
@@ -47,8 +54,11 @@ public class VolunteerController {
         model.addAttribute("pagination", pagination);
         model.addAttribute("lists", lists); // 모델에 게시글 목록 추가
 
-        return "volunteer/volunteer-list"; // volunteer 목록 페이지로 이동
+        return volunteerService.getList(pagination);
     }
+
+
+
 }
 
 

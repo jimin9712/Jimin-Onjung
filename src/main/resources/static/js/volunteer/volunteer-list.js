@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-// 목록 반복
+// 목록반복
 const listLayout = document.getElementById("contest-list");
 
 const showList = () => {
@@ -101,18 +101,15 @@ const showList = () => {
     listLayout.innerHTML = '';
 
     // 리스트가 있을 때 각 리스트 항목을 li 요소로 생성하여 추가
-    if (!lists || lists.length === 0) {
-        text = `<div class="no-posts">게시글이 없습니다.</div>`;
-    } else {
-        lists.forEach((list) => {
-            const liElement = document.createElement("li");
-            liElement.innerHTML = `
+    lists.forEach((list) => {
+        const liElement = document.createElement("li");
+        liElement.innerHTML = `
             <a href="/volunteer/volunteer?Id=${list.id}" class="donation-list-a">
                 <div class="contest-info">
                     <div class="contest-info-top">
                         <div class="outline-info">
                             <div class="outline-info-category">
-                                <label class="deadline state active">${list.daysLeft > 0 ? '모집중' : '모집 종료 됨'}</label>
+                                <label class="deadline state active">${list.daysLeft || '남은기간없음'}</label>
                                 <span></span>${list.postType || '타입없음'}
                             </div>
                             <div class="outline-info-title">
@@ -176,7 +173,7 @@ const showList = () => {
                             <span>모집된 인원</span>
                         </div>
                         <div class="prize-info-row-label">
-                            ${list.nowRecruitmentCount || '지원자 없음'}
+                            ${list.nowRecruitmentCount || '모집인원없음'}
                         </div>
                     </li>
                     <li class="prize-info-row">
@@ -195,10 +192,10 @@ const showList = () => {
                                     stroke-linejoin="round"
                                 ></path>
                             </svg>
-                            <span>모집 인원</span>
+                            <span>총 모집 인원</span>
                         </div>
                         <div class="prize-info-row-label">
-                            ${list.recruitmentCount+'명' || '모집인원없음'}
+                            ${list.recruitmentCount || '모집인원없음'}
                         </div>
                     </li>
                     <li class="prize-info-row">
@@ -213,28 +210,29 @@ const showList = () => {
                             <span>남은 기간</span>
                         </div>
                         <div class="prize-info-row-label">
-                            ${list.daysLeft || '종료 됨'}
+                            ${list.daysLeft || '남은기간없음'}
                         </div>
                     </li>
-                    <li>
+                    <li class="prize-info-row">
                         <div class="prize-info-row-key"></div>
-                        <div class="prize-info-row-label" id="width200padding-left28">
+                        <div class="prize-info-row-label">
                             <div class="prize-info-row-label-date">
-                                ${list.vtSDate || '시작시간없음'} ~ ${list.vtEDate || '끝나는시간없음'} 
-                                <div>(24시까지)</div>
+                                ${list.vtSDate || '시작시간없음'} ~ ${list.vtEDate || '끝나는시간없음'} (24시까지)
                             </div>
                         </div>
                     </li>
                 </ul>
             </a>
         `;
-            listLayout.appendChild(liElement);  // 생성된 li 요소를 리스트에 추가
-        });
-    }
+        listLayout.appendChild(liElement);  // 생성된 li 요소를 리스트에 추가
+    });
 };
 
 // 함수 호출
 showList();
+
+
+
 
 
 //
