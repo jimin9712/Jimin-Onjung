@@ -1,196 +1,164 @@
-// 클래스명이 추가되야 할 label모음집
+// 클래스명이 추가될 label 모음집
 const inputLabel = [".nickName", ".oneLine", ".name", ".phoneNumber"];
 
-// 이벤트가 발생해야 될 input모음집
+// 이벤트가 발생할 input 모음집
 const allInputs = document.querySelectorAll("input.nickName, input.oneLine");
 
 allInputs.forEach((input) => {
-    input.addEventListener("focus", (e) => {
-        // input의 클래스 중 하나와 매칭되는 label 요소에 focus 클래스 추가
-        inputLabel.forEach((label) => {
-            if (e.target.matches(label)) {
-                const labelElement = document.querySelector(label);
-                if (labelElement) {
-                    labelElement.classList.add("focus");
-                }
-            }
-        });
-    });
-
-    input.addEventListener("blur", (e) => {
-        // input의 클래스 중 하나와 매칭되는 label 요소에서 focus 클래스 제거
-        inputLabel.forEach((label) => {
-            if (e.target.matches(label)) {
-                const labelElement = document.querySelector(label);
-                if (labelElement) {
-                    labelElement.classList.remove("focus");
-                }
-            }
-        });
-    });
+    input.addEventListener("focus", (e) => toggleLabelClass(e.target, "add"));
+    input.addEventListener("blur", (e) => toggleLabelClass(e.target, "remove"));
 });
 
-// 유효성 검사로 error가 추가 될 label
+// 라벨에 포커스/블러 클래스 추가/제거 함수
+const toggleLabelClass = (target, action) => {
+    inputLabel.forEach((label) => {
+        if (target.matches(label)) {
+            const labelElement = document.querySelector(label);
+            if (labelElement) labelElement.classList[action]("focus");
+        }
+    });
+};
+
+// 유효성 검사 관련 요소
 const nickNameLabel = document.querySelector("label.nickName");
-
-// 유효성 검사해야하는 input
 const nickNameInput = document.querySelector("input.nickName");
-
-// 유효성 검사에 따른 에러메시지1
 const nickNameCheckDiv1 = document.querySelector("#nickNameCheck1");
-
-// 유효성 검사에 따른 에러메시지2
 const nickNameCheckDiv2 = document.querySelector("#nickNameCheck2");
-
-// 유효성 검사 후 disable될 저장버튼
 const disableButton = document.getElementById("disableButton");
 
-// console.log("hi");
-// 이벤트 리스너 추가
+// 닉네임 유효성 검사 이벤트
 nickNameInput.addEventListener("input", () => {
-    // 첫 번째 조건: 입력값이 비어 있는 경우
-    // 두 번째 조건: 값이 있으면서 '_'를 제외한 모든 특수문자가 포함된 경우
-    // 세 번째 조건: 값이 있는데 '_'를 제외한 특수문자가 포함되지않은 경우
     const specialCharRegex = /[!@#$%^&*()\-+={}\[\]:;"'<>,.?/\\|`~]/;
-    if (!nickNameInput.value) {
-        nickNameLabel.classList.add("error");
-        nickNameInput.classList.add("error");
-        nickNameCheckDiv1.style.display = "block";
-        nickNameCheckDiv2.style.display = "none";
-        disableButton.classList.add("disable"); // 버튼 비활성화
-    } else if (
-        nickNameInput.value &&
-        specialCharRegex.test(nickNameInput.value)
-    ) {
-        nickNameLabel.classList.add("error");
-        nickNameInput.classList.add("error");
-        nickNameCheckDiv2.style.display = "block";
-        nickNameCheckDiv1.style.display = "none";
-        disableButton.classList.add("disable"); // 버튼 비활성화
-    } else if (
-        nickNameInput.value &&
-        !specialCharRegex.test(nickNameInput.value)
-    ) {
-        nickNameLabel.classList.remove("error");
-        nickNameInput.classList.remove("error");
-        nickNameCheckDiv2.style.display = "none";
-        nickNameCheckDiv1.style.display = "none";
-        disableButton.classList.remove("disable"); // 버튼 활성화
+    const isEmpty = !nickNameInput.value;
+    const hasSpecialChar = specialCharRegex.test(nickNameInput.value);
+
+    if (isEmpty || hasSpecialChar) {
+        toggleErrorState(true, hasSpecialChar);
+    } else {
+        toggleErrorState(false);
     }
 });
 
-// 닉네임 요소
+const toggleErrorState = (isError, isSpecialChar = false) => {
+    nickNameLabel.classList.toggle("error", isError);
+    nickNameInput.classList.toggle("error", isError);
+    nickNameCheckDiv1.style.display = isSpecialChar ? "none" : isError ? "block" : "none";
+    nickNameCheckDiv2.style.display = isSpecialChar ? "block" : "none";
+    disableButton.classList.toggle("disable", isError);
+};
+
+// 글자 수 반영 함수
+const updateWordCount = (textarea, counter, maxLength) => {
+    counter.innerText = `${textarea.value.length}/${maxLength}`;
+};
+
 const postContent1 = document.querySelector(".content-textarea1");
 const wordLength1 = document.querySelector("#word-length1");
-const maxWordLength10 = 10;
-
-// 게시글 우측 하단 - 현재 글자수 / 최대 글자수
-wordLength1.innerText = `${postContent1.value.length}/${maxWordLength10}`;
-// focus를 받자마자 0이 된 글자수 반영
-postContent1.addEventListener("focus", (e) => {
-    wordLength1.innerText = `${postContent1.value.length}/${maxWordLength10}`;
-});
-// 입력되는 글자수를 실시간으로 반영
-postContent1.addEventListener("keyup", (e) => {
-    wordLength1.innerText = `${postContent1.value.length}/${maxWordLength10}`;
-});
-// focus를 잃었을 때까지 입력된 글자수 반영
-postContent1.addEventListener("blur", (e) => {
-    wordLength1.innerText = `${postContent1.value.length}/${maxWordLength10}`;
-});
-
-// 한줄 프로필 요소
 const postContent2 = document.querySelector(".content-textarea2");
 const wordLength2 = document.querySelector("#word-length2");
-const maxWordLength20 = 20;
 
-// 게시글 우측 하단 - 현재 글자수 / 최대 글자수
-wordLength2.innerText = `${postContent2.value.length}/${maxWordLength20}`;
-// focus를 받자마자 0이 된 글자수 반영
-postContent2.addEventListener("focus", (e) => {
-    wordLength2.innerText = `${postContent2.value.length}/${maxWordLength20}`;
-});
-// 입력되는 글자수를 실시간으로 반영
-postContent2.addEventListener("keyup", (e) => {
-    wordLength2.innerText = `${postContent2.value.length}/${maxWordLength20}`;
-});
-// focus를 잃었을 때까지 입력된 글자수 반영
-postContent2.addEventListener("blur", (e) => {
-    wordLength2.innerText = `${postContent2.value.length}/${maxWordLength20}`;
-});
+postContent1.addEventListener("input", () => updateWordCount(postContent1, wordLength1, 10));
+postContent2.addEventListener("input", () => updateWordCount(postContent2, wordLength2, 20));
 
-// 이미지
-document.getElementById("profile_image").addEventListener("change", (event) => {
+// 이미지 미리보기 기능
+const profileImageInput = document.getElementById("profileImageInput");
+const profileImagePreview = document.getElementById("profileImagePreview");
+
+profileImageInput.addEventListener("change", (event) => {
     const file = event.target.files[0];
-
     if (file) {
         const reader = new FileReader();
-
-        reader.onload = (e) => {
-            const newImageSrc = e.target.result;
-            document.querySelector(".hdWpKs").src = newImageSrc;
-        };
+        reader.onload = (e) => (profileImagePreview.src = e.target.result);
         reader.readAsDataURL(file);
     }
 });
 
-// 저장하기 버튼 누를시 나올 모달 이벤트
-disableButton.addEventListener("click", (e) => {
-    if (e.target.id === "disableButton") {
-        if (!disableButton.classList.contains("disable")) {
-            document.querySelector(".modal").style.display = "flex";
-        }
+// 회원 정보 로드 및 필드 채우기
+let memberId; // 전역 변수로 선언하여 저장
+
+window.addEventListener("DOMContentLoaded", async () => {
+    try {
+        const response = await fetch("/member/info");
+        if (!response.ok) throw new Error("회원 정보 로드 실패");
+
+        const data = await response.json();
+        fillMemberFields(data);
+        memberId = data.id; // memberId 저장
+    } catch (error) {
+        console.error(error);
     }
 });
 
-document.getElementById("closeModal").addEventListener("click", (e) => {
-    if (e.target.id === "closeModal") {
-        document.querySelector(".modal").style.display = "none";
-    }
-});
-window.addEventListener("DOMContentLoaded", () => {
-    fetch("/member/info")
-        .then((response) => {
-            if (!response.ok) throw new Error("회원 정보 로드 실패");
-            return response.json();
-        })
-        .then((data) => {
-            console.log("회원 정보:", data);
+const fillMemberFields = (data) => {
+    document.querySelector(".nickName input").value = data.memberNickName || "";
+    document.querySelector(".oneLine input").value = data.memberIntroduction || "";
+    document.querySelector(".name input").value = data.memberName || "";
+    document.querySelector(".phoneNumber input").value = data.memberPhone || "";
+};
 
-            // 각 필드에 회원 정보 설정
-            document.querySelector(".nickName input").value = data.memberNickName || "";
-            document.querySelector(".oneLine input").value = data.memberIntroduction || "";
-            document.querySelector(".name input").value = data.memberName || "";
-            document.querySelector(".phoneNumber input").value = data.memberPhone || "";
-        })
-        .catch((error) => console.error(error));
-});
-
-document.getElementById("disableButton").addEventListener("click", (e) => {
+disableButton.addEventListener("click", async (e) => {
     e.preventDefault();
 
-    const updatedData = {
+    if (!memberId) {
+        alert("회원 정보가 로드되지 않았습니다.");
+        return;
+    }
+
+    await uploadProfileImage();
+    await updateMemberInfo();
+});
+
+const uploadProfileImage = async () => {
+    const file = profileImageInput.files[0];
+    if (file) {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("memberId", memberId);
+
+        try {
+            const response = await fetch("/profile/upload", {
+                method: "POST",
+                body: formData,
+            });
+
+            const result = await response.text();
+            if (!response.ok) throw new Error(result);
+
+            console.log("파일 업로드 성공:", result);
+        } catch (error) {
+            console.error("파일 업로드 실패:", error);
+            alert(`파일 업로드 실패: ${error.message}`);
+            throw error;
+        }
+    }
+};
+
+const updateMemberInfo = async () => {
+    const memberData = {
         memberNickName: document.querySelector(".nickName input").value,
         memberIntroduction: document.querySelector(".oneLine input").value,
     };
 
-    fetch("/member/update-profile", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedData),
-    })
-        .then((response) => {
-            if (response.ok) {
-                document.querySelector(".modal").style.display = "flex";
-            } else {
-                alert("프로필 수정에 실패했습니다.");
-            }
-        })
-        .catch((error) => console.error("프로필 수정 요청 실패:", error));
-});
+    try {
+        const response = await fetch("/member/update-profile", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(memberData),
+        });
 
+        if (response.ok) {
+            document.querySelector(".modal").style.display = "flex";
+        } else {
+            throw new Error("회원 정보 업데이트에 실패했습니다.");
+        }
+    } catch (error) {
+        console.error("회원 정보 업데이트 요청 실패:", error);
+    }
+};
+
+// 모달 닫기 및 페이지 이동
 document.getElementById("closeModal").addEventListener("click", (e) => {
     if (e.target.id === "closeModal") {
         document.querySelector(".modal").style.display = "none";
