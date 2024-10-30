@@ -24,6 +24,7 @@ import java.util.UUID;
 @RequestMapping("/profile")
 @RequiredArgsConstructor
 public class ProfileController {
+    private final ProfileService profileService;
 
     @PostMapping("/upload")
     @ResponseBody
@@ -33,6 +34,7 @@ public class ProfileController {
         UUID uuid = UUID.randomUUID();
 
         profileDTO.setProfileFilePath(getPath());
+        profileDTO.setMemberId(memberId);
 
         File directory = new File(rootPath);
         if (!directory.exists()) {
@@ -46,6 +48,9 @@ public class ProfileController {
 
         file.transferTo(savedFile);
         profileDTO.setProfileFileName(newFileName);
+        profileDTO.setProfileFileSize(file.getSize());
+        profileDTO.setProfileFileType(file.getContentType());
+        profileDTO.setProfileFilePath(getPath());
 
         if (file.getContentType() != null && file.getContentType().startsWith("image")) {
             File thumbnailFile = new File(rootPath, "t_" + newFileName);
@@ -56,6 +61,8 @@ public class ProfileController {
 
             }
         }
+        profileService.save(profileDTO.toVO());
+
 
         return profileDTO;
     }
