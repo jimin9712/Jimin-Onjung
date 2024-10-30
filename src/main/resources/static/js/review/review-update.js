@@ -76,14 +76,16 @@ const removeFile = (file, listItem) => {
     fileList.removeChild(listItem); // 목록에서 해당 항목 제거
 };
 
-document.querySelectorAll(".star-rating input").forEach((radio) => {
+// 별점 평가 시 별점 표시 업데이트
+document.querySelectorAll(".star-reviewStarRate input").forEach((radio) => {
     radio.addEventListener("change", (e) => {
-        const rating = e.target.value;
-        document.getElementById("rating-value").textContent = rating;
-        console.log(`별점 ${rating}점이 선택되었습니다.`);
+        const reviewStarRate = e.target.value;
+        document.getElementById("reviewStarRate-value").textContent = reviewStarRate;
+        console.log(`별점 ${reviewStarRate}점이 선택되었습니다.`);
     });
 });
 
+// 폼 제출 버튼 클릭 시 검증 및 제출
 document.getElementById("submit-review").addEventListener("click", (e) => {
     // 필수 항목 선택
     const companyName = document
@@ -93,32 +95,53 @@ document.getElementById("submit-review").addEventListener("click", (e) => {
         .querySelector(".service-contents textarea")
         .value.trim();
     const reviewContent = document.getElementById("briefing").value.trim();
-    const rating = document.querySelector('input[name="rating"]:checked');
+    const reviewStarRate = document.querySelector('input[name="reviewStarRate"]:checked');
 
     // 필수 항목 검증
     if (!companyName) {
         alert("봉사 단체명을 입력해주세요.");
+        e.preventDefault(); // 폼 제출 방지
         return;
     }
 
     if (!serviceContents) {
         alert("봉사 내용을 입력해주세요.");
+        e.preventDefault();
         return;
     }
 
     if (!reviewContent) {
         alert("봉사활동 후기를 작성해주세요.");
+        e.preventDefault();
         return;
     }
 
-    if (!rating) {
+    if (!reviewStarRate) {
         alert("별점을 선택해주세요.");
+        e.preventDefault();
         return;
     }
 
-    alert("후기가 성공적으로 수정되었습니다!");
-    // 하고 여기서 목록 페이지로 이동
+    // 파일 업로드 제한 검증
+    if (uploadedFiles.size > maxFiles) {
+        alert("최대 10개의 파일만 업로드할 수 있습니다.");
+        e.preventDefault();
+        return;
+    }
+
+    let totalSize = Array.from(uploadedFiles).reduce(
+        (acc, file) => acc + file.size,
+        0
+    );
+    if (totalSize > maxTotalSize) {
+        alert("총 파일 크기가 20MB를 초과할 수 없습니다.");
+        e.preventDefault();
+        return;
+    }
+
 });
+
+// 문자 수 업데이트 함수
 const updateCharCount = (input) => {
     const charCountSpan = document.getElementById("charCount");
     charCountSpan.textContent = input.value.length;
