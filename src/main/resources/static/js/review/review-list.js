@@ -75,7 +75,6 @@ const showVolunteerPosts = () => {
                                  <defs></defs>
                            </svg>`;
     reviews.forEach((review) => {
-        console.log("리뷰");
         let stars = '';
         for (let i = 0; i < review.reviewStarRate; i++) {
             stars += lightStar;
@@ -228,3 +227,79 @@ for (let i = 0; i < 9; i++) {
     `;
     rightBarContainer.appendChild(rightBarImgWrap);
 }
+
+document.addEventListener("DOMContentLoaded", function ()  {
+    const reviewListContainer = document.querySelector(
+        "div.review-card-divider.review-rectangle-card"
+    );
+    let sortOrder = {};
+
+    function sortReviews(order) {
+        const reviewDatas = Array.from(
+            reviewListContainer.querySelectorAll("div.review-part")
+        );
+
+        // 모든 게시글 다시 표시
+        reviewDatas.forEach((reviewData) => (reviewData.style.display = "flex"));
+
+        if (order === "최신순") {
+            reviewDatas.sort((a, b) => {
+                console.log("최신순");
+                const countA = a
+                    .querySelector("span.review-user-date")
+                    .textContent.trim();
+                const countB = b
+                    .querySelector("span.review-user-date")
+                    .textContent.trim();
+                return sortOrder[order] === "asc"
+                    ? countA - countB
+                    : countB - countA;
+            });
+        } else if (order === "높은 평점순") {
+            reviewDatas.sort((a, b) => {
+                console.log("높은 평점순");
+                const countA = a
+                    .querySelector("div.review-score span")
+                    .textContent.trim().substring(0,1);
+                const countB = b
+                    .querySelector("div.review-score span")
+                    .textContent.trim().substring(0,1);
+                return sortOrder[order] === "desc"
+                    ? countA - countB
+                    : countB - countA;
+            });
+        }
+
+        // 정렬된 순서대로 다시 DOM에 추가
+        reviewListContainer.innerHTML = "";
+        reviewDatas.forEach((reviewData) => {
+            reviewListContainer.appendChild(reviewData);
+        });
+    }
+
+    // 페이지 로드 시 기본적으로 '가입일 순'은 내림차순, '이름 순'은 오름차순으로 정렬
+    sortOrder["최신순"] = "desc";
+    sortOrder["높은 평점순"] = "desc";
+
+    // 기본 정렬
+    sortReviews("최신순");
+
+    // 각 옵션 클릭 시 정렬 및 필터링 수행
+    items.forEach(function (item) {
+        item.addEventListener("click", function () {
+            const order = item.textContent.trim();
+
+            // 클릭 시마다 정렬 순서 변경
+            sortOrder[order] = sortOrder[order] === "asc" ? "desc" : "asc";
+
+            // 모든 옵션의 선택된 클래스 초기화
+            items.forEach((it) => it.classList.remove("active"));
+
+            // 클릭된 옵션에 선택된 클래스 추가
+            item.classList.add("active");
+
+            // 선택된 옵션에 따라 정렬 또는 필터링 수행
+            sortReviews(order);
+        });
+    });
+})

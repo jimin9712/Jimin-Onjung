@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (!memberId) {
                     console.error("memberId가 존재하지 않습니다. 응답 데이터 구조를 확인하세요:", data);
                     alert("회원 ID를 가져오지 못했습니다.");
-                    return; // 더 이상 진행하지 않음
+                    return;
                 }
 
                 // 총 기부 포인트 조회

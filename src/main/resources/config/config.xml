@@ -26,6 +26,9 @@
         <typeAlias type="com.app.back.domain.donation_record.DonationRecordVO" alias="donationRecordVO"/>
         <typeAlias type="com.app.back.domain.support_record.SupportRecordDTO" alias="supportRecordDTO"/>
         <typeAlias type="com.app.back.domain.support_record.SupportRecordVO" alias="supportRecordVO"/>
+        <typeAlias type="com.app.back.domain.profile.ProfileVO" alias="profileVO"/>
+        <typeAlias type="com.app.back.domain.profile.ProfileDTO" alias="profileDTO"/>
+
 
     </typeAliases>
 </configuration>
