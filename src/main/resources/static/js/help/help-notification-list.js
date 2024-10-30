@@ -18,14 +18,13 @@
 //
 // notificationWrap.innerHTML = text;
 
+
 const lisdiv = document.querySelector(".notification-wrap");
 const pagingdiv = document.querySelector(".pagination-container");
 const keyword = document.querySelector("input[name='keyword']");
 const notificationWrap = document.getElementById("notification-wrap");
 
-
 let content = ``;
-
 
 // 게시글 목록을 표시하는 함수
 const showList = () => {
@@ -127,3 +126,4 @@ content = ``;
 for (let i = pagination.startPage; i <= pagination.endPage; i++) {
     content += `<a href="/help/help-notification-list?keyword=${search.keyword}&page=${i}">${i}</a>`;
 }
+
