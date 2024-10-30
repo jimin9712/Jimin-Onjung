@@ -789,6 +789,10 @@ a {
     color: rgb(142, 148, 160);
     transition: 0.3s;
 }
+.page-container .page-btn.prev svg{
+    transform: rotate(180deg);
+}
+
 .icon-default {
     user-select: none;
     display: inline-block;

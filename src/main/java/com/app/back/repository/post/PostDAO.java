@@ -14,7 +14,11 @@ public class PostDAO {
 
     public void save(PostVO postVO) {
         postMapper.insert(postVO);
-    }
+    };
+
+    public int getTotal(String postType) {
+        return postMapper.getTotal(postType);
+    };
 
     public Long selectCurrentId() { return postMapper.selectCurrentId(); };
 

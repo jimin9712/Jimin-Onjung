@@ -24,4 +24,9 @@ public class ReviewServiceTests {
         reviewDTO.setReviewStarRate(4.00);
         reviewService.write(reviewDTO);
     }
+
+    @Test
+    public void testDelete() {
+        reviewService.delete(3L);
+    }
 }

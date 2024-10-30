@@ -1,7 +1,7 @@
 package com.app.back.controller.review;
 
-import com.app.back.domain.post.Pagination;
 import com.app.back.domain.review.ReviewDTO;
+import com.app.back.service.post.PostService;
 import com.app.back.service.review.ReviewService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +10,6 @@ import net.coobird.thumbnailator.Thumbnailator;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,6 +30,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Slf4j
 public class ReviewController {
+    private final PostService postService;
     private final ReviewService reviewService;
     private final HttpSession session;
 
@@ -86,21 +86,19 @@ public class ReviewController {
         if (pagination.getOrder() == null) {
             pagination.setOrder("created_date desc, n.id desc"); // 기본 정렬 기준
         }
-
+        pagination.setTotal(postService.getTotal("REVIEW"));
         pagination.progressReview();
         model.addAttribute("reviews", reviewService.getList(pagination));
 
         return "review/review-list";
     }
-    // 리뷰 업데이트 폼 표시
-    @GetMapping("review-update/{id}")
-    public ModelAndView goToUpdateForm(@PathVariable Long id) {
-        Optional<ReviewDTO> optionalReview = reviewService.getById(id);
-        if (optionalReview.isPresent()) {
-            log.info("리뷰 데이터 로드 성공: {}", optionalReview.get());
-            ModelAndView mav = new ModelAndView("review/review-update");
-            mav.addObject("review", optionalReview.get());
-            return mav;
+
+    @GetMapping("review-update")
+    public ModelAndView goToUpdateForm(@RequestParam("postId") Long postId, Model model) {
+        Optional<ReviewDTO> reviewDTO =reviewService.getById(postId);
+
+        if (reviewDTO.isPresent()) {
+            model.addAttribute("review", reviewDTO.get());
         } else {
             log.error("리뷰를 찾을 수 없습니다. ID: {}", id);
             return new ModelAndView(new RedirectView("/review/review-list?error=notfound"));
