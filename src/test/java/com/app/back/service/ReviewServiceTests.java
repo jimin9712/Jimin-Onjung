@@ -16,12 +16,12 @@ public class ReviewServiceTests {
     @Test
     public void testWrite() {
         ReviewDTO reviewDTO = new ReviewDTO();
-        reviewDTO.setPostTitle("hi");
-        reviewDTO.setPostContent("hihi");
-        reviewDTO.setMemberId(22L);
+        reviewDTO.setPostTitle("dsfsdf3");
+        reviewDTO.setPostContent("s3dsfsd");
+        reviewDTO.setMemberId(1L);
         reviewDTO.setPostType("REVIEW");
         reviewDTO.setVtGroupName("group");
-        reviewDTO.setReviewStarRate(4.00);
+        reviewDTO.setReviewStarRate(5.00);
         reviewService.write(reviewDTO);
     }
 
