@@ -123,7 +123,7 @@ const showVolunteerPosts = () => {
                             </div>
                             <a class=" hLIslS review-thumbnail-m" href="/contest/view/153179"><div class="sc-eXBvqI FYvcO cover ">
                             <div class="sc-evrZIY jslVlk aspect-ratio-card-wrapper card-image ">
-                            <div><div class="observer ">
+                            <div><div class="observer">
                             </div>
                             <img src=
                            https://cdn-dantats.stunning.kr/prod/portfolios/37db3714-d292-481e-a288-d29b7c2a6279/covers/eavxYqGTx3xsnczv.%EC%88%A8_1.%EC%84%AC%EB%84%A4%EC%9D%BC.jpg.small?s=1000x1000&e=195x249&t=crop&q=100&f=webp
@@ -146,7 +146,63 @@ const showVolunteerPosts = () => {
     });
 };
 
+// 페이지 네비게이션을 표시하는 함수
+const showPaging = () => {
+    let text = ``; // HTML 내용을 저장할 변수 초기화
+
+    // 이전 페이지 버튼 추가
+    if (pagination.prev) {
+        text += `<a class="page-btn prev"
+                    ><svg
+                        viewBox="0 0 12 12"
+                        class="icon-default"
+                    >
+                        <path
+                            fill-rule="evenodd"
+                            clip-rule="evenodd"
+                            d="M3.68888 11.0004C3.85188 11.0004 4.01388 10.9424 4.13688 10.8264L8.81688 6.43738C9.06088 6.20738 9.06088 5.83638 8.81588 5.60738L4.07988 1.17438C3.83288 0.942377 3.43288 0.942377 3.18588 1.17138C2.93888 1.40038 2.93788 1.77238 3.18388 2.00338L7.47788 6.02238L3.24088 9.99738C2.99588 10.2294 2.99688 10.6014 3.24488 10.8294C3.36788 10.9434 3.52888 11.0004 3.68888 11.0004Z"
+                        ></path>
+                        <defs></defs>
+                    </svg>
+                </a>`;
+    }
+
+    // 페이지 번호 생성
+    for (let i = pagination.startPage; i <= pagination.endPage; i++) {
+        if (pagination.page === i) {
+            // 현재 페이지인 경우
+            text += `<a class="page-btn active">${i}</a>`;
+        } else {
+            // 다른 페이지인 경우
+            text += `<a class="page-btn">${i}</a>`;
+        }
+    }
+
+    // 다음 페이지 버튼 추가: endPage가 realEnd보다 작거나, 더 로드할 데이터가 있을 경우
+    const shouldShowNext = pagination.endPage < pagination.realEnd || (pagination.endRow < pagination.total);
+
+    if (shouldShowNext) {
+        text += `<a class="page-btn next"
+                    ><svg
+                        viewBox="0 0 12 12"
+                        class="icon-default"
+                    >
+                        <path
+                            fill-rule="evenodd"
+                            clip-rule="evenodd"
+                            d="M3.68888 11.0004C3.85188 11.0004 4.01388 10.9424 4.13688 10.8264L8.81688 6.43738C9.06088 6.20738 9.06088 5.83638 8.81588 5.60738L4.07988 1.17438C3.83288 0.942377 3.43288 0.942377 3.18588 1.17138C2.93888 1.40038 2.93788 1.77238 3.18388 2.00338L7.47788 6.02238L3.24088 9.99738C2.99588 10.2294 2.99688 10.6014 3.24488 10.8294C3.36788 10.9434 3.52888 11.0004 3.68888 11.0004Z"
+                        ></path>
+                        <defs></defs>
+                    </svg>
+                </a>`;
+    }
+
+    // 페이지 네비게이션을 HTML 요소에 삽입
+    pagingdiv.innerHTML = text;
+}
+
 showPost("봉사활동 후기");
+showPaging();
 
 // 부모 컨테이너 가져오기
 const rightBarContainer = document.querySelector(".right-bar-container");

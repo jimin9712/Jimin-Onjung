@@ -92,6 +92,18 @@ public class DonationController {
         return "donation/donation-list";
     }
 
+    @GetMapping("donation-inquiry")
+    public String goToInquiry( @RequestParam("postId") Long postId, Model model) {
+        Optional<DonationDTO> donationDTO = donationService.getById(postId);
+        log.info("{}", donationDTO);
+        if (donationDTO.isPresent()) {
+            model.addAttribute("donation", donationDTO.get());
+        } else {
+            return "redirect:/donation/donation-list";
+        }
+        return "donation/donation-inquiry";
+    }
+
     @GetMapping("donation-update")
     public String goToUpdateForm(@RequestParam("postId") Long postId, Model model) {
         Optional<DonationDTO> donationDTO =donationService.getById(postId);
