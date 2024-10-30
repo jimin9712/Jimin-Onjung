@@ -6,6 +6,8 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnailator;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -86,10 +88,18 @@ public class ReviewController {
         return new RedirectView("/review/review-list");
     }
 
-    @GetMapping("review-delete")
-    public RedirectView reviewDelete(ReviewDTO reviewDTO) { return new RedirectView("/review/review-list"); }
+    @DeleteMapping("review-delete/{id}")
+    @ResponseBody
+    public ResponseEntity<?> reviewDelete(@PathVariable Long id) {
+        try {
+            reviewService.delete(id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            log.error("못지운 {}: {}", id, e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Delete failed");
+        }
+    }
 
-    // 특정 회원의 리뷰 조회 - JSON 응답
     @GetMapping("/my-reviews/{memberId}")
     @ResponseBody
     public List<ReviewDTO> getMyReviews(
