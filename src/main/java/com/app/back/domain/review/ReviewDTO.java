@@ -27,7 +27,7 @@ public class ReviewDTO {
     private String vtGroupName;
     private String attachmentFileName;
     private String attachmentFilePath;
-    private String attachmentFileSize;
+    private Long attachmentFileSize;
     private String attachmentFileType;
     private Long postId;
 
@@ -40,6 +40,6 @@ public class ReviewDTO {
     }
 
     public AttachmentVO toAttachmentVO(){
-        return new AttachmentVO(id,attachmentFileName,attachmentFilePath,attachmentFileSize,attachmentFileType,postId,createdDate);
+        return new AttachmentVO(id, attachmentFileName, attachmentFilePath, attachmentFileSize, attachmentFileType, postId, createdDate);
     }
 }

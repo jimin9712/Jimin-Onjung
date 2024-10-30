@@ -287,6 +287,7 @@ notificationLinks.forEach((notificationLink) => {
 
 
 
+
 // //여기서부터 서버 ==============================================================================
 // const Inquriy = document.querySelector(".inquiryTable_container");
 // const pagingdiv = document.querySelector(".pagination-list.inquiry-page");
