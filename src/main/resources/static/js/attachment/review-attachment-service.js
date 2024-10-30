@@ -2,7 +2,7 @@ const reviewAttachmentService = (() => {
     // 파일 업로드
     const upload = async (formData) => {
         const response =
-        await fetch("/attachment/review-write", {
+        await fetch("/attachment/upload", {
             method: "post",
             body: formData
         });

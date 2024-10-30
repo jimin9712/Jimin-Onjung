@@ -15,7 +15,9 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,14 +32,21 @@ public class ReviewServiceImpl implements ReviewService {
     private final AttachmentDAO attachmentDAO;
 
     @Override
-    public void write(ReviewDTO reviewDTO) {
+    public void write(ReviewDTO reviewDTO, List<String> uuids, List<String> paths, List<MultipartFile> files) throws IOException {
         postDAO.save(reviewDTO.toPostVO());
         Long id = postDAO.selectCurrentId();
         reviewDTO.setId(id);
-        if(reviewDTO.getAttachmentFileName() != null && reviewDTO.getAttachmentFilePath() != null && reviewDTO.getAttachmentFileType() != null && reviewDTO.getAttachmentFileSize() != null) {
+        reviewDAO.save(reviewDTO.toVO());
+        for(int i=0; i<files.size(); i++){
+            reviewDTO.setAttachmentFileName(uuids.get(i) + "_" + files.get(i).getOriginalFilename());
+            reviewDTO.setAttachmentFilePath(paths.get(i));
+            reviewDTO.setAttachmentFileType(files.get(i).getContentType());
+            reviewDTO.setAttachmentFileSize(files.get(i).getSize());
             attachmentDAO.save(reviewDTO.toAttachmentVO());
         }
-        reviewDAO.save(reviewDTO.toVO());
+//        if(reviewDTO.getAttachmentFileName() != null && reviewDTO.getAttachmentFilePath() != null && reviewDTO.getAttachmentFileType() != null && reviewDTO.getAttachmentFileSize() != null) {
+//            attachmentDAO.save(reviewDTO.toAttachmentVO());
+//        }
     }
 
     @Override

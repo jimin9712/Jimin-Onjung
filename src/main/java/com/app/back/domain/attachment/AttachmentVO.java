@@ -14,7 +14,7 @@ public class AttachmentVO {
     private Long id;
     private String attachmentFileName;
     private String attachmentFilePath;
-    private String attachmentFileSize;
+    private Long attachmentFileSize;
     private String attachmentFileType;
     private Long postId;
     private String createdDate;

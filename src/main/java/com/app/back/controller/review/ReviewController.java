@@ -2,6 +2,7 @@ package com.app.back.controller.review;
 
 import com.app.back.domain.post.Pagination;
 import com.app.back.domain.review.ReviewDTO;
+import com.app.back.service.attachment.AttachmentServiceImpl;
 import com.app.back.service.post.PostService;
 import com.app.back.service.review.ReviewService;
 import jakarta.servlet.http.HttpSession;
@@ -34,12 +35,14 @@ public class ReviewController {
     private final PostService postService;
     private final ReviewService reviewService;
     private final HttpSession session;
+    private final AttachmentServiceImpl attachmentServiceImpl;
 
     @GetMapping("review-write")
     public String goToWriteForm(ReviewDTO reviewDTO) { return "review/review-write"; }
 
     @PostMapping("review-write")
-    public RedirectView reviewWrite(ReviewDTO reviewDTO) throws IOException {
+    public RedirectView reviewWrite(ReviewDTO reviewDTO, @RequestParam("uuid") List<String> uuids, @RequestParam("path") List<String> paths, @RequestParam("file") List<MultipartFile> files) throws IOException {
+
         reviewDTO.setMemberId(1L);
         reviewDTO.setPostType("REVIEW");
         reviewDTO.setPostTitle(reviewDTO.getVtGroupName());
@@ -52,7 +55,7 @@ public class ReviewController {
 //        session.setAttribute("review", reviewDTO);
 
         // 데이터베이스에 게시글 저장
-        reviewService.write(reviewDTO);
+        reviewService.write(reviewDTO, uuids, paths, files);
 
         return new RedirectView("/review/review-list");
     }
