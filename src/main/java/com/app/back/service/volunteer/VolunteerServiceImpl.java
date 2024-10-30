@@ -9,6 +9,7 @@ import com.app.back.mapper.post.PostMapper;
 import com.app.back.mapper.volunteer.VolunteerMapper;
 import com.app.back.repository.volunteer.VolunteerDAO;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,7 +23,6 @@ public class VolunteerServiceImpl implements VolunteerService {
     private final VolunteerMapper volunteerMapper;
     private final AttachmentMapper attachmentMapper;
     private final VolunteerDAO volunteerDAO;
-
 
     @Override
     public void write(VolunteerDTO volunteerDTO) {
@@ -54,26 +54,8 @@ public class VolunteerServiceImpl implements VolunteerService {
         return 0;
     }
 
-    // 최신순 정렬 조회
     @Override
-    public List<VolunteerDTO> getListByRecent(Pagination pagination) {
-        pagination.setOrder("recent");
-        return volunteerMapper.selectAll(pagination);
-    }
-
-    // 마감 임박순 정렬 조회
-    @Override
-    public List<VolunteerDTO> getListByEndingSoon(Pagination pagination) {
-        pagination.setOrder("endingSoon");
-        return volunteerMapper.selectAll(pagination);
-    }
-
-    // 조회수 순 정렬 조회
-    @Override
-    public List<VolunteerDTO> getListByViewCount(Pagination pagination) {
-        pagination.setOrder("viewCount");
-        return volunteerMapper.selectAll(pagination);
-    }
+    public List<VolunteerDTO> getListByEndingSoon(@Param("pagination")Pagination pagination);
 
 }
 
