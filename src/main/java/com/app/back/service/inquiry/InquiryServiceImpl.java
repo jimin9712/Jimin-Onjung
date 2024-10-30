@@ -4,9 +4,11 @@ import com.app.back.domain.attachment.AttachmentVO;
 import com.app.back.domain.inquiry.InquiryDTO;
 import com.app.back.domain.inquiry.InquiryVO;
 import com.app.back.domain.post.Pagination;
+import com.app.back.domain.post.PostVO;
 import com.app.back.domain.post.Search;
 import com.app.back.repository.attachment.AttachmentDAO;
 import com.app.back.repository.inquiry.InquiryDAO;
+import com.app.back.repository.post.PostDAO;
 import com.app.back.service.attachment.AttachmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,14 +23,18 @@ import java.util.Optional;
 public class InquiryServiceImpl implements InquiryService {
     private final InquiryDAO inquiryDAO;
     private final AttachmentDAO attachmentDAO;
+    private final PostDAO postDAO; // 게시글 DAO
     private final AttachmentService attachmentService;
 
     @Override
-    public void write(InquiryVO inquiryVO, List<AttachmentVO> attachments) {
-        inquiryDAO.save(inquiryVO);
-        attachments.forEach(attachment -> {
-            attachmentDAO.save(attachment);
-        });
+    public void write(InquiryDTO inquiryDTO) {
+        postDAO.save(inquiryDTO.toPostVO());
+        Long id = postDAO.selectCurrentId();
+        inquiryDTO.setId(id);
+        if(inquiryDTO.getAttachmentFileName() != null && inquiryDTO.getAttachmentFilePath() != null && inquiryDTO.getAttachmentFileType() != null && inquiryDTO.getAttachmentFileSize() != null) {
+            attachmentDAO.save(inquiryDTO.toAttachmentVO());
+        }
+        inquiryDAO.save(inquiryDTO.toVO());
     }
 
     @Override

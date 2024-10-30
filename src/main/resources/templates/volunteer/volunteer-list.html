@@ -73,7 +73,7 @@
                                                     class="radio-input-button"
                                                 ></div>
                                                 <div class="radio-input-label">
-                                                    모금중
+                                                    모집 중
                                                 </div></label
                                             ><label for="radio-input-End"
                                                 ><input
@@ -86,7 +86,7 @@
                                                     class="radio-input-button"
                                                 ></div>
                                                 <div class="radio-input-label">
-                                                    종료
+                                                    모집 종료 됨
                                                 </div></label
                                             >
                                         </div>
@@ -139,15 +139,9 @@
                                             <div class="bottom-wrap">
                                                 <div width="100%" height="8px" class="bottom-drop-down"></div>
                                                 <div class="list-wrap">
-                                                    <div class="item active" onclick="sortList('recent')">
-                                                        최신등록순
-                                                    </div>
-                                                    <div class="item" onclick="sortList('viewCount')">
-                                                        조회순
-                                                    </div>
-                                                    <div class="item" onclick="sortList('endingSoon')">
-                                                        마감임박순
-                                                    </div>
+                                                    <div class="item" onclick="applyFilter('recent')">최신등록순</div>
+                                                    <div class="item" onclick="applyFilter('viewCount')">조회순</div>
+                                                    <div class="item" onclick="applyFilter('endingSoon')">마감임박순</div>
                                                 </div>
                                             </div>
                                         </div>

@@ -1,6 +1,5 @@
 package com.app.back.controller.review;
 
-import com.app.back.domain.post.Pagination;
 import com.app.back.domain.review.ReviewDTO;
 import com.app.back.service.post.PostService;
 import com.app.back.service.review.ReviewService;
@@ -8,13 +7,13 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnailator;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.File;
@@ -74,26 +73,56 @@ public class ReviewController {
     }
 
     @GetMapping("review-update")
-    public String goToUpdateForm(@RequestParam("postId") Long postId, Model model) {
+    public ModelAndView goToUpdateForm(@RequestParam("postId") Long postId, Model model) {
         Optional<ReviewDTO> reviewDTO =reviewService.getById(postId);
 
         if (reviewDTO.isPresent()) {
             model.addAttribute("review", reviewDTO.get());
         } else {
-//            return "redirect:/review/review-list"; // 마이페이지로 리턴하기
+            log.error("리뷰를 찾을 수 없습니다. ID: {}", id);
+            return new ModelAndView(new RedirectView("/review/review-list?error=notfound"));
         }
-
-        return "review/review-update";
     }
 
+    // 리뷰 업데이트 처리
     @PostMapping("review-update")
-    public RedirectView reviewUpdate(ReviewDTO reviewDTO) {
-        reviewService.update(reviewDTO);
-        return new RedirectView("/review/review-list"); // 마이페이지로 리턴
+    public ModelAndView reviewUpdate(@ModelAttribute ReviewDTO reviewDTO) {
+        // 필수 데이터 수동 검증
+        if (reviewDTO.getVtGroupName() == null || reviewDTO.getVtGroupName().isEmpty() ||
+                reviewDTO.getPostContent() == null || reviewDTO.getPostContent().isEmpty()) {
+            log.error("필수 데이터가 없습니다.");
+            return new ModelAndView(new RedirectView("/review/review-update/" + reviewDTO.getId() + "?error=missingFields"));
+        }
+            reviewService.update(reviewDTO);
+        return new ModelAndView(new RedirectView("/review/review-list"));
     }
 
-    @GetMapping("review-delete")
-    public RedirectView reviewDelete(@RequestParam("postId") Long postId) {
-        reviewService.delete(postId);
-        return new RedirectView("/review/review-list"); } // 마이페이지로 리턴
+    @DeleteMapping("review-delete/{id}")
+    @ResponseBody
+    public ResponseEntity<?> reviewDelete(@PathVariable Long id) {
+        try {
+            reviewService.delete(id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            log.error("못지운 id {}: {}", id, e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Delete failed");
+        }
     }
+
+    @GetMapping("/my-reviews/{memberId}")
+    @ResponseBody
+    public List<ReviewDTO> getMyReviews(
+            @PathVariable Long memberId,
+            @RequestParam(required = false) String startDate,
+            @RequestParam(required = false) String endDate) {
+
+        log.info("받은 회원 ID: {}, 시작 날짜: {}, 끝 날짜: {}", memberId, startDate, endDate);
+
+        if (startDate != null && endDate != null) {
+            return reviewService.findByMemberIdAndDateRange(memberId, startDate, endDate);
+        } else {
+            return reviewService.findByMemberId(memberId);
+        }
+    }
+}
+

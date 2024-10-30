@@ -4,6 +4,8 @@ import com.app.back.domain.volunteer.Pagination;
 import com.app.back.domain.volunteer.VolunteerDTO;
 import com.app.back.mapper.volunteer.VolunteerMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Service;
 
 
 import java.util.List;
@@ -25,6 +27,9 @@ public interface VolunteerService {
 
     // 조회수 순 정렬 조회
     List<VolunteerDTO> getListByViewCount(Pagination pagination);
+
+
+
 }
 
 

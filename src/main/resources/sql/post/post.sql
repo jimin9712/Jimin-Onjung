@@ -22,7 +22,7 @@ create table tbl_post (
 select * from tbl_post;
 
 insert into tbl_post(id, post_title, post_summary, post_content,post_view_count, post_type, post_status, member_id)
-values(102,'봉사활동구인테스트제목102','봉사활동테스트요약51','봉사활동테스트내용51',1,1,0,1);
+values(2,'기부제목','기부요약','기부내용',1,1,0,23);
 
 SELECT * FROM tbl_post WHERE id = 1;
 

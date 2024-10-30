@@ -289,10 +289,10 @@ notificationLinks.forEach((notificationLink) => {
 //여기서부터 서버 ==============================================================================
 
 const lisdiv = document.querySelector(".inquiryTable_container");
-const pagingdiv = document.querySelector(".pagination-list");
+const pagingdiv = document.querySelector(".pagination-list.inquiry-page");
 const keyword = document.querySelector("input[name='keyword']");
-const notificationWrap = document.getElementById("notificationWrap");
-const pageWrap = document.getElementById("page-wrap");
+
+
 
 let content = ``;
 
@@ -440,13 +440,19 @@ const showPaging = () => {
     // 페이지 번호 생성
     for (let i = pagination.startPage; i <= pagination.endPage; i++) {
         if (pagination.page === i) {
+            console.log(pagination.startPage);
+            console.log(pagination.endPage);
+            console.log(pagination.realEnd);
+            console.log(pagination.rowCount);
+            console.log(pagination.total);
             // 현재 페이지인 경우
             text += `
                 <li class="pagination-page active">
                     <a class="pagination-page-link">${i}</a>
                 </li>
             `;
-        } else {
+
+        } else { console.log(":들어옴");
             // 다른 페이지인 경우
             text += `
                 <li class="pagination-page">
@@ -493,4 +499,3 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error("pagination 데이터가 존재하지 않습니다.");
     }
 });
-//안돼

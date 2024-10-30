@@ -1,5 +1,6 @@
 package com.app.back.repository.review;
 
+import com.app.back.domain.donation_record.DonationRecordDTO;
 import com.app.back.domain.post.Pagination;
 import com.app.back.domain.review.ReviewDTO;
 import com.app.back.domain.review.ReviewVO;
@@ -35,5 +36,12 @@ public class ReviewDAO {
     // ID로 프로젝트 포스트 삭제
     public void delete(Long id) {
         reviewMapper.deleteById(id);
+    }
+
+    public List<ReviewDTO> findByMemberId(Long memberId) {
+        return reviewMapper.selectByMemberId(memberId);
+    }
+    public List<ReviewDTO> findByMemberIdAndDateRange(Long memberId, String startDate, String endDate) {
+        return reviewMapper.selectByMemberIdAndDateRange(memberId, startDate, endDate);
     }
 }

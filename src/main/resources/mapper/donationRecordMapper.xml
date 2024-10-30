@@ -63,6 +63,17 @@
         ORDER BY
             id DESC
     </select>
+    <select id="selectByMemberIdAndDateRange" resultType="donationRecordDTO">
+        SELECT
+            id, donation_amount, created_date, member_id, donation_id
+        FROM
+            tbl_donation_record
+        WHERE
+            member_id = #{memberId}
+          AND created_date BETWEEN #{startDate} AND #{endDate} + INTERVAL '1' DAY
+        ORDER BY
+            created_date DESC
+    </select>
 
 
 </mapper>

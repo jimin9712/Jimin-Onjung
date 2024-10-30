@@ -1,9 +1,12 @@
 package com.app.back.controller.notice;
 
 
+import com.app.back.domain.attachment.AttachmentVO;
+import com.app.back.domain.inquiry.InquiryDTO;
 import com.app.back.domain.notice.NoticeDTO;
 import com.app.back.domain.post.Pagination;
 import com.app.back.domain.post.Search;
+import com.app.back.service.inquiry.InquiryService;
 import com.app.back.service.notice.NoticeService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -15,10 +18,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.io.File;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
+
+
 
 @Controller
 @RequestMapping("/help/*")
@@ -26,6 +37,7 @@ import java.util.Optional;
 @Slf4j
 public class NoticeController {
     private final NoticeService noticeService;
+    private final InquiryService inquiryService;
     private final HttpSession session;
 
     @GetMapping("help")
@@ -33,15 +45,30 @@ public class NoticeController {
         return "help/help";
     }
 
-    @GetMapping("write")
-    public String showWriteForm() {
+    @GetMapping("help-write")
+    public String goToInquiryWrite(InquiryDTO inquiryDTO) {
         return "help/help-write"; // 문의 작성 페이지로 이동
     }
 
-    @PostMapping("/write")
-    public String submitInquiry() {
-        // 데이터 처리를 하지 않고, 바로 리다이렉트
-        return "redirect:/help/help";
+    @PostMapping("help-write")
+    public RedirectView inquiryWrite(@RequestParam("file") List<MultipartFile> files, InquiryDTO inquiryDTO,AttachmentVO attachmentVO) throws IOException {
+        inquiryDTO.setPostType("REVIEW");
+
+        String rootPath = "C:/upload" + getPath();
+        UUID uuid = UUID.randomUUID();
+
+        File directory = new File(rootPath);
+        if(!directory.exists()){
+            directory.mkdirs();
+        }
+
+        // 데이터베이스에 게시글 저장
+        inquiryService.write(inquiryDTO);
+
+        return new RedirectView("/help/help");
+    }
+    private String getPath() {
+        return LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
     }
 
     @GetMapping("help-notification-list")

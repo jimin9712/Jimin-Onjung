@@ -2,10 +2,12 @@ package com.app.back.mapper.donation;
 
 import com.app.back.domain.donation.DonationDTO;
 import com.app.back.domain.donation.DonationVO;
+import com.app.back.domain.donation_record.DonationRecordDTO;
 import com.app.back.domain.post.Pagination;
 import com.app.back.domain.review.ReviewDTO;
 import com.app.back.domain.review.ReviewVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,4 +26,11 @@ public interface DonationMapper {
     public void update(DonationDTO donationDTO);
     // 삭제
     void deleteById(Long id);
+
+    public List<DonationDTO> selectByMemberId(@Param("memberId") Long memberId); // 반환 타입 수정
+    public List<DonationDTO> selectByMemberIdAndDateRange(
+            @Param("memberId") Long memberId,
+            @Param("startDate") String startDate,
+            @Param("endDate") String endDate
+    );
 }

@@ -50,9 +50,4 @@ public interface VolunteerMapper {
     // 봉사활동 게시글 마감 순 조회
     public List<VolunteerDTO> selectByEndingSoon(@Param("pagination") Pagination pagination);
 
-
-
-
-
-
 }
