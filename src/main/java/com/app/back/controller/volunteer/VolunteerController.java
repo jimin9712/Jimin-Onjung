@@ -20,7 +20,7 @@ import java.util.List;
 public class VolunteerController {
     private final VolunteerService volunteerService;
 
-    @GetMapping("/list") // Q&A 게시글 목록 조회
+    @GetMapping("/list") // 봉사활동모집 게시글 목록 조회
     public String getList(Pagination pagination, Model model, @RequestParam(defaultValue = "recent") String view) {
         pagination.setTotal(volunteerService.getTotal()); // 전체 게시글 수 설정
         pagination.progress(); // 페이지 진행 상태 업데이트
@@ -36,7 +36,6 @@ public class VolunteerController {
         } else {
             lists = volunteerService.getList(pagination); // 기본 조회
         }
-
 
         // 각 DTO에 남은 일수를 계산
         for (VolunteerDTO volunteerDTO : lists) {
