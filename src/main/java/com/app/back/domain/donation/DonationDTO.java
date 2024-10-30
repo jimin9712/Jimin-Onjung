@@ -2,7 +2,6 @@ package com.app.back.domain.donation;
 
 import com.app.back.domain.attachment.AttachmentVO;
 import com.app.back.domain.post.PostVO;
-import com.app.back.domain.review.ReviewVO;
 import lombok.*;
 import org.springframework.stereotype.Component;
 
@@ -28,7 +27,7 @@ public class DonationDTO {
     private String donationEDate;
     private String attachmentFileName;
     private String attachmentFilePath;
-    private String attachmentType;
+    private String attachmentFileSize;
     private String attachmentFileType;
     private Long postId;
 
@@ -41,6 +40,6 @@ public class DonationDTO {
     }
 
     public AttachmentVO toAttachmentVO(){
-        return new AttachmentVO(id, attachmentFileName, attachmentFilePath, attachmentType, attachmentFileType, postId,createdDate);
+        return new AttachmentVO(id, attachmentFileName, attachmentFilePath, attachmentFileSize, attachmentFileType, postId,createdDate);
     }
 }
