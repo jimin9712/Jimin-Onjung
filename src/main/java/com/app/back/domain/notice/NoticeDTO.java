@@ -27,5 +27,7 @@ public PostVO toPostVO(){
     return new PostVO(id,postTitle,postContent,postSummary,postType,postStatus,postViewCount,memberId,createdDate,updatedDate);
 }
     public NoticeVO toVO() {return new NoticeVO(id);}
+
+
 }
 

@@ -1,5 +1,6 @@
 package com.app.back.domain.inquiry;
 
+import com.app.back.domain.attachment.AttachmentVO;
 import com.app.back.domain.post.PostVO;
 import com.app.back.domain.member.MemberVO;
 import lombok.*;
@@ -29,6 +30,12 @@ public class InquiryDTO {
     private String updatedDate;
     private String memberNickName;
 
+    private String attachmentFileName;
+    private String attachmentFilePath;
+    private String attachmentFileSize;
+    private String attachmentFileType;
+    private Long postId;
+
 
     public PostVO toPostVO() {
         return new PostVO(id, postTitle, postContent, postSummary, postType, postStatus, postViewCount, memberId, createdDate, updatedDate);
@@ -36,5 +43,9 @@ public class InquiryDTO {
 
     public InquiryVO toVO() {
         return new InquiryVO(id, inquiryStatus, inquiryEmail, inquiryPhone,inquiryType);
+
+    }
+    public AttachmentVO toAttachmentVO(){
+        return new AttachmentVO(id, attachmentFileName, attachmentFilePath, attachmentFileSize, attachmentFileType, postId,createdDate);
     }
 }
