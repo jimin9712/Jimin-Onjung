@@ -52,8 +52,8 @@ public class NoticeController {
 
     @PostMapping("help-write")
     public RedirectView inquiryWrite(@RequestParam("file") List<MultipartFile> files, InquiryDTO inquiryDTO,AttachmentVO attachmentVO) throws IOException {
-        inquiryDTO.setMemberId(1L);
-        inquiryDTO.setPostType("REVIEW");
+        inquiryDTO.setMemberId(22L);
+        inquiryDTO.setPostType("INQUIRY");
 
         String rootPath = "C:/upload" + getPath();
         UUID uuid = UUID.randomUUID();
@@ -118,11 +118,6 @@ public class NoticeController {
             return "redirect:/help/help-notification-list"; // 없는 경우 목록 페이지로 리다이렉트
         }
     }
-
-
-
-
-
 
 
 }
