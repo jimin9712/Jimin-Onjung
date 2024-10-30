@@ -19,12 +19,6 @@ public interface VolunteerMapper {
     // 봉사활동 게시글 전체 조회
     public List<VolunteerDTO> selectAll(@Param("pagination") Pagination pagination);
 
-//    // 봉사활동 게시글 조회수 순 조회
-//    public List<VolunteerDTO> selectByViewCount(@Param("pagination") Pagination pagination);
-//
-//    // 봉사활동 게시글  마감 임박 순 조회
-//    public List<VolunteerDTO> selectByDeadline(@Param("pagination") Pagination pagination);
-
     // 전체 개수
     public int selectTotal();
 
@@ -43,9 +37,18 @@ public interface VolunteerMapper {
 //    VtApplicationDTO selectAttachmentByPostId(Long postId);
 //}
 
-
     // 봉사활동 지원자 증가
     public void updateNowRecruitment(@Param("id") int id);
+
+
+    // 봉사활동 게시글 최신순 조회
+    public List<VolunteerDTO> selectByRecent(@Param("pagination") Pagination pagination);
+
+    // 봉사활동 게시글 조회수 순 조회
+    public List<VolunteerDTO> selectByViewCount(@Param("pagination") Pagination pagination);
+
+    // 봉사활동 게시글 마감 순 조회
+    public List<VolunteerDTO> selectByEndingSoon(@Param("pagination") Pagination pagination);
 
 
 
