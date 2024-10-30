@@ -87,7 +87,7 @@ public class NoticeMapperTests {
     }
     @Test
     public void testDeleteById() {
-        Long id = 1L;
+        Long id = 3L;
         noticeMapper.deleteById(id);
         log.info("notice가 삭제되었습니다. ID: " + id);
     }

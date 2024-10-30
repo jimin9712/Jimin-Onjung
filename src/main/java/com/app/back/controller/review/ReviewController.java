@@ -2,6 +2,7 @@ package com.app.back.controller.review;
 
 import com.app.back.domain.post.Pagination;
 import com.app.back.domain.review.ReviewDTO;
+import com.app.back.service.post.PostService;
 import com.app.back.service.review.ReviewService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Slf4j
 public class ReviewController {
+    private final PostService postService;
     private final ReviewService reviewService;
     private final HttpSession session;
 
@@ -85,7 +87,7 @@ public class ReviewController {
         if (pagination.getOrder() == null) {
             pagination.setOrder("created_date desc, n.id desc"); // 기본 정렬 기준
         }
-
+        pagination.setTotal(postService.getTotal("REVIEW"));
         pagination.progressReview();
         model.addAttribute("reviews", reviewService.getList(pagination));
 

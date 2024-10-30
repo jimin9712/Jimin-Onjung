@@ -9,6 +9,9 @@ public interface PostMapper {
     //    게시글 작성
     public void insert(PostVO postVO);
 
+    //
+    public int getTotal(String postType);
+
     //    현재 ID 조회
     public Long selectCurrentId();
 
