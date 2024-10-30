@@ -54,8 +54,26 @@ public class VolunteerServiceImpl implements VolunteerService {
         return 0;
     }
 
+    // 최신순 정렬 조회
     @Override
-    public List<VolunteerDTO> getListByEndingSoon(@Param("pagination")Pagination pagination);
+    public List<VolunteerDTO> getListByRecent(Pagination pagination) {
+        pagination.setOrder("recent");
+        return volunteerMapper.selectAll(pagination);
+    }
+
+    // 마감 임박순 정렬 조회
+    @Override
+    public List<VolunteerDTO> getListByEndingSoon(Pagination pagination) {
+        pagination.setOrder("endingSoon");
+        return volunteerMapper.selectAll(pagination);
+    }
+
+    // 조회수 순 정렬 조회
+    @Override
+    public List<VolunteerDTO> getListByViewCount(Pagination pagination) {
+        pagination.setOrder("viewCount");
+        return volunteerMapper.selectAll(pagination);
+    }
 
 }
 

@@ -15,15 +15,28 @@ public interface VolunteerService {
     public List<VolunteerDTO> getList(Pagination pagination);
 
     public int getTotal();
-    
-    // 마감순 정렬
-    public List<VolunteerDTO> getListByEndingSoon(Pagination pagination);
-    
-    // 기본 정렬
-    public List<VolunteerDTO> getListByRecent(Pagination pagination);
+
+
+    // 최신순 정렬 조회
+    @Override
+    public List<VolunteerDTO> getListByRecent(Pagination pagination) {
+        pagination.setOrder("recent");
+        return volunteerMapper.selectAll(pagination);
+    }
+
+    // 마감 임박순 정렬 조회
+    @Override
+    public List<VolunteerDTO> getListByEndingSoon(Pagination pagination) {
+        pagination.setOrder("endingSoon");
+        return volunteerMapper.selectAll(pagination);
+    }
 
     // 조회수 순 정렬 조회
-    List<VolunteerDTO> getListByViewCount(Pagination pagination);
+    @Override
+    public List<VolunteerDTO> getListByViewCount(Pagination pagination) {
+        pagination.setOrder("viewCount");
+        return volunteerMapper.selectAll(pagination);
+    }
 }
 
 
