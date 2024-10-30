@@ -6,17 +6,21 @@
     </insert>
 
     <select id="selectAll" resultType="reviewDTO">
-        select r.id, post_title, post_content, created_date, updated_date
-        from tbl_post p join tbl_review r
-        on p.id = n.id
-        order by created_date desc
+        select r.id, r.review_star_rate, r.vt_group_name, p.post_title, p.post_content, p.member_id, p.created_date, p.updated_date, m.member_nickname
+        from tbl_review r join tbl_post p
+            on r.id = p.id
+        join tbl_member m
+            on p.member_id = m.id
+        order by created_date desc, r.id desc
         limit #{pagination.startRow}, #{pagination.rowCount};
     </select>
 
     <select id="selectById" resultType="reviewDTO">
-        select r.id, r.review_star_rate,r.vt_group_name p.post_title, p.post_content, p.member_id, p.created_date
+        select r.id, r.review_star_rate, r.vt_group_name p.post_title, p.post_content, p.member_id, p.created_date, m.member_nickname
         from tbl_review r join tbl_post p
-        on r.id = p.id
+            on r.id = p.id
+        join tbl_member m
+            on p.member_id = m.id
         where r.id = #{id}
     </select>
 

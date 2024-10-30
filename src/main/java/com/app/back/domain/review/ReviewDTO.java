@@ -19,6 +19,7 @@ public class ReviewDTO {
     private String postType;
     private String postStatus;
     private Long postViewCount;
+    private String memberNickName;
     private Long memberId;
     private String createdDate;
     private String updatedDate;

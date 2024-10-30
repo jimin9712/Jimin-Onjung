@@ -7,6 +7,9 @@ import com.app.back.domain.post.PostVO;
 import lombok.*;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+
 @Component
 @Getter @Setter @ToString
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -37,6 +40,8 @@ public class VolunteerDTO {
     private String vtSDate;
     private String vtEDate;
 
+    private long daysLeft;
+
     public PostVO toPostVO() {
         return new PostVO(id,postTitle,postContent,postSummary,postType,postStatus,postViewCount,memberId,createdDate, updatedDate);
     }
@@ -46,4 +51,20 @@ public class VolunteerDTO {
     }
 
     public VolunteerVO toVO() {return new VolunteerVO(id, recruitmentCount, nowRecruitmentCount, vtSDate, vtEDate);}
+
+    public void calculateDaysLeft() {
+        if (vtEDate != null) {
+            LocalDate endDate = LocalDate.parse(vtEDate); // 문자열을 LocalDate로 변환
+            if (LocalDate.now().isBefore(endDate)) {
+                this.daysLeft = ChronoUnit.DAYS.between(LocalDate.now(), endDate);
+            } else {
+                this.daysLeft = 0; // 종료된 경우 0으로 설정
+            }
+        } else {
+            this.daysLeft = 0;
+        }
+    }
+
 }
+
+

@@ -137,20 +137,15 @@
                                                 </svg>
                                             </div>
                                             <div class="bottom-wrap">
-                                                <div
-                                                    width="100%"
-                                                    height="8px"
-                                                    class="bottom-drop-down"
-                                                ></div>
+                                                <div width="100%" height="8px" class="bottom-drop-down"></div>
                                                 <div class="list-wrap">
-                                                    <div class="item active">
+                                                    <div class="item active" onclick="sortList('recent')">
                                                         최신등록순
                                                     </div>
-
-                                                    <div class="item">
+                                                    <div class="item" onclick="sortList('viewCount')">
                                                         조회순
                                                     </div>
-                                                    <div class="item">
+                                                    <div class="item" onclick="sortList('endingSoon')">
                                                         마감임박순
                                                     </div>
                                                 </div>
@@ -188,9 +183,9 @@
             </main>
         </div>
     </body>
-    <script src="/js/volunteer/volunteer-list.js"></script>
     <script th:inline="javascript">
         const lists = [[${lists}]];
         const pagination = [[${pagination}]];
     </script>
+    <script src="/js/volunteer/volunteer-list.js"></script>
 </html>

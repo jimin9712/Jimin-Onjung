@@ -17,7 +17,7 @@ public interface ReviewMapper {
     // 조회
     public Optional<ReviewDTO> selectById(Long id);
     // 전체 조회
-    public List<ReviewDTO> selectAll(Pagination pagination);
+    public List<ReviewDTO> selectAll(@Param("pagination") Pagination pagination);
     // 전체 개수
     public int selectCount();
     // 수정

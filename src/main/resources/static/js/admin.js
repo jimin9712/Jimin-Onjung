@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const inquiryTableHeader = document.querySelector(
         ".inquiryTable_row.inquiryTable_header"
     );
-    let sortOrder = {}; // 각 옵션의 정렬 순서를 기억하기 위한 객체
+    let sortOrder = {};
 
     function sortHelps(order) {
         const helps = Array.from(
@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         helps.forEach((help) => (help.style.display = "flex"));
 
-        if (order === "작성일 순") {
+        if (order === "최신순") {
             helps.sort((a, b) => {
                 const dateA = new Date(
                     a.querySelector(
@@ -96,8 +96,8 @@ document.addEventListener("DOMContentLoaded", function () {
             inquiryTableContainer.appendChild(help);
         });
     }
-
-    sortHelps();
+    // 최신순으로 정렬
+    sortHelps("최신순");
 
     inquiryOptions.forEach(function (inquiryOption) {
         inquiryOption.addEventListener("click", function () {
@@ -138,6 +138,18 @@ document.addEventListener("DOMContentLoaded", function () {
                 return sortOrder[order] === "asc"
                     ? dateA - dateB
                     : dateB - dateA;
+            });
+        } else if (order === "최신순") {
+            posts.sort((a, b) => {
+                const countA = a
+                    .querySelector(".ServiceTable_cell.hit_ctn")
+                    .textContent.trim();
+                const countB = b
+                    .querySelector(".ServiceTable_cell.hit_ctn")
+                    .textContent.trim();
+                return sortOrder[order] === "asc"
+                    ? countA - countB
+                    : countB - countA;
             });
         } else if (order === "조회수 순") {
             posts.sort((a, b) => {
@@ -210,7 +222,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // 페이지 로드 시 기본적으로 '가입일 순'은 내림차순, '이름 순'은 오름차순으로 정렬
     sortOrder["가입일 순"] = "desc";
-    sortOrder["이름 순"] = "asc";
+    sortOrder["최신순"] = "desc";
+    sortOrder["이름 순"] = "desc";
+    sortOrder["작성일 순"] = "desc";
 
     // 기본 정렬
     sortPosts("가입일 순");
@@ -270,6 +284,120 @@ notificationLinks.forEach((notificationLink) => {
     });
 });
 
+
+
+//여기서부터 서버 ==============================================================================
+
+const lisdiv = document.querySelector(".inquiryTable_container");
+const pagingdiv = document.querySelector(".pagination-list");
+const keyword = document.querySelector("input[name='keyword']");
+const notificationWrap = document.getElementById("notificationWrap");
+const pageWrap = document.getElementById("page-wrap");
+
+let content = ``;
+
+
+// 게시글 목록을 표시하는 함수
+const showList = () => {
+    let text = ``; // HTML 내용을 저장할 변수 초기화
+    text +=`<div
+                                            class="inquiryTable_row inquiryTable_header"
+                                        >
+                                            <div
+                                                class="inquiryTable_cell inquiry-headerCell selectAllCell"
+                                            >
+                                                <input
+                                                    type="checkbox"
+                                                    id="selectAll"
+                                                />
+                                            </div>
+                                            <div
+                                                class="inquiryTable_cell inquiry-headerCell"
+                                            >
+                                                문의 분류
+                                            </div>
+                                            <div
+                                                class="inquiryTable_cell inquiry-headerCell"
+                                            >
+                                                작성일
+                                            </div>
+                                            <div
+                                                class="inquiryTable_cell inquiry-headerCell"
+                                            >
+                                                문의 제목
+                                            </div>
+
+                                            <div
+                                                class="inquiryTable_cell inquiry-headerCell"
+                                            >
+                                                문의 내용
+                                            </div>
+                                            <div
+                                                class="inquiryTable_cell inquiry-headerCell"
+                                            >
+                                                작성자
+                                            </div>
+                                            <div
+                                                class="inquiryTable_cell inquiry-headerCell"
+                                            >
+                                                이메일
+                                            </div>
+                                            <div
+                                                class="inquiryTable_cell inquiry-headerCell"
+                                            >
+                                                상태
+                                            </div>
+                                            <div
+                                                class="inquiryTable_cell inquiry-headerCell"
+                                            >
+                                                Action
+                                            </div>
+                                        </div>`
+    inquiries.forEach((inquiry) => {
+        text += `<div class="inquiryTable_row data_row">
+                                            <div class="inquiryTable_cell">
+                                                <input
+                                                    type="checkbox"
+                                                    class="inquiryCheckbox"
+                                                />
+                                            </div>
+                                            <div class="inquiryTable_cell inquiry_type">
+                                                ${inquiry.inquiryType}
+                                            </div>
+                                            <div class="inquiryTable_cell inquiry_date">
+                                                ${inquiry.createdDate}
+                                            </div>
+                                            <div class="inquiryTable_cell">
+                                                ${inquiry.postTitle}
+                                            </div>
+
+                                            <div class="inquiryTable_cell">
+                                                ${inquiry.postContent}
+                                            </div>
+                                            <div class="inquiryTable_cell">
+                                                ${inquiry.memberNickName}
+                                            </div>
+                                            <div class="inquiryTable_cell">
+                                                ${inquiry.inquiryEmail}
+                                            </div>
+                                            <div class="inquiryTable_cell">
+                                                ${inquiry.inquiryStatus}
+                                            </div>
+
+                                            <div class="inquiryTable_cell">
+                                                <button class="editBtn">
+                                                    답변하기
+                                                </button>
+                                            </div>
+                                        </div>`;
+    });
+
+    // 게시글 목록을 HTML 요소에 삽입
+    lisdiv.innerHTML = text;
+}
+
+showList();
+
 const inquiryAnswerButtons = document.querySelectorAll(
     ".inquiryTable_cell button.editBtn"
 );
@@ -285,3 +413,84 @@ inquiryAnswerButtons.forEach((inquiryAnswerButton) => {
         console.log(inquiryAnswerSection[0].classList.add("selected"));
     });
 });
+
+const showPaging = () => {
+    let text = ``;
+
+    // 처음 페이지로 이동하는 버튼
+    text += `
+        <li class="pagination-first">
+            <a href="/admin?page=1&query=${pagination.keyword || ''}" class="pagination-first-link" rel="nofollow">
+                <span class="pagination-first-icon" aria-hidden="true">«</span>
+            </a>
+        </li>
+    `;
+
+    // 이전 페이지 버튼 추가
+    if (pagination.prev) {
+        text += `
+            <li class="pagination-prev">
+                <a href="/admin?page=${pagination.startPage - 1}&query=${pagination.keyword || ''}" class="pagination-prev-link" rel="prev nofollow">
+                    <span class="pagination-prev-icon" aria-hidden="true">‹</span>
+                </a>
+            </li>
+        `;
+    }
+
+    // 페이지 번호 생성
+    for (let i = pagination.startPage; i <= pagination.endPage; i++) {
+        if (pagination.page === i) {
+            // 현재 페이지인 경우
+            text += `
+                <li class="pagination-page active">
+                    <a class="pagination-page-link">${i}</a>
+                </li>
+            `;
+        } else {
+            // 다른 페이지인 경우
+            text += `
+                <li class="pagination-page">
+                    <a href="/admin?page=${i}&query=${pagination.keyword || ''}" class="pagination-page-link">${i}</a>
+                </li>
+            `;
+        }
+    }
+
+    // 다음 페이지 버튼 추가
+    if (pagination.next) {
+        text += `
+            <li class="pagination-next">
+                <a href="/admin?page=${pagination.endPage + 1}&query=${pagination.keyword || ''}" class="pagination-next-link" rel="next nofollow">
+                    <span class="pagination-next-icon" aria-hidden="true">›</span>
+                </a>
+            </li>
+        `;
+    }
+
+    // 마지막 페이지로 이동하는 버튼
+    text += `
+        <li class="pagination-last">
+            <a href="/admin?page=${pagination.realEnd}&query=${pagination.keyword || ''}" class="pagination-last-link" rel="nofollow">
+                <span class="pagination-last-icon" aria-hidden="true">»</span>
+            </a>
+        </li>
+    `;
+
+    text += `</ul>`; // 종료 태그 추가
+    // 페이지 네비게이션을 HTML 요소에 삽입
+    console.log("페이지 네비게이션 생성됨:", text);
+    pagingdiv.innerHTML = text;
+};
+showPaging();
+
+document.addEventListener("DOMContentLoaded", function () {
+    // pagination 객체가 제대로 할당됐는지 확인
+    console.log("pagination 데이터 확인:", pagination);
+
+    if (pagination) {
+        showPaging(); // pagination 데이터가 존재할 경우에만 showPaging() 호출
+    } else {
+        console.error("pagination 데이터가 존재하지 않습니다.");
+    }
+});
+//안돼
