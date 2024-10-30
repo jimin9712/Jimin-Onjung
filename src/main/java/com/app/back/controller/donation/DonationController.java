@@ -5,6 +5,7 @@ import com.app.back.domain.donation.DonationVO;
 import com.app.back.domain.post.Pagination;
 import com.app.back.domain.review.ReviewDTO;
 import com.app.back.service.donation.DonationService;
+import com.app.back.service.post.PostService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,13 +34,15 @@ import java.util.UUID;
 @Slf4j
 public class DonationController {
     private final DonationService donationService;
+    private final PostService postService;
     private final HttpSession session;
 
     @GetMapping("donation-write")
     public String goToWriteForm(DonationDTO donationDTO) { return "donation/donation-write"; }
 
     @PostMapping("donation-write")
-    public RedirectView donationWrite(@RequestParam("file") List<MultipartFile> files, DonationDTO donationDTO) throws IOException {
+//    public RedirectView donationWrite(@RequestParam("file") List<MultipartFile> files, DonationDTO donationDTO) throws IOException {
+    public RedirectView donationWrite(DonationDTO donationDTO) throws IOException {
         donationDTO.setMemberId(1L);
         donationDTO.setPostType("DONATION");
         log.info("Received donationDTO: {}", donationDTO);
@@ -58,16 +61,16 @@ public class DonationController {
             directory.mkdirs();
         }
 
-        for(int i=0; i<files.size(); i++){
-            files.get(i).transferTo(new File(rootPath, files.get(i).getOriginalFilename()));
-            donationDTO.setAttachmentFileName(uuid.toString() + "_" + files.get(i).getOriginalFilename());
-
-            if(files.get(i).getContentType().startsWith("image")){
-                FileOutputStream fileOutputStream = new FileOutputStream(new File(rootPath, "t_" + uuid.toString() + "_" + files.get(i).getOriginalFilename()));
-                Thumbnailator.createThumbnail(files.get(i).getInputStream(), fileOutputStream, 100, 100);
-                fileOutputStream.close();
-            }
-        }
+//        for(int i=0; i<files.size(); i++){
+//            files.get(i).transferTo(new File(rootPath, files.get(i).getOriginalFilename()));
+//            donationDTO.setAttachmentFileName(uuid.toString() + "_" + files.get(i).getOriginalFilename());
+//
+//            if(files.get(i).getContentType().startsWith("image")){
+//                FileOutputStream fileOutputStream = new FileOutputStream(new File(rootPath, "t_" + uuid.toString() + "_" + files.get(i).getOriginalFilename()));
+//                Thumbnailator.createThumbnail(files.get(i).getInputStream(), fileOutputStream, 100, 100);
+//                fileOutputStream.close();
+//            }
+//        }
 
         // 데이터가 문제없으면 세션에 저장
 //        session.setAttribute("donation", donationDTO);
@@ -86,7 +89,7 @@ public class DonationController {
         if (pagination.getOrder() == null) {
             pagination.setOrder("created_date desc, n.id desc"); // 기본 정렬 기준
         }
-
+        pagination.setTotal(postService.getTotal("REVIEW"));
         pagination.progressReview();
         model.addAttribute("donations", donationService.getList(pagination));
         return "donation/donation-list";
@@ -119,7 +122,7 @@ public class DonationController {
     @PostMapping("donation-update")
     public RedirectView donationUpdate(DonationDTO donationDTO) {
         donationService.update(donationDTO);
-        return new RedirectView("/donation/donation-list");
+        return new RedirectView("/donation/donation-inquiry");
     }
 
     @GetMapping("review-delete")
