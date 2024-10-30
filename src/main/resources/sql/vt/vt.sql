@@ -24,18 +24,19 @@ drop table tbl_vt;
 #          join tbl_member m on p.member_id = m.id
 #          join tbl_profile pf on p.member_id = pf.id
 # order by v.id desc;
+#
+# # alter table tbl_vt add now_recruitment_count smallint after recruitment_count;
+# alter table tbl_vt modify recruitment_count smallint default 0;
+#
+# SELECT v.id, v.recruitment_count, p.post_title, m.member_nickname, p.post_status,
+#        at.attachment_file_name, at.attachment_file_path, at.attachment_file_size, at.attachment_file_type,
+#        v.vt_s_date, v.vt_e_date, p.post_view_count, p.post_type, p.post_summary, p.created_date
+# FROM tbl_vt v
+#          LEFT JOIN tbl_post p ON v.id = p.id
+#          LEFT JOIN tbl_member m ON p.member_id = m.id
+#          LEFT JOIN tbl_attachment at ON at.post_id = p.id
+# WHERE v.id = 9;
+#
+#
+# SELECT * FROM tbl_vt WHERE id = 5;
 
-# alter table tbl_vt add now_recruitment_count smallint after recruitment_count;
-alter table tbl_vt modify recruitment_count smallint default 0;
-
-SELECT v.id, v.recruitment_count, p.post_title, m.member_nickname, p.post_status,
-       at.attachment_file_name, at.attachment_file_path, at.attachment_file_size, at.attachment_file_type,
-       v.vt_s_date, v.vt_e_date, p.post_view_count, p.post_type, p.post_summary, p.created_date
-FROM tbl_vt v
-         LEFT JOIN tbl_post p ON v.id = p.id
-         LEFT JOIN tbl_member m ON p.member_id = m.id
-         LEFT JOIN tbl_attachment at ON at.post_id = p.id
-WHERE v.id = 9;
-
-
-SELECT * FROM tbl_vt WHERE id = 5;

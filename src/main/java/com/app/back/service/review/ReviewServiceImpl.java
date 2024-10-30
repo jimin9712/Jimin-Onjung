@@ -62,6 +62,19 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public void delete(Long id) {
-        reviewDAO.delete(id); // ID로 Q&A 게시글 삭제
+
+        reviewDAO.delete(id);
+        postDAO.delete(id);
+        // ID로 Q&A 게시글 삭제
+    }
+
+    @Override
+    public List<ReviewDTO> findByMemberId(Long memberId) {
+        return reviewDAO.findByMemberId(memberId);
+    }
+
+    @Override
+    public List<ReviewDTO> findByMemberIdAndDateRange(Long memberId, String startDate, String endDate) {
+        return reviewDAO.findByMemberIdAndDateRange(memberId, startDate, endDate);
     }
 }

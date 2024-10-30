@@ -29,36 +29,39 @@
                 <div class="wrap">
                     <div class="FPdYO content">
                         <main class="hIMFnk">
+                            <form
+                                    id="profileForm"
+                                    action="/profile/upload"
+                                    method="POST"
+                                    enctype="multipart/form-data"
+                            >
                             <div class="cRFSjf">
                                 <div class="ekUKKX profile-info">
                                     <div class="edit-content-content-title">
                                         프로필 수정
                                     </div>
                                     <div class="profile-info--wrapper">
-                                        <div
-                                            class="profile-info--image-wrapper"
-                                        >
+                                        <div class="profile-info--image-wrapper">
                                             <img
-                                                src="https://cdn-dantats.stunning.kr/client/73287d9/static/media/ico-default-profile.87fcb384.png"
-                                                class="hdWpKs"
+                                                    src="https://cdn-dantats.stunning.kr/client/73287d9/static/media/ico-default-profile.87fcb384.png"
+                                                    class="hdWpKs"
+                                                    id="profileImagePreview"
                                             />
                                             <div class="edit-btn">
                                                 <input
-                                                    label="profile_image"
-                                                    accept="image/jpg, image/jpeg, image/bmp, image/tiff, image/png, image/svg, image/webp"
-                                                    type="file"
-                                                    id="profile_image"
-                                                    class="iBfDiv"
+                                                        accept="image/*"
+                                                        type="file"
+                                                        name="file"
+                                                        id="profileImageInput"
+                                                        class="iBfDiv"
+                                                        multiple
                                                 />
-                                                <label
-                                                    class="kHfLkV"
-                                                    width="0"
-                                                    height="46"
-                                                    for="profile_image"
-                                                    ><img
-                                                        class="edit-img"
-                                                        src="https://cdn-dantats.stunning.kr/client/73287d9/static/media/ico-pen-edit-gray.d058146f.svg"
-                                                /></label>
+                                                <label for="profileImageInput" class="kHfLkV">
+                                                    <img
+                                                            src="https://cdn-dantats.stunning.kr/client/73287d9/static/media/ico-pen-edit-gray.d058146f.svg"
+                                                            class="edit-img"
+                                                    />
+                                                </label>
                                             </div>
                                         </div>
                                         <div class="profile-info--content">
@@ -247,11 +250,13 @@
                                         class="dnkuMk"
                                         width="0"
                                         height="46"
+                                        type="submit"
                                     >
                                         저장하기
                                     </button>
                                 </div>
                             </div>
+                        </form>
                         </main>
                     </div>
                 </div>

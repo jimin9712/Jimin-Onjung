@@ -48,6 +48,6 @@ public class DonationMapperTests {
 
     @Test
     public void testDelete() {
-        donationMapper.deleteById(1L);
+        donationMapper.deleteById(2L);
     }
 }

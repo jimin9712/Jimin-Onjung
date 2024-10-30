@@ -5,6 +5,7 @@ import com.app.back.domain.post.Pagination;
 import com.app.back.domain.post.PostVO;
 import com.app.back.mapper.donation.DonationMapper;
 import com.app.back.mapper.post.PostMapper;
+import com.app.back.repository.attachment.AttachmentDAO;
 import com.app.back.repository.donation.DonationDAO;
 import com.app.back.repository.post.PostDAO;
 import lombok.RequiredArgsConstructor;
@@ -20,18 +21,19 @@ import java.util.Optional;
 @RequiredArgsConstructor // 생성자 자동 생성
 @Transactional(rollbackFor = Exception.class) // 예외 발생 시 롤백 처리
 public class DonationServiceImpl implements DonationService {
-    private final PostMapper postMapper;
-    private final DonationMapper donationMapper;
     private final DonationDAO donationDAO;
     private final PostDAO postDAO; // 게시글 DAO
+    private final AttachmentDAO attachmentDAO;
 
     @Override
     public void write(DonationDTO donationDTO) {
-        Long id = postMapper.selectCurrentId();
+        postDAO.save(donationDTO.toPostVO());
+        Long id = postDAO.selectCurrentId();
         donationDTO.setId(id);
-        PostVO postVO = donationDTO.toPostVO();
-        postMapper.insert(postVO);
-        donationMapper.insert(donationDTO.toVO());
+        if(donationDTO.getAttachmentFileName() != null && donationDTO.getAttachmentFilePath() != null && donationDTO.getAttachmentFileType() != null && donationDTO.getAttachmentFileSize() != null) {
+            attachmentDAO.save(donationDTO.toAttachmentVO());
+        }
+        donationDAO.save(donationDTO.toVO());
     }
 
     @Override
@@ -57,5 +59,15 @@ public class DonationServiceImpl implements DonationService {
     @Override
     public void delete(Long id) {
         donationDAO.delete(id);
+    }
+
+    @Override
+    public List<DonationDTO> findByMemberId(Long memberId) {
+        return donationDAO.findByMemberId(memberId);
+    }
+
+    @Override
+    public List<DonationDTO> findByMemberIdAndDateRange(Long memberId, String startDate, String endDate) {
+        return donationDAO.findByMemberIdAndDateRange(memberId, startDate, endDate);
     }
 }

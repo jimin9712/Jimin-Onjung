@@ -267,25 +267,25 @@ public class MemberController {
     @ResponseBody
     public ResponseEntity<String> updateProfile(
             @RequestBody MemberDTO memberDTO1, HttpSession session) {
+
         MemberVO memberVO = (MemberVO) session.getAttribute("loginMember");
 
-        if (memberVO != null) {
-            MemberDTO memberDTO = memberVO.toDTO();
-
-            // 요청된 정보로 기존 DTO 업데이트
-            memberDTO.setMemberNickName(memberDTO1.getMemberNickName());
-            memberDTO.setMemberIntroduction(memberDTO1.getMemberIntroduction());
-
-            MemberVO updatedMemberVO = memberDTO.toVO();
-            memberService.updateProfile(updatedMemberVO);
-
-            session.setAttribute("loginMember", updatedMemberVO);
-
-            return ResponseEntity.ok("프로필이 성공적으로 수정되었습니다.");
-        } else {
+        if (memberVO == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
         }
+
+        MemberDTO memberDTO = memberVO.toDTO();
+        memberDTO.setMemberNickName(memberDTO1.getMemberNickName());
+        memberDTO.setMemberIntroduction(memberDTO1.getMemberIntroduction());
+
+        MemberVO updatedMemberVO = memberDTO.toVO();
+        memberService.updateProfile(updatedMemberVO);
+
+        session.setAttribute("loginMember", updatedMemberVO); // 세션 갱신
+
+        return ResponseEntity.ok("프로필이 성공적으로 수정되었습니다.");
     }
+
 
 }
 
