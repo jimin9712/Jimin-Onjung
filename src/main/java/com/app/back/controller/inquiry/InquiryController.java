@@ -25,7 +25,7 @@ public class InquiryController {
     private final HttpSession session;
 
 
-    @GetMapping("")
+    @GetMapping("/inquiry-list")
     public String getList(Pagination pagination, Search search, Model model, HttpServletRequest request) {
         log.info("Controller - getList() 호출됨");
         log.info("페이지네이션 정보: {}", pagination);
