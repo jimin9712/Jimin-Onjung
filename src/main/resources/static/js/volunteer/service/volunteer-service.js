@@ -1,23 +1,24 @@
 // 봉사 리스트를 보여줄 HTML 요소 가져오기
 const listLayout = document.getElementById("contest-list");
 
-// 봉사 데이터를 서버에서 가져오는 함수
-const fetchVolunteers = async (view = "recent") => {
+// 서버에서 봉사 데이터를 가져오는 함수
+const fetchVolunteers = async (view = "recent", page = 1) => {
     try {
-        // fetch로 서버에 요청 보내기
-        const response = await fetch(`/volunteer/volunteer-list?view=${view}`);
+        // 서버에 요청 보내기
+        const response = await fetch(`/volunteer/volunteer-list?view=${view}&page=${page}`);
         if (!response.ok) throw new Error("봉사 데이터를 불러오는 데 실패했습니다.");
 
         // JSON 형식으로 응답 데이터 파싱
         const data = await response.json();
-        renderVolunteerList(data); // 받아온 데이터를 렌더링 함수에 전달
+        renderVolunteerList(data.lists); // 받아온 봉사 데이터를 렌더링 함수에 전달
+        renderPagination(data.pagination); // 받아온 페이지네이션 정보를 렌더링
     } catch (error) {
         console.error("봉사 데이터 가져오기 오류:", error);
         listLayout.innerHTML = `<div class="no-lists">봉사 데이터를 불러오는 데 문제가 발생했습니다.</div>`;
     }
 };
 
-// 가져온 봉사 데이터를 HTML에 렌더링하는 함수
+// 봉사 데이터를 HTML에 렌더링하는 함수
 const renderVolunteerList = (lists) => {
     if (!lists || lists.length === 0) {
         listLayout.innerHTML = `<div class="no-lists">게시글이 없습니다.</div>`;
@@ -151,11 +152,54 @@ const renderVolunteerList = (lists) => {
                 </ul>
             </a>
         `;
-        listLayout.appendChild(liElement); // 생성된 요소 추가
+        listLayout.appendChild(liElement);
     });
 };
 
-// 필터를 변경할 때 봉사 데이터를 다시 가져오는 함수
+// 페이지네이션을 렌더링하는 함수
+const renderPagination = (pagination) => {
+    const paginationContainer = document.querySelector(".pagination-list.inquiry-page");
+    let paginationHTML = '';
+
+    // 처음 페이지로 이동
+    paginationHTML += `<li class="pagination-first">
+        <a href="#" data-page="1" class="pagination-first-link">«</a></li>`;
+
+    // 이전 페이지로 이동
+    if (pagination.prev) {
+        paginationHTML += `<li class="pagination-prev">
+            <a href="#" data-page="${pagination.startPage - 1}" class="pagination-prev-link">‹</a></li>`;
+    }
+
+    // 페이지 번호
+    for (let i = pagination.startPage; i <= pagination.endPage; i++) {
+        paginationHTML += `<li class="pagination-page ${pagination.page === i ? 'active' : ''}">
+            <a href="#" data-page="${i}" class="pagination-page-link">${i}</a></li>`;
+    }
+
+    // 다음 페이지로 이동
+    if (pagination.next) {
+        paginationHTML += `<li class="pagination-next">
+            <a href="#" data-page="${pagination.endPage + 1}" class="pagination-next-link">›</a></li>`;
+    }
+
+    // 마지막 페이지로 이동
+    paginationHTML += `<li class="pagination-last">
+        <a href="#" data-page="${pagination.realEnd}" class="pagination-last-link">»</a></li>`;
+
+    paginationContainer.innerHTML = paginationHTML;
+
+    // 페이지 버튼 클릭 이벤트 설정
+    document.querySelectorAll(".pagination-page-link, .pagination-prev-link, .pagination-next-link, .pagination-first-link, .pagination-last-link").forEach(link => {
+        link.addEventListener("click", (e) => {
+            e.preventDefault();
+            const page = e.target.getAttribute("data-page");
+            fetchVolunteers("recent", page); // 페이지에 따라 데이터를 가져옵니다
+        });
+    });
+};
+
+// 필터 변경 시 봉사 데이터를 다시 가져오는 함수
 const fetchFilteredVolunteers = (filter) => {
     fetchVolunteers(filter);
 };

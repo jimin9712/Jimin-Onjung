@@ -18,20 +18,26 @@ import java.util.List;
 import java.util.Map;
 
 @Controller // 이 클래스가 컨트롤러임을 나타냄
-//@RequestMapping("/volunteer/*") // QA 관련 요청을 처리
+@RequestMapping("/volunteer/*") // QA 관련 요청을 처리
 @RequiredArgsConstructor // 생성자 자동 생성
 @Slf4j // 로깅 기능 추가
 public class VolunteerController {
 
     private final VolunteerService volunteerService;
-    @GetMapping("/volunteer/volunteer-list")
+
+    @GetMapping("/volunteer-write")
+    public String volunteerWrite(Model model) {
+        return "volunteer/volunteer-write";
+    }
+
+    @GetMapping("/volunteer-list")
     public List<VolunteerDTO> admin(Pagination pagination, Model model) {
         return volunteerService.getList(pagination);
     }
 
 
     
-    @GetMapping("/volunteer/volunteer-info") // Q&A 게시글 목록 조회
+    @GetMapping("/volunteer-info") // Q&A 게시글 목록 조회
     @ResponseBody
     public List<VolunteerDTO> getList(Pagination pagination, Model model, @RequestParam(defaultValue = "recent") String view) {
         log.info("Controller - getList() 호출됨");
