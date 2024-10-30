@@ -31,11 +31,12 @@ dropZone.addEventListener("drop", (event) => {
     handleFiles(event.dataTransfer.files);
 });
 
+
 // 파일 처리 함수
 const handleFiles = (files) => {
     const formData = new FormData();
     formData.append("file", files[0]);
-    reviewAttachmentService.upload(formData);
+    const receivedFileDTO = reviewAttachmentService.upload(formData);
     console.log(files[0]);
     let totalSize = Array.from(uploadedFiles).reduce(
         (acc, file) => acc + file.size,
