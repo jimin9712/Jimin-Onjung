@@ -1,6 +1,7 @@
 package com.app.back.repository.inquiry;
 
 
+import com.app.back.domain.donation_record.DonationRecordDTO;
 import com.app.back.domain.inquiry.InquiryDTO;
 import com.app.back.domain.inquiry.InquiryVO;
 import com.app.back.domain.post.Pagination;
@@ -49,5 +50,12 @@ public class InquiryDAO {
 
     //    삭제
     public void delete(Long id) {inquiryMapper.deleteById(id);}
+
+    public List<InquiryDTO> findByMemberId(Long memberId) {
+        return inquiryMapper.selectByMemberId(memberId);
+    }
+    public List<InquiryDTO> findByMemberIdAndDateRange(Long memberId, String startDate, String endDate) {
+        return inquiryMapper.selectByMemberIdAndDateRange(memberId, startDate, endDate);
+    }
 
 }

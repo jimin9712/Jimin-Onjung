@@ -158,7 +158,7 @@ const applyFilterReviews = async (memberId, months) => {
     const startDate = new Date(today.setMonth(today.getMonth() - months)).toISOString().split("T")[0];
     const endDate = new Date().toISOString().split("T")[0];
 
-    console.log(`applyFilterReviews 호출됨. memberId: ${memberId}, startDate: ${startDate}, endDate: ${endDate}`); 
+    console.log(`applyFilterReviews 호출됨. memberId: ${memberId}, startDate: ${startDate}, endDate: ${endDate}`);
     await fetchFilteredReviews(memberId, startDate, endDate);
 };
 
@@ -168,7 +168,7 @@ const updateDateRangeReviews = async () => {
     const endDate = document.getElementById("end-date-review").value;
     const memberId = await getMemberInfo();
 
-    console.log(`updateDateRangeReviews 호출됨. startDate: ${startDate}, endDate: ${endDate}, memberId: ${memberId}`); 
+    console.log(`updateDateRangeReviews 호출됨. startDate: ${startDate}, endDate: ${endDate}, memberId: ${memberId}`);
 
     if (startDate && endDate) {
         await fetchFilteredReviews(memberId, startDate, endDate);
@@ -181,11 +181,11 @@ const fetchFilteredReviews = async (memberId, startDate, endDate) => {
         const response = await fetch(
             `/review/my-reviews/${memberId}?startDate=${startDate}&endDate=${endDate}`
         );
-        console.log("응답 상태:", response.status); 
+        console.log("응답 상태:", response.status);
         if (!response.ok) throw new Error("서버로부터 데이터를 가져오는 데 실패했습니다.");
 
         const data = await response.json();
-        console.log("필터된 후기 데이터:", data); 
+        console.log("필터된 후기 데이터:", data);
         renderReviews(data);
     } catch (error) {
         console.error("Error fetching filtered review records:", error);
@@ -197,18 +197,17 @@ const fetchFilteredReviews = async (memberId, startDate, endDate) => {
 const fetchReviews = async (memberId) => {
     try {
         const response = await fetch(`/review/my-reviews/${memberId}`);
-        console.log("응답 상태:", response.status); 
+        console.log("응답 상태:", response.status);
         if (!response.ok) throw new Error("서버로부터 데이터를 가져오는 데 실패했습니다.");
 
         const data = await response.json();
-        console.log("후기 데이터:", data); 
+        console.log("후기 데이터:", data);
         renderReviews(data);
     } catch (error) {
         console.error("Error fetching review records:", error);
         alert("후기 내역을 불러오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.");
     }
 };
-
 /*********************기부 섹션**********************/
 // 기부 내역 렌더링
 const renderDonations = (donations) => {
@@ -309,7 +308,7 @@ const applyFilterDonations = async (memberId, months) => {
     const startDate = new Date(today.setMonth(today.getMonth() - months)).toISOString().split("T")[0];
     const endDate = new Date().toISOString().split("T")[0];
 
-    console.log(`applyFilterDonations 호출됨. memberId: ${memberId}, startDate: ${startDate}, endDate: ${endDate}`); 
+    console.log(`applyFilterDonations 호출됨. memberId: ${memberId}, startDate: ${startDate}, endDate: ${endDate}`);
     await fetchFilteredDonations(memberId, startDate, endDate);
 };
 
@@ -319,7 +318,7 @@ const updateDateRangeDonations = async () => {
     const endDate = document.getElementById("end-date-donation").value;
     const memberId = await getMemberInfo();
 
-    console.log(`updateDateRangeDonations 호출됨. startDate: ${startDate}, endDate: ${endDate}, memberId: ${memberId}`); 
+    console.log(`updateDateRangeDonations 호출됨. startDate: ${startDate}, endDate: ${endDate}, memberId: ${memberId}`);
 
     if (startDate && endDate) {
         await fetchFilteredDonations(memberId, startDate, endDate);
@@ -332,11 +331,11 @@ const fetchFilteredDonations = async (memberId, startDate, endDate) => {
         const response = await fetch(
             `/donation-records/my-donation/${memberId}?startDate=${startDate}&endDate=${endDate}`
         );
-        console.log("응답 상태:", response.status); 
+        console.log("응답 상태:", response.status);
         if (!response.ok) throw new Error("서버로부터 데이터를 가져오는 데 실패했습니다.");
 
         const data = await response.json();
-        console.log("필터된 기부 데이터:", data); 
+        console.log("필터된 기부 데이터:", data);
         renderDonations(data);
     } catch (error) {
         console.error("Error fetching filtered donation records:", error);
@@ -348,11 +347,11 @@ const fetchFilteredDonations = async (memberId, startDate, endDate) => {
 const fetchDonations = async (memberId) => {
     try {
         const response = await fetch(`/donation-records/my-donation/${memberId}`);
-        console.log("응답 상태:", response.status); 
+        console.log("응답 상태:", response.status);
         if (!response.ok) throw new Error("서버로부터 데이터를 가져오는 데 실패했습니다.");
 
         const data = await response.json();
-        console.log("기부 데이터:", data); 
+        console.log("기부 데이터:", data);
         renderDonations(data);
     } catch (error) {
         console.error("Error fetching donation records:", error);
