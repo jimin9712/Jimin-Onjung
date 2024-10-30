@@ -77,4 +77,26 @@
         where id = #{id}
     </delete>
 
+    <select id="selectByMemberId" parameterType="long" resultType="inquiryDTO">
+        select i.id,i.inquiry_email, i.inquiry_type, i.inquiry_status,
+               p.id as postId, p.member_id as memberId,
+               p.post_title, p.post_content, p.created_date, p.updated_date, p.post_type, p.post_status
+        from tbl_inquiry i
+                join tbl_post p on i.id = p.id
+        where p.member_id = #{memberId}
+        order by p.created_date desc
+    </select>
+
+    <select id="selectByMemberIdAndDateRange" resultType="inquiryDTO">
+        select i.id,i.inquiry_email, i.inquiry_type, i.inquiry_status,
+               p.id as postId, p.member_id as memberId,
+               p.post_title, p.post_content, p.created_date, p.updated_date, p.post_type, p.post_status
+        from tbl_inquiry i
+                 join tbl_post p on i.id = p.id
+        where p.member_id = #{memberId}
+          and p.created_date between #{startDate} and #{endDate} + interval '1' DAY
+        order by p.created_date desc
+    </select>
+
+
 </mapper>

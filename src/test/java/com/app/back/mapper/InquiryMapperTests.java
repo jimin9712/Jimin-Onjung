@@ -22,7 +22,7 @@ public class InquiryMapperTests {
     @Test
     public void testwrite() {
         InquiryDTO inquiryDTO = new InquiryDTO();
-        inquiryDTO.setId(4L);
+        inquiryDTO.setId(1L);
         inquiryDTO.setPostStatus("");
         inquiryDTO.setInquiryEmail("4@gmail.com");
         inquiryDTO.setInquiryPhone("4");

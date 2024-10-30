@@ -12,9 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -69,6 +67,21 @@ public class InquiryController {
 //
 //
 //        return inquiryService.getList(pagination, search);
+    }
+
+    @GetMapping("/my-inquirys/{memberId}")
+    @ResponseBody
+    public List<InquiryDTO> getMyInquirys(
+            @PathVariable Long memberId,
+            @RequestParam(required = false) String startDate,
+            @RequestParam(required = false) String endDate) {
+        log.info("받은 회원 ID: {}, 시작 날짜: {}, 끝 날짜: {}", memberId, startDate, endDate);
+
+        if (startDate != null && endDate != null) {
+            return inquiryService.findByMemberIdAndDateRange(memberId, startDate, endDate);
+        } else {
+            return inquiryService.findByMemberId(memberId);
+        }
     }
 
 
