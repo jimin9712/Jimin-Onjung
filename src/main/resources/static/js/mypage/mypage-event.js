@@ -42,7 +42,7 @@ const renderReviews = (reviews) => {
             <tr>
                 <th>후기 번호</th>
                 <th>단체명</th>
-                <th>후기 내용</th>
+                <th>내 별점</th>
                 <th>작성일</th>
                 <th>수정</th>
                 <th>삭제</th>
@@ -56,7 +56,7 @@ const renderReviews = (reviews) => {
                         <td class="news-center-table-body-number">${review.id}</td>
                         <td class="news-center-table-body-category">${review.vtGroupName}</td>
                         <td class="news-center-table-body-title">
-                            <span>${review.postTitle}</span>
+                            <span>${review.reviewStarRate}</span>
                         </td>
                         <td class="news-center-table-body-date">
                             ${new Date(review.createdDate).toLocaleDateString('ko-KR')}
@@ -80,7 +80,6 @@ const renderReviews = (reviews) => {
             button.addEventListener("click", (event) => {
                 const reviewId = event.target.dataset.id;
                 console.log(`후기 수정 버튼 클릭됨: ${reviewId}`);
-                // 수정 페이지로 이동 (예: /review/edit/{id})
                 window.location.href = `/review/review-update/${reviewId}`;
             })
         );
@@ -212,7 +211,6 @@ const fetchReviews = async (memberId) => {
 };
 
 /*********************기부 섹션**********************/
-
 // 기부 내역 렌더링
 const renderDonations = (donations) => {
     const donationList = document.querySelector(".donation-list");
@@ -362,6 +360,142 @@ const fetchDonations = async (memberId) => {
         alert("기부 내역을 불러오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.");
     }
 };
+/*********************기부 감사 인사*********************/
+/********************* 기부 감사 인사 *********************/
+
+// 기부 감사 인사 내역 렌더링
+const renderDonationPosts = (posts) => {
+    const gratitudeList = document.querySelector(".gratitude-list");
+    const emptyComponent = document.querySelector("#gratitude .empty-component");
+
+    if (posts.length === 0) {
+        gratitudeList.style.display = "none";
+        emptyComponent.style.display = "block";
+    } else {
+        gratitudeList.style.display = "block";
+        emptyComponent.style.display = "none";
+        gratitudeList.innerHTML = `
+            <table class="news-center-table" style="margin-top: 0; margin-bottom: 20px;">
+                <colgroup>
+                    <col style="width: 57px;">
+                    <col style="width: 132px;">
+                    <col style="width: 150px;">
+                    <col style="width: 104px;">
+                </colgroup>
+                <thead class="news-center-table-head">
+                    <tr>
+                        <th>게시글 번호</th>
+                        <th>제목</th>
+                        <th>기부내용</th>
+                        <th>작성일</th>
+                    </tr>
+                </thead>
+                <tbody class="news-center-table-body">
+                    ${posts
+            .map(
+                (post) => `
+                            <tr class="news-data-rows" data-forloop="${post.id}">
+                                <td class="news-center-table-body-number">${post.id}</td>
+                                <td class="news-center-table-body-category">${post.postTitle}</td>
+                                <td class="news-center-table-body-title">${post.postContent}</td>
+                                <td class="news-center-table-body-date">${new Date(post.createdDate).toLocaleDateString('ko-KR')}</td>
+                            </tr>
+                        `
+            )
+            .join("")}
+                </tbody>
+            </table>
+        `;
+    }
+
+    document.getElementById("gratitude-totalCount").textContent = posts.length;
+};
+
+// 특정 기간의 기부 감사 인사 내역 가져오기
+const applyFilterDonationPosts = async (memberId, months) => {
+    const today = new Date();
+    const startDate = new Date(today.setMonth(today.getMonth() - months)).toISOString().split("T")[0];
+    const endDate = new Date().toISOString().split("T")[0];
+
+    console.log(`applyFilterDonationPosts 호출됨. memberId: ${memberId}, startDate: ${startDate}, endDate: ${endDate}`);
+    await fetchFilteredDonationPosts(memberId, startDate, endDate);
+};
+
+// 날짜 지정 시 기부 감사 인사 내역 조회
+const updateDateRangeDonationPosts = async () => {
+    const startDate = document.getElementById("start-date-gratitude").value;
+    const endDate = document.getElementById("end-date-gratitude").value;
+    const memberId = await getMemberInfo();
+
+    console.log(`updateDateRangeDonationPosts 호출됨. startDate: ${startDate}, endDate: ${endDate}, memberId: ${memberId}`);
+
+    if (startDate && endDate) {
+        await fetchFilteredDonationPosts(memberId, startDate, endDate);
+    }
+};
+
+// 필터된 기부 감사 인사 내역 가져오기
+const fetchFilteredDonationPosts = async (memberId, startDate, endDate) => {
+    try {
+        const response = await fetch(
+            `/donation/my-posts/${memberId}?startDate=${startDate}&endDate=${endDate}`
+        );
+        console.log("응답 상태:", response.status);
+        if (!response.ok) throw new Error("서버로부터 데이터를 가져오는 데 실패했습니다.");
+
+        const data = await response.json();
+        console.log("필터된 기부 감사 인사 데이터:", data);
+        renderDonationPosts(data);
+    } catch (error) {
+        console.error("Error fetching filtered donation posts:", error);
+        alert("기부 감사 인사 내역을 불러오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.");
+    }
+};
+
+// 기부 감사 인사 내역 가져오기
+const fetchDonationPosts = async (memberId) => {
+    try {
+        const response = await fetch(`/donation/my-posts/${memberId}`);
+        console.log("응답 상태:", response.status);
+        if (!response.ok) throw new Error("서버로부터 데이터를 가져오는 데 실패했습니다.");
+
+        const data = await response.json();
+        console.log("기부 감사 인사 데이터:", data);
+        renderDonationPosts(data);
+    } catch (error) {
+        console.error("Error fetching donation posts:", error);
+        alert("기부 감사 인사 내역을 불러오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.");
+    }
+};
+
+// 기부 감사 인사 섹션 초기화 및 이벤트 리스너 설정
+const initializeDonationPostSection = (memberId) => {
+    fetchDonationPosts(memberId);
+
+    const gratitudeToggleElements = document.querySelectorAll("#gratitude .fItXBi.toggle");
+
+    gratitudeToggleElements.forEach((element) => {
+        element.addEventListener("click", function () {
+            gratitudeToggleElements.forEach((el) => el.classList.remove("active"));
+            this.classList.add("active");
+        });
+    });
+
+    document.getElementById("filter-1year-gratitude").addEventListener("change", () => applyFilterDonationPosts(memberId, 12));
+    document.getElementById("filter-1month-gratitude").addEventListener("change", () => applyFilterDonationPosts(memberId, 1));
+    document.getElementById("filter-3months-gratitude").addEventListener("change", () => applyFilterDonationPosts(memberId, 3));
+    document.getElementById("filter-6months-gratitude").addEventListener("change", () => applyFilterDonationPosts(memberId, 6));
+
+    document.getElementById("Initialization-gratitude").addEventListener("click", () => {
+        document.querySelectorAll("#gratitude .fItXBi.toggle input[type='checkbox']").forEach((checkbox) => {
+            checkbox.checked = false;
+        });
+
+        gratitudeToggleElements.forEach((el) => el.classList.remove("active"));
+        fetchDonationPosts(memberId);
+    });
+};
+
 
 /*********************공통*********************/
 
@@ -414,6 +548,11 @@ document.body.addEventListener("click", function (event) {
     if (event.target && event.target.id === "Initialization-donation") {
         // 기부 섹션 초기화 버튼 클릭 시
         const donationToggleElements = document.querySelectorAll("#donation .fItXBi.toggle");
+        donationToggleElements.forEach((el) => el.classList.remove("active"));
+    }
+    if (event.target && event.target.id === "Initialization-gratitude") {
+        // 기부 섹션 초기화 버튼 클릭 시
+        const donationToggleElements = document.querySelectorAll("#gratitude .fItXBi.toggle");
         donationToggleElements.forEach((el) => el.classList.remove("active"));
     }
 });
@@ -526,7 +665,7 @@ document.addEventListener("click", function (event) {
     if (event.target.closest(".btn-request")) {
         event.preventDefault();
         // 후기 작성 페이지로 이동
-        window.location.href = "/reviews/create";
+        window.location.href = "/donation/donation-write";
     }
 });
 
@@ -546,15 +685,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         // 후기 섹션 초기화
         initializeReviewsSection(memberId);
-
         // 기부 섹션 초기화
         initializeDonationSection(memberId);
+        //기부 감사 인사 섹션 초기화
+        initializeDonationPostSection(memberId)
 
-        // 기타 섹션 초기화 (필요 시 추가)
-        // 예: initializeBoostsSection(memberId);
-        // 예: initializeChargesSection(memberId);
-        // 예: initializeNoticesSection(memberId);
-        // ... 기타 섹션 초기화 함수 호출
 
     } catch (error) {
         console.error("초기화 중 오류:", error);

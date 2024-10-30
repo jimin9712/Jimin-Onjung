@@ -58,4 +58,14 @@ public class DonationServiceImpl implements DonationService {
     public void delete(Long id) {
         donationDAO.delete(id);
     }
+
+    @Override
+    public List<DonationDTO> findByMemberId(Long memberId) {
+        return donationDAO.findByMemberId(memberId);
+    }
+
+    @Override
+    public List<DonationDTO> findByMemberIdAndDateRange(Long memberId, String startDate, String endDate) {
+        return donationDAO.findByMemberIdAndDateRange(memberId, startDate, endDate);
+    }
 }

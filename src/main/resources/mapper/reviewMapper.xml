@@ -16,7 +16,7 @@
     </select>
 
     <select id="selectById" resultType="reviewDTO">
-        select r.id, r.review_star_rate, r.vt_group_name p.post_title, p.post_content, p.member_id, p.created_date, m.member_nickname
+        select r.id, r.review_star_rate, r.vt_group_name, p.post_title, p.post_content, p.member_id, p.created_date, m.member_nickname
         from tbl_review r join tbl_post p
             on r.id = p.id
         join tbl_member m
@@ -24,10 +24,11 @@
         where r.id = #{id}
     </select>
 
-    <update id="update">
-        update tbl_review
-        set review_star_rate = #{reviewStarRate}, vt_group_name = #{vtGroupName}
-        where id = #{id}
+    <update id="update" parameterType="reviewDTO">
+        UPDATE tbl_review
+        SET vt_group_name = #{vtGroupName},
+            review_star_rate = #{reviewStarRate}
+        WHERE id = #{id}
     </update>
 
     <delete id="deleteById">
