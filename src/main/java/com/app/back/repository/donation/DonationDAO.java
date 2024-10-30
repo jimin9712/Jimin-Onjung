@@ -2,6 +2,7 @@ package com.app.back.repository.donation;
 
 import com.app.back.domain.donation.DonationDTO;
 import com.app.back.domain.donation.DonationVO;
+import com.app.back.domain.donation_record.DonationRecordDTO;
 import com.app.back.domain.post.Pagination;
 import com.app.back.mapper.donation.DonationMapper;
 import lombok.RequiredArgsConstructor;
@@ -36,5 +37,12 @@ public class DonationDAO {
     // ID로 프로젝트 포스트 삭제
     public void delete(Long id) {
         donationMapper.deleteById(id);
+    }
+
+    public List<DonationDTO> findByMemberId(Long memberId) { // 반환 타입 수정
+        return donationMapper.selectByMemberId(memberId);
+    }
+    public List<DonationDTO> findByMemberIdAndDateRange(Long memberId, String startDate, String endDate) {
+        return donationMapper.selectByMemberIdAndDateRange(memberId, startDate, endDate);
     }
 }

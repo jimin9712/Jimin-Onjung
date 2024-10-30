@@ -27,16 +27,30 @@ requestTypeArea.children.forEach((child) => {
         e.target.style.backgroundColor = "";
     });
     child.addEventListener("click", (e) => {
-        console.log(e.target.innerText);
-        requestTypeInput.innerText = e.target.innerText;
-        requestTypeSelect.children.forEach((child) => {
-            child.selected =
-                child.innerText.trim() === e.target.innerText ? "true" : "";
+        // console.log(e.target.innerText);
+        // requestTypeInput.innerText = e.target.innerText;
+        // requestTypeSelect.children.forEach((child) => {
+        //     child.selected =
+        //         child.innerText.trim() === e.target.innerText ? "true" : "";
+        // });
+        // requestTypeInput.ariaExpanded = "false";
+        // requestTypeArea.classList.toggle("active");
+        // requestTypeInput.classList.toggle("active");
+        // console.log(requestTypeSelect.value);
+        const selectedText = e.target.innerText.trim(); // 선택한 항목의 텍스트
+        requestTypeInput.innerText = selectedText; // 선택한 값을 보여줌
+
+        // 드롭다운에서 선택한 옵션을 실제로 반영
+        Array.from(requestTypeSelect.options).forEach((option) => {
+            option.selected = option.innerText.trim() === selectedText;
         });
+
+        // 드롭다운 메뉴 상태 닫기
         requestTypeInput.ariaExpanded = "false";
-        requestTypeArea.classList.toggle("active");
-        requestTypeInput.classList.toggle("active");
-        console.log(requestTypeSelect.value);
+        requestTypeArea.classList.remove("active");
+        requestTypeInput.classList.remove("active");
+
+        console.log(requestTypeSelect.value); // 선택한 값 확인용
     });
 });
 

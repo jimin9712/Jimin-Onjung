@@ -4,12 +4,12 @@ import lombok.*;
 import org.springframework.stereotype.Component;
 
 @Component
-@Getter
+@Getter @Setter
 @ToString
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProfileVO {
+public class ProfileDTO {
     private Long id;
     private String profileFileName;
     private String profileFilePath;
@@ -17,4 +17,8 @@ public class ProfileVO {
     private String profileFileType;
     private String memberId;
     private String createdDate;
+
+    public ProfileVO toVO(){
+        return new ProfileVO(id, profileFileName, profileFilePath, profileFileSize, profileFileType, memberId, createdDate);
+    }
 }

@@ -1,5 +1,6 @@
 package com.app.back.mapper.review;
 
+import com.app.back.domain.donation_record.DonationRecordDTO;
 import com.app.back.domain.post.Pagination;
 import com.app.back.domain.review.ReviewDTO;
 import com.app.back.domain.review.ReviewVO;
@@ -23,4 +24,11 @@ public interface ReviewMapper {
     public void update(ReviewDTO reviewDTO);
     // 삭제
     public void deleteById(Long id);
+
+    public List<ReviewDTO> selectByMemberId(@Param("memberId") Long memberId); // 반환 타입 수정
+    public List<ReviewDTO> selectByMemberIdAndDateRange(
+            @Param("memberId") Long memberId,
+            @Param("startDate") String startDate,
+            @Param("endDate") String endDate
+    );
 }

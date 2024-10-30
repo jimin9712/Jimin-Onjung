@@ -2,6 +2,7 @@ package com.app.back.controller.donation;
 
 import com.app.back.domain.donation.DonationDTO;
 import com.app.back.domain.donation.DonationVO;
+import com.app.back.domain.donation_record.DonationRecordDTO;
 import com.app.back.domain.post.Pagination;
 import com.app.back.domain.review.ReviewDTO;
 import com.app.back.service.donation.DonationService;
@@ -12,10 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnailator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -130,4 +128,22 @@ public class DonationController {
         donationService.delete(postId);
         return new RedirectView("/review/review-list");
     }
+
+    @GetMapping("/my-posts/{memberId}")
+    @ResponseBody
+    public List<DonationDTO> getDonationPosts(
+            @PathVariable Long memberId,
+            @RequestParam(required = false) String startDate,
+            @RequestParam(required = false) String endDate) {
+
+        log.info("받은 회원 ID: {}, 시작 날짜: {}, 끝 날짜: {}", memberId, startDate, endDate);
+
+        if (startDate != null && endDate != null) {
+            return donationService.findByMemberIdAndDateRange(memberId, startDate, endDate);
+        } else {
+            return donationService.findByMemberId(memberId);
+        }
+    }
+
+
 }
