@@ -13,8 +13,8 @@ public class ProfileVO {
     private Long id;
     private String profileFileName;
     private String profileFilePath;
-    private String profileFileSize;
+    private Long profileFileSize;
     private String profileFileType;
-    private String memberId;
+    private Long memberId;
     private String createdDate;
 }
