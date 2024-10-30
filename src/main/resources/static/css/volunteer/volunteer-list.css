@@ -700,6 +700,7 @@ img {
     margin-left: 6px;
     word-break: keep-all;
 }
+
 .donation-list-a .prize-info-row-label {
     display: flex;
     flex-direction: row;
@@ -714,6 +715,10 @@ img {
     word-break: keep-all;
     color: rgb(16, 28, 51);
     width: 42%;
+}
+#width200padding-left28{
+    width:200px;
+    padding-left: 28px;
 }
 .donation-list-a .prize-info-row-label-date {
     display: flex;
