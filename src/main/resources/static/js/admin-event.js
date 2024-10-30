@@ -1,3 +1,16 @@
+document.addEventListener("DOMContentLoaded", () => {
+    const searchInput = document.querySelector(".Filter_searchInput");
+
+
+    searchInput.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+            event.preventDefault();  // 폼 제출 방지
+            const keyword = searchInput.value.trim();  // 검색어 가져오기
+            fetchFilteredInquiries(1, keyword);  // 검색어로 데이터 불러오기
+        }
+    });
+});
+
 // 문의 목록을 렌더링하는 함수
 const renderInquiries = (inquiries) => {
     const inquiryContainer = document.querySelector(".inquiryTable_container");
@@ -67,13 +80,10 @@ const renderPagination = (pagination) => {
     });
 };
 
-// 문의 목록 데이터를 가져오는 함수
+// 문의 필터 데이터를 가져오는 함수
 const fetchFilteredInquiries = async (page = 1, keyword = '') => {
     try {
         const response = await fetch(`/admin/inquiry-page?page=${page}&query=${keyword}`);
-        console.log("응답 상태 코드:", response.status);  // 응답 상태 코드 확인
-        console.log("응답 상태 텍스트:", response.statusText);  // 응답 상태 텍스트 확인
-
         const data = await response.json();
         renderInquiries(data.inquiries);
         renderPagination(data.pagination);
@@ -82,24 +92,20 @@ const fetchFilteredInquiries = async (page = 1, keyword = '') => {
     }
 };
 
-// 후기 내역 가져오기
+// 문의 내역 가져오기
 const fetchInquiries = async () => {
     try {
         const response = await fetch(`/admin/inquiry-page/`);
-        console.log("응답 상태:", response.status);
         if (!response.ok) throw new Error("서버로부터 데이터를 가져오는 데 실패했습니다.");
-
         const data = await response.json();
-        console.log("후기 데이터:", data);
         renderInquiries(data);
     } catch (error) {
-        console.error("Error fetching review records:", error);
         alert("문의 내역을 불러오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.");
     }
 };
-
 
 // 초기 데이터 로드
 document.addEventListener("DOMContentLoaded", () => {
     fetchFilteredInquiries(); // 첫 페이지의 데이터를 로드합니다.
 });
+
