@@ -58,10 +58,6 @@ public class ReviewController {
         return new RedirectView("/review/review-list");
     }
 
-    private String getPath() {
-        return LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
-    }
-
     @GetMapping("review-list")
     public String goToList(Pagination pagination, Model model) {
         if (pagination.getOrder() == null) {

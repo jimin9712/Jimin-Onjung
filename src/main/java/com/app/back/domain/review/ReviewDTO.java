@@ -38,4 +38,8 @@ public class ReviewDTO {
     public ReviewVO toVO() {
         return new ReviewVO(id, reviewStarRate, vtGroupName);
     }
+
+    public AttachmentVO toAttachmentVO(){
+        return new AttachmentVO(id,attachmentFileName,attachmentFilePath,attachmentFileSize,attachmentFileType,postId,createdDate);
+    }
 }

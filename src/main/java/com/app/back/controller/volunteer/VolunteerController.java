@@ -1,5 +1,6 @@
 package com.app.back.controller.volunteer;
 
+import com.app.back.domain.review.ReviewDTO;
 import com.app.back.domain.volunteer.Pagination;
 import com.app.back.domain.volunteer.VolunteerDTO;
 import com.app.back.service.volunteer.VolunteerService;
@@ -8,11 +9,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,9 +25,28 @@ public class VolunteerController {
 
     private final VolunteerService volunteerService;
 
-    @GetMapping("/volunteer-write")
-    public String volunteerWrite(Model model) {
+    @GetMapping("volunteer-write")
+    public String goToWriteForm(VolunteerDTO volunteerDTO) {
         return "volunteer/volunteer-write";
+    }
+
+    @PostMapping("volunteer-write")
+    public RedirectView volunteerWrite(VolunteerDTO volunteerDTO) throws IOException {
+        volunteerDTO.setMemberId(1L);
+        volunteerDTO.setPostType("VOLUNTEER");
+//        volunteerDTO.setPostTitle(volunteerDTO.getVtGroupName());
+        log.info("{}", volunteerDTO);
+        if (volunteerDTO.getPostTitle() == null || volunteerDTO.getPostContent() == null) {
+            log.error("필수 데이터가 없습니다.");
+            return new RedirectView("/review/review-write");
+        }
+//        // 데이터가 문제없으면 세션에 저장
+//        session.setAttribute("review", reviewDTO);
+
+        // 데이터베이스에 게시글 저장
+        volunteerService.write(volunteerDTO);
+
+        return new RedirectView("/review/review-list");
     }
 
     @GetMapping("/volunteer-list")
