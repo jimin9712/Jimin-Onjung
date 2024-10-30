@@ -5,6 +5,7 @@ const bottomWrap = filterContainer.querySelector(".bottom-wrap");
 const arrow = filterContainer.querySelector(".arrow");
 const items = filterContainer.querySelectorAll(".item");
 const inputField = headerWrap.querySelector("input");
+const pagingDiv = document.querySelector("nav.page-container.paginator");
 
 // 드롭다운 열고 닫기
 headerWrap.addEventListener("click", () => {
@@ -59,8 +60,6 @@ const showPost = (type) => {
 // };
 
 const showVolunteerPosts = () => {
-    [...Array(10)].forEach(() => {
-        const score = 4;
         const cardDivider = document.createElement("div");
         cardDivider.classList.add(
             "review-card-divider",
@@ -75,75 +74,68 @@ const showVolunteerPosts = () => {
                                  <path fill-rule="evenodd" clip-rule="evenodd" d="M29.2658 12.7468C29.1247 12.3246 28.7691 12.0213 28.3358 11.9557L20.5396 10.7669L17.0476 3.33933C16.851 2.9249 16.4499 2.66602 15.9977 2.66602C15.5444 2.66602 15.1433 2.9249 14.9467 3.34044L11.4546 10.7669L3.65733 11.9557C3.22625 12.0213 2.8696 12.3246 2.72739 12.7468C2.58295 13.179 2.68961 13.649 3.00626 13.9734L8.67481 19.7066L7.32933 27.9441C7.25267 28.404 7.43933 28.8551 7.81486 29.1196C8.01374 29.2607 8.24594 29.3318 8.47704 29.3318C8.66592 29.3318 8.85702 29.284 9.03145 29.1873L15.9977 25.3441L22.9628 29.1873C23.3506 29.4007 23.8183 29.3751 24.1794 29.1196C24.5538 28.8551 24.7416 28.404 24.6638 27.9452L23.2839 19.8066L28.988 13.9734C29.3047 13.649 29.4113 13.1801 29.2658 12.7468Z"></path>
                                  <defs></defs>
                            </svg>`;
-        reviews.forEach((review) => {
-            let stars = '';
-            for (let i = 0; i < review.reviewStarRate; i++) {
-                stars += lightStar;
-            }
-            for (let i = 0; i < 5 - review.reviewStarRate; i++) {
-                stars += star;
-            }
-            text += `
-            <!-- <a href="/review/review-update?id=${review.id}"> -->
-                <div class="review-part">
-                    <a class="review-thumbnail" href="/contest/view/152313">
-                        <div class="card-image-container">
-                            <div class="card-image-default card-image">
-                                <div>
-                                    <div class="observer"></div>
-                                    <img src="https://cdn-dantats.stunning.kr/prod/portfolios/37db3714-d292-481e-a288-d29b7c2a6279/covers/eavxYqGTx3xsnczv.%EC%88%A8_1.%EC%84%AC%EB%84%A4%EC%9D%BC.jpg.small?s=1000x1000&amp;e=195x249&amp;t=crop&amp;q=100&amp;f=webp" alt="봉사활동 후기 이미지" />
-                                </div>
+    reviews.forEach((review) => {
+        console.log("리뷰");
+        let stars = '';
+        for (let i = 0; i < review.reviewStarRate; i++) {
+            stars += lightStar;
+        }
+        for (let i = 0; i < 5 - review.reviewStarRate; i++) {
+            stars += star;
+        }
+        text += `
+            <div class="review-part">
+                <a class="review-thumbnail" href="/contest/view/152313">
+                    <div class="card-image-container">
+                        <div class="card-image-default card-image">
+                            <div>
+                                <div class="observer"></div>
+                                <img src="https://cdn-dantats.stunning.kr/prod/portfolios/37db3714-d292-481e-a288-d29b7c2a6279/covers/eavxYqGTx3xsnczv.%EC%88%A8_1.%EC%84%AC%EB%84%A4%EC%9D%BC.jpg.small?s=1000x1000&amp;e=195x249&amp;t=crop&amp;q=100&amp;f=webp" alt="봉사활동 후기 이미지" />
                             </div>
-                        </div>
-                    </a>
-                    <div class="review-content">
-                        <div class="avatar-container">
-                            <a class="avatar-default avatar review-content-avatar" href="/m/jk8171822">
-                                <img src="https://cdn-dantats.stunning.kr/static/feature/profile/default-profile.png.small?q=80&amp;f=webp&amp;t=crop&amp;s=256x256" />
-                            </a>
-                            <div class="review-user-info">
-                                <div class="review-score">
-                                    <div class="review-rate-star">
-                                        ${stars}
-                                    </div>
-                                    <span>${review.reviewStarRate}점</span>
-                                </div>
-                                <div class="review-user">
-                                    <span class="review-user-nick"><a href="/m/jk8171822" class="review-user-nick-inner">${review.memberNickName}</a></span>
-                                    <span class="review-user-industry">${review.vtGroupName}</span>
-                                    <span class="review-user-date">${review.updatedDate}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="review-comment-container">
-                            <div class="review-comment-area">
-                                <div class="review-comment">
-                                    ${review.postContent}
-                                </div>
-                            </div>
-                            <a class=" hLIslS review-thumbnail-m" href="/contest/view/153179"><div class="sc-eXBvqI FYvcO cover ">
-                            <div class="sc-evrZIY jslVlk aspect-ratio-card-wrapper card-image ">
-                            <div><div class="observer">
-                            </div>
-                            <img src=
-                           https://cdn-dantats.stunning.kr/prod/portfolios/37db3714-d292-481e-a288-d29b7c2a6279/covers/eavxYqGTx3xsnczv.%EC%88%A8_1.%EC%84%AC%EB%84%A4%EC%9D%BC.jpg.small?s=1000x1000&e=195x249&t=crop&q=100&f=webp
-                            alt="한의원의 신탄진 고든 한의원 이미지" class="sc-llJcti hkAQYM" style="display:none">
-                            </div>
-                            </div>
-                            </div>
-                            </a>
                         </div>
                     </div>
+                </a>
+                <div class="review-content">
+                    <div class="avatar-container">
+                        <a class="avatar-default avatar review-content-avatar" href="/m/jk8171822">
+                            <img src="https://cdn-dantats.stunning.kr/static/feature/profile/default-profile.png.small?q=80&amp;f=webp&amp;t=crop&amp;s=256x256" />
+                        </a>
+                        <div class="review-user-info">
+                            <div class="review-score">
+                                <div class="review-rate-star">
+                                    ${stars}
+                                </div>
+                                <span>${review.reviewStarRate}점</span>
+                            </div>
+                            <div class="review-user">
+                                <span class="review-user-nick"><a href="/m/jk8171822" class="review-user-nick-inner">${review.memberNickName}</a></span>
+                                <span class="review-user-industry">${review.vtGroupName}</span>
+                                <span class="review-user-date">${review.updatedDate}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="review-comment-container">
+                        <div class="review-comment-area">
+                            <div class="review-comment">
+                                ${review.postContent}
+                            </div>
+                        </div>
+                        <a class=" hLIslS review-thumbnail-m" href="/contest/view/153179"><div class="sc-eXBvqI FYvcO cover ">
+                        <div class="sc-evrZIY jslVlk aspect-ratio-card-wrapper card-image ">
+                        <div><div class="observer">
+                        </div>
+                        <img src=
+                       https://cdn-dantats.stunning.kr/prod/portfolios/37db3714-d292-481e-a288-d29b7c2a6279/covers/eavxYqGTx3xsnczv.%EC%88%A8_1.%EC%84%AC%EB%84%A4%EC%9D%BC.jpg.small?s=1000x1000&e=195x249&t=crop&q=100&f=webp
+                        alt="한의원의 신탄진 고든 한의원 이미지" class="sc-llJcti hkAQYM" style="display:none">
+                        </div>
+                        </div>
+                        </div>
+                        </a>
+                    </div>
                 </div>
-<!--            </a>-->
-        `;
-        });
-        cardDivider.innerHTML = text;
-        reviewListContainer.appendChild(cardDivider);
-
-        // 생성된 리뷰에 대해 별점 설정
-        // setStarRating(score, cardDivider);
-    });
+            </div>`; });
+    cardDivider.innerHTML = text;
+    reviewListContainer.appendChild(cardDivider);
 };
 
 // 페이지 네비게이션을 표시하는 함수
@@ -151,8 +143,10 @@ const showPaging = () => {
     let text = ``; // HTML 내용을 저장할 변수 초기화
 
     // 이전 페이지 버튼 추가
-    if (pagination.prev) {
-        text += `<a class="page-btn prev"
+    if (pagination.page > 1) {
+        text += `<a 
+                    href="/review/review-list?page=${pagination.page - 1}" 
+                    class="page-btn prev"
                     ><svg
                         viewBox="0 0 12 12"
                         class="icon-default"
@@ -174,15 +168,18 @@ const showPaging = () => {
             text += `<a class="page-btn active">${i}</a>`;
         } else {
             // 다른 페이지인 경우
-            text += `<a class="page-btn">${i}</a>`;
+            text += `<a href="/review/review-list?page=${i}" class="page-btn">${i}</a>`;
         }
     }
 
     // 다음 페이지 버튼 추가: endPage가 realEnd보다 작거나, 더 로드할 데이터가 있을 경우
     const shouldShowNext = pagination.endPage < pagination.realEnd || (pagination.endRow < pagination.total);
 
+    // 다음 페이지 버튼 추가: endPage가 realEnd보다 작거나, 더 로드할 데이터가 있을 경우
     if (shouldShowNext) {
-        text += `<a class="page-btn next"
+        text += `<a 
+                    href="/review/review-list?page=${pagination.page + 1}" 
+                    class="page-btn next"
                     ><svg
                         viewBox="0 0 12 12"
                         class="icon-default"
@@ -198,7 +195,7 @@ const showPaging = () => {
     }
 
     // 페이지 네비게이션을 HTML 요소에 삽입
-    pagingdiv.innerHTML = text;
+    pagingDiv.innerHTML = text;
 }
 
 showPost("봉사활동 후기");
