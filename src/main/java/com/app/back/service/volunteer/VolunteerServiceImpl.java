@@ -9,7 +9,6 @@ import com.app.back.mapper.post.PostMapper;
 import com.app.back.mapper.volunteer.VolunteerMapper;
 import com.app.back.repository.volunteer.VolunteerDAO;
 import lombok.RequiredArgsConstructor;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +22,7 @@ public class VolunteerServiceImpl implements VolunteerService {
     private final VolunteerMapper volunteerMapper;
     private final AttachmentMapper attachmentMapper;
     private final VolunteerDAO volunteerDAO;
+
 
     @Override
     public void write(VolunteerDTO volunteerDTO) {
