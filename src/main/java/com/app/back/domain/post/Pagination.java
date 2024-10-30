@@ -1,6 +1,8 @@
 package com.app.back.domain.post;
 
+import com.app.back.service.post.PostService;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Data

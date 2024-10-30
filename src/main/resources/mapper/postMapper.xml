@@ -6,6 +6,12 @@
         values (#{id}, #{postTitle}, #{postContent}, #{postSummary}, #{postType}, #{postStatus}, #{postViewCount}, #{memberId}, current_timestamp, current_timestamp)
     </insert>
 
+    <select id="getTotal" resultType="int">
+        select count(id)
+        from tbl_post
+        where post_type = #{postType}
+    </select>
+
     <select id="selectCurrentId" resultType="long">
         select last_insert_id();
     </select>
