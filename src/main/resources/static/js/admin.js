@@ -286,288 +286,288 @@ notificationLinks.forEach((notificationLink) => {
 });
 
 
-//여기서부터 서버 ==============================================================================
-const Inquriy = document.querySelector(".inquiryTable_container");
-const pagingdiv = document.querySelector(".pagination-list.inquiry-page");
-const keyword = document.querySelector("input[name='keyword']");
-const inquiryPage = document.getElementById(".pagination-list.inquiry-page");
-const Notice = document.querySelector(".notification-list-wrap");
 
-
-
-let content = ``;
-
-
-// 게시글 목록을 표시하는 함수
-const showInquiry = () => {
-    let text = ``; // HTML 내용을 저장할 변수 초기화
-    text += `<div
-                                            class="inquiryTable_row inquiryTable_header"
-                                        >
-                                            <div
-                                                class="inquiryTable_cell inquiry-headerCell selectAllCell"
-                                            >
-                                                <input
-                                                    type="checkbox"
-                                                    id="selectAll"
-                                                />
-                                            </div>
-                                            <div
-                                                class="inquiryTable_cell inquiry-headerCell"
-                                            >
-                                                문의 분류
-                                            </div>
-                                            <div
-                                                class="inquiryTable_cell inquiry-headerCell"
-                                            >
-                                                작성일
-                                            </div>
-                                            <div
-                                                class="inquiryTable_cell inquiry-headerCell"
-                                            >
-                                                문의 제목
-                                            </div>
-
-                                            <div
-                                                class="inquiryTable_cell inquiry-headerCell"
-                                            >
-                                                문의 내용
-                                            </div>
-                                            <div
-                                                class="inquiryTable_cell inquiry-headerCell"
-                                            >
-                                                작성자
-                                            </div>
-                                            <div
-                                                class="inquiryTable_cell inquiry-headerCell"
-                                            >
-                                                이메일
-                                            </div>
-                                            <div
-                                                class="inquiryTable_cell inquiry-headerCell"
-                                            >
-                                                상태
-                                            </div>
-                                            <div
-                                                class="inquiryTable_cell inquiry-headerCell"
-                                            >
-                                                Action
-                                            </div>
-                                        </div>`
-    inquiries.forEach((inquiry) => {
-        text += `<div class="inquiryTable_row data_row">
-                                            <div class="inquiryTable_cell">
-                                                <input
-                                                    type="checkbox"
-                                                    class="inquiryCheckbox"
-                                                />
-                                            </div>
-                                            <div class="inquiryTable_cell inquiry_type">
-                                                ${inquiry.inquiryType}
-                                            </div>
-                                            <div class="inquiryTable_cell inquiry_date">
-                                                ${inquiry.createdDate}
-                                            </div>
-                                            <div class="inquiryTable_cell">
-                                                ${inquiry.postTitle}
-                                            </div>
-
-                                            <div class="inquiryTable_cell">
-                                                ${inquiry.postContent}
-                                            </div>
-                                            <div class="inquiryTable_cell">
-                                                ${inquiry.memberNickName}
-                                            </div>
-                                            <div class="inquiryTable_cell">
-                                                ${inquiry.inquiryEmail}
-                                            </div>
-                                            <div class="inquiryTable_cell">
-                                                ${inquiry.inquiryStatus}
-                                            </div>
-
-                                            <div class="inquiryTable_cell">
-                                                <button class="editBtn">
-                                                    답변하기
-                                                </button>
-                                            </div>
-                                        </div>`;
-    });
-
-    // 게시글 목록을 HTML 요소에 삽입
-    Inquriy.innerHTML = text;
-}
-
-showInquiry();
-
-const inquiryAnswerButtons = document.querySelectorAll(
-    ".inquiryTable_cell button.editBtn"
-);
-
-inquiryAnswerButtons.forEach((inquiryAnswerButton) => {
-    inquiryAnswerButton.addEventListener("click", (e) => {
-        sections.forEach((section) => {
-            section.classList.remove("selected");
-        });
-        const inquiryAnswerSection = sections.filter(
-            (section) => section.dataset.value === "고객센터 문의 답변"
-        );
-        console.log(inquiryAnswerSection[0].classList.add("selected"));
-    });
-});
-
-const showPaging = () => {
-    let text = ``;
-
-    // 처음 페이지로 이동하는 버튼
-    text += `
-        <li class="pagination-first">
-            <a href="/admin?page=1&query=${pagination.keyword || ''}" class="pagination-first-link" rel="nofollow">
-                <span class="pagination-first-icon" aria-hidden="true">«</span>
-            </a>
-        </li>
-    `;
-
-    // 이전 페이지 버튼 추가
-    if (pagination.prev) {
-        text += `
-            <li class="pagination-prev">
-                <a href="/admin?page=${pagination.startPage - 1}&query=${pagination.keyword || ''}" class="pagination-prev-link" rel="prev nofollow">
-                    <span class="pagination-prev-icon" aria-hidden="true">‹</span>
-                </a>
-            </li>
-        `;
-    }
-
-    // 페이지 번호 생성
-    for (let i = pagination.startPage; i <= pagination.endPage; i++) {
-        if (pagination.page === i) {
-            console.log(pagination.startPage);
-            console.log(pagination.endPage);
-            console.log(pagination.realEnd);
-            console.log(pagination.rowCount);
-            console.log(pagination.total);
-
-            // 현재 페이지인 경우
-            text += `
-                <li class="pagination-page active">
-                    <a class="pagination-page-link">${i}</a>
-                </li>
-            `;
-
-        } else {
-            console.log(":들어옴");
-            console.log(pagination.keyword);
-            // 다른 페이지인 경우
-            text += `
-                <li class="pagination-page">
-                    <a href="/admin?page=${i}&query=${pagination.keyword || ''}" class="pagination-page-link">${i}</a>
-                </li>
-            `;
-        }
-    }
-
-    // 다음 페이지 버튼 추가
-    if (pagination.next) {
-        text += `
-            <li class="pagination-next">
-                <a href="/admin?page=${pagination.endPage + 1}&query=${pagination.keyword || ''}" class="pagination-next-link" rel="next nofollow">
-                    <span class="pagination-next-icon" aria-hidden="true">›</span>
-                </a>
-            </li>
-        `;
-    }
-
-    // 마지막 페이지로 이동하는 버튼
-    text += `
-        <li class="pagination-last">
-            <a href="/admin?page=${pagination.realEnd}&query=${pagination.keyword || ''}" class="pagination-last-link" rel="nofollow">
-                <span class="pagination-last-icon" aria-hidden="true">»</span>
-            </a>
-        </li>
-    `;
-
-    text += `</ul>`; // 종료 태그 추가
-    // 페이지 네비게이션을 HTML 요소에 삽입
-    console.log("페이지 네비게이션 생성됨:", text);
-    pagingdiv.innerHTML = text;
-};
-showPaging();
-
-document.addEventListener("DOMContentLoaded", function () {
-    // pagination 객체가 제대로 할당됐는지 확인
-    console.log("pagination 데이터 확인:", pagination);
-
-    if (pagination) {
-        showPaging(); // pagination 데이터가 존재할 경우에만 showPaging() 호출
-    } else {
-        console.error("pagination 데이터가 존재하지 않습니다.");
-    }
-});
-// 키워드 검색 입력 처리
-if (search.keyword === null) {
-    search.keyword = '';
-}
-keyword.value = search.keyword;
-
-notices.forEach((inquiry) => {
-    content += `<div class="inquiryTable_row data_row">
-                                            <div class="inquiryTable_cell">
-                                                <input
-                                                    type="checkbox"
-                                                    class="inquiryCheckbox"
-                                                />
-                                            </div>
-                                            <div class="inquiryTable_cell inquiry_type">
-                                                ${inquiry.inquiryType}
-                                            </div>
-                                            <div class="inquiryTable_cell inquiry_date">
-                                                ${inquiry.createdDate}
-                                            </div>
-                                            <div class="inquiryTable_cell">
-                                                ${inquiry.postTitle}
-                                            </div>
-
-                                            <div class="inquiryTable_cell">
-                                                ${inquiry.postContent}
-                                            </div>
-                                            <div class="inquiryTable_cell">
-                                                ${inquiry.memberNickName}
-                                            </div>
-                                            <div class="inquiryTable_cell">
-                                                ${inquiry.inquiryEmail}
-                                            </div>
-                                            <div class="inquiryTable_cell">
-                                                ${inquiry.inquiryStatus}
-                                            </div>
-
-                                            <div class="inquiryTable_cell">
-                                                <button class="editBtn">
-                                                    답변하기
-                                                </button>
-                                            </div>
-                                        </div>`;
-});
-inquiryPage.innerHTML = content;
-
-// 페이지 네비게이션 링크 생성 및 삽입
-content = ``;
-for (let i = pagination.startPage; i <= pagination.endPage; i++) {
-    content += `<a href="/admin?keyword=${search.keyword}&page=${i}">${i}</a>`;
-}
-
-// 게시글 목록을 표시하는 함수
-const showNotice = () => {
-    let text = ``; // HTML 내용을 저장할 변수 초기화
-    notices.forEach((notice) => {
-        text += `<li class="notification-container">
-        <a href="/help/help-notification-inquiry?id=${notice.id}" class="notification notification-table"
-            ><p class="notification-num notification-table">${notice.id}</p>
-            <h4 class="notification-title">${notice.postTitle}</h4>
-            <p class="notification-date notification-table">${notice.createdDate}</p></a>
-        </li>`;
-    });
-
-    // 게시글 목록을 HTML 요소에 삽입
-    Notice.innerHTML = text;
-}
-showNotice();
+// //여기서부터 서버 ==============================================================================
+// const Inquriy = document.querySelector(".inquiryTable_container");
+// const pagingdiv = document.querySelector(".pagination-list.inquiry-page");
+// const keyword = document.querySelector("input[name='keyword']");
+// const inquiryPage = document.getElementById(".pagination-list.inquiry-page");
+//
+//
+//
+// let content = ``;
+//
+//
+// // 게시글 목록을 표시하는 함수
+// const showInquiry = () => {
+//     let text = ``; // HTML 내용을 저장할 변수 초기화
+//     text += `<div
+//                                             class="inquiryTable_row inquiryTable_header"
+//                                         >
+//                                             <div
+//                                                 class="inquiryTable_cell inquiry-headerCell selectAllCell"
+//                                             >
+//                                                 <input
+//                                                     type="checkbox"
+//                                                     id="selectAll"
+//                                                 />
+//                                             </div>
+//                                             <div
+//                                                 class="inquiryTable_cell inquiry-headerCell"
+//                                             >
+//                                                 문의 분류
+//                                             </div>
+//                                             <div
+//                                                 class="inquiryTable_cell inquiry-headerCell"
+//                                             >
+//                                                 작성일
+//                                             </div>
+//                                             <div
+//                                                 class="inquiryTable_cell inquiry-headerCell"
+//                                             >
+//                                                 문의 제목
+//                                             </div>
+//
+//                                             <div
+//                                                 class="inquiryTable_cell inquiry-headerCell"
+//                                             >
+//                                                 문의 내용
+//                                             </div>
+//                                             <div
+//                                                 class="inquiryTable_cell inquiry-headerCell"
+//                                             >
+//                                                 작성자
+//                                             </div>
+//                                             <div
+//                                                 class="inquiryTable_cell inquiry-headerCell"
+//                                             >
+//                                                 이메일
+//                                             </div>
+//                                             <div
+//                                                 class="inquiryTable_cell inquiry-headerCell"
+//                                             >
+//                                                 상태
+//                                             </div>
+//                                             <div
+//                                                 class="inquiryTable_cell inquiry-headerCell"
+//                                             >
+//                                                 Action
+//                                             </div>
+//                                         </div>`
+//     inquiries.forEach((inquiry) => {
+//         text += `<div class="inquiryTable_row data_row">
+//                                             <div class="inquiryTable_cell">
+//                                                 <input
+//                                                     type="checkbox"
+//                                                     class="inquiryCheckbox"
+//                                                 />
+//                                             </div>
+//                                             <div class="inquiryTable_cell inquiry_type">
+//                                                 ${inquiry.inquiryType}
+//                                             </div>
+//                                             <div class="inquiryTable_cell inquiry_date">
+//                                                 ${inquiry.createdDate}
+//                                             </div>
+//                                             <div class="inquiryTable_cell">
+//                                                 ${inquiry.postTitle}
+//                                             </div>
+//
+//                                             <div class="inquiryTable_cell">
+//                                                 ${inquiry.postContent}
+//                                             </div>
+//                                             <div class="inquiryTable_cell">
+//                                                 ${inquiry.memberNickName}
+//                                             </div>
+//                                             <div class="inquiryTable_cell">
+//                                                 ${inquiry.inquiryEmail}
+//                                             </div>
+//                                             <div class="inquiryTable_cell">
+//                                                 ${inquiry.inquiryStatus}
+//                                             </div>
+//
+//                                             <div class="inquiryTable_cell">
+//                                                 <button class="editBtn">
+//                                                     답변하기
+//                                                 </button>
+//                                             </div>
+//                                         </div>`;
+//     });
+//
+//     // 게시글 목록을 HTML 요소에 삽입
+//     Inquriy.innerHTML = text;
+// }
+//
+// showInquiry();
+//
+// const inquiryAnswerButtons = document.querySelectorAll(
+//     ".inquiryTable_cell button.editBtn"
+// );
+//
+// inquiryAnswerButtons.forEach((inquiryAnswerButton) => {
+//     inquiryAnswerButton.addEventListener("click", (e) => {
+//         sections.forEach((section) => {
+//             section.classList.remove("selected");
+//         });
+//         const inquiryAnswerSection = sections.filter(
+//             (section) => section.dataset.value === "고객센터 문의 답변"
+//         );
+//         console.log(inquiryAnswerSection[0].classList.add("selected"));
+//     });
+// });
+//
+// const showPaging = () => {
+//     let text = ``;
+//
+//     // 처음 페이지로 이동하는 버튼
+//     text += `
+//         <li class="pagination-first">
+//             <a href="/admin?page=1&query=${pagination.keyword || ''}" class="pagination-first-link" rel="nofollow">
+//                 <span class="pagination-first-icon" aria-hidden="true">«</span>
+//             </a>
+//         </li>
+//     `;
+//
+//     // 이전 페이지 버튼 추가
+//     if (pagination.prev) {
+//         text += `
+//             <li class="pagination-prev">
+//                 <a href="/admin?page=${pagination.startPage - 1}&query=${pagination.keyword || ''}" class="pagination-prev-link" rel="prev nofollow">
+//                     <span class="pagination-prev-icon" aria-hidden="true">‹</span>
+//                 </a>
+//             </li>
+//         `;
+//     }
+//
+//     // 페이지 번호 생성
+//     for (let i = pagination.startPage; i <= pagination.endPage; i++) {
+//         if (pagination.page === i) {
+//             console.log(pagination.startPage);
+//             console.log(pagination.endPage);
+//             console.log(pagination.realEnd);
+//             console.log(pagination.rowCount);
+//             console.log(pagination.total);
+//
+//             // 현재 페이지인 경우
+//             text += `
+//                 <li class="pagination-page active">
+//                     <a class="pagination-page-link">${i}</a>
+//                 </li>
+//             `;
+//
+//         } else {
+//             console.log(":들어옴");
+//             console.log(pagination.keyword);
+//             // 다른 페이지인 경우
+//             text += `
+//                 <li class="pagination-page">
+//                     <a href="/admin?page=${i}&query=${pagination.keyword || ''}" class="pagination-page-link">${i}</a>
+//                 </li>
+//             `;
+//         }
+//     }
+//
+//     // 다음 페이지 버튼 추가
+//     if (pagination.next) {
+//         text += `
+//             <li class="pagination-next">
+//                 <a href="/admin?page=${pagination.endPage + 1}&query=${pagination.keyword || ''}" class="pagination-next-link" rel="next nofollow">
+//                     <span class="pagination-next-icon" aria-hidden="true">›</span>
+//                 </a>
+//             </li>
+//         `;
+//     }
+//
+//     // 마지막 페이지로 이동하는 버튼
+//     text += `
+//         <li class="pagination-last">
+//             <a href="/admin?page=${pagination.realEnd}&query=${pagination.keyword || ''}" class="pagination-last-link" rel="nofollow">
+//                 <span class="pagination-last-icon" aria-hidden="true">»</span>
+//             </a>
+//         </li>
+//     `;
+//
+//     text += `</ul>`; // 종료 태그 추가
+//     // 페이지 네비게이션을 HTML 요소에 삽입
+//     console.log("페이지 네비게이션 생성됨:", text);
+//     pagingdiv.innerHTML = text;
+// };
+// showPaging();
+//
+// document.addEventListener("DOMContentLoaded", function () {
+//     // pagination 객체가 제대로 할당됐는지 확인
+//     console.log("pagination 데이터 확인:", pagination);
+//
+//     if (pagination) {
+//         showPaging(); // pagination 데이터가 존재할 경우에만 showPaging() 호출
+//     } else {
+//         console.error("pagination 데이터가 존재하지 않습니다.");
+//     }
+// });
+// // 키워드 검색 입력 처리
+// if (search.keyword === null) {
+//     search.keyword = '';
+// }
+// keyword.value = search.keyword;
+//
+// notices.forEach((inquiry) => {
+//     content += `<div class="inquiryTable_row data_row">
+//                                             <div class="inquiryTable_cell">
+//                                                 <input
+//                                                     type="checkbox"
+//                                                     class="inquiryCheckbox"
+//                                                 />
+//                                             </div>
+//                                             <div class="inquiryTable_cell inquiry_type">
+//                                                 ${inquiry.inquiryType}
+//                                             </div>
+//                                             <div class="inquiryTable_cell inquiry_date">
+//                                                 ${inquiry.createdDate}
+//                                             </div>
+//                                             <div class="inquiryTable_cell">
+//                                                 ${inquiry.postTitle}
+//                                             </div>
+//
+//                                             <div class="inquiryTable_cell">
+//                                                 ${inquiry.postContent}
+//                                             </div>
+//                                             <div class="inquiryTable_cell">
+//                                                 ${inquiry.memberNickName}
+//                                             </div>
+//                                             <div class="inquiryTable_cell">
+//                                                 ${inquiry.inquiryEmail}
+//                                             </div>
+//                                             <div class="inquiryTable_cell">
+//                                                 ${inquiry.inquiryStatus}
+//                                             </div>
+//
+//                                             <div class="inquiryTable_cell">
+//                                                 <button class="editBtn">
+//                                                     답변하기
+//                                                 </button>
+//                                             </div>
+//                                         </div>`;
+// });
+// inquiryPage.innerHTML = content;
+//
+// // 페이지 네비게이션 링크 생성 및 삽입
+// content = ``;
+// for (let i = pagination.startPage; i <= pagination.endPage; i++) {
+//     content += `<a href="/admin?keyword=${search.keyword}&page=${i}">${i}</a>`;
+// }
+//
+// // 게시글 목록을 표시하는 함수
+// const showNotice = () => {
+//     let text = ``; // HTML 내용을 저장할 변수 초기화
+//     notices.forEach((notice) => {
+//         text += `<li class="notification-container">
+//         <a href="/help/help-notification-inquiry?id=${notice.id}" class="notification notification-table"
+//             ><p class="notification-num notification-table">${notice.id}</p>
+//             <h4 class="notification-title">${notice.postTitle}</h4>
+//             <p class="notification-date notification-table">${notice.createdDate}</p></a>
+//         </li>`;
+//     });
+//
+//     // 게시글 목록을 HTML 요소에 삽입
+//     Notice.innerHTML = text;
+// }
+// showNotice();
