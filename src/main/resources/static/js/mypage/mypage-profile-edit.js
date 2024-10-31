@@ -111,15 +111,15 @@ disableButton.addEventListener("click", async (e) => {
     e.preventDefault();
 
     const file = profileImageInput.files[0];
-    if (file) {
-        try {
-            const imagePath = await uploadProfileImage(file);
 
-            await updateMemberInfo();
-        } catch (error) {
+    try {
+        if (file) {
+            const imagePath = await uploadProfileImage(file);
         }
-    } else {
-        alert("업로드할 이미지를 선택해주세요.");
+
+        await updateMemberInfo();
+    } catch (error) {
+        console.error("업로드 또는 정보 수정 중 오류가 발생했습니다.", error);
     }
 });
 
