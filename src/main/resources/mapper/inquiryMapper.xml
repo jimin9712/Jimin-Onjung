@@ -27,6 +27,25 @@
 
     <select id="selectAll" resultType="inquiryDTO">
         select
+        i.id,
+        p.post_title,
+        p.post_content,
+        p.created_date,
+        p.updated_date,
+        m.member_nickname,
+        i.inquiry_email,
+        i.inquiry_type,
+        i.inquiry_status
+        from tbl_inquiry i
+        join tbl_post p on i.id = p.id
+        join tbl_member m on p.member_id = m.id
+        <include refid="search"/>
+        order by p.created_date desc
+        limit #{pagination.startRow}, #{pagination.rowCount};
+    </select>
+
+    <select id="selectFilterAll" resultType="inquiryDTO">
+        select
             i.id,
             p.post_title,
             p.post_content,
@@ -40,11 +59,11 @@
                  join tbl_post p on i.id = p.id
                  join tbl_member m on p.member_id = m.id
         <include refid="search"/>
+        where i.inquiry_type = #{pagination.order}
         order by
         <choose>
         <when test="pagination.order == 'recent'.toString()">p.created_date</when>
-        <when test="pagination.order == 'typeFilter'.toString()">i.inquiry_type</when>
-        <otherwise>i.inquiry_status</otherwise>
+        <otherwise>i.inquiry_type</otherwise>
         </choose>
         desc
             limit #{pagination.startRow}, #{pagination.rowCount};

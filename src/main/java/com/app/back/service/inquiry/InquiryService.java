@@ -14,6 +14,8 @@ public interface InquiryService {
     public void write(InquiryDTO inquiryDTO);
     //    목록
     public List<InquiryDTO> getList(Pagination pagination, Search search);
+    //    필터 목록
+    public List<InquiryDTO> getFilterList(Pagination pagination, Search search);
     //    조회
     public Optional<InquiryDTO> getPost(Long id);
     //    수정
