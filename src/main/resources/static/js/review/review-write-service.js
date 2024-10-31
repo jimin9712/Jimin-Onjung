@@ -1,4 +1,4 @@
-const reviewAttachmentService = (() => {
+const reviewWriteService = (() => {
     // 파일 업로드
     const upload = async (formData) => {
         const response =
@@ -6,8 +6,8 @@ const reviewAttachmentService = (() => {
             method: "post",
             body: formData
         });
-        const attachmentFileName = await response.json();
-        return attachmentFileName;
+        const attachmentFile = await response.json();
+        return attachmentFile;
     }
 
     return {upload: upload};

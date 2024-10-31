@@ -47,6 +47,9 @@ public class ReviewController {
         reviewDTO.setPostType("REVIEW");
         reviewDTO.setPostTitle(reviewDTO.getVtGroupName());
         log.info("{}", reviewDTO);
+        log.info("{}", uuids);
+        log.info("{}", paths);
+        log.info("{}", files);
         if (reviewDTO.getPostTitle() == null || reviewDTO.getPostContent() == null) {
             log.error("필수 데이터가 없습니다.");
             return new RedirectView("/review/review-write");
