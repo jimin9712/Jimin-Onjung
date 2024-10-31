@@ -19,80 +19,6 @@
                             class="accordion-container contest-list-filters"
                             type="box"
                         >
-                            <div class="accordion accordion-title" width="0">
-                                상태
-                                <div class="open-button">
-                                    <div class="status-svg-container">
-                                        <div
-                                            height="12"
-                                            color="#101c33"
-                                            direction="right"
-                                            class="status-svg"
-                                        >
-                                            <svg
-                                                width="12"
-                                                height="12"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                            >
-                                                <g
-                                                    fill="none"
-                                                    fill-rule="evenodd"
-                                                >
-                                                    <path
-                                                        d="M12 0H0v12h12z"
-                                                    ></path>
-                                                    <path
-                                                        d="M3.689 11a.65.65 0 00.448-.174l4.68-4.389a.561.561 0 00-.001-.83L4.08 1.174a.664.664 0 00-.894-.003.56.56 0 00-.002.832l4.294 4.02L3.24 9.996a.56.56 0 00.004.832.653.653 0 00.444.171"
-                                                        fill="#101C33"
-                                                    ></path>
-                                                </g>
-                                            </svg>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                class="accordion-description active"
-                                style="height: 129px"
-                            >
-                                <div>
-                                    <div class="description">
-                                        <div
-                                            class="status-radio-container contest-list-state"
-                                        >
-                                            <label
-                                                for="radio-input-recruit"
-                                                class="active"
-                                                ><input
-                                                    readonly=""
-                                                    type="radio"
-                                                    id="radio-input-recruit"
-                                                    value="recruit"
-                                                />
-                                                <div
-                                                    class="radio-input-button"
-                                                ></div>
-                                                <div class="radio-input-label">
-                                                    모집 중
-                                                </div></label
-                                            ><label for="radio-input-End"
-                                                ><input
-                                                    readonly=""
-                                                    type="radio"
-                                                    id="radio-input-End"
-                                                    value="End"
-                                                />
-                                                <div
-                                                    class="radio-input-button"
-                                                ></div>
-                                                <div class="radio-input-label">
-                                                    모집 종료 됨
-                                                </div></label
-                                            >
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="write-introduce">
                                 <div class="title">편하게 작성하세요!</div>
                                 <div class="desc">
@@ -139,12 +65,11 @@
                                             <div class="bottom-wrap">
                                                 <div width="100%" height="8px" class="bottom-drop-down"></div>
                                                 <div class="list-wrap">
-                                                    <a href="/volunteer/volunteer-list?order=recent" class="item">최신등록순</a>
-                                                    <a href="/volunteer/volunteer-list?order=viewCount" class="item">조회순</a>
-                                                    <a href="/volunteer/volunteer-list?order=endingSoon" class="item">마감임박순</a>
+                                                    <div onclick="setOrder('recent')" class="item">최신등록순</div>
+                                                    <div onclick="setOrder('viewCount')" class="item">조회순</div>
+                                                    <div onclick="setOrder('endingSoon')" class="item">마감임박순</div>
                                                 </div>
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>
@@ -182,6 +107,7 @@
         let lists = [[${lists}]];
         const pagination = [[${pagination}]];
     </script>
-    <script src="/js/volunteer/volunteer-list.js"></script>
+    <script src="/js/volunteer/volunteer-layout.js" ></script>
     <script src="/js/volunteer/service/volunteer-service.js"></script>
+    <script src="/js/volunteer/volunteer-event.js"></script>
 </html>
