@@ -14,34 +14,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const listItems = document.querySelectorAll(".list-wrap .item");
     const arrowIcon = document.querySelector(".header-wrap .arrow");
 
-    // // 기본적으로 SVG 아이콘에 active 클래스 부여
-    // openButton.classList.add("active");
-    // svgToggle.style.transform = "rotate(0deg)"; // 기본 상태에서 위쪽 보기
-    //
-    // // 라디오 버튼 클릭 시 active 클래스 옮기기
-    // radioButtons.forEach((radio) => {
-    //     radio.addEventListener("click", () => {
-    //         labels.forEach((label) => label.classList.remove("active"));
-    //         radio.closest("label").classList.add("active");
-    //         console.log(`선택된 상태: ${radio.value}`);
-    //     });
-    // });
-    //
-    // // 아코디언 열기/닫기 및 화살표 회전
-    // openButton.addEventListener("click", () => {
-    //     const isVisible = accordionDescription.style.height !== "0px";
-    //
-    //     if (isVisible) {
-    //         accordionDescription.style.height = "0px";
-    //         svgToggle.style.transform = "rotate(90deg)"; // 위쪽 보기
-    //     } else {
-    //         accordionDescription.style.height = "129px";
-    //         svgToggle.style.transform = "rotate(0deg)"; // 아래쪽 보기
-    //     }
-    //
-    //     openButton.classList.toggle("active");
-    // });
-
     // header-wrap 클릭 시 드롭다운 열기/닫기
     headerWrap.addEventListener("click", (event) => {
         event.stopPropagation();

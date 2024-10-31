@@ -21,10 +21,10 @@
         join tbl_profile pf on p.member_id = pf.id
         <where>
             <if test="pagination.order == 'endingSoon'">
-                v.vt_e_date > current_date
+                v.vt_e_date >= current_date
             </if>
             <if test="pagination.order == 'viewCount'">
-                v.vt_e_date > current_date
+                v.vt_e_date >= current_date
             </if>
         </where>
         order by

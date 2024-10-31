@@ -69,11 +69,11 @@ public void calculateDaysLeft() {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             LocalDate endDate = LocalDate.parse(vtEDate, formatter); // 종료일을 LocalDate로 변환
             LocalDate today = LocalDate.now();
-
             // 종료일이 오늘보다 미래일 경우에만 남은 일수 계산
             if (today.isBefore(endDate) || today.isEqual(endDate)) {
                 this.daysLeft = ChronoUnit.DAYS.between(today, endDate);
                 System.out.println("남은 일수: " + this.daysLeft); // 디버깅용 출력
+                System.out.println("작성날짜:" + this.createdDate);   //디버깅용 작성날짜 출력
             } else {
                 this.daysLeft = 0; // 종료일이 지났으면 0으로 설정
                 System.out.println("종료일이 지났습니다.");

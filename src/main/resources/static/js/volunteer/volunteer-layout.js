@@ -10,7 +10,8 @@ const renderVolunteers = (lists) => {
             const today = new Date().toISOString().split('T')[0]; // "yyyy-MM-dd" 형식으로 가져오기
 
             // daysLeft와 vtEDate를 콘솔에 출력하여 확인
-            console.log(`ID: ${list.id}, daysLeft: ${list.daysLeft}, vtEDate: ${list.vtEDate}, today: ${today}`);
+            console.log(`ID: ${list.id}, daysLeft: ${list.daysLeft},
+             vtEDate: ${list.vtEDate}, today: ${today}, createdDate:${list.createdDate}, postViewCount:${list.postViewCount}`);
 
             // daysLeftText 설정 로직
             let daysLeftText;
@@ -72,6 +73,16 @@ const renderVolunteers = (lists) => {
                             </div>
                             <div class="contest-info-bottom-view-count">
                                 ${list.postViewCount || '뷰카운트없음'}
+                            </div>
+                            <svg type="calendar12" color="#8E94A0" viewBox="0 0 12 12" class="calendar-svg" style="margin-left: 20px">
+                                    <rect x="0.6" y="2.6" width="10.8" height="8.8" rx="1.4" stroke-width="1.2"></rect>
+                                    <path d="M3 2V1" stroke-width="1.2" stroke-linecap="round"></path>
+                                    <path d="M9 2V1" stroke-width="1.2" stroke-linecap="round"></path>
+                                    <path d="M1 5H12" stroke-width="1.2"></path>
+                                    <rect x="3" y="7" width="2" height="2" rx="0.5"></rect>
+                                </svg>
+                            <div class="contest-info-bottom-created-date">
+                                작성일 : ${list.createdDate || '작성일 없음'}
                             </div>
                         </div>
                     </div>

@@ -613,7 +613,8 @@ img {
 }
 .donation-list-a .contest-info-bottom-user-nick,
 .donation-list-a .contest-info-bottom-view-icon,
-.donation-list-a .contest-info-bottom-view-count {
+.donation-list-a .contest-info-bottom-view-count,
+.donation-list-a .contest-info-bottom-created-date{
     display: flex;
     flex-direction: column;
     -webkit-box-pack: center;
@@ -625,6 +626,10 @@ img {
     line-height: 18px;
     letter-spacing: -0.25px;
     color: rgb(142, 148, 160);
+}
+
+.donation-list-a .contest-info-bottom-created-date{
+    margin-left:5px;
 }
 .donation-list-a .contest-info-bottom-view-icon {
     margin-right: 6px;
@@ -776,3 +781,5 @@ img {
     width: 12px;
     height: 12px;
 }
+
+
