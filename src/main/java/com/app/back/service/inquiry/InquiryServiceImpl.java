@@ -66,5 +66,15 @@ public class InquiryServiceImpl implements InquiryService {
         return inquiryDAO.getTotalWithSearch(search);
     }
 
+    @Override
+    public List<InquiryDTO> findByMemberId(Long memberId) {
+        return inquiryDAO.findByMemberId(memberId);
+    }
+
+    @Override
+    public List<InquiryDTO> findByMemberIdAndDateRange(Long memberId, String startDate, String endDate) {
+        return inquiryDAO.findByMemberIdAndDateRange(memberId, startDate, endDate);
+    }
+
 
 }

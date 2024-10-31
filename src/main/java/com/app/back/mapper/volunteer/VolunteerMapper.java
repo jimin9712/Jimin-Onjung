@@ -25,8 +25,8 @@ public interface VolunteerMapper {
     //  봉사활동 게시글 조회
     public Optional<VolunteerDTO> selectById(@Param("id") Long id);
 
-//    봉사활동 게시글 수정
-@Mapper
+    //    봉사활동 게시글 수정
+    @Mapper
 //public interface PostMapper {
 //    void updatePost(VtApplicationDTO vtApplicationDTO);
 //    void updateVt(VtApplicationDTO vtApplicationDTO);
@@ -49,5 +49,10 @@ public interface VolunteerMapper {
 
     // 봉사활동 게시글 마감 순 조회
     public List<VolunteerDTO> selectByEndingSoon(@Param("pagination") Pagination pagination);
+
+
+
+
+
 
 }

@@ -14,7 +14,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
@@ -30,17 +29,17 @@ public class InquiryController {
     private final HttpSession session;
 
     @GetMapping("/admin")
-    public List<InquiryDTO> admin(Pagination pagination, Search search) {
+    public List<InquiryDTO> admin(Pagination pagination, Search search, Model model) {
         return inquiryService.getList(pagination,search);
     }
 
     @GetMapping("/admin/inquiry-page")
     @ResponseBody
 //    public List<InquiryDTO> getList(Pagination pagination, Search search, Model model, HttpServletRequest request)
-     public Map<String, Object> getList(Pagination pagination, Search search, @RequestParam(required = false) String query, @RequestParam(required = false) String filterType){
+     public Map<String, Object> getList(Pagination pagination, Search search, Model model){
         log.info("Controller - getList() 호출됨");
-        log.info("검색어: {}", query);
-        log.info("필터 타입: {}", filterType);
+        log.info("페이지네이션 정보: {}", pagination);
+        log.info("검색 조건: {}", search);
 
         if (pagination.getOrder() == null) {
             pagination.setOrder("created_date desc, n.id desc"); // 기본 정렬 기준
@@ -57,8 +56,7 @@ public class InquiryController {
         log.info("페이지네이션 정보 (progress 후): {}", pagination);
 
         List<InquiryDTO> inquiries = inquiryService.getList(pagination, search);
-        log.info("조회된 문의 내역: {}", inquiries);
-        log.info("페이지네이션 정보: {}", pagination);
+        System.out.println("조회된 데이터: " + inquiries);
 
         Map<String, Object> result = new HashMap<>();
         result.put("inquiries", inquiries);

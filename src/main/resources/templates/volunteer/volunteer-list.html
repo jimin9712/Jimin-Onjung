@@ -136,14 +136,14 @@
                                                     <defs></defs>
                                                 </svg>
                                             </div>
-                                            <div class="bottom-wrap">
-                                                <div width="100%" height="8px" class="bottom-drop-down"></div>
-                                                <div class="list-wrap">
-                                                    <div class="item" onclick="applyFilter('recent')">최신등록순</div>
-                                                    <div class="item" onclick="applyFilter('viewCount')">조회순</div>
-                                                    <div class="item" onclick="applyFilter('endingSoon')">마감임박순</div>
-                                                </div>
+                                        <div class="bottom-wrap">
+                                            <div width="100%" height="8px" class="bottom-drop-down"></div>
+                                            <div class="list-wrap">
+                                                <div class="item" onclick="fetchFilteredVolunteers('recent')">최신등록순</div>
+                                                <div class="item" onclick="fetchFilteredVolunteers('viewCount')">조회순</div>
+                                                <div class="item" onclick="fetchFilteredVolunteers('endingSoon')">마감임박순</div>
                                             </div>
+                                        </div>
                                         </div>
                                     </div>
                                 </div>
@@ -178,8 +178,9 @@
         </div>
     </body>
     <script th:inline="javascript">
-        const lists = [[${lists}]];
+        let lists = [[${lists}]];
         const pagination = [[${pagination}]];
     </script>
     <script src="/js/volunteer/volunteer-list.js"></script>
+    <script src="/js/volunteer/service/volunteer-service.js"></script>
 </html>

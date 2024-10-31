@@ -32,7 +32,7 @@ public class VolunteerDTO {
     private String attachmentFileName;
     private String attachmentFilePath;
     private String attachmentFileSize;
-    private String attachmentFiletype;
+    private String attachmentFileType;
 
     private Long id;
     private int recruitmentCount;
@@ -47,7 +47,7 @@ public class VolunteerDTO {
     }
 
     public AttachmentVO toAttachmentVO(){
-        return new AttachmentVO(id,attachmentFileName,attachmentFilePath,attachmentFileSize,attachmentFiletype,postId,createdDate);
+        return new AttachmentVO(id,attachmentFileName,attachmentFilePath,attachmentFileSize,attachmentFileType,postId,createdDate);
     }
 
     public VolunteerVO toVO() {return new VolunteerVO(id, recruitmentCount, nowRecruitmentCount, vtSDate, vtEDate);}
