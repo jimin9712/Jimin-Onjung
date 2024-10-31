@@ -27,7 +27,7 @@ public class ReviewDTO {
     private String vtGroupName;
     private String attachmentFileName;
     private String attachmentFilePath;
-    private Long attachmentFileSize;
+    private String attachmentFileSize;
     private String attachmentFileType;
     private Long postId;
 
