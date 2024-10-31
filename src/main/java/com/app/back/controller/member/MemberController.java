@@ -59,7 +59,6 @@ public class MemberController {
         if (member.isPresent()) {
             log.info("로그인 성공, MemberVO: {}", member.get());
             MemberDTO memberDTOFromVO = member.get().toDTO();
-            // 세션에 MemberDTO 저장
             session.setAttribute("loginMember", memberDTOFromVO);
             session.setAttribute("loginType", MemberLoginType.NORMAL);
             log.info("로그인 성공: {}", memberDTOFromVO);
@@ -287,10 +286,13 @@ public class MemberController {
         if (loginMember == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
         }
+
         loginMember.setMemberNickName(memberDTO1.getMemberNickName());
         loginMember.setMemberIntroduction(memberDTO1.getMemberIntroduction());
 
         session.setAttribute("loginMember", loginMember);
+
+        memberService.updateProfile(loginMember.toVO());
 
         return ResponseEntity.ok("프로필이 성공적으로 수정되었습니다.");
     }

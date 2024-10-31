@@ -127,31 +127,24 @@ disableButton.addEventListener("click", async (e) => {
 const uploadProfileImage = async (file) => {
     const formData = new FormData();
     formData.append("file", file);
+    formData.append("memberId", memberId); // memberId 추가
 
-    try {
-        const response = await fetch("/profile/upload", {
-            method: "POST",
-            body: formData,
-        });
+    const response = await fetch("/profile/upload", {
+        method: "POST",
+        body: formData,
+    });
 
-        if (!response.ok) throw new Error("이미지 업로드에 실패했습니다.");
+    if (!response.ok) throw new Error("이미지 업로드에 실패했습니다.");
 
-        const profileDTO = await response.json();
-        console.log("서버로부터 받은 데이터:", profileDTO);
+    const profileDTO = await response.json();
+    console.log("서버로부터 받은 데이터:", profileDTO);
 
-        const thumbnailFileName = "t_" + profileDTO.profileFileName;
-        const imagePath = `/profile/display?profileFileName=${profileDTO.profileFilePath}/${thumbnailFileName}`;
-
-        profileImagePreview.src = imagePath;
-        if (profileThumbnail) {
-            profileThumbnail.style.backgroundImage = `url('${imagePath}')`;
-        }
-        return imagePath;
-    } catch (error) {
-        console.error("이미지 업로드 중 오류 발생:", error);
-        alert("이미지 업로드에 실패했습니다.");
-        throw error;
+    const imagePath = `/profile/display?memberId=${memberId}`;
+    profileImagePreview.src = imagePath;
+    if (profileThumbnail) {
+        profileThumbnail.style.backgroundImage = `url('${imagePath}')`;
     }
+    return imagePath;
 };
 
 
@@ -180,6 +173,7 @@ const updateMemberInfo = async () => {
         console.error("회원 정보 업데이트 요청 실패:", error);
     }
 };
+
 
 // 모달 닫기 및 페이지 이동
 document.getElementById("closeModal").addEventListener("click", (e) => {
