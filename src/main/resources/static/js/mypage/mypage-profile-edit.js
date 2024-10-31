@@ -114,7 +114,6 @@ disableButton.addEventListener("click", async (e) => {
     if (file) {
         try {
             const imagePath = await uploadProfileImage(file);
-            alert("이미지가 성공적으로 업로드되었습니다.");
 
             await updateMemberInfo();
         } catch (error) {
