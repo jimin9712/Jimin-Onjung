@@ -1,30 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 const searchInput = document.querySelector(".Filter_searchInput");
-const inquiryContainer = document.querySelector(".inquiryTable_container");
 const paginationContainer = document.querySelector(".pagination-list.inquiry-page");
 const inquiryFilters = document.querySelectorAll(".sort-filter-option.inquiry-list");
-
-// 문의 내역 렌더링
-const renderInquiries = (inquiries) => {
-    let content = '';
-
-    inquiries.forEach((inquiry) => {
-        content += `
-        <div class="inquiryTable_row data_row">
-            <div class="inquiryTable_cell"><input type="checkbox" class="inquiryCheckbox" /></div>
-            <div class="inquiryTable_cell inquiry_type">${inquiry.inquiryType}</div>
-            <div class="inquiryTable_cell inquiry_date">${inquiry.createdDate}</div>
-            <div class="inquiryTable_cell">${inquiry.postTitle}</div>
-            <div class="inquiryTable_cell">${inquiry.postContent}</div>
-            <div class="inquiryTable_cell">${inquiry.memberNickName}</div>
-            <div class="inquiryTable_cell">${inquiry.inquiryEmail}</div>
-            <div class="inquiryTable_cell">${inquiry.inquiryStatus}</div>
-            <div class="inquiryTable_cell"><button class="editBtn">답변하기</button></div>
-        </div>`;
-    });
-
-    inquiryContainer.innerHTML = content;
-};
 
 // 검색어 입력 시 엔터키로 검색
 searchInput.addEventListener("keydown", (event) => {
@@ -55,6 +32,7 @@ inquiryFilters.forEach((option) => {
         option.classList.add("selected"); // 선택된 필터만 활성화
 
         const filterType = option.textContent.trim();
+        console.log("선택된 필터 타입:", filterType);
         fetchFilteredInquiries(1, "", filterType); // 필터 조건으로 데이터 불러오기
     });
 });
@@ -70,7 +48,6 @@ const fetchInquiries = async (page = 1) => {
         console.error("전체 문의 데이터 불러오기 오류:", error);
     }
 };
-
 
 // 페이지네이션을 렌더링하는 함수
 const renderPagination = (pagination, keyword, filterType) => {
@@ -109,12 +86,11 @@ const renderPagination = (pagination, keyword, filterType) => {
         link.addEventListener("click", (e) => {
             e.preventDefault();
             const page = e.target.getAttribute("data-page");
-            fetchFilteredInquiries(page, keyword, filterType);
+            fetchFilteredInquiries(page, filterType);
         });
     });
 };
 
-
 // 초기 데이터 로드
-fetchFilteredInquiries(); // 첫 페이지의 데이터를 로드합니다.
+    fetchInquiries(); // 첫 페이지의 데이터를 로드합니다.
 });

@@ -27,6 +27,8 @@ public interface InquiryMapper {
 //    public List<InquiryDTO> selectAll(@Param("pagination") Pagination pagination);
     public List<InquiryDTO> selectAll(@Param("pagination") Pagination pagination, @Param("search")Search search);
 
+    public List<InquiryDTO> selectFilterAll(@Param("pagination") Pagination pagination, @Param("search")Search search);
+
     //    수정
     void updateById(InquiryDTO inquiryDTO);
 
