@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 package com.app.back.service.review;
 
 import com.app.back.domain.post.Pagination;
@@ -20,7 +20,7 @@ public interface ReviewService {
     public void update(ReviewDTO reviewDTO);
     public void delete(Long id);
 }
-=======
+
 //package com.app.back.service.review;
 //
 //import com.app.back.domain.donation_record.DonationRecordDTO;
@@ -44,4 +44,4 @@ public interface ReviewService {
 //    public List<ReviewDTO> findByMemberId(Long memberId); // 반환 타입 수정
 //    public List<ReviewDTO> findByMemberIdAndDateRange(Long memberId, String startDate, String endDate);
 //}
->>>>>>> 2d6aacc74750ecea2fa4a97dce10f7f587c5046e
+

@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 package com.app.back.controller.attachment;
 
 import com.app.back.domain.attachment.AttachmentDTO;
@@ -56,7 +56,7 @@ public class AttachmentController {
         return LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
     }
 }
-=======
+
 //package com.app.back.controller.attachment;
 //
 //import com.app.back.domain.attachment.AttachmentDTO;
@@ -104,4 +104,4 @@ public class AttachmentController {
 //
 //    }
 //}
->>>>>>> 2d6aacc74750ecea2fa4a97dce10f7f587c5046e
+

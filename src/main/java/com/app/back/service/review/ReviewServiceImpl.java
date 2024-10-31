@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 package com.app.back.service.review;
 
 import com.app.back.domain.post.Pagination;
@@ -78,7 +78,7 @@ public class ReviewServiceImpl implements ReviewService {
         // ID로 Q&A 게시글 삭제
     }
 }
-=======
+
 //package com.app.back.service.review;
 //
 //import com.app.back.domain.post.Pagination;
@@ -159,4 +159,4 @@ public class ReviewServiceImpl implements ReviewService {
 //        return reviewDAO.findByMemberIdAndDateRange(memberId, startDate, endDate);
 //    }
 //}
->>>>>>> 2d6aacc74750ecea2fa4a97dce10f7f587c5046e
+
