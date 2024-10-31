@@ -42,7 +42,7 @@ public class ReviewServiceImpl implements ReviewService {
             reviewDTO.setAttachmentFileName(uuids.get(i) + "_" + files.get(i).getOriginalFilename());
             reviewDTO.setAttachmentFilePath(paths.get(i));
             reviewDTO.setAttachmentFileType(files.get(i).getContentType());
-            reviewDTO.setAttachmentFileSize(files.get(i).getSize());
+//            reviewDTO.setAttachmentFileSize(files.get(i).getSize());
             attachmentDAO.save(reviewDTO.toAttachmentVO());
         }
 //        if(reviewDTO.getAttachmentFileName() != null && reviewDTO.getAttachmentFilePath() != null && reviewDTO.getAttachmentFileType() != null && reviewDTO.getAttachmentFileSize() != null) {
