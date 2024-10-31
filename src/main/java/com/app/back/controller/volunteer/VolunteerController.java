@@ -4,8 +4,10 @@ import com.app.back.domain.review.ReviewDTO;
 import com.app.back.domain.volunteer.Pagination;
 import com.app.back.domain.volunteer.VolunteerDTO;
 import com.app.back.service.volunteer.VolunteerService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,70 +27,83 @@ public class VolunteerController {
 
     private final VolunteerService volunteerService;
 
-    @GetMapping("volunteer-write")
-    public String goToWriteForm(VolunteerDTO volunteerDTO) {
-        return "volunteer/volunteer-write";
-    }
-
-    @PostMapping("volunteer-write")
-    public RedirectView volunteerWrite(VolunteerDTO volunteerDTO) throws IOException {
-        volunteerDTO.setMemberId(1L);
-        volunteerDTO.setPostType("VOLUNTEER");
-//        volunteerDTO.setPostTitle(volunteerDTO.getVtGroupName());
-        log.info("{}", volunteerDTO);
-        if (volunteerDTO.getPostTitle() == null || volunteerDTO.getPostContent() == null) {
-            log.error("필수 데이터가 없습니다.");
-            return new RedirectView("/review/review-write");
-        }
-//        // 데이터가 문제없으면 세션에 저장
-//        session.setAttribute("review", reviewDTO);
-
-        // 데이터베이스에 게시글 저장
-        volunteerService.write(volunteerDTO);
-
-        return new RedirectView("/review/review-list");
-    }
+//    @GetMapping("volunteer-write")
+//    public String goToWriteForm(VolunteerDTO volunteerDTO) {
+//        return "volunteer/volunteer-write";
+//    }
+//
+//    @PostMapping("volunteer-write")
+//    public RedirectView volunteerWrite(VolunteerDTO volunteerDTO) throws IOException {
+//        volunteerDTO.setMemberId(1L);
+//        volunteerDTO.setPostType("VOLUNTEER");
+////        volunteerDTO.setPostTitle(volunteerDTO.getVtGroupName());
+//        log.info("{}", volunteerDTO);
+//        if (volunteerDTO.getPostTitle() == null || volunteerDTO.getPostContent() == null) {
+//            log.error("필수 데이터가 없습니다.");
+//            return new RedirectView("/review/review-write");
+//        }
+////        // 데이터가 문제없으면 세션에 저장
+////        session.setAttribute("review", reviewDTO);
+//
+//        // 데이터베이스에 게시글 저장
+//        volunteerService.write(volunteerDTO);
+//
+//        return new RedirectView("/review/review-list");
+//    }
 
     @GetMapping("/volunteer-list")
-    public List<VolunteerDTO> admin(Pagination pagination, Model model) {
-        return volunteerService.getList(pagination);
-    }
+    public List<VolunteerDTO> getList(
+            @RequestParam(value = "order", defaultValue = "recent") String order,
+            Pagination pagination,
+            Model model,
+            HttpServletRequest request) {
 
+        pagination.setOrder(order);
+        pagination.setTotal(volunteerService.getTotal());
+        pagination.progress();
 
-    
-    @GetMapping("/volunteer-info") // Q&A 게시글 목록 조회
-    @ResponseBody
-    public List<VolunteerDTO> getList(Pagination pagination, Model model, @RequestParam(defaultValue = "recent") String view) {
-        log.info("Controller - getList() 호출됨");
-        log.info("페이지네이션 정보: {}", pagination);
-
-        pagination.setTotal(volunteerService.getTotal()); // 전체 게시글 수 설정
-        pagination.progress(); // 페이지 진행 상태 업데이트
-
-        // 정렬 기준에 따른 게시글 목록 조회
-        List<VolunteerDTO> lists = volunteerService.getList(pagination);
-        if ("recent".equals(view)) {
-            lists = volunteerService.getListByRecent(pagination);
-        } else if ("endingSoon".equals(view)) {
+        List<VolunteerDTO> lists;
+        if ("endingSoon".equals(pagination.getOrder())) {
             lists = volunteerService.getListByEndingSoon(pagination);
-        } else if ("viewCount".equals(view)) {
+        } else if ("viewCount".equals(pagination.getOrder())) {
             lists = volunteerService.getListByViewCount(pagination);
         } else {
-            lists = volunteerService.getList(pagination); // 기본 조회
+            lists = volunteerService.getListByRecent(pagination);
         }
 
-
-        // 각 DTO에 남은 일수를 계산
+        // 각 DTO의 남은 일수 계산
         for (VolunteerDTO volunteerDTO : lists) {
-            volunteerDTO.calculateDaysLeft(); // 남은 일수 계산
+            volunteerDTO.calculateDaysLeft();
         }
 
-        // 모델에 페이징 및 게시글 목록 추가
         model.addAttribute("pagination", pagination);
-        model.addAttribute("lists", lists); // 모델에 게시글 목록 추가
+        model.addAttribute("lists", lists);
 
-        return volunteerService.getList(pagination);
+        return lists;
     }
+
+
+
+    @GetMapping("/volunteer-info")
+    @ResponseBody
+    public List<VolunteerDTO> getListInfo() {
+        Pagination pagination = new Pagination();
+
+        // 기본 페이지 및 페이징 설정 진행
+        pagination.setPage(1); // 기본 페이지를 1로 설정
+        pagination.setOrder("recent"); // 기본 정렬 기준을 설정
+        pagination.setTotal(volunteerService.getTotal()); // 전체 게시글 수를 설정
+        pagination.progress(); // 페이징 관련 필드 설정
+
+        // Pagination 설정을 마친 후 서비스 호출
+        List<VolunteerDTO> volunteerList = volunteerService.getList(pagination);
+        log.info("Retrieved volunteer list: " + volunteerList); // 데이터 로깅
+
+        return volunteerList;
+    }
+
+
+
 
 
 
