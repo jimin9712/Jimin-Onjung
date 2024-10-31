@@ -32,7 +32,7 @@ public class InquiryDTO {
 
     private String attachmentFileName;
     private String attachmentFilePath;
-    private Long attachmentFileSize;
+    private String attachmentFileSize;
     private String attachmentFileType;
     private Long postId;
 
