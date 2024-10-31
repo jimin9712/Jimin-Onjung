@@ -17,4 +17,16 @@ public class ProfileVO {
     private String profileFileType;
     private Long memberId;
     private String createdDate;
+
+    public ProfileDTO toDTO(){
+        ProfileDTO profileDTO = new ProfileDTO();
+        profileDTO.setId(id);
+        profileDTO.setProfileFileName(profileFileName);
+        profileDTO.setProfileFilePath(profileFilePath);
+        profileDTO.setProfileFileSize(profileFileSize);
+        profileDTO.setProfileFileType(profileFileType);
+        profileDTO.setMemberId(memberId);
+        profileDTO.setCreatedDate(createdDate);
+        return profileDTO;
+    }
 }

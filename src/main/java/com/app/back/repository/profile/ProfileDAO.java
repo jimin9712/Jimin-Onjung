@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+// ProfileDAO.java
 @Repository
 @RequiredArgsConstructor
 public class ProfileDAO {
@@ -21,8 +22,8 @@ public class ProfileDAO {
         return profileMapper.selectById(id);
     }
 
-    public List<ProfileVO> selectAll() {
-        return profileMapper.selectAll();
+    public ProfileVO selectByMemberId(Long memberId) {
+        return profileMapper.selectByMemberId(memberId);
     }
 
     public void update(ProfileVO profileVO) {
@@ -31,5 +32,9 @@ public class ProfileDAO {
 
     public void deleteById(Long id) {
         profileMapper.deleteById(id);
+    }
+
+    public List<ProfileVO> selectAll() {
+        return profileMapper.selectAll();
     }
 }

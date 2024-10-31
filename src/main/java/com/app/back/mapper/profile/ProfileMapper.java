@@ -9,10 +9,10 @@ import java.util.List;
 
 @Mapper
 public interface ProfileMapper {
-    public void insert(ProfileVO profileVO);
-    public ProfileVO selectById(Long id);
-    public List<ProfileVO> selectAll();
-    public void update(ProfileVO profileVO);
-    public void deleteById(Long id);
-
+    void insert(ProfileVO profileVO);
+    ProfileVO selectById(Long id);
+    ProfileVO selectByMemberId(Long memberId);
+    void update(ProfileVO profileVO);
+    void deleteById(Long id);
+    List<ProfileVO> selectAll();
 }

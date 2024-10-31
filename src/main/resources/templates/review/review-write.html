@@ -21,7 +21,7 @@
                     <h3 class="write-introduce">
                         👉 봉사 후기를 작성해주세요!
                     </h3>
-                    <form th:action="@{/review/review-write}" method="post" enctype="multipart/form-data">
+                    <form th:action="@{/review/review-write}" method="post" enctype="multipart/form-data" name="review-write-form">
                         <div class="form">
                             <div class="write-info" direction="row">
                                 <div class="option">
@@ -248,14 +248,12 @@ ex) 경로식당 배식 봉사"
                                 작성 완료
                             </button>
                         </div>
-                        <input type="text" name="uuid" id="">
-                        <input type="text" name="path" id="">
                     </form>
                 </main>
             </div>
         </div>
     </body>
-    <script src="/js/attachment/review-attachment-service.js"></script>
+    <script src="/js/review/review-write-service.js"></script>
     <script src="/js/review/review-write.js"></script>
     <script>
         // const button = document.querySelector("button[type=button]");
@@ -267,7 +265,7 @@ ex) 경로식당 배식 봉사"
 //         console.log(file);
 //         const formData = new FormData();
 //         formData.append("file", file);
-//         reviewAttachmentService.upload(formData);
+//         reviewWriteService.upload(formData);
 //     })
 // });
 
