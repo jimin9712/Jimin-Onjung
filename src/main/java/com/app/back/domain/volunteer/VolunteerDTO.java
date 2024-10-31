@@ -31,7 +31,7 @@ public class VolunteerDTO {
 
     private String attachmentFileName;
     private String attachmentFilePath;
-    private String attachmentFileSize;
+    private Long attachmentFileSize;
     private String attachmentFileType;
 
     private Long id;

@@ -39,7 +39,7 @@ public class DonationDTO {
         return new DonationVO(id, goalPoint, donationSDate, donationEDate);
     }
 
-    public AttachmentVO toAttachmentVO(){
-        return new AttachmentVO(id, attachmentFileName, attachmentFilePath, attachmentFileSize, attachmentFileType, postId,createdDate);
-    }
+//    public AttachmentVO toAttachmentVO(){
+//        return new AttachmentVO(id, attachmentFileName, attachmentFilePath, attachmentFileSize, attachmentFileType, postId,createdDate);
+//    }
 }
