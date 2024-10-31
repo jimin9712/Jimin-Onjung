@@ -773,6 +773,21 @@ img {
     color: rgb(142, 148, 160);
     transition: 0.3s;
 }
+
+.page-container .next-page-btn{
+    cursor: pointer;
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    background-color: rgb(245, 246, 247);
+    border-radius: 2px;
+    color: rgb(142, 148, 160);
+    transition: 0.3s;
+    width: 40px;
+    height: 40px;
+}
 .icon-default {
     user-select: none;
     display: inline-block;
