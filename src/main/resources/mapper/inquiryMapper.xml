@@ -43,6 +43,7 @@
         order by
         <choose>
         <when test="pagination.order == 'recent'.toString()">p.created_date</when>
+        <when test="pagination.order == 'typeFilter'.toString()">i.inquiry_type</when>
         <otherwise>i.inquiry_status</otherwise>
         </choose>
         desc
