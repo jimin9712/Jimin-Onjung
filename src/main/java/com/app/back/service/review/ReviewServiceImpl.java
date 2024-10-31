@@ -1,5 +1,4 @@
 package com.app.back.service.review;
-
 import com.app.back.domain.post.Pagination;
 import com.app.back.domain.post.PostVO;
 import com.app.back.domain.review.ReviewDTO;
@@ -41,7 +40,7 @@ public class ReviewServiceImpl implements ReviewService {
             reviewDTO.setAttachmentFileName(uuids.get(i) + "_" + files.get(i).getOriginalFilename());
             reviewDTO.setAttachmentFilePath(paths.get(i));
             reviewDTO.setAttachmentFileType(files.get(i).getContentType());
-            reviewDTO.setAttachmentFileSize(files.get(i).getSize());
+            reviewDTO.setAttachmentFileSize(String.valueOf(files.get(i).getSize()));
             attachmentDAO.save(reviewDTO.toAttachmentVO());
         }
 //        if(reviewDTO.getAttachmentFileName() != null && reviewDTO.getAttachmentFilePath() != null && reviewDTO.getAttachmentFileType() != null && reviewDTO.getAttachmentFileSize() != null) {

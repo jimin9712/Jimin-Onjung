@@ -9,8 +9,8 @@ let uploadedFiles = new Set(); // 업로드된 파일을 저장하는 Set
 let i = 0;
 
 // 파일 선택 시 호출되는 함수
-fileInput.addEventListener("change", (event) => {
-    handleFiles(event.target.files);
+fileInput.addEventListener("change", async (event) => {
+    await handleFiles(event.target.files);
     fileInput.value = "";
 });
 
@@ -33,11 +33,24 @@ dropZone.addEventListener("drop", (event) => {
 
 
 // 파일 처리 함수
-const handleFiles = (files) => {
+const handleFiles = async (files) => {
+    const form = document["review-write-form"];
     const formData = new FormData();
     formData.append("file", files[0]);
-    const receivedFileDTO = reviewAttachmentService.upload(formData);
-    console.log(files[0]);
+    const attachmentFile = await reviewWriteService.upload(formData);
+    console.log(attachmentFile.attachmentFileName);
+    console.log(attachmentFile.attachmentFileName.substring(0, attachmentFile.attachmentFileName.indexOf("_")));
+    const uuid = attachmentFile.attachmentFileName.substring(0, attachmentFile.attachmentFileName.indexOf("_"));
+    const attachmentFileName = document.createElement("input");
+    attachmentFileName.type = "hidden";
+    attachmentFileName.name = "uuid";
+    attachmentFileName.value = `${uuid}`;
+    const attachmentFilePath = document.createElement("input");
+    attachmentFilePath.type = "hidden";
+    attachmentFilePath.name = "path";
+    attachmentFilePath.value = `${attachmentFile.attachmentFilePath}`;
+    form.append(attachmentFileName);
+    form.append(attachmentFilePath);
     let totalSize = Array.from(uploadedFiles).reduce(
         (acc, file) => acc + file.size,
         0

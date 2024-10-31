@@ -31,7 +31,7 @@ public class DonationServiceImpl implements DonationService {
         Long id = postDAO.selectCurrentId();
         donationDTO.setId(id);
         if(donationDTO.getAttachmentFileName() != null && donationDTO.getAttachmentFilePath() != null && donationDTO.getAttachmentFileType() != null && donationDTO.getAttachmentFileSize() != null) {
-            attachmentDAO.save(donationDTO.toAttachmentVO());
+//            attachmentDAO.save(donationDTO.toAttachmentVO());
         }
         donationDAO.save(donationDTO.toVO());
     }

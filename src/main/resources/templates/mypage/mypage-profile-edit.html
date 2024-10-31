@@ -43,9 +43,10 @@
                                     <div class="profile-info--wrapper">
                                         <div class="profile-info--image-wrapper">
                                             <img
-                                                    src="https://cdn-dantats.stunning.kr/client/73287d9/static/media/ico-default-profile.87fcb384.png"
+                                                    th:src="'/profile/display?memberId=' + ${member.id}"
                                                     class="hdWpKs"
                                                     id="profileImagePreview"
+                                                    alt="Profile Image"
                                             />
                                             <div class="edit-btn">
                                                 <input

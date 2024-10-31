@@ -14,25 +14,52 @@ public class ProfileServiceImpl implements ProfileService {
 
     private final ProfileDAO profileDAO;
 
+    @Override
+    public void save(ProfileDTO profileDTO) {
+        // DTO를 VO로 변환
+        ProfileVO profileVO = profileDTO.toVO();
+
+        // 기존 프로필 존재 여부 확인
+        ProfileVO existingProfileVO = profileDAO.selectByMemberId(profileVO.getMemberId());
+        if (existingProfileVO != null) {
+
+            ProfileVO updatedProfileVO = new ProfileVO(
+                    existingProfileVO.getId(),
+                    profileVO.getProfileFileName(),
+                    profileVO.getProfileFilePath(),
+                    profileVO.getProfileFileSize(),
+                    profileVO.getProfileFileType(),
+                    profileVO.getMemberId(),
+                    profileVO.getCreatedDate()
+            );
+            profileDAO.update(updatedProfileVO);
+        } else {
+
+            profileDAO.insert(profileVO);
+        }
+    }
+
 
     @Override
-    public void save(ProfileVO profileVO) {
-        profileDAO.insert(profileVO);
+    public ProfileDTO selectById(Long id) {
+        ProfileVO profileVO = profileDAO.selectById(id);
+        return profileVO != null ? profileVO.toDTO() : null;
     }
 
     @Override
-    public ProfileVO selectById(Long id) {
-        return profileDAO.selectById(id);
+    public ProfileDTO selectByMemberId(Long memberId) {
+        ProfileVO profileVO = profileDAO.selectByMemberId(memberId);
+        return profileVO != null ? profileVO.toDTO() : null;
     }
 
     @Override
-    public List<ProfileVO> selectAll() {
-        return profileDAO.selectAll();
+    public List<ProfileDTO> selectAll() {
+        return List.of();
     }
 
     @Override
-    public void update(ProfileVO profileVO) {
-        profileDAO.update(profileVO);
+    public void update(ProfileDTO profileDTO) {
+
     }
 
     @Override
