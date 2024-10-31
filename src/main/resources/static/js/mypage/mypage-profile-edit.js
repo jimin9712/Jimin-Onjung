@@ -60,7 +60,21 @@ const wordLength2 = document.querySelector("#word-length2");
 postContent1.addEventListener("input", () => updateWordCount(postContent1, wordLength1, 10));
 postContent2.addEventListener("input", () => updateWordCount(postContent2, wordLength2, 20));
 
-let memberId;
+// 이미지 미리보기 기능
+const profileImageInput = document.getElementById("profileImageInput");
+const profileImagePreview = document.getElementById("profileImagePreview");
+
+profileImageInput.addEventListener("change", (event) => {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => (profileImagePreview.src = e.target.result);
+        reader.readAsDataURL(file);
+    }
+});
+
+// 회원 정보 로드 및 필드 채우기
+let memberId; // 전역 변수로 선언하여 저장
 
 window.addEventListener("DOMContentLoaded", async () => {
     try {
@@ -69,7 +83,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 
         const data = await response.json();
         fillMemberFields(data);
-        memberId = data.id; 
+        memberId = data.id; // memberId 저장
     } catch (error) {
         console.error(error);
     }
