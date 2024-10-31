@@ -31,7 +31,11 @@ public class MemberDTO{
     private String updatedDate;
     private String resetUuid;
 
+    private  String profileFileName;
+    private String profileFilePath;
+
 
     public MemberVO toVO(){
-        return new MemberVO(id,kakaoEmail,kakaoProfileURL,kakaoNickName,memberEmail,memberName,memberPhone,memberPassword,memberType,memberNickName,memberJung,memberPoint,memberLoginType,memberStarRate,memberIntroduction,createdDate,updatedDate,resetUuid);}
+        return new MemberVO(id,kakaoEmail,kakaoProfileURL,kakaoNickName,memberEmail,memberName,memberPhone,memberPassword,memberType,memberNickName,memberJung,memberPoint,memberLoginType,memberStarRate,memberIntroduction,createdDate,updatedDate,resetUuid,profileFileName,profileFilePath);}
+
 }
