@@ -28,6 +28,10 @@ public class InquiryDAO {
     public List<InquiryDTO> findAll(Pagination pagination, Search search){
         return inquiryMapper.selectAll(pagination, search);
     }
+    //    필터된 게시글 전체 조회
+    public List<InquiryDTO> findFilterAll(Pagination pagination, Search search){
+        return inquiryMapper.selectFilterAll(pagination, search);
+    }
     //    게시글 전체 개수 조회
     public int getTotal(){
         return inquiryMapper.selectTotal();
