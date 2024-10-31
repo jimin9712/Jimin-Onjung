@@ -60,22 +60,11 @@ const wordLength2 = document.querySelector("#word-length2");
 postContent1.addEventListener("input", () => updateWordCount(postContent1, wordLength1, 10));
 postContent2.addEventListener("input", () => updateWordCount(postContent2, wordLength2, 20));
 
-// 이미지 미리보기 기능
-const profileImageInput = document.getElementById("profileImageInput");
-const profileImagePreview = document.getElementById("profileImagePreview");
-
-profileImageInput.addEventListener("change", (event) => {
-    const file = event.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = (e) => (profileImagePreview.src = e.target.result);
-        reader.readAsDataURL(file);
-    }
-});
+// 전역 변수 선언
+let memberId;
+let profileImageInput, profileImagePreview, profileThumbnail;
 
 // 회원 정보 로드 및 필드 채우기
-let memberId; // 전역 변수로 선언하여 저장
-
 window.addEventListener("DOMContentLoaded", async () => {
     try {
         const response = await fetch("/member/info");
@@ -84,6 +73,28 @@ window.addEventListener("DOMContentLoaded", async () => {
         const data = await response.json();
         fillMemberFields(data);
         memberId = data.id; // memberId 저장
+
+        // 프로필 이미지 관련 요소 선택
+        profileImageInput = document.getElementById("profileImageInput");
+        profileImagePreview = document.getElementById("profileImagePreview");
+        profileThumbnail = document.getElementById("profileThumbnail"); // 프로필 썸네일 요소
+
+        // 이미지 미리보기 기능 설정
+        profileImageInput.addEventListener("change", (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    profileImagePreview.src = e.target.result;
+
+                    // 프로필 썸네일 이미지 업데이트
+                    if (profileThumbnail) {
+                        profileThumbnail.style.backgroundImage = `url('${e.target.result}')`;
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        });
     } catch (error) {
         console.error(error);
     }
@@ -99,40 +110,45 @@ const fillMemberFields = (data) => {
 disableButton.addEventListener("click", async (e) => {
     e.preventDefault();
 
-    if (!memberId) {
-        alert("회원 정보가 로드되지 않았습니다.");
-        return;
-    }
+    const file = profileImageInput.files[0];
 
-    await uploadProfileImage();
-    await updateMemberInfo();
+    try {
+        if (file) {
+            const imagePath = await uploadProfileImage(file);
+        }
+
+        await updateMemberInfo();
+    } catch (error) {
+        console.error("업로드 또는 정보 수정 중 오류가 발생했습니다.", error);
+    }
 });
 
-const uploadProfileImage = async () => {
-    const file = profileImageInput.files[0];
-    if (file) {
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append("memberId", memberId);
 
-        try {
-            const response = await fetch("/profile/upload", {
-                method: "POST",
-                body: formData,
-            });
+const uploadProfileImage = async (file) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("memberId", memberId); // memberId 추가
 
-            const result = await response.text();
-            if (!response.ok) throw new Error(result);
+    const response = await fetch("/profile/upload", {
+        method: "POST",
+        body: formData,
+    });
 
-            console.log("파일 업로드 성공:", result);
-        } catch (error) {
-            console.error("파일 업로드 실패:", error);
-            alert(`파일 업로드 실패: ${error.message}`);
-            throw error;
-        }
+    if (!response.ok) throw new Error("이미지 업로드에 실패했습니다.");
+
+    const profileDTO = await response.json();
+    console.log("서버로부터 받은 데이터:", profileDTO);
+
+    const imagePath = `/profile/display?memberId=${memberId}`;
+    profileImagePreview.src = imagePath;
+    if (profileThumbnail) {
+        profileThumbnail.style.backgroundImage = `url('${imagePath}')`;
     }
+    return imagePath;
 };
 
+
+// 사진 받아오고 멤버 정보 저장
 const updateMemberInfo = async () => {
     const memberData = {
         memberNickName: document.querySelector(".nickName input").value,
@@ -157,6 +173,7 @@ const updateMemberInfo = async () => {
         console.error("회원 정보 업데이트 요청 실패:", error);
     }
 };
+
 
 // 모달 닫기 및 페이지 이동
 document.getElementById("closeModal").addEventListener("click", (e) => {

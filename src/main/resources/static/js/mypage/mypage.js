@@ -130,6 +130,8 @@ document.addEventListener("DOMContentLoaded", () => {
             console.error("봉사활동 횟수 조회 실패:", error);
             document.getElementById("vtCount").textContent = "0 회";
         });
+
+
 });
 
 // z-index로 화면 보이기 / 숨기기 - 클릭 이벤트 추가
