@@ -60,4 +60,16 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
+const pageBtns = document.querySelectorAll("nav .page-btn");
+
+pageBtns.forEach((pageBtn) => {
+    pageBtn.addEventListener("click", (e) => {
+        // 모든 버튼에서 active 클래스 제거
+        pageBtns.forEach(pageBtn => pageBtn.classList.remove("active"));
+
+        // 클릭된 버튼에만 active 클래스 추가
+        pageBtn.classList.add("active");
+    });
+});
+
 
