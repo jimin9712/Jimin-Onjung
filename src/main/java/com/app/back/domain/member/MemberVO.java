@@ -10,7 +10,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MemberVO implements Serializable {
-    private final Long serialVersionUID = 1L;
+    private final Long serialVersionUID = 2L;
 
     @EqualsAndHashCode.Include
     private Long id;
@@ -32,7 +32,8 @@ public class MemberVO implements Serializable {
     private String updatedDate;
     private String resetUuid;
 
-
+    private  String profileFileName;
+    private String profileFilePath;
 
 
     public MemberDTO toDTO() {
@@ -55,6 +56,8 @@ public class MemberVO implements Serializable {
         memberDTO.setCreatedDate(createdDate);
         memberDTO.setUpdatedDate(updatedDate);
         memberDTO.setResetUuid(resetUuid);
+        memberDTO.setProfileFileName(profileFileName);
+        memberDTO.setProfileFilePath(profileFilePath);
         return memberDTO;
     }
 }
