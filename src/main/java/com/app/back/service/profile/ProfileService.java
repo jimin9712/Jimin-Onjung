@@ -1,16 +1,15 @@
 package com.app.back.service.profile;
 
 import com.app.back.domain.profile.ProfileDTO;
-import com.app.back.domain.profile.ProfileVO;
 
 import java.util.List;
 
 public interface ProfileService {
 
-    public void save(ProfileVO profileVO);
-    public ProfileVO selectById(Long id);
-    public List<ProfileVO> selectAll();
-    public void update(ProfileVO profileVO);
+    public void save(ProfileDTO profileDTO);
+    public ProfileDTO selectById(Long id);
+    public ProfileDTO selectByMemberId(Long memberId);
+    public List<ProfileDTO> selectAll();
+    public void update(ProfileDTO profileDTO);
     public void deleteById(Long id);
-
 }

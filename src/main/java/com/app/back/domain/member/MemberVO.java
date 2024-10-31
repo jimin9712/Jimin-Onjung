@@ -10,7 +10,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MemberVO implements Serializable {
-    private final Long serialVersionUID = 1L;
+    private final Long serialVersionUID = 2L;
 
     @EqualsAndHashCode.Include
     private Long id;
@@ -31,7 +31,6 @@ public class MemberVO implements Serializable {
     private String createdDate;
     private String updatedDate;
     private String resetUuid;
-
 
 
 
