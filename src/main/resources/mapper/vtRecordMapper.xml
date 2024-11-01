@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.back.mapper.vt_record.VtRecordMapper">
+
+    <insert id="insert" parameterType="vtRecordDTO">
+        insert into tbl_vt_record(
+         vt_time                        
+        ) VALUES 
+            (#{vtTime})
+    </insert>
+    
+    <select id="selectById" parameterType="long" resultType="vtRecordDTO">
+        select id, vt_time
+        from 
+            tbl_vt_record
+        where id = #{id}
+    </select>
+    
+    <select id="selectAll" resultType="vtRecordDTO">
+        select id, vt_time
+        from tbl_vt_record
+    </select>
+    
+    <update id="update" parameterType="vtRecordDTO">
+        update tbl_vt_record
+        set vt_time = #{vtTime}
+        where id = #{id}
+    </update>
+    
+    <delete id="deleteById" parameterType="long">
+        delete
+        from tbl_vt_record
+        where id = #{id};
+    </delete>
+
+    <select id="selectByMemberId" parameterType="long" resultType="vtRecordDTO">
+        select r.id, r.vt_time, a.created_date,a.application_status
+        from tbl_vt_record r
+                 join tbl_vt_application a on r.id = a.id
+        where a.member_id = #{memberId}
+    </select>
+
+    <select id="selectByMemberIdAndDateRange" parameterType="map" resultType="vtRecordDTO">
+        select
+            r.id,
+            r.vt_time,
+            a.created_date,
+            a.application_status,
+            a.member_id
+        from
+            tbl_vt_record r
+                join
+            tbl_vt_application a on r.id = a.id
+        where
+            a.member_id = #{memberId}
+          and a.created_date between #{startDate} and #{endDate}
+    </select>
+
+</mapper>

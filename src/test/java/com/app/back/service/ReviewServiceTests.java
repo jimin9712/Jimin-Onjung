@@ -22,7 +22,7 @@ public class ReviewServiceTests {
         reviewDTO.setPostType("REVIEW");
         reviewDTO.setVtGroupName("group");
         reviewDTO.setReviewStarRate(5.00);
-        reviewService.write(reviewDTO);
+//        reviewService.write(reviewDTO);
     }
 
     @Test

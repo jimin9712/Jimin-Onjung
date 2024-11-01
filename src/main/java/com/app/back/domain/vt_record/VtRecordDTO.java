@@ -4,19 +4,16 @@ import lombok.*;
 import org.springframework.stereotype.Component;
 
 @Component
-@Getter
+@Getter @Setter
 @ToString
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class VtRecordVO {
+public class VtRecordDTO {
     private Long id;
     private int vtTime;
 
-    public VtRecordDTO toDTO() {
-        VtRecordDTO vtRecordDTO = new VtRecordDTO();
-        vtRecordDTO.setId(id);
-        vtRecordDTO.setVtTime(vtTime);
-        return vtRecordDTO;
+    public VtRecordVO toVO(){
+        return new VtRecordVO(id, vtTime);
     }
 }
