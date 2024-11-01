@@ -59,26 +59,27 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-
 const pageBtns = document.querySelectorAll("nav .page-btn");
 
 pageBtns.forEach((pageBtn) => {
-    pageBtn.addEventListener("click", (e) => {
-        // 모든 버튼에서 active 클래스 제거
-        pageBtns.forEach(pageBtn => pageBtn.classList.remove("active"));
-
-        // 클릭된 버튼에만 active 클래스 추가
-        pageBtn.classList.add("active");
-    });
 });
+pageBtn.addEventListener("click", (e) => {
+    // 클릭된 버튼에만 active 클래스 추가
 
-// listPaging.getList(1, postid, showList);
-// globalThis.page = 1;
-//
-// listPaging.addEventListener("click", (e) => {
-//     e.preventDefault();
-//     if(e.target.tagName === "A") {
-//         globalThis.page = e.target.getAttribute("href");
-//         replyService.getList(globalThis.page, postId, showList);
-//     }
-// });
+    pageBtn.classList.add("active");
+});
+// 모든 버튼에서 active 클래스 제거
+pageBtns.forEach(pageBtn => pageBtn.classList.remove("active"));
+
+/**********************************페이지네이션****************************************/
+
+vtListService.getList(1, postId, showList);
+globalThis.page = 1;
+
+vtPaging.addEventListener("click", (e) => {
+    e.preventDefault();
+    if(e.target.tagName === "A") {
+        globalThis.page = e.target.getAttribute("href");
+        vtListService.getList(globalThis.page, postId, showList);
+    }
+});
