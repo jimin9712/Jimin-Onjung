@@ -4,10 +4,8 @@ import com.app.back.domain.review.ReviewDTO;
 import com.app.back.domain.volunteer.Pagination;
 import com.app.back.domain.volunteer.VolunteerDTO;
 import com.app.back.service.volunteer.VolunteerService;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,57 +25,33 @@ public class VolunteerController {
 
     private final VolunteerService volunteerService;
 
-//    @GetMapping("volunteer-write")
-//    public String goToWriteForm(VolunteerDTO volunteerDTO) {
-//        return "volunteer/volunteer-write";
-//    }
-//
-//    @PostMapping("volunteer-write")
-//    public RedirectView volunteerWrite(VolunteerDTO volunteerDTO) throws IOException {
-//        volunteerDTO.setMemberId(1L);
-//        volunteerDTO.setPostType("VOLUNTEER");
-////        volunteerDTO.setPostTitle(volunteerDTO.getVtGroupName());
-//        log.info("{}", volunteerDTO);
-//        if (volunteerDTO.getPostTitle() == null || volunteerDTO.getPostContent() == null) {
-//            log.error("필수 데이터가 없습니다.");
-//            return new RedirectView("/review/review-write");
-//        }
-////        // 데이터가 문제없으면 세션에 저장
-////        session.setAttribute("review", reviewDTO);
-//
-//        // 데이터베이스에 게시글 저장
-//        volunteerService.write(volunteerDTO);
-//
-//        return new RedirectView("/review/review-list");
-//    }
+    @GetMapping("volunteer-write")
+    public String goToWriteForm(VolunteerDTO volunteerDTO) {
+        return "volunteer/volunteer-write";
+    }
+
+    @PostMapping("volunteer-write")
+    public RedirectView volunteerWrite(VolunteerDTO volunteerDTO) throws IOException {
+        volunteerDTO.setMemberId(1L);
+        volunteerDTO.setPostType("VOLUNTEER");
+//        volunteerDTO.setPostTitle(volunteerDTO.getVtGroupName());
+        log.info("{}", volunteerDTO);
+        if (volunteerDTO.getPostTitle() == null || volunteerDTO.getPostContent() == null) {
+            log.error("필수 데이터가 없습니다.");
+            return new RedirectView("/review/review-write");
+        }
+//        // 데이터가 문제없으면 세션에 저장
+//        session.setAttribute("review", reviewDTO);
+
+        // 데이터베이스에 게시글 저장
+        volunteerService.write(volunteerDTO);
+
+        return new RedirectView("/review/review-list");
+    }
 
     @GetMapping("/volunteer-list")
-    public void getList(
-            @RequestParam(value = "order", defaultValue = "recent") String order,
-            Pagination pagination,
-            Model model,
-            HttpServletRequest request) {
-
-        pagination.setOrder(order);
-        pagination.setTotal(volunteerService.getTotal());
-        pagination.progress();
-        log.info(pagination.toString());
-
-        // 조회방식에 따른 순서 조회
-        List<VolunteerDTO> lists;
-        if ("endingSoon".equals(pagination.getOrder())) {
-            lists = volunteerService.getListByEndingSoon(pagination);
-        } else if ("viewCount".equals(pagination.getOrder())) {
-            lists = volunteerService.getListByViewCount(pagination);
-        } else {
-            lists = volunteerService.getListByRecent(pagination);
-        }
-
-        // 각 DTO의 남은 일수 계산
-        for (VolunteerDTO volunteerDTO : lists) {
-            volunteerDTO.calculateDaysLeft();
-        }
-        model.addAttribute("lists", volunteerService.getList(pagination));
+    public List<VolunteerDTO> admin(Pagination pagination, Model model) {
+        return volunteerService.getList(pagination);
     }
 
 
@@ -89,7 +63,7 @@ public class VolunteerController {
 
         pagination.setOrder(order);
         pagination.setTotal(volunteerService.getTotal());
-        pagination.progress();
+        pagination.vtProgress();
         log.info(pagination.toString());
 
         List<VolunteerDTO> volunteerList = volunteerService.getList(pagination);
@@ -102,13 +76,6 @@ public class VolunteerController {
 
         return volunteerList;
     }
-
-
-
-
-
-
-
 
 
 

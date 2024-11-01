@@ -35,15 +35,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 /////////////////////////////////페이지네이션부분////////////////////////////////////
-
-const volunteerListService = (() => {
+const vtListService = (() => {
     const getList = async (page, id, callback) => {
-        const response = await fetch(`/lists/${id}/${page}`)
+        page = page || 1;
+        const response = await fetch(`/lists/${id}/${page}`); // 여기서 소문자 id 사용
         const lists = await response.json();
 
         if (callback) {
             callback(lists);
         }
-    }
-return {getList: getList};
-})()
+    };
+    return { getList }; // 객체 반환
+})();
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    const vtPaging = document.querySelector("#paging");
+    console.log(vtPaging); // 여기서 null이 아닌지 확인
+});
+
+
+// 페이지네이션 버튼 클릭 이벤트
+// document.addEventListener("click", (e) => {
+//     if (e.target.closest("#paging")) {
+//         e.preventDefault();
+//         const target = e.target.closest("a");
+//         if (target) {
+//             const page = target.getAttribute("href").split("=")[1];
+//             vtListService.getList(page, "someId", (data) => {
+//                 showList({ lists: data.lists, pagination: data.pagination });
+//             });
+//         }
+//     }
+// });
