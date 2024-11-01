@@ -60,8 +60,6 @@ const handleFiles = async (files) => {
     const formData = new FormData();
     formData.append("file", files[0]);
     const attachmentFile = await donationWriteService.upload(formData);
-    console.log(attachmentFile.attachmentFileName);
-    console.log(attachmentFile.attachmentFileName.substring(0, attachmentFile.attachmentFileName.indexOf("_")));
     const uuid = attachmentFile.attachmentFileName.substring(0, attachmentFile.attachmentFileName.indexOf("_"));
     const attachmentFileName = document.createElement("input");
     attachmentFileName.type = "hidden";
@@ -71,8 +69,13 @@ const handleFiles = async (files) => {
     attachmentFilePath.type = "hidden";
     attachmentFilePath.name = "path";
     attachmentFilePath.value = `${attachmentFile.attachmentFilePath}`;
+    const attachmentFileSize = document.createElement("input");
+    attachmentFileSize.type = "hidden";
+    attachmentFileSize.name = "size";
+    attachmentFileSize.value = `${attachmentFile.attachmentFileSize}`;
     form.append(attachmentFileName);
     form.append(attachmentFilePath);
+    form.append(attachmentFileSize);
     const receivedThumbnail = document.querySelector(`img.thumbnail-img-${i}`);
     if(files[0].type.includes("image")) {
         receivedThumbnail.src = `/attachment/display?attachmentFileName=${attachmentFile.attachmentFilePath + "/t_" + attachmentFile.attachmentFileName}`;

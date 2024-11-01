@@ -19,13 +19,13 @@ public interface DonationMapper {
     // 조회
     public Optional<DonationDTO> selectById(Long id);
     // 전체 조회
-    public List<DonationDTO> selectAll(Pagination pagination);
+    public List<DonationDTO> selectAll(@Param("pagination") Pagination pagination);
     // 전체 개수
     public int selectCount();
     // 수정
     public void update(DonationDTO donationDTO);
     // 삭제
-    void deleteById(Long id);
+    public void deleteById(Long id);
 
     public List<DonationDTO> selectByMemberId(@Param("memberId") Long memberId); // 반환 타입 수정
     public List<DonationDTO> selectByMemberIdAndDateRange(

@@ -39,11 +39,9 @@ public class DonationController {
     public String goToWriteForm(DonationDTO donationDTO) { return "donation/donation-write"; }
 
     @PostMapping("donation-write")
-    public RedirectView donationWrite(DonationDTO donationDTO, @RequestParam("uuid") List<String> uuids, @RequestParam("path") List<String> paths, @RequestParam("file") List<MultipartFile> files) throws IOException {
+    public RedirectView donationWrite(DonationDTO donationDTO, @RequestParam("uuid") List<String> uuids, @RequestParam("path") List<String> paths, @RequestParam("size") List<String> sizes, @RequestParam("file") List<MultipartFile> files) throws IOException {
         donationDTO.setMemberId(1L);
         donationDTO.setPostType("DONATION");
-        log.info("Received donationDTO: {}", donationDTO);
-        donationDTO.setAttachmentFilePath(getPath());
 
         if (donationDTO.getPostTitle() == null || donationDTO.getPostContent() == null) {
             log.error("필수 데이터가 없습니다.");
@@ -53,7 +51,7 @@ public class DonationController {
 //        데이터가 문제없으면 세션에 저장
 //        session.setAttribute("donation", donationDTO);
 
-        donationService.write(donationDTO, uuids, paths, files);
+        donationService.write(donationDTO, uuids, paths, sizes, files);
 
         return new RedirectView("/donation/donation-list");
     }
@@ -67,7 +65,7 @@ public class DonationController {
         if (pagination.getOrder() == null) {
             pagination.setOrder("created_date desc, n.id desc"); // 기본 정렬 기준
         }
-        pagination.setTotal(postService.getTotal("REVIEW"));
+        pagination.setTotal(postService.getTotal("DONATION"));
         pagination.progressReview();
         model.addAttribute("donations", donationService.getList(pagination));
 
