@@ -15,4 +15,5 @@ public class VolunteerVO {
     private int nowRecruitmentCount;
     private String vtSDate;
     private String vtEDate;
+
 }

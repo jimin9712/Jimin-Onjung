@@ -17,7 +17,6 @@ public interface DonationRecordMapper {
     public int selectTotalDonationByMemberId(@Param("memberId") Long memberId);
 
     public List<DonationRecordDTO> selectByMemberId(@Param("memberId") Long memberId); // 반환 타입 수정
-
     public List<DonationRecordDTO> selectByMemberIdAndDateRange(
             @Param("memberId") Long memberId,
             @Param("startDate") String startDate,

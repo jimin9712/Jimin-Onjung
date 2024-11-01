@@ -14,4 +14,7 @@ public interface SupportRecordService {
     public void update(SupportRecordDTO supportRecordDTO);
     public void deleteById(Long id);
     public int getTotalSupportByMemberId(Long memberId);
+
+    public List<SupportRecordDTO> findByMemberId(Long memberId);
+    public List<SupportRecordDTO> findByMemberIdAndDateRange(Long memberId, String startDate, String endDate);
 }

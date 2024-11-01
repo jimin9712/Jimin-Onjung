@@ -389,8 +389,8 @@
                                                                         총 후원
                                                                         정 수
                                                                     </div>
-                                                                    <div class="h1 career-info-content">
-                                                                        <span id="memberJung"></span> 정
+                                                                    <div class="h1 career-info-content" style="font-size: 19px">
+                                                                        <span id="memberJung"></span>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -679,246 +679,80 @@
                                                 </div>
 
                                                 <!-- 후원 내역 -->
-
-                                                <div
-                                                    id="boost"
-                                                    class="profile-contents-box-wrap tab-content"
-                                                >
-                                                    <main
-                                                        class="right-contents-main"
-                                                    >
-                                                        <header
-                                                            class="right-contents-header"
-                                                        >
+                                                <div id="boost" class="profile-contents-box-wrap tab-content">
+                                                    <main class="right-contents-main">
+                                                        <header class="right-contents-header">
                                                             <div class="kBJTCS">
-                                                                <div
-                                                                    class="header-title"
-                                                                >
-                                                                    후원 내역
-                                                                </div>
-                                                                <div
-                                                                    class="header-desc"
-                                                                >
-                                                                    <span
-                                                                        class="fendym"
-                                                                        >후원
-                                                                        내역을
-                                                                        확인하실
-                                                                        수
-                                                                        있습니다.</span
-                                                                    >
+                                                                <div class="header-title">후원 내역</div>
+                                                                <div class="header-desc">
+                                                                    <span class="fendym">후원 내역을 확인하실 수 있습니다.</span>
                                                                 </div>
                                                             </div>
                                                         </header>
-                                                        <div
-                                                            class="date-filter"
-                                                        >
-                                                            <div class="title">
-                                                                후원 / 취소지정
-                                                            </div>
-                                                            <div
-                                                                class="option date-container"
-                                                            >
-                                                                <span
-                                                                    class="date-span"
-                                                                    >날짜지정</span
-                                                                >
-                                                                <label
-                                                                    class="company-name"
-                                                                >
-                                                                    <input
-                                                                        type="date"
-                                                                        id="end-date"
-                                                                        placeholder="시작 날짜를 선택하세요"
-                                                                        onchange="updateDateRange()"
-                                                                    />
+
+                                                        <div class="date-filter">
+                                                            <div class="title">후원 / 취소일시</div>
+                                                            <div class="option date-container">
+                                                                <span class="date-span">날짜지정</span>
+                                                                <label class="company-name">
+                                                                    <input type="date" id="start-date-boost" placeholder="시작 날짜를 선택하세요" onchange="updateDateRangeBoostRecords()" />
                                                                 </label>
-                                                                <span
-                                                                    class="then"
-                                                                    ><strong
-                                                                        >-</strong
-                                                                    >
-                                                                </span>
-                                                                <label
-                                                                    class="company-name"
-                                                                >
-                                                                    <input
-                                                                        type="date"
-                                                                        id="start-date"
-                                                                        placeholder="종료 날짜를 선택하세요"
-                                                                        onchange="updateDateRange()"
-                                                                    />
+                                                                <span class="then"><strong>-</strong></span>
+                                                                <label class="company-name">
+                                                                    <input type="date" id="end-date-boost" placeholder="종료 날짜를 선택하세요" onchange="updateDateRangeBoostRecords()" />
                                                                 </label>
                                                             </div>
 
-                                                            <!-- 켈린더 -->
-
-                                                            <div
-                                                                class="date-button"
-                                                            >
-                                                                <label
-                                                                    class="fItXBi toggle"
-                                                                    style="
-                                                                        margin-left: 15px;
-                                                                    "
-                                                                    ><input
-                                                                        type="checkbox"
-                                                                        value=""
-                                                                    /><svg
-                                                                        class="iFpvod check"
-                                                                        viewBox="0 0 12 12"
-                                                                    >
-                                                                        <path
-                                                                            d="M9.81644 3.62611C9.59244 3.44311 9.24744 3.46111 9.04644 3.66811L4.61044 8.24311L2.95644 6.50411C2.75944 6.29611 2.41444 6.27311 2.18644 6.45611C1.96044 6.63811 1.93644 6.95311 2.13344 7.16111L4.19544 9.32911C4.29744 9.43811 4.44644 9.50011 4.60344 9.50011H4.60644C4.76144 9.50011 4.91044 9.43811 5.01344 9.33211L9.86244 4.33211C10.0624 4.12611 10.0424 3.81011 9.81644 3.62611"
-                                                                        ></path>
-                                                                        <defs></defs>
+                                                            <!-- 필터 옵션 -->
+                                                            <div class="date-button">
+                                                                <label class="fItXBi toggle" style="margin-left: 15px;">
+                                                                    <input type="checkbox" id="filter-1year-boost" value="" />
+                                                                    <svg class="iFpvod check" viewBox="0 0 12 12">
+                                                                        <path d="M9.81644 3.62611C9.59244 3.44311 9.24744 3.46111 9.04644 3.66811L4.61044 8.24311L2.95644 6.50411C2.75944 6.29611 2.41444 6.27311 2.18644 6.45611C1.96044 6.63811 1.93644 6.95311 2.13344 7.16111L4.19544 9.32911C4.29744 9.43811 4.44644 9.50011 4.60344 9.50011H4.60644C4.76144 9.50011 4.91044 9.43811 5.01344 9.33211L9.86244 4.33211C10.0624 4.12611 10.0424 3.81011 9.81644 3.62611"></path>
                                                                     </svg>
-                                                                    최근
-                                                                    1년</label
-                                                                ><label
-                                                                    class="fItXBi toggle"
-                                                                    ><input
-                                                                        type="checkbox"
-                                                                        value=""
-                                                                    /><svg
-                                                                        class="iFpvod check"
-                                                                        viewBox="0 0 12 12"
-                                                                    >
-                                                                        <path
-                                                                            d="M9.81644 3.62611C9.59244 3.44311 9.24744 3.46111 9.04644 3.66811L4.61044 8.24311L2.95644 6.50411C2.75944 6.29611 2.41444 6.27311 2.18644 6.45611C1.96044 6.63811 1.93644 6.95311 2.13344 7.16111L4.19544 9.32911C4.29744 9.43811 4.44644 9.50011 4.60344 9.50011H4.60644C4.76144 9.50011 4.91044 9.43811 5.01344 9.33211L9.86244 4.33211C10.0624 4.12611 10.0424 3.81011 9.81644 3.62611"
-                                                                        ></path>
-                                                                        <defs></defs>
-                                                                    </svg>
-                                                                    1개월</label
-                                                                ><label
-                                                                    class="fItXBi toggle"
-                                                                    ><input
-                                                                        type="checkbox"
-                                                                        value=""
-                                                                    /><svg
-                                                                        class="iFpvod check"
-                                                                        viewBox="0 0 12 12"
-                                                                    >
-                                                                        <path
-                                                                            d="M9.81644 3.62611C9.59244 3.44311 9.24744 3.46111 9.04644 3.66811L4.61044 8.24311L2.95644 6.50411C2.75944 6.29611 2.41444 6.27311 2.18644 6.45611C1.96044 6.63811 1.93644 6.95311 2.13344 7.16111L4.19544 9.32911C4.29744 9.43811 4.44644 9.50011 4.60344 9.50011H4.60644C4.76144 9.50011 4.91044 9.43811 5.01344 9.33211L9.86244 4.33211C10.0624 4.12611 10.0424 3.81011 9.81644 3.62611"
-                                                                        ></path>
-                                                                        <defs></defs>
-                                                                    </svg>
-                                                                    3개월</label
-                                                                ><label
-                                                                    class="fItXBi toggle"
-                                                                    ><input
-                                                                        type="checkbox"
-                                                                        value=""
-                                                                    /><svg
-                                                                        class="iFpvod check"
-                                                                        viewBox="0 0 12 12"
-                                                                    >
-                                                                        <path
-                                                                            d="M9.81644 3.62611C9.59244 3.44311 9.24744 3.46111 9.04644 3.66811L4.61044 8.24311L2.95644 6.50411C2.75944 6.29611 2.41444 6.27311 2.18644 6.45611C1.96044 6.63811 1.93644 6.95311 2.13344 7.16111L4.19544 9.32911C4.29744 9.43811 4.44644 9.50011 4.60344 9.50011H4.60644C4.76144 9.50011 4.91044 9.43811 5.01344 9.33211L9.86244 4.33211C10.0624 4.12611 10.0424 3.81011 9.81644 3.62611"
-                                                                        ></path>
-                                                                        <defs></defs>
-                                                                    </svg>
-                                                                    6개월
+                                                                    최근 1년
                                                                 </label>
+                                                                <label class="fItXBi toggle"><input type="checkbox" id="filter-1month-boost" value="" /> 1개월</label>
+                                                                <label class="fItXBi toggle"><input type="checkbox" id="filter-3months-boost" value="" /> 3개월</label>
+                                                                <label class="fItXBi toggle"><input type="checkbox" id="filter-6months-boost" value="" /> 6개월</label>
                                                             </div>
-                                                            <button
-                                                                id="Initialization"
-                                                                class="gPdSFi"
-                                                            >
-                                                                <svg
-                                                                    viewBox="0 0 12 12"
-                                                                    class="refresh-svg"
-                                                                >
-                                                                    <path
-                                                                        d="M5.792 9.584C3.698 9.584 2 7.886 2 5.792C2 3.698 3.698 2 5.792 2C7.887 2 9.584 3.698 9.584 5.792"
-                                                                        stroke-width="1.2"
-                                                                        stroke-linecap="round"
-                                                                        fill="#ffffff"
-                                                                    ></path>
-                                                                    <path
-                                                                        fill-rule="evenodd"
-                                                                        clip-rule="evenodd"
-                                                                        d="M9.5976 6.91949L10.9586 5.17549C11.0586 5.04849 10.9676 4.86349 10.8066 4.86349H8.0826C7.9216 4.86349 7.8306 5.04849 7.9306 5.17549L9.2916 6.91949C9.3696 7.01849 9.5196 7.01849 9.5976 6.91949Z"
-                                                                    ></path>
-                                                                    <defs></defs>
+
+                                                            <!-- 초기화 버튼 -->
+                                                            <button id="Initialization-boost" class="gPdSFi">
+                                                                <svg viewBox="0 0 12 12" class="refresh-svg">
+                                                                    <path d="M5.792 9.584C3.698 9.584 2 7.886 2 5.792C2 3.698 3.698 2 5.792 2C7.887 2 9.584 3.698 9.584 5.792"></path>
                                                                 </svg>
-                                                                <span
-                                                                    >초기화</span
-                                                                >
+                                                                <span>초기화</span>
                                                             </button>
                                                         </div>
+
                                                         <div class="cKhWaV">
-                                                            <div
-                                                                class="tab-wrap"
-                                                            >
-                                                                <div
-                                                                    class="bqkLME tabs"
-                                                                >
-                                                                    <div
-                                                                        class="active tab"
-                                                                    >
-                                                                        <div
-                                                                            class="item-wrap"
-                                                                        >
-                                                                            <div
-                                                                                class="item-name"
-                                                                            >
-                                                                                전체
-                                                                            </div>
-                                                                            <label
-                                                                                id="boost-totalCount"
-                                                                                class="ezikFA"
-                                                                                >0</label
-                                                                            >
+                                                            <div class="tab-wrap">
+                                                                <div class="bqkLME tabs">
+                                                                    <div class="tab active">
+                                                                        <div class="item-wrap">
+                                                                            <div class="item-name">전체</div>
+                                                                            <label id="boost-totalCount" class="ezikFA">0</label>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div
-                                                            class="content-inner"
-                                                        >
-                                                            <div
-                                                                id="boost-list"
-                                                                class="boost-list"
-                                                                style="
-                                                                    display: block;
-                                                                "
-                                                            ></div>
-                                                            <div
-                                                                class="empty-component"
-                                                            >
-                                                                <div
-                                                                    class="kjzWjC empty"
-                                                                    style="
-                                                                        display: none;
-                                                                    "
-                                                                >
-                                                                    <div
-                                                                        class="empty-image"
-                                                                    >
-                                                                        <img
-                                                                            name="SlightlySmilingFace"
-                                                                            src="https://cdn-dantats.stunning.kr/static/emoji/SlightlySmilingFace32px.png"
-                                                                            class="hkAQYM"
-                                                                        />
-                                                                        <h4>
-                                                                            <span
-                                                                                class="fendym"
-                                                                                ><b
-                                                                                    >후원
-                                                                                    내역이
-                                                                                    없습니다.</b
-                                                                                >
-                                                                            </span>
-                                                                        </h4>
-                                                                    </div>
+
+                                                        <!-- 후원 내역 목록 -->
+                                                        <div class="content-inner">
+                                                            <div id="boost-list" class="boost-list" style="display: block;"></div>
+                                                            <div class="empty-component" style="display: none;">
+                                                                <div class="empty-image">
+                                                                    <img src="https://cdn-dantats.stunning.kr/static/emoji/SlightlySmilingFace32px.png" class="hkAQYM" alt="No Boost Records" />
+                                                                    <h4><span class="fendym"><b>후원 내역이 없습니다.</b></span></h4>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </main>
                                                 </div>
+
+
                                                 <!-- 기부 내역 -->
                                                 <div id="donation" class="profile-contents-box-wrap tab-content">
                                                     <main class="right-contents-main">

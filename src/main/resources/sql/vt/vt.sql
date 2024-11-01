@@ -12,7 +12,8 @@ select *from tbl_vt;
 DESCRIBE tbl_vt;
 
 INSERT INTO tbl_vt (id, recruitment_count, vt_s_date, vt_e_date)
-VALUES (2, 10, '2024-10-23', '2024-11-25');
+VALUES (77, 10, '2024-10-23', '2024-11-25');
+
 
 drop table tbl_vt;
 

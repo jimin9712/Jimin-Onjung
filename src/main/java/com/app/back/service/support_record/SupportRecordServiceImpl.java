@@ -45,4 +45,15 @@ public class SupportRecordServiceImpl implements SupportRecordService {
     public int getTotalSupportByMemberId(Long memberId) {
         return supportRecordDAO.findTotalSupportByMemberId(memberId);
     }
+
+    @Override
+    public List<SupportRecordDTO> findByMemberId(Long memberId) {
+
+        return supportRecordDAO.findByMemberId(memberId);
+    }
+
+    @Override
+    public List<SupportRecordDTO> findByMemberIdAndDateRange(Long memberId, String startDate, String endDate) {
+        return supportRecordDAO.findByMemberIdAndDateRange(memberId, startDate, endDate);
+    }
 }

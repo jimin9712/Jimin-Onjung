@@ -36,52 +36,53 @@ document.addEventListener("DOMContentLoaded", () => {
                 document.getElementById("memberName").textContent = `${displayName}님`;
                 document.getElementById("memberEmail").textContent = data.memberEmail;
                 document.getElementById("memberType").textContent = data.memberType;
-                document.getElementById("memberJung").textContent = data.memberJung.toLocaleString();
                 document.getElementById("profileName").textContent = displayName;
                 document.getElementById("profileIntroduction").textContent =
                     data.memberIntroduction || "한 줄 소개가 없습니다.";
 
-                // memberId를 data.id로 명확하게 설정
                 const memberId = data.id;
-                console.log("사용되는 memberId:", memberId);
-
                 if (!memberId) {
                     console.error("memberId가 존재하지 않습니다. 응답 데이터 구조를 확인하세요:", data);
                     alert("회원 ID를 가져오지 못했습니다.");
                     return;
                 }
 
+                // 지원 기록 및 기부 기록 조회 함수 정의
+                const fetchTotalPoints = (url, elementId, label) => {
+                    fetch(url)
+                        .then((response) => {
+                            if (!response.ok) {
+                                throw new Error(`HTTP 오류! 상태 코드: ${response.status}`);
+                            }
+                            return response.json();
+                        })
+                        .then((responseData) => {
+                            console.log(`총 ${label} 응답 데이터:`, responseData);
+
+                            let totalPoints;
+                            if (typeof responseData === 'number') {
+                                totalPoints = responseData;
+                            } else if (responseData.totalDonation) {
+                                totalPoints = responseData.totalDonation;
+                            } else {
+                                console.warn("예상치 못한 응답 구조:", responseData);
+                                totalPoints = 0;
+                            }
+
+                            document.getElementById(elementId).textContent =
+                                totalPoints.toLocaleString() + ` ${label}`;
+                        })
+                        .catch((error) => {
+                            console.error(`총 ${label} 조회 실패:`, error);
+                            document.getElementById(elementId).textContent = `정보를 불러올 수 없습니다.`;
+                        });
+                };
+
+                // 총 지원 포인트 조회
+                fetchTotalPoints(`/support-records/total/${memberId}`, "memberJung", "정");
+
                 // 총 기부 포인트 조회
-                fetch(`/donation-records/total/${memberId}`)
-                    .then((response) => {
-                        if (!response.ok) {
-                            throw new Error(`HTTP 오류! 상태 코드: ${response.status}`);
-                        }
-                        return response.json();
-                    })
-                    .then((responseData) => {
-                        console.log("총 기부 포인트 응답 데이터:", responseData);
-
-                        let totalDonation;
-
-                        // 서버 응답이 숫자인지 객체인지를 확인
-                        if (typeof responseData === 'number') {
-                            totalDonation = responseData;
-                        } else if (responseData.totalDonation) {
-                            totalDonation = responseData.totalDonation;
-                        } else {
-                            // 예상치 못한 응답 구조
-                            console.warn("예상치 못한 응답 구조:", responseData);
-                            totalDonation = 0;
-                        }
-
-                        document.getElementById("memberPoint").textContent =
-                            totalDonation.toLocaleString() + " 포인트";
-                    })
-                    .catch((error) => {
-                        console.error("총 기부 포인트 조회 실패:", error);
-                        document.getElementById("memberPoint").textContent = "포인트 정보를 불러올 수 없습니다.";
-                    });
+                fetchTotalPoints(`/donation-records/total/${memberId}`, "memberPoint", "포인트");
             } else {
                 alert("회원 정보를 가져오지 못했습니다.");
             }
