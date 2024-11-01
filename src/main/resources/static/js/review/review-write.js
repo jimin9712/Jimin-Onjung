@@ -34,23 +34,7 @@ dropZone.addEventListener("drop", (event) => {
 
 // 파일 처리 함수
 const handleFiles = async (files) => {
-    const form = document["review-write-form"];
-    const formData = new FormData();
-    formData.append("file", files[0]);
-    const attachmentFile = await reviewWriteService.upload(formData);
-    console.log(attachmentFile.attachmentFileName);
-    console.log(attachmentFile.attachmentFileName.substring(0, attachmentFile.attachmentFileName.indexOf("_")));
-    const uuid = attachmentFile.attachmentFileName.substring(0, attachmentFile.attachmentFileName.indexOf("_"));
-    const attachmentFileName = document.createElement("input");
-    attachmentFileName.type = "hidden";
-    attachmentFileName.name = "uuid";
-    attachmentFileName.value = `${uuid}`;
-    const attachmentFilePath = document.createElement("input");
-    attachmentFilePath.type = "hidden";
-    attachmentFilePath.name = "path";
-    attachmentFilePath.value = `${attachmentFile.attachmentFilePath}`;
-    form.append(attachmentFileName);
-    form.append(attachmentFilePath);
+    console.log(files[0]);
     let totalSize = Array.from(uploadedFiles).reduce(
         (acc, file) => acc + file.size,
         0
@@ -72,19 +56,56 @@ const handleFiles = async (files) => {
             addFileToList(file);
         }
     }
+
+    const form = document["review-write-form"];
+    const formData = new FormData();
+    formData.append("file", files[0]);
+    const attachmentFile = await reviewWriteService.upload(formData);
+    console.log(attachmentFile.attachmentFileName);
+    console.log(attachmentFile.attachmentFileName.substring(0, attachmentFile.attachmentFileName.indexOf("_")));
+    const uuid = attachmentFile.attachmentFileName.substring(0, attachmentFile.attachmentFileName.indexOf("_"));
+    const attachmentFileName = document.createElement("input");
+    attachmentFileName.type = "hidden";
+    attachmentFileName.name = "uuid";
+    attachmentFileName.value = `${uuid}`;
+    const attachmentFilePath = document.createElement("input");
+    attachmentFilePath.type = "hidden";
+    attachmentFilePath.name = "path";
+    attachmentFilePath.value = `${attachmentFile.attachmentFilePath}`;
+    form.append(attachmentFileName);
+    form.append(attachmentFilePath);
+    const receivedThumbnail = document.querySelector(`img.thumbnail-img-${i}`);
+    if(files[0].type.includes("image")) {
+        receivedThumbnail.src = `/attachment/display?attachmentFileName=${attachmentFile.attachmentFilePath + "/t_" + attachmentFile.attachmentFileName}`;
+    } else {
+        receivedThumbnail.parentElement.removeChild(receivedThumbnail);
+    }
 };
 
 // 파일 목록에 파일 추가
 const addFileToList = (file) => {
+    const thumbnailImg = document.createElement("img");
+    const thumbnailWrap = document.createElement("div");
+    const textWrap = document.createElement("div");
     const listItem = document.createElement("li");
-    listItem.textContent = `${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
+    thumbnailImg.classList.add(`thumbnail-img-${++i}`);
+    thumbnailImg.style = "width: 100%; height: 100%; border: none;";
+    console.log(thumbnailImg);
+    thumbnailWrap.style = "width: 20px; height: 20px; margin-top: 16px; margin-right: 10px; border: none;";
+    thumbnailWrap.appendChild(thumbnailImg);
+    textWrap.textContent = `${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
+    textWrap.style = "margin-top: 16px";
+    listItem.prepend(thumbnailWrap);
+    listItem.appendChild(textWrap);
 
+    console.log(listItem);
     const deleteButton = document.createElement("button");
     deleteButton.textContent = "삭제";
     deleteButton.classList.add("delete-button");
-    deleteButton.onclick = () => removeFile(file, listItem);
 
+    deleteButton.onclick = () => removeFile(file, listItem);
     listItem.appendChild(deleteButton);
+    listItem.style.display = "flex";
     fileList.appendChild(listItem);
 };
 

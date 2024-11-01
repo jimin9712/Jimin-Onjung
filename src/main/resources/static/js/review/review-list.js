@@ -208,7 +208,7 @@ for (let i = 0; i < 9; i++) {
     const rightBarImgWrap = document.createElement("div");
     rightBarImgWrap.classList.add("right-bar-img-wrap");
     rightBarImgWrap.innerHTML = `
-        <a href="/contest/view/152313" class="right-bar">
+        <a href="" class="right-bar">
             <div class="right-bar-img-container cover">
                 <div class="card-image-default aspect-ratio-card-wrapper card-image">
                     <div>
