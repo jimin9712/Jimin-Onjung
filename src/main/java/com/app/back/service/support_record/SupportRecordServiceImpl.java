@@ -48,6 +48,7 @@ public class SupportRecordServiceImpl implements SupportRecordService {
 
     @Override
     public List<SupportRecordDTO> findByMemberId(Long memberId) {
+
         return supportRecordDAO.findByMemberId(memberId);
     }
 

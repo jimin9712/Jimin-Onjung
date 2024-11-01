@@ -17,197 +17,197 @@ const getMemberInfo = async () => {
 
 /*********************후기 섹션**********************/
 // 후기 내역 렌더링
-// const renderReviews = (reviews) => {
-//     const reviewList = document.querySelector(".postscript-list");
-//     const emptyComponent = document.querySelector("#postscript .empty-component");
-//
-//     if (reviews.length === 0) {
-//         reviewList.style.display = "none";
-//         emptyComponent.style.display = "block";
-//     } else {
-//         reviewList.style.display = "block";
-//         emptyComponent.style.display = "none";
-//         reviewList.innerHTML = `
-//     <table class="news-center-table" style="margin-top: 0; margin-bottom: 20px;">
-//         <colgroup>
-//             <col style="width: 57px;">
-//             <col style="width: 132px;">
-//             <col style="width: 150px;">
-//             <col style="width: 104px;">
-//             <col style="width: 80px;">
-//             <col style="width: 80px;">
-//         </colgroup>
-//         <thead class="news-center-table-head">
-//             <tr>
-//                 <th>후기 번호</th>
-//                 <th>단체명</th>
-//                 <th>내 별점</th>
-//                 <th>작성일</th>
-//                 <th>수정</th>
-//                 <th>삭제</th>
-//             </tr>
-//         </thead>
-//         <tbody class="news-center-table-body">
-//             ${reviews
-//             .map(
-//                 (review) => `
-//                     <tr class="news-data-rows" data-forloop="${review.id}">
-//                         <td class="news-center-table-body-number">${review.id}</td>
-//                         <td class="news-center-table-body-category">${review.vtGroupName}</td>
-//                         <td class="news-center-table-body-title">
-//                             <span>${review.reviewStarRate}</span>
-//                         </td>
-//                         <td class="news-center-table-body-date">
-//                             ${new Date(review.createdDate).toLocaleDateString('ko-KR')}
-//                         </td>
-//                         <td>
-//                             <button class="edit-button" data-id="${review.id}">수정</button>
-//                         </td>
-//                         <td>
-//                             <button class="delete-button" data-id="${review.id}">삭제</button>
-//                         </td>
-//                     </tr>
-//                 `
-//             )
-//             .join("")}
-//         </tbody>
-//     </table>
-// `;
-//
-// // 수정 및 삭제 버튼에 이벤트 리스너 추가
-//         document.querySelectorAll(".edit-button").forEach((button) =>
-//             button.addEventListener("click", (event) => {
-//                 const reviewId = event.target.dataset.id;
-//                 console.log(`후기 수정 버튼 클릭됨: ${reviewId}`);
-//                 window.location.href = `/review/review-update/${reviewId}`;
-//             })
-//         );
-//
-//         document.querySelectorAll(".delete-button").forEach((button) =>
-//             button.addEventListener("click", async (event) => {
-//                 const reviewId = event.target.dataset.id;
-//                 if (confirm("정말 이 후기를 삭제하시겠습니까?")) {
-//                     try {
-//                         const response = await fetch(`/review/review-delete/${reviewId}`, {
-//                             method: "DELETE",
-//                         });
-//
-//                         if (response.ok) {
-//                             alert("후기가 성공적으로 삭제되었습니다.");
-//                             location.reload(); // 페이지 새로고침
-//                         } else {
-//                             throw new Error("후기 삭제에 실패했습니다.");
-//                         }
-//                     } catch (error) {
-//                         console.error("후기 삭제 중 오류 발생:", error);
-//                         alert("후기 삭제에 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.");
-//                     }
-//                 }
-//             })
-//         );
-//
-//     }
-//
-//     document.getElementById("postscript-totalCount").textContent = reviews.length;
-// };
-//
-// // 후기 섹션 초기화 및 이벤트 리스너 설정
-// const initializeReviewsSection = (memberId) => {
-//     fetchReviews(memberId);
-//
-//     // 후기 섹션의 toggle 요소 선택
-//     const reviewToggleElements = document.querySelectorAll("#postscript .fItXBi.toggle");
-//
-//     // 각 toggle 요소에 이벤트 리스너 추가
-//     reviewToggleElements.forEach(function (element) {
-//         element.addEventListener("click", function () {
-//             // 모든 요소에서 active 클래스 제거
-//             reviewToggleElements.forEach(function (el) {
-//                 el.classList.remove("active");
-//             });
-//
-//             // 클릭된 요소에만 active 클래스 추가
-//             this.classList.add("active");
-//         });
-//     });
-//
-//     // 필터 이벤트 설정
-//     document.getElementById("filter-1year-review").addEventListener("change", () => applyFilterReviews(memberId, 12));
-//     document.getElementById("filter-1month-review").addEventListener("change", () => applyFilterReviews(memberId, 1));
-//     document.getElementById("filter-3months-review").addEventListener("change", () => applyFilterReviews(memberId, 3));
-//     document.getElementById("filter-6months-review").addEventListener("change", () => applyFilterReviews(memberId, 6));
-//
-//     // 초기화 버튼 이벤트 설정
-//     document.getElementById("Initialization-review").addEventListener("click", () => {
-//         // 모든 필터 체크박스 해제
-//         document.querySelectorAll("#postscript .fItXBi.toggle input[type='checkbox']").forEach((checkbox) => {
-//             checkbox.checked = false;
-//         });
-//
-//         // active 클래스 제거
-//         reviewToggleElements.forEach((el) => el.classList.remove("active"));
-//
-//         // 초기 상태로 후기 내역 다시 가져오기
-//         fetchReviews(memberId);
-//     });
-// };
-//
-// // 특정 기간의 후기 내역 가져오기
-// const applyFilterReviews = async (memberId, months) => {
-//     const today = new Date();
-//     const startDate = new Date(today.setMonth(today.getMonth() - months)).toISOString().split("T")[0];
-//     const endDate = new Date().toISOString().split("T")[0];
-//
-//     console.log(`applyFilterReviews 호출됨. memberId: ${memberId}, startDate: ${startDate}, endDate: ${endDate}`);
-//     await fetchFilteredReviews(memberId, startDate, endDate);
-// };
-//
-// // 날짜 지정 시 후기 내역 조회
-// const updateDateRangeReviews = async () => {
-//     const startDate = document.getElementById("start-date-review").value;
-//     const endDate = document.getElementById("end-date-review").value;
-//     const memberId = await getMemberInfo();
-//
-//     console.log(`updateDateRangeReviews 호출됨. startDate: ${startDate}, endDate: ${endDate}, memberId: ${memberId}`);
-//
-//     if (startDate && endDate) {
-//         await fetchFilteredReviews(memberId, startDate, endDate);
-//     }
-// };
-//
-// // 필터된 후기 내역 가져오기
-// const fetchFilteredReviews = async (memberId, startDate, endDate) => {
-//     try {
-//         const response = await fetch(
-//             `/review/my-reviews/${memberId}?startDate=${startDate}&endDate=${endDate}`
-//         );
-//         console.log("응답 상태:", response.status);
-//         if (!response.ok) throw new Error("서버로부터 데이터를 가져오는 데 실패했습니다.");
-//
-//         const data = await response.json();
-//         console.log("필터된 후기 데이터:", data);
-//         renderReviews(data);
-//     } catch (error) {
-//         console.error("Error fetching filtered review records:", error);
-//         alert("후기 내역을 불러오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.");
-//     }
-// };
-//
-// // 후기 내역 가져오기
-// const fetchReviews = async (memberId) => {
-//     try {
-//         const response = await fetch(`/review/my-reviews/${memberId}`);
-//         console.log("응답 상태:", response.status);
-//         if (!response.ok) throw new Error("서버로부터 데이터를 가져오는 데 실패했습니다.");
-//
-//         const data = await response.json();
-//         console.log("후기 데이터:", data);
-//         renderReviews(data);
-//     } catch (error) {
-//         console.error("Error fetching review records:", error);
-//         alert("후기 내역을 불러오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.");
-//     }
-// };
+const renderReviews = (reviews) => {
+    const reviewList = document.querySelector(".postscript-list");
+    const emptyComponent = document.querySelector("#postscript .empty-component");
+
+    if (reviews.length === 0) {
+        reviewList.style.display = "none";
+        emptyComponent.style.display = "block";
+    } else {
+        reviewList.style.display = "block";
+        emptyComponent.style.display = "none";
+        reviewList.innerHTML = `
+    <table class="news-center-table" style="margin-top: 0; margin-bottom: 20px;">
+        <colgroup>
+            <col style="width: 57px;">
+            <col style="width: 132px;">
+            <col style="width: 150px;">
+            <col style="width: 104px;">
+            <col style="width: 80px;">
+            <col style="width: 80px;">
+        </colgroup>
+        <thead class="news-center-table-head">
+            <tr>
+                <th>후기 번호</th>
+                <th>단체명</th>
+                <th>내 별점</th>
+                <th>작성일</th>
+                <th>수정</th>
+                <th>삭제</th>
+            </tr>
+        </thead>
+        <tbody class="news-center-table-body">
+            ${reviews
+            .map(
+                (review) => `
+                    <tr class="news-data-rows" data-forloop="${review.id}">
+                        <td class="news-center-table-body-number">${review.id}</td>
+                        <td class="news-center-table-body-category">${review.vtGroupName}</td>
+                        <td class="news-center-table-body-title">
+                            <span>${review.reviewStarRate}</span>
+                        </td>
+                        <td class="news-center-table-body-date">
+                            ${new Date(review.createdDate).toLocaleDateString('ko-KR')}
+                        </td>
+                        <td>
+                            <button class="edit-button" data-id="${review.id}">수정</button>
+                        </td>
+                        <td>
+                            <button class="delete-button" data-id="${review.id}">삭제</button>
+                        </td>
+                    </tr>
+                `
+            )
+            .join("")}
+        </tbody>
+    </table>
+`;
+
+// 수정 및 삭제 버튼에 이벤트 리스너 추가
+        document.querySelectorAll(".edit-button").forEach((button) =>
+            button.addEventListener("click", (event) => {
+                const reviewId = event.target.dataset.id;
+                console.log(`후기 수정 버튼 클릭됨: ${reviewId}`);
+                window.location.href = `/review/review-update/${reviewId}`;
+            })
+        );
+
+        document.querySelectorAll(".delete-button").forEach((button) =>
+            button.addEventListener("click", async (event) => {
+                const reviewId = event.target.dataset.id;
+                if (confirm("정말 이 후기를 삭제하시겠습니까?")) {
+                    try {
+                        const response = await fetch(`/review/review-delete/${reviewId}`, {
+                            method: "DELETE",
+                        });
+
+                        if (response.ok) {
+                            alert("후기가 성공적으로 삭제되었습니다.");
+                            location.reload(); // 페이지 새로고침
+                        } else {
+                            throw new Error("후기 삭제에 실패했습니다.");
+                        }
+                    } catch (error) {
+                        console.error("후기 삭제 중 오류 발생:", error);
+                        alert("후기 삭제에 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.");
+                    }
+                }
+            })
+        );
+
+    }
+
+    document.getElementById("postscript-totalCount").textContent = reviews.length;
+};
+
+// 후기 섹션 초기화 및 이벤트 리스너 설정
+const initializeReviewsSection = (memberId) => {
+    fetchReviews(memberId);
+
+    // 후기 섹션의 toggle 요소 선택
+    const reviewToggleElements = document.querySelectorAll("#postscript .fItXBi.toggle");
+
+    // 각 toggle 요소에 이벤트 리스너 추가
+    reviewToggleElements.forEach(function (element) {
+        element.addEventListener("click", function () {
+            // 모든 요소에서 active 클래스 제거
+            reviewToggleElements.forEach(function (el) {
+                el.classList.remove("active");
+            });
+
+            // 클릭된 요소에만 active 클래스 추가
+            this.classList.add("active");
+        });
+    });
+
+    // 필터 이벤트 설정
+    document.getElementById("filter-1year-review").addEventListener("change", () => applyFilterReviews(memberId, 12));
+    document.getElementById("filter-1month-review").addEventListener("change", () => applyFilterReviews(memberId, 1));
+    document.getElementById("filter-3months-review").addEventListener("change", () => applyFilterReviews(memberId, 3));
+    document.getElementById("filter-6months-review").addEventListener("change", () => applyFilterReviews(memberId, 6));
+
+    // 초기화 버튼 이벤트 설정
+    document.getElementById("Initialization-review").addEventListener("click", () => {
+        // 모든 필터 체크박스 해제
+        document.querySelectorAll("#postscript .fItXBi.toggle input[type='checkbox']").forEach((checkbox) => {
+            checkbox.checked = false;
+        });
+
+        // active 클래스 제거
+        reviewToggleElements.forEach((el) => el.classList.remove("active"));
+
+        // 초기 상태로 후기 내역 다시 가져오기
+        fetchReviews(memberId);
+    });
+};
+
+// 특정 기간의 후기 내역 가져오기
+const applyFilterReviews = async (memberId, months) => {
+    const today = new Date();
+    const startDate = new Date(today.setMonth(today.getMonth() - months)).toISOString().split("T")[0];
+    const endDate = new Date().toISOString().split("T")[0];
+
+    console.log(`applyFilterReviews 호출됨. memberId: ${memberId}, startDate: ${startDate}, endDate: ${endDate}`);
+    await fetchFilteredReviews(memberId, startDate, endDate);
+};
+
+// 날짜 지정 시 후기 내역 조회
+const updateDateRangeReviews = async () => {
+    const startDate = document.getElementById("start-date-review").value;
+    const endDate = document.getElementById("end-date-review").value;
+    const memberId = await getMemberInfo();
+
+    console.log(`updateDateRangeReviews 호출됨. startDate: ${startDate}, endDate: ${endDate}, memberId: ${memberId}`);
+
+    if (startDate && endDate) {
+        await fetchFilteredReviews(memberId, startDate, endDate);
+    }
+};
+
+// 필터된 후기 내역 가져오기
+const fetchFilteredReviews = async (memberId, startDate, endDate) => {
+    try {
+        const response = await fetch(
+            `/review/my-reviews/${memberId}?startDate=${startDate}&endDate=${endDate}`
+        );
+        console.log("응답 상태:", response.status);
+        if (!response.ok) throw new Error("서버로부터 데이터를 가져오는 데 실패했습니다.");
+
+        const data = await response.json();
+        console.log("필터된 후기 데이터:", data);
+        renderReviews(data);
+    } catch (error) {
+        console.error("Error fetching filtered review records:", error);
+        alert("후기 내역을 불러오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.");
+    }
+};
+
+// 후기 내역 가져오기
+const fetchReviews = async (memberId) => {
+    try {
+        const response = await fetch(`/review/my-review/${memberId}`);
+        console.log("응답 상태:", response.status);
+        if (!response.ok) throw new Error("서버로부터 데이터를 가져오는 데 실패했습니다.");
+
+        const data = await response.json();
+        console.log("후기 데이터:", data);
+        renderReviews(data);
+    } catch (error) {
+        console.error("Error fetching review records:", error);
+        alert("후기 내역을 불러오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.");
+    }
+};
 /*********************기부 섹션**********************/
 // 기부 내역 렌더링
 const renderDonations = (donations) => {
@@ -947,7 +947,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         console.log("사용되는 memberId:", memberId);
 
         // 후기 섹션 초기화
-        // initializeReviewsSection(memberId);
+        initializeReviewsSection(memberId);
         // 기부 섹션 초기화
         initializeDonationSection(memberId);
         //기부 감사 인사 섹션 초기화
