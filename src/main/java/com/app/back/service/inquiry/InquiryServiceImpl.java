@@ -41,6 +41,10 @@ public class InquiryServiceImpl implements InquiryService {
     public List<InquiryDTO> getList(Pagination pagination, Search search) {
         return inquiryDAO.findAll(pagination, search);
     }
+    @Override
+    public List<InquiryDTO> getFilterList(Pagination pagination, Search search) {
+        return inquiryDAO.findFilterAll(pagination, search);
+    }
 
     @Override
     public Optional<InquiryDTO> getPost(Long id) {
