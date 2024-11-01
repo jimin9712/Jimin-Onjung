@@ -1,8 +1,8 @@
-const reviewWriteService = (() => {
+const donationWriteService = (() => {
     // 파일 업로드
     const upload = async (formData) => {
         const response =
-        await fetch("/donation/upload", {
+        await fetch("/attachment/upload", {
             method: "post",
             body: formData
         });

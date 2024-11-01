@@ -39,8 +39,7 @@ public class DonationController {
     public String goToWriteForm(DonationDTO donationDTO) { return "donation/donation-write"; }
 
     @PostMapping("donation-write")
-//    public RedirectView donationWrite(@RequestParam("file") List<MultipartFile> files, DonationDTO donationDTO) throws IOException {
-    public RedirectView donationWrite(DonationDTO donationDTO) throws IOException {
+    public RedirectView donationWrite(DonationDTO donationDTO, @RequestParam("uuid") List<String> uuids, @RequestParam("path") List<String> paths, @RequestParam("file") List<MultipartFile> files) throws IOException {
         donationDTO.setMemberId(1L);
         donationDTO.setPostType("DONATION");
         log.info("Received donationDTO: {}", donationDTO);
@@ -51,29 +50,10 @@ public class DonationController {
             return new RedirectView("/donation/donation-write");
         }
 
-        String rootPath = "C:/upload/" + getPath();
-        UUID uuid = UUID.randomUUID();
-
-        File directory = new File(rootPath);
-        if(!directory.exists()){
-            directory.mkdirs();
-        }
-
-//        for(int i=0; i<files.size(); i++){
-//            files.get(i).transferTo(new File(rootPath, files.get(i).getOriginalFilename()));
-//            donationDTO.setAttachmentFileName(uuid.toString() + "_" + files.get(i).getOriginalFilename());
-//
-//            if(files.get(i).getContentType().startsWith("image")){
-//                FileOutputStream fileOutputStream = new FileOutputStream(new File(rootPath, "t_" + uuid.toString() + "_" + files.get(i).getOriginalFilename()));
-//                Thumbnailator.createThumbnail(files.get(i).getInputStream(), fileOutputStream, 100, 100);
-//                fileOutputStream.close();
-//            }
-//        }
-
-        // 데이터가 문제없으면 세션에 저장
+//        데이터가 문제없으면 세션에 저장
 //        session.setAttribute("donation", donationDTO);
 
-        donationService.write(donationDTO);
+        donationService.write(donationDTO, uuids, paths, files);
 
         return new RedirectView("/donation/donation-list");
     }
@@ -90,6 +70,7 @@ public class DonationController {
         pagination.setTotal(postService.getTotal("REVIEW"));
         pagination.progressReview();
         model.addAttribute("donations", donationService.getList(pagination));
+
         return "donation/donation-list";
     }
 

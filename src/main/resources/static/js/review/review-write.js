@@ -31,14 +31,13 @@ dropZone.addEventListener("drop", (event) => {
     handleFiles(event.dataTransfer.files);
 });
 
-
 // 파일 처리 함수
 const handleFiles = async (files) => {
-    console.log(files[0]);
     let totalSize = Array.from(uploadedFiles).reduce(
         (acc, file) => acc + file.size,
         0
     );
+
     for (const file of files) {
         if (uploadedFiles.size >= maxFiles) {
             alert("최대 10개의 파일만 업로드할 수 있습니다.");
@@ -60,7 +59,7 @@ const handleFiles = async (files) => {
     const form = document["review-write-form"];
     const formData = new FormData();
     formData.append("file", files[0]);
-    const attachmentFile = await reviewWriteService.upload(formData);
+    const attachmentFile = await donationWriteService.upload(formData);
     console.log(attachmentFile.attachmentFileName);
     console.log(attachmentFile.attachmentFileName.substring(0, attachmentFile.attachmentFileName.indexOf("_")));
     const uuid = attachmentFile.attachmentFileName.substring(0, attachmentFile.attachmentFileName.indexOf("_"));
@@ -88,9 +87,9 @@ const addFileToList = (file) => {
     const thumbnailWrap = document.createElement("div");
     const textWrap = document.createElement("div");
     const listItem = document.createElement("li");
+
     thumbnailImg.classList.add(`thumbnail-img-${++i}`);
     thumbnailImg.style = "width: 100%; height: 100%; border: none;";
-    console.log(thumbnailImg);
     thumbnailWrap.style = "width: 20px; height: 20px; margin-top: 16px; margin-right: 10px; border: none;";
     thumbnailWrap.appendChild(thumbnailImg);
     textWrap.textContent = `${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
@@ -98,7 +97,6 @@ const addFileToList = (file) => {
     listItem.prepend(thumbnailWrap);
     listItem.appendChild(textWrap);
 
-    console.log(listItem);
     const deleteButton = document.createElement("button");
     deleteButton.textContent = "삭제";
     deleteButton.classList.add("delete-button");
