@@ -39,7 +39,7 @@ public class ReviewController {
     public String goToWriteForm(ReviewDTO reviewDTO) { return "review/review-write"; }
 
     @PostMapping("review-write")
-    public RedirectView reviewWrite(ReviewDTO reviewDTO, @RequestParam("uuid") List<String> uuids, @RequestParam("path") List<String> paths, @RequestParam("file") List<MultipartFile> files) throws IOException {
+    public RedirectView reviewWrite(ReviewDTO reviewDTO, @RequestParam("uuid") List<String> uuids, @RequestParam("path") List<String> paths, @RequestParam("size") List<String>sizes, @RequestParam("file") List<MultipartFile> files) throws IOException {
         reviewDTO.setMemberId(1L);
         reviewDTO.setPostType("REVIEW");
         reviewDTO.setPostTitle(reviewDTO.getVtGroupName());
@@ -52,7 +52,7 @@ public class ReviewController {
 //        session.setAttribute("review", reviewDTO);
 
         // 데이터베이스에 게시글 저장
-        reviewService.write(reviewDTO, uuids, paths, files);
+        reviewService.write(reviewDTO, uuids, paths, sizes, files);
 
         return new RedirectView("/review/review-list");
     }

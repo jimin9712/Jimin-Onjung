@@ -162,7 +162,6 @@
                         </section>
                         <article class="ul-container">
                             <ul id="contest-list">
-                                <li></li>
                             </ul>
                         </article>
                         <nav class="page-container paginator">
@@ -188,5 +187,9 @@
             </main>
         </div>
     </body>
+    <script th:inline="javascript">
+        const donations = [[${donations}]];
+        const pagination = [[${pagination}]];
+    </script>
     <script src="/js/donation/donation-list.js"></script>
 </html>
