@@ -33,6 +33,7 @@ public List<InquiryDTO> admin(Pagination pagination, Search search) {
 }
 @GetMapping("/admin/inquiry-page")  //문의 목록
 @ResponseBody
+// map을 통해 다양한 데이터 반환, JSON 형식 변환 용이
  public Map<String, Object> getInquiryList(Pagination pagination, Search search, @RequestParam(required = false) String query, @RequestParam(required = false) String filterType){
     log.info("Controller - getList() 호출됨");
     log.info("검색어: {}", query);
@@ -67,13 +68,19 @@ public List<InquiryDTO> admin(Pagination pagination, Search search) {
 
 @GetMapping("/admin/inquiry-answer")
 @ResponseBody
+// map을 통해 다양한 데이터 반환, JSON 형식 변환 용이
 public Map<String, Object> getInquiryAnswer(@RequestParam Long id) {
+    System.out.println("조회할 문의 ID: " + id);
+    // ID를 통해 특정 문의 조회
     Optional<InquiryDTO> inquiry = inquiryService.getPost(id);
     Map<String, Object> result = new HashMap<>();
+
     if (inquiry.isPresent()) {
+        System.out.println("문의 데이터 조회 성공: " + inquiry.get());  // 조회된 데이터 출력
         result.put("success", true);
         result.put("inquiry", inquiry.get());
     } else {
+        System.out.println("해당 ID의 문의 데이터가 없습니다.");  // 데이터가 없는 경우 메시지 출력
         result.put("success", false);
         result.put("message", "Inquiry not found");
     }

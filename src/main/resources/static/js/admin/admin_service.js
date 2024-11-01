@@ -108,21 +108,22 @@ document.addEventListener("DOMContentLoaded", () => {
 // ========================================================================여기까지 문의 목록
 
 document.addEventListener("DOMContentLoaded", () => {
-    const inquiryAnswerContainer = document.querySelector(".inquiryTable_container");
+    // 기존 답변하기 버튼 클릭 이벤트 리스너 내의 inquiryAnswerContainer 호출 부분
+    const inquiryAnswerContainer = document.getElementById("inquiry_answer");
 
     inquiryAnswerContainer.addEventListener("click", async (event) => {
-        console.log("문의 답변 null 여부 :" + inquiryAnswerContainer); // null 여부 확인
         if (event.target.classList.contains("editBtn")) {
-            event.preventDefault();
-            const inquiryId = event.target.closest(".data_row").getAttribute("data-id");
+            event.preventDefault(); // 기본 이벤트 방지 (페이지 이동 방지)
 
+            const inquiryId = event.target.closest(".data_row").getAttribute("data-id");
             try {
-                console.log(`문의 아이디: ${inquiryId}`);
                 const response = await fetch(`/admin/inquiry-answer?id=${inquiryId}`);
 
                 if (response.ok) {
                     const data = await response.json();
                     console.log("서버 응답 데이터:", data);
+
+                    // renderAnswer 함수를 DOM이 로드된 후 호출
                     renderAnswer(data.inquiry);
                 } else {
                     console.error("문의 데이터를 불러오는 데 실패했습니다.");
@@ -132,116 +133,4 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
     });
-    // 답변 렌더링 함수
-    const renderAnswer = (inquiryAnswer) => {
-        console.log("폼을 렌더링합니다:", inquiryAnswer); // 데이터가 전달되는지 확인
-        const answerContainer = document.getElementById("inquiry_answer");
-        console.log("answerContainer :" + answerContainer);
-        console.log("answerContainer.innerHTML :" + answerContainer.innerHTML);
-
-        answerContainer.innerHTML = `
-        <section class="admin-page" data-value="고객센터 문의 답변">
-            <div style="max-width: 1080px; margin: 24px 16px 0;">
-                <h1>고객센터 문의 답변</h1>
-                <div class="form">
-                    <form
-                        id="new-request"
-                        class="request-form"
-                        data-form
-                        data-form-type="request"
-                        action="/help/write"
-                        accept-charset="UTF-8"
-                        method="post"
-                    >
-                        <div class="form-field required">
-                            <label for="request-title">문의 제목</label>
-                            <input
-                                type="text"
-                                name="request-title"
-                                id="request-title"
-                                maxlength="150"
-                                size="150"
-                                placeholder="간단한 제목을 입력해주세요."
-                                value="${inquiryAnswer.postTitle || ''}"
-                            />
-                        </div>
-                        <div class="form-field-gap"></div>
-                        <div class="form-field required">
-                            <label for="request-description">문의 내용</label>
-                            <textarea
-                                name="request-description"
-                                id="request-description"
-                            >${inquiryAnswer.postContent || ''}</textarea>
-                        </div>
-                        <div class="form-field">
-                            <label for="request-attachments">첨부파일</label>
-                            <div id="upload-zone" class="upload-zone">
-                                <input
-                                    type="file"
-                                    multiple
-                                    id="attach-input"
-                                    data-fileupload="true"
-                                    data-dropzone="upload-dropzone"
-                                />
-                                <span>
-                                    <a>파일 추가</a>
-                                    또는 파일을 여기로 드래그
-                                </span>
-                            </div>
-                            <ul
-                                id="attachments-upload-pool"
-                                class="attachments-upload-pool"
-                            ></ul>
-                        </div>
-                        <div class="form-field-agreements" style="clear: both">
-                            <p id="request-agreements">
-                                (주)온정은 정보통신망 이용촉진 및 정보보호
-                                등 관한 법률을 준수하며 고객님의 개인정보를
-                                수집하고 소중하게 다루고 있습니다. 1. 수집
-                                및 이용 항목 : 이메일, 이름, 연락처 2. 수집
-                                및 이용 목적 : 앱 이용 문의에 대한 답변 관련
-                                업무 3, 보유 및 이용 기간 : 수집 목적이
-                                달성되면 모든 개인정보를 파기합니다. 동의를
-                                하지 않을 경우 문의한 내용에 대한 답변에
-                                제한이 있을 수 있습니다.
-                            </p>
-                            <label for="request-agreements-check" class="checked">동의합니다.</label>
-                            <input
-                                name="request-agreements-check"
-                                type="hidden"
-                                value="off"
-                                autocomplete="off"
-                            />
-                            <input
-                                type="checkbox"
-                                value="on"
-                                id="request-agreements-check"
-                                name="request-agreements-check"
-                            />
-                        </div>
-                        <div class="form-field required">
-                            <label for="answer-content">답변 작성</label>
-                            <textarea
-                                name="answer-content"
-                                id="answer-content"
-                                placeholder="답변 내용을 입력해 주세요."
-                            ></textarea>
-                        </div>
-                        <footer>
-                            <input
-                                type="submit"
-                                name="submit"
-                                value="답변 제출"
-                                style="margin-bottom: 30px;"
-                            />
-                        </footer>
-                    </form>
-                </div>
-            </div>
-        </section>
-    `;
-        answerContainer.style.display = "block";
-
-    };
-
 });

@@ -400,21 +400,21 @@ notificationLinks.forEach((notificationLink) => {
 //
 // showInquiry();
 //
-// const inquiryAnswerButtons = document.querySelectorAll(
-//     ".inquiryTable_cell button.editBtn"
-// );
-//
-// inquiryAnswerButtons.forEach((inquiryAnswerButton) => {
-//     inquiryAnswerButton.addEventListener("click", (e) => {
-//         sections.forEach((section) => {
-//             section.classList.remove("selected");
-//         });
-//         const inquiryAnswerSection = sections.filter(
-//             (section) => section.dataset.value === "고객센터 문의 답변"
-//         );
-//         console.log(inquiryAnswerSection[0].classList.add("selected"));
-//     });
-// });
+const inquiryAnswerButtons = document.querySelectorAll(
+    ".inquiryTable_cell button.editBtn"
+);
+
+inquiryAnswerButtons.forEach((inquiryAnswerButton) => {
+    inquiryAnswerButton.addEventListener("click", (e) => {
+        sections.forEach((section) => {
+            section.classList.remove("selected");
+        });
+        const inquiryAnswerSection = sections.filter(
+            (section) => section.dataset.value === "고객센터 문의 답변"
+        );
+        console.log(inquiryAnswerSection[0].classList.add("selected"));
+    });
+});
 //
 // const showPaging = () => {
 //     let text = ``;
