@@ -52,7 +52,7 @@ public class VolunteerController {
 //    }
 
     @GetMapping("/volunteer-list")
-    public List<VolunteerDTO> getList(
+    public void getList(
             @RequestParam(value = "order", defaultValue = "recent") String order,
             Pagination pagination,
             Model model,
@@ -61,7 +61,9 @@ public class VolunteerController {
         pagination.setOrder(order);
         pagination.setTotal(volunteerService.getTotal());
         pagination.progress();
+        log.info(pagination.toString());
 
+        // 조회방식에 따른 순서 조회
         List<VolunteerDTO> lists;
         if ("endingSoon".equals(pagination.getOrder())) {
             lists = volunteerService.getListByEndingSoon(pagination);
@@ -75,32 +77,39 @@ public class VolunteerController {
         for (VolunteerDTO volunteerDTO : lists) {
             volunteerDTO.calculateDaysLeft();
         }
-
-        model.addAttribute("pagination", pagination);
-        model.addAttribute("lists", lists);
-
-        return lists;
+        model.addAttribute("lists", volunteerService.getList(pagination));
     }
 
 
 
     @GetMapping("/volunteer-info")
     @ResponseBody
-    public List<VolunteerDTO> getListInfo() {
+    public List<VolunteerDTO> getListInfo(@RequestParam(value = "order", defaultValue = "recent") String order) {
         Pagination pagination = new Pagination();
 
-        // 기본 페이지 및 페이징 설정 진행
-        pagination.setPage(1); // 기본 페이지를 1로 설정
-        pagination.setOrder("recent"); // 기본 정렬 기준을 설정
-        pagination.setTotal(volunteerService.getTotal()); // 전체 게시글 수를 설정
-        pagination.progress(); // 페이징 관련 필드 설정
+        pagination.setPage(1);
+        pagination.setOrder(order);
+        pagination.setTotal(volunteerService.getTotal());
+        pagination.progress();
+        log.info(pagination.toString());
 
-        // Pagination 설정을 마친 후 서비스 호출
         List<VolunteerDTO> volunteerList = volunteerService.getList(pagination);
-        log.info("Retrieved volunteer list: " + volunteerList); // 데이터 로깅
+
+        // 각 VolunteerDTO에 대해 daysLeft와 postTypeDisplayName 설정
+        for (VolunteerDTO volunteer : volunteerList) {
+            volunteer.calculateDaysLeft(); // daysLeft 계산
+            volunteer.setPostType(volunteer.getPostType()); // 기존 postType 값으로 displayName 설정
+//            System.out.println("Volunteer ID: " + volunteer.getId() +
+//                    ", Days Left: " + volunteer.getDaysLeft() +
+//                    ", Post Type Display Name: " + volunteer.getPostTypeDisplayName());
+        }
 
         return volunteerList;
     }
+
+
+
+
 
 
 
