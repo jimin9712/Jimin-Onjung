@@ -15,4 +15,7 @@ public interface VtRecordService {
     public void deleteById(Long id);
     public List<VtRecordDTO> findByMemberId(Long memberId);
     public List<VtRecordDTO> findByMemberIdAndDateRange(Long memberId, String startDate, String endDate);
+
+    public int getTotalvtTimeCountByMemberId(Long memberId);
+    public int getTotalvtCountByMemberId(Long memberId);
 }

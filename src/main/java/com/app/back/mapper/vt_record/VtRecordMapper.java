@@ -20,4 +20,10 @@ public interface VtRecordMapper {
             @Param("memberId") Long memberId,
             @Param("startDate") String startDate,
             @Param("endDate") String endDate
-    );}
+    );
+
+
+    public int selectTotalVtTimeByMemberId(Long memberId);
+
+    public int selectVtCountByMemberId(Long memberId);
+}

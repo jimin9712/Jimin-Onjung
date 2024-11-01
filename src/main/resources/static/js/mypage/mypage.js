@@ -78,11 +78,39 @@ document.addEventListener("DOMContentLoaded", () => {
                         });
                 };
 
+                // 봉사 기록 조회 함수 정의 (정수형 응답 처리)
+                const fetchVolunteerData = (url, elementId, label) => {
+                    fetch(url)
+                        .then((response) => {
+                            if (!response.ok) {
+                                throw new Error(`HTTP 오류! 상태 코드: ${response.status}`);
+                            }
+                            return response.json();
+                        })
+                        .then((responseData) => {
+                            console.log(`총 ${label} 응답 데이터:`, responseData);
+
+                            // 정수형 응답 처리
+                            const value = typeof responseData === 'number' ? responseData : 0;
+                            document.getElementById(elementId).textContent = `${value} ${label}`;
+                        })
+                        .catch((error) => {
+                            console.error(`총 ${label} 조회 실패:`, error);
+                            document.getElementById(elementId).textContent = `0 ${label}`;
+                        });
+                };
+
                 // 총 지원 포인트 조회
                 fetchTotalPoints(`/support-records/total/${memberId}`, "memberJung", "정");
 
                 // 총 기부 포인트 조회
                 fetchTotalPoints(`/donation-records/total/${memberId}`, "memberPoint", "포인트");
+
+                // 총 봉사 시간 조회
+                fetchVolunteerData(`/vt-records/total-vt-time/${memberId}`, "totalVtTime", "시간");
+
+                // 봉사활동 횟수 조회
+                fetchVolunteerData(`/vt-records/total-vt-count/${memberId}`, "vtCount", "회");
             } else {
                 alert("회원 정보를 가져오지 못했습니다.");
             }
@@ -91,48 +119,6 @@ document.addEventListener("DOMContentLoaded", () => {
             console.error("회원 정보 조회 실패:", error);
             alert("회원 정보를 불러오는 중 오류가 발생했습니다.");
         });
-
-    // 총 봉사 시간 조회
-    fetch("/mypage/total-time")
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error(`HTTP 오류! 상태 코드: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then((responseData) => {
-            console.log("총 봉사 시간 응답 데이터:", responseData);
-
-            // 응답 데이터에서 총 봉사 시간 추출
-            const totalTime = responseData.totalTime || responseData.time || 0;
-            document.getElementById("totalVtTime").textContent = `${totalTime} 시간`;
-        })
-        .catch((error) => {
-            console.error("총 봉사 시간 조회 실패:", error);
-            document.getElementById("totalVtTime").textContent = "0 시간";
-        });
-
-    // 봉사활동 횟수 조회
-    fetch("/mypage/vt-count")
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error(`HTTP 오류! 상태 코드: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then((responseData) => {
-            console.log("봉사활동 횟수 응답 데이터:", responseData);
-
-            // 응답 데이터에서 봉사활동 횟수 추출
-            const vtCount = responseData.vtCount || responseData.count || 0;
-            document.getElementById("vtCount").textContent = `${vtCount} 회`;
-        })
-        .catch((error) => {
-            console.error("봉사활동 횟수 조회 실패:", error);
-            document.getElementById("vtCount").textContent = "0 회";
-        });
-
-
 });
 
 // z-index로 화면 보이기 / 숨기기 - 클릭 이벤트 추가
