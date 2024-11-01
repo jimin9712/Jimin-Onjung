@@ -40,19 +40,15 @@ public class ReviewController {
 
     @PostMapping("review-write")
     public RedirectView reviewWrite(ReviewDTO reviewDTO, @RequestParam("uuid") List<String> uuids, @RequestParam("path") List<String> paths, @RequestParam("file") List<MultipartFile> files) throws IOException {
-
         reviewDTO.setMemberId(1L);
         reviewDTO.setPostType("REVIEW");
         reviewDTO.setPostTitle(reviewDTO.getVtGroupName());
-        log.info("{}", reviewDTO);
-        log.info("{}", uuids);
-        log.info("{}", paths);
-        log.info("{}", files);
+
         if (reviewDTO.getPostTitle() == null || reviewDTO.getPostContent() == null) {
             log.error("필수 데이터가 없습니다.");
             return new RedirectView("/review/review-write");
         }
-//        // 데이터가 문제없으면 세션에 저장
+//        데이터가 문제없으면 세션에 저장
 //        session.setAttribute("review", reviewDTO);
 
         // 데이터베이스에 게시글 저장

@@ -74,6 +74,7 @@ public void testSelectAll(){
         Optional<InquiryDTO> noticeDTO = inquiryMapper.selectById(id);
         noticeDTO.ifPresent(dto -> log.info("조회된 inquiry: " + dto));
     }
+
     @Test
     public void testUpdate() {
         InquiryDTO inquiryDTO = new InquiryDTO();

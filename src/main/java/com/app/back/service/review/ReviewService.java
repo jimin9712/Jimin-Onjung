@@ -1,4 +1,3 @@
-
 package com.app.back.service.review;
 
 import com.app.back.domain.post.Pagination;
@@ -20,8 +19,9 @@ public interface ReviewService {
     public int getTotal();
     public void update(ReviewDTO reviewDTO);
     public void delete(Long id);
-
     public List<ReviewDTO> findByMemberId(Long memberId);
     public List<ReviewDTO> findByMemberIdAndDateRange(Long memberId, String startDate, String endDate);
 
 }
+
+
