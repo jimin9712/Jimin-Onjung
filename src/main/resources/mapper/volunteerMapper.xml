@@ -37,7 +37,7 @@
 
 
     <select id="selectTotal">
-        select count(*) from tbl_post
+        select count(*) from tbl_vt
     </select>
 
     <select id="selectById" resultType="VolunteerDTO">

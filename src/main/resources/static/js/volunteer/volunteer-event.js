@@ -50,32 +50,18 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
+
+// 페이지 버튼 가져오기
 const pageBtns = document.querySelectorAll("nav .page-btn");
 
+// 각 버튼에 이벤트 리스너 추가
 pageBtns.forEach((pageBtn) => {
+    pageBtn.addEventListener("click", (e) => {
+        // 모든 버튼에서 active 클래스 제거
+        pageBtns.forEach(btn => btn.classList.remove("active"));
+
+        // 클릭된 버튼에만 active 클래스 추가
+        pageBtn.classList.add("active");
+
+    });
 });
-pageBtn.addEventListener("click", (e) => {
-    // 클릭된 버튼에만 active 클래스 추가
-
-    pageBtn.classList.add("active");
-});
-// 모든 버튼에서 active 클래스 제거
-pageBtns.forEach(pageBtn => pageBtn.classList.remove("active"));
-
-/**********************************페이지네이션****************************************/
-
-document.addEventListener("click", (e) => {
-    // #paging 영역 내에서의 클릭인지 확인
-    if (e.target.closest("#paging")) {
-        e.preventDefault();
-        const target = e.target.closest("a"); // 클릭한 요소가 <a>인지 확인
-        if (target) {
-            const page = target.getAttribute("href").split("=")[1];
-            vtListService.getList(page, "someId", (data) => {
-                showList({ lists: data.lists, pagination: data.pagination });
-            });
-        }
-    }
-});
-
-

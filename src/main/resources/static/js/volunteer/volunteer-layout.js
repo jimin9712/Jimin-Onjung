@@ -361,11 +361,9 @@
 
 
 const vtLayout = document.getElementById("contest-list");
-const vtPaging = document.querySelector("#paging"); // 페이지네이션 HTML 요소
-console.log(vtPaging); // null인지 확인
 
 // 메인 리스트 렌더링 함수
-const showList = ({ lists = [], pagination = {} }) => {
+const showList = ({ lists}) => {
     let text = ``;
 
     // 서버로부터 받은 lists가 비어있는지 확인
@@ -523,47 +521,19 @@ const showList = ({ lists = [], pagination = {} }) => {
     }
     vtLayout.innerHTML = text;
 
-    // 페이지네이션 생성
-    let pagingText = ``;
-    if (pagination && pagination.startPage && pagination.endPage) {
-        if (pagination.prev) {
-            pagingText += `
-           <a class="prev-page-btn" href="?page=${pagination.startPage - 1}">
-                <svg viewBox="0 0 12 12" class="icon-default">
-                    <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
-                        d="M8.31112 1.0004C8.14812 1.0004 7.98612 1.0584 7.86312 1.1744L3.18312 5.5634C2.93912 5.7934 2.93912 6.1644 3.18412 6.3934L7.92012 10.8264C8.16712 11.0584 8.56712 11.0584 8.81412 10.8294C9.06112 10.6004 9.06212 10.2284 8.81612 9.9974L4.52212 5.9784L8.75912 2.0034C9.00412 1.7714 9.00312 1.3994 8.75512 1.1714C8.63212 1.0574 8.47112 1.0004 8.31112 1.0004Z"
-                    ></path>
-                    <defs></defs>
-                </svg>
-           </a>`;
-        }
-
-        for (let i = pagination.startPage; i <= pagination.endPage; i++) {
-            if (pagination.page === i) {
-                pagingText += `<a class="page-btn active">${i}</a>`;
-            } else {
-                pagingText += `<a class="page-btn" href="?page=${i}">${i}</a>`;
-            }
-        }
-
-        if (pagination.next) {
-            pagingText += `
-            <a class="next-page-btn" href="?page=${pagination.endPage + 1}">
-                <svg viewBox="0 0 12 12" class="icon-default">
-                    <path
-                         fill-rule="evenodd"
-                         clip-rule="evenodd"
-                         d="M3.68888 11.0004C3.85188 11.0004 4.01388 10.9424 4.13688 10.8264L8.81688 6.43738C9.06088 6.20738 9.06088 5.83638 8.81588 5.60738L4.07988 1.17438C3.83288 0.942377 3.43288 0.942377 3.18588 1.17138C2.93888 1.40038 2.93788 1.77238 3.18388 2.00338L7.47788 6.02238L3.24088 9.99738C2.99588 10.2294 2.99688 10.6014 3.24488 10.8294C3.36788 10.9434 3.52888 11.0004 3.68888 11.0004Z"
-                    ></path>
-                    <defs></defs>
-                </svg>
-            </a>`;
-        }
+// 페이지 이동 버튼 가져오고 반복 돌리기
+    const pageContainer = document.querySelector(".page-container")
+    let pagingtext='';
+    for(let i = pagination.startPage; i<=pagination.endPage; i++){
+        pagingtext +=`<a class="page-btn" href="/volunteer/volunteer-list?&page=${i}">${i}</a>`
     }
-    vtPaging.innerHTML = pagingText;
+    pageContainer.innerHTML = pagingtext;
+
 };
+
+
+
+
 
 
 

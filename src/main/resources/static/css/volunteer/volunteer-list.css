@@ -788,6 +788,12 @@ img {
     width: 40px;
     height: 40px;
 }
+.page-container .page-btn:hover,
+.page-container .next-page-btn:hover{
+    background-color: rgb(16, 28, 51);
+    color: rgb(255, 255, 255);
+}
+
 .icon-default {
     user-select: none;
     display: inline-block;

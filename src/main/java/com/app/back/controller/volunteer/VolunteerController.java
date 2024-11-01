@@ -87,7 +87,6 @@ public class VolunteerController {
     public List<VolunteerDTO> getListInfo(@RequestParam(value = "order", defaultValue = "recent") String order) {
         Pagination pagination = new Pagination();
 
-        pagination.setPage(1);
         pagination.setOrder(order);
         pagination.setTotal(volunteerService.getTotal());
         pagination.progress();
