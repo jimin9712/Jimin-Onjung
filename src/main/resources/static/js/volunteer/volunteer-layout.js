@@ -358,8 +358,11 @@
 //     renderVolunteers(lists);
 //     renderPagings(pagination);
 // };
+
+
 const vtLayout = document.getElementById("contest-list");
 const vtPaging = document.querySelector("#paging"); // 페이지네이션 HTML 요소
+console.log(vtPaging); // null인지 확인
 
 // 메인 리스트 렌더링 함수
 const showList = ({ lists = [], pagination = {} }) => {
@@ -522,8 +525,9 @@ const showList = ({ lists = [], pagination = {} }) => {
 
     // 페이지네이션 생성
     let pagingText = ``;
-    if (pagination.prev) {
-        pagingText += `
+    if (pagination && pagination.startPage && pagination.endPage) {
+        if (pagination.prev) {
+            pagingText += `
            <a class="prev-page-btn" href="?page=${pagination.startPage - 1}">
                 <svg viewBox="0 0 12 12" class="icon-default">
                     <path
@@ -534,18 +538,18 @@ const showList = ({ lists = [], pagination = {} }) => {
                     <defs></defs>
                 </svg>
            </a>`;
-    }
-
-    for (let i = pagination.startPage; i <= pagination.endPage; i++) {
-        if (pagination.page === i) {
-            pagingText += `<a class="page-btn active">${i}</a>`;
-        } else {
-            pagingText += `<a class="page-btn" href="?page=${i}">${i}</a>`;
         }
-    }
 
-    if (pagination.next) {
-        pagingText += `
+        for (let i = pagination.startPage; i <= pagination.endPage; i++) {
+            if (pagination.page === i) {
+                pagingText += `<a class="page-btn active">${i}</a>`;
+            } else {
+                pagingText += `<a class="page-btn" href="?page=${i}">${i}</a>`;
+            }
+        }
+
+        if (pagination.next) {
+            pagingText += `
             <a class="next-page-btn" href="?page=${pagination.endPage + 1}">
                 <svg viewBox="0 0 12 12" class="icon-default">
                     <path
@@ -556,8 +560,8 @@ const showList = ({ lists = [], pagination = {} }) => {
                     <defs></defs>
                 </svg>
             </a>`;
+        }
     }
-
     vtPaging.innerHTML = pagingText;
 };
 

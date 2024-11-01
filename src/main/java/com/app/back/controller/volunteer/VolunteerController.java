@@ -99,9 +99,6 @@ public class VolunteerController {
         for (VolunteerDTO volunteer : volunteerList) {
             volunteer.calculateDaysLeft(); // daysLeft 계산
             volunteer.setPostType(volunteer.getPostType()); // 기존 postType 값으로 displayName 설정
-//            System.out.println("Volunteer ID: " + volunteer.getId() +
-//                    ", Days Left: " + volunteer.getDaysLeft() +
-//                    ", Post Type Display Name: " + volunteer.getPostTypeDisplayName());
         }
 
         return volunteerList;

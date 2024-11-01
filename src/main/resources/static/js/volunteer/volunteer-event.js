@@ -1,13 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const radioButtons = document.querySelectorAll(
-        '.contest-list-state input[type="radio"]'
-    );
-    const labels = document.querySelectorAll(".contest-list-state label");
-    const accordionDescription = document.querySelector(
-        ".accordion-description"
-    );
-    const svgToggle = document.querySelector(".status-svg svg"); // SVG 요소 선택
-    const openButton = document.querySelector(".open-button");
     const inputField = document.querySelector(".header-wrap input");
     const headerWrap = document.querySelector(".header-wrap");
     const bottomWrap = document.querySelector(".bottom-wrap");
@@ -73,13 +64,18 @@ pageBtns.forEach(pageBtn => pageBtn.classList.remove("active"));
 
 /**********************************페이지네이션****************************************/
 
-vtListService.getList(1, postId, showList);
-globalThis.page = 1;
-
-vtPaging.addEventListener("click", (e) => {
-    e.preventDefault();
-    if(e.target.tagName === "A") {
-        globalThis.page = e.target.getAttribute("href");
-        vtListService.getList(globalThis.page, postId, showList);
+document.addEventListener("click", (e) => {
+    // #paging 영역 내에서의 클릭인지 확인
+    if (e.target.closest("#paging")) {
+        e.preventDefault();
+        const target = e.target.closest("a"); // 클릭한 요소가 <a>인지 확인
+        if (target) {
+            const page = target.getAttribute("href").split("=")[1];
+            vtListService.getList(page, "someId", (data) => {
+                showList({ lists: data.lists, pagination: data.pagination });
+            });
+        }
     }
 });
+
+

@@ -39,4 +39,33 @@ public class Pagination {
 //        limit 문법에서 시작 인덱스는 0부터 시작하기 때문에 1 감소해준다.
         this.startRow--;
     }
+    public void vtprogress() {
+        this.page = page == null ? 1 : page;
+        this.rowCount = 10;  // 페이지당 아이템 수
+        this.moreRowcount = rowCount + 1;
+        this.pageCount = 10; // 페이지네이션 버튼 개수
+
+        this.endRow = page * rowCount;
+        this.startRow = endRow - rowCount + 1;
+
+        this.realEnd = (int) Math.ceil((double) total / rowCount);  // 실제 마지막 페이지 계산
+        this.endPage = (int) Math.ceil(page / (double) pageCount) * pageCount;
+        this.startPage = endPage - pageCount + 1;
+
+        if (realEnd < endPage) {
+            endPage = realEnd == 0 ? 1 : realEnd;
+        }
+
+        this.prev = startPage > 1;
+        this.next = endPage < realEnd;
+
+        this.startRow--;  // SQL limit 시작 인덱스를 맞추기 위해 1 감소
+
+        // 로그 확인
+        log.info("Pagination 상태 - startPage: {}, endPage: {}, realEnd: {}, prev: {}, next: {}",
+                startPage, endPage, realEnd, prev, next);
+    }
+
+
+
 }

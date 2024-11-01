@@ -20,7 +20,6 @@
         left join tbl_member m on p.member_id = m.id
         left join tbl_profile pf on p.member_id = pf.id
         <where>
-
             <if test="pagination.order == 'endingSoon'">
                 v.vt_e_date >= current_date
             </if>
