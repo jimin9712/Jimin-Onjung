@@ -11,3 +11,6 @@ create table tbl_support_record(
 );
 
 select * from tbl_support_record;
+
+insert into tbl_support_record(member_id, support_id, support_amount)
+values (23,602,3000);
