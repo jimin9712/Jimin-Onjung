@@ -30,6 +30,8 @@
         <typeAlias type="com.app.back.domain.profile.ProfileDTO" alias="profileDTO"/>
         <typeAlias type="com.app.back.domain.vt_record.VtRecordVO" alias="vtRecordVO"/>
         <typeAlias type="com.app.back.domain.vt_record.VtRecordVO" alias="vtRecordDTO"/>
+        <typeAlias type="com.app.back.domain.vt_application.VtApplicationVO" alias="vtApplicationVO"/>
+        <typeAlias type="com.app.back.domain.vt_application.VtApplicationDTO" alias="vtApplicationDTO"/>
 
 
     </typeAliases>

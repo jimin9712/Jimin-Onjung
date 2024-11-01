@@ -1,4 +1,75 @@
 package com.app.back.controller.vt_application;
 
+import com.app.back.domain.vt_application.VtApplicationDTO;
+import com.app.back.service.vt_application.VtApplicationService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/vt-applications")
+@RequiredArgsConstructor
 public class VtApplicationController {
+
+    private final VtApplicationService vtApplicationService;
+
+    // 지원서 작성
+    @PostMapping("/insert")
+    public String insertVtApplication(@RequestBody VtApplicationDTO vtApplicationDTO) {
+        vtApplicationService.save(vtApplicationDTO);
+        return "Insert Success";
+    }
+
+    // 특정 지원서 조회
+    @GetMapping("/selectById/{id}")
+    public VtApplicationDTO selectVtApplicationById(@PathVariable Long id) {
+        return vtApplicationService.findById(id);
+    }
+
+    // 모든 지원서 조회
+    @GetMapping("/selectAll")
+    public List<VtApplicationDTO> selectAllVtApplications() {
+        return vtApplicationService.findAll();
+    }
+
+    // 지원서 업데이트
+    @PutMapping("/update")
+    public String updateVtApplication(@RequestBody VtApplicationDTO vtApplicationDTO) {
+        vtApplicationService.update(vtApplicationDTO);
+        return "Update Success";
+    }
+
+    // 지원서 삭제
+    @DeleteMapping("/deleteById/{id}")
+    public String deleteVtApplicationById(@PathVariable Long id) {
+        vtApplicationService.deleteById(id);
+        return "Delete Success";
+    }
+
+    // 특정 게시글에 지원한 사용자 목록 조회
+    @GetMapping("/vt/{vtId}")
+    public List<VtApplicationDTO> getApplicationsByVtId(@PathVariable Long vtId) {
+        return vtApplicationService.getApplicationsByVtId(vtId);
+    }
+
+    // 특정 게시글에 지원한 사용자 수 조회
+    @GetMapping("/vt/{vtId}/count")
+    public int getApplicationCountByVtId(@PathVariable Long vtId) {
+        return vtApplicationService.getApplicationCountByVtId(vtId);
+    }
+
+    // 지원자 승인
+    @PostMapping("/approve/{applicationId}")
+    public String approveApplication(@PathVariable Long applicationId) {
+        vtApplicationService.approveApplication(applicationId);
+        return "지원 승인!";
+    }
+
+    // 지원자 거절
+    @PostMapping("/refuse/{applicationId}")
+    public String refuseApplication(@PathVariable Long applicationId) {
+        vtApplicationService.refuseApplication(applicationId);
+        return "지원 거절..";
+    }
 }

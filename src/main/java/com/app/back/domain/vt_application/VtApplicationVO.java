@@ -18,6 +18,16 @@ public class VtApplicationVO {
     private Long vtId;
     private Long memberId;
 
+    public VtApplicationDTO toDTO() {
+        VtApplicationDTO vtApplicationDTO = new VtApplicationDTO();
+        vtApplicationDTO.setId(id);
+        vtApplicationDTO.setApplicationDate(applicationDate);
+        vtApplicationDTO.setApplicationStatus(applicationStatus);
+        vtApplicationDTO.setVtId(vtId);
+        vtApplicationDTO.setMemberId(memberId);
+        return vtApplicationDTO;
+    }
+
 
 
 }
