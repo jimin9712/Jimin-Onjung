@@ -1,5 +1,6 @@
 package com.app.back.repository.support_record;
 
+import com.app.back.domain.donation_record.DonationRecordDTO;
 import com.app.back.domain.support_record.SupportRecordDTO;
 import com.app.back.mapper.support_record.SupportRecordMapper;
 import lombok.RequiredArgsConstructor;
@@ -32,5 +33,13 @@ public class SupportRecordDAO {
     public int findTotalSupportByMemberId(Long memberId) {
         return supportRecordMapper.selectTotalSupportByMemberId(memberId);
     }
+
+    public List<SupportRecordDTO> findByMemberId(Long memberId) {
+        return supportRecordMapper.selectByMemberId(memberId);
+    }
+    public List<SupportRecordDTO> findByMemberIdAndDateRange(Long memberId, String startDate, String endDate) {
+        return supportRecordMapper.selectByMemberIdAndDateRange(memberId, startDate, endDate);
+    }
+
 
 }
