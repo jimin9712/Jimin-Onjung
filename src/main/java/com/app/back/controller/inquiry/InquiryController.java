@@ -33,7 +33,7 @@ public List<InquiryDTO> admin(Pagination pagination, Search search) {
 }
 @GetMapping("/admin/inquiry-page")  //문의 목록
 @ResponseBody
- public Map<String, Object> getList(Pagination pagination, Search search, @RequestParam(required = false) String query, @RequestParam(required = false) String filterType){
+ public Map<String, Object> getInquiryList(Pagination pagination, Search search, @RequestParam(required = false) String query, @RequestParam(required = false) String filterType){
     log.info("Controller - getList() 호출됨");
     log.info("검색어: {}", query);
     search.setKeyword(query);
@@ -64,16 +64,22 @@ public List<InquiryDTO> admin(Pagination pagination, Search search) {
     return result;
 
 }
-    @GetMapping("/admin/inquriy-answer")    //문의 조회, 답변
-    public String getAnswerForm(@RequestParam Long id, Model model) {
-        Optional<InquiryDTO> inquiry = inquiryService.getPost(id);
-        if (inquiry.isPresent()) {
-            model.addAttribute("inquiry", inquiry.get());
-            return "admin/inquriy-answer";
-        } else {
-            return "error/404";
-        }
+
+@GetMapping("/admin/inquiry-answer")
+@ResponseBody
+public Map<String, Object> getInquiryAnswer(@RequestParam Long id) {
+    Optional<InquiryDTO> inquiry = inquiryService.getPost(id);
+    Map<String, Object> result = new HashMap<>();
+    if (inquiry.isPresent()) {
+        result.put("success", true);
+        result.put("inquiry", inquiry.get());
+    } else {
+        result.put("success", false);
+        result.put("message", "Inquiry not found");
     }
+    return result;
+}
+
 
 
 

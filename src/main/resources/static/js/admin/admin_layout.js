@@ -4,8 +4,8 @@ const renderInquiries = (inquiries) => {
     let content = '';
     inquiries.forEach((inquiry) => {
         content += `
-        <div class="inquiryTable_row data_row">
-            <div class="inquiryTable_cell"><input type="checkbox" class="inquiryCheckbox" /></div>
+        <div class="inquiryTable_row data_row" data-id="${inquiry.id}">
+            <div class="inquiryTable_cell"><input type="checkbox" class="inquiryCheckbox"/></div>
             <div class="inquiryTable_cell inquiry_type">${inquiry.inquiryType}</div>
             <div class="inquiryTable_cell inquiry_date">${inquiry.createdDate}</div>
             <div class="inquiryTable_cell">${inquiry.postTitle}</div>
