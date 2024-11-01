@@ -51,8 +51,19 @@ public class VolunteerController {
 
     @GetMapping("/volunteer-list")
     public List<VolunteerDTO> admin(Pagination pagination, Model model) {
+        // volunteerService.getTotal()을 통해 총 데이터 개수를 가져와 pagination에 설정
+        pagination.setTotal(volunteerService.getTotal());
+
+        // pagination 객체의 페이지 계산 진행
+        pagination.vtProgress();
+
+        // 설정된 pagination 객체를 로그로 출력하여 확인 (선택 사항)
+        System.out.println("Pagination after vtProgress: " + pagination);
+
+        // volunteer 리스트를 가져와 반환
         return volunteerService.getList(pagination);
     }
+
 
 
 
