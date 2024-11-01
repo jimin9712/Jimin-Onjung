@@ -19,48 +19,6 @@ function setOrder(order) {
     fetchVolunteers(order); // 정렬 기준에 따라 봉사 모집 데이터를 가져옵니다.
 }
 
-// 페이지네이션을 렌더링하는 함수
-const renderPagination = (pagination, keyword, filterType) => {
-    let paginationHTML = '';
-
-    // 처음 페이지로 이동
-    paginationHTML += `<li class="pagination-first">
-        <a href="#" data-page="1" class="pagination-first-link">«</a></li>`;
-
-    // 이전 페이지로 이동
-    if (pagination.prev) {
-        paginationHTML += `<li class="pagination-prev">
-            <a href="#" data-page="${pagination.startPage - 1}" class="pagination-prev-link">‹</a></li>`;
-    }
-
-    // 페이지 번호
-    for (let i = pagination.startPage; i <= pagination.endPage; i++) {
-        paginationHTML += `<li class="pagination-page ${pagination.page === i ? 'active' : ''}">
-            <a href="#" data-page="${i}" class="pagination-page-link">${i}</a></li>`;
-    }
-
-    // 다음 페이지로 이동
-    if (pagination.next) {
-        paginationHTML += `<li class="pagination-next">
-            <a href="#" data-page="${pagination.endPage + 1}" class="pagination-next-link">›</a></li>`;
-    }
-
-    // 마지막 페이지로 이동
-    paginationHTML += `<li class="pagination-last">
-        <a href="#" data-page="${pagination.realEnd}" class="pagination-last-link">»</a></li>`;
-
-    paginationContainer.innerHTML = paginationHTML;
-
-    // 페이지 버튼 클릭 이벤트 설정
-    document.querySelectorAll(".pagination-page-link, .pagination-prev-link, .pagination-next-link, .pagination-first-link, .pagination-last-link").forEach(link => {
-        link.addEventListener("click", (e) => {
-            e.preventDefault();
-            const page = e.target.getAttribute("data-page");
-            fetchFilteredInquiries(page, keyword, filterType);
-        });
-    });
-};
-
 // 초기 데이터 로드
 document.addEventListener("DOMContentLoaded", () => {
     fetchVolunteers(); // 첫 페이지의 데이터를 로드합니다.

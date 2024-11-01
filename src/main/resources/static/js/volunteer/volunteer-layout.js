@@ -1,3 +1,5 @@
+const replyPaging = document.querySelector("#paging"); //페이지네이션 html들어갈 곳
+
 const renderVolunteers = (lists) => {
     const listLayout = document.getElementById("contest-list");
     let content = '';

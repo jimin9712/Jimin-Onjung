@@ -15,6 +15,7 @@ public interface VolunteerService {
     //    봉사모집 목록
     public List<VolunteerDTO> getList(Pagination pagination);
 
+    //    게시글 전체 개수 조회
     public int getTotal();
 
     // 마감순 정렬

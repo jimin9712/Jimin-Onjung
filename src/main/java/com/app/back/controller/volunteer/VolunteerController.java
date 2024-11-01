@@ -52,7 +52,7 @@ public class VolunteerController {
 //    }
 
     @GetMapping("/volunteer-list")
-    public List<VolunteerDTO> getList(
+    public void getList(
             @RequestParam(value = "order", defaultValue = "recent") String order,
             Pagination pagination,
             Model model,
@@ -61,6 +61,7 @@ public class VolunteerController {
         pagination.setOrder(order);
         pagination.setTotal(volunteerService.getTotal());
         pagination.progress();
+        log.info(pagination.toString());
 
         // 조회방식에 따른 순서 조회
         List<VolunteerDTO> lists;
@@ -76,11 +77,7 @@ public class VolunteerController {
         for (VolunteerDTO volunteerDTO : lists) {
             volunteerDTO.calculateDaysLeft();
         }
-
-        model.addAttribute("pagination", pagination);
-        model.addAttribute("lists", lists);
-
-        return lists;
+        model.addAttribute("lists", volunteerService.getList(pagination));
     }
 
 
@@ -94,6 +91,7 @@ public class VolunteerController {
         pagination.setOrder(order);
         pagination.setTotal(volunteerService.getTotal());
         pagination.progress();
+        log.info(pagination.toString());
 
         List<VolunteerDTO> volunteerList = volunteerService.getList(pagination);
 

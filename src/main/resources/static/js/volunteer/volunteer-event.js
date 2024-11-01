@@ -72,4 +72,13 @@ pageBtns.forEach((pageBtn) => {
     });
 });
 
-
+// listPaging.getList(1, postid, showList);
+// globalThis.page = 1;
+//
+// listPaging.addEventListener("click", (e) => {
+//     e.preventDefault();
+//     if(e.target.tagName === "A") {
+//         globalThis.page = e.target.getAttribute("href");
+//         replyService.getList(globalThis.page, postId, showList);
+//     }
+// });

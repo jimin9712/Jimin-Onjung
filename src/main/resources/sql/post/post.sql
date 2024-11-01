@@ -22,9 +22,9 @@ create table tbl_post (
 select * from tbl_post;
 
 insert into tbl_post(id, post_title, post_summary, post_content,post_view_count, post_type, post_status, member_id)
-values(1,'문의 제목','문의요약','문의내용',1,'INQUIRY','VISIBLE',22);
+values(15,'문의 제목','문의요약','문의내용',1,'INQUIRY','VISIBLE',3);
 
-SELECT * FROM tbl_post WHERE id = 22;
+SELECT * FROM tbl_post WHERE id = 20;
 
 
 
@@ -35,6 +35,6 @@ SHOW CREATE TABLE tbl_post;
 drop table tbl_post;
 
 insert into tbl_post(id, post_title, post_summary, post_content,post_view_count, post_type, post_status, member_id)
-values(22,'봉사활동구인테스트제목today','봉사활동테스트요약today','봉사활동테스트내용today',20,'VOLUNTEER','RECRUITMENT',1);
+values(23,'봉사활동구인테스트제목toda23','봉사활동테스트요약today12','봉사활동테스트내용today12',12,'VOLUNTEER','RECRUITMENT',3);
 
 

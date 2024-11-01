@@ -24,8 +24,9 @@ public List<VolunteerDTO> findAll(Pagination pagination) {
     return volunteerMapper.selectAll(pagination);
 }
 
-//    게시글 조회수 순으로 전체 개수 조회
-//    public
-
+//    게시글 전체 개수 조회
+public int getTotal(){
+    return volunteerMapper.selectTotal();
+}
 
 }
