@@ -908,9 +908,8 @@ const fetchFilteredVolunteerRecords = async (memberId, startDate, endDate) => {
         alert("봉사 활동 내역을 불러오는 중 문제가 발생했습니다.");
     }
 };
-/*********************봉사 활동 신청 현황 섹연*********************/
-
-// 봉사 신청 내역 렌더링
+//*********************봉사 활동 신청 현황 섹연*********************
+// 신청 내역을 화면에 렌더링하는 함수
 const renderApplications = (applications) => {
     const applicationList = document.querySelector("#application-list");
     const emptyComponent = document.querySelector("#application .empty-component");
@@ -941,9 +940,9 @@ const renderApplications = (applications) => {
                     ${applications.map((application) => `
                         <tr class="news-data-rows" data-id="${application.id}">
                             <td>${application.id}</td>
-                            <td>${application.title}</td>
-                            <td>${application.status}</td>
-                            <td>${new Date(application.date).toLocaleDateString('ko-KR')}</td>
+                            <td>${application.title || '활동 제목 없음'}</td>
+                            <td>${application.applicationStatus}</td>
+                            <td>${new Date(application.applicationDate).toLocaleDateString('ko-KR')}</td>
                         </tr>`).join("")}
                 </tbody>
             </table>
@@ -953,55 +952,10 @@ const renderApplications = (applications) => {
     document.getElementById("application-totalCount").textContent = applications.length;
 };
 
-// 모달 열기 함수
-const openModal = (modalSelector) => {
-    document.querySelector(modalSelector).style.display = "flex";
-};
-
-// 모달 닫기 이벤트
-document.getElementById("approvecloseModal").addEventListener("click", () => {
-    document.querySelector(".approvemodal").style.display = "none";
-});
-
-document.getElementById("refusecloseModal").addEventListener("click", () => {
-    document.querySelector(".refusemodal").style.display = "none";
-});
-
-// 승인 및 거절 버튼 클릭 이벤트
-document.getElementById("approve").addEventListener("click", (e) => {
-    e.preventDefault();
-    openModal(".approvemodal");
-});
-
-document.getElementById("refuse").addEventListener("click", (e) => {
-    e.preventDefault();
-    openModal(".refusemodal");
-});
-
-// 봉사 신청 내역 초기화 및 이벤트 리스너 설정
-const initializeApplicationSection = (vtId) => {
-    fetchApplications(vtId);
-
-    // 필터 이벤트 설정
-    document.getElementById("filter-1year-application").addEventListener("change", () => applyFilterApplications(vtId, 12));
-    document.getElementById("filter-1month-application").addEventListener("change", () => applyFilterApplications(vtId, 1));
-    document.getElementById("filter-3months-application").addEventListener("change", () => applyFilterApplications(vtId, 3));
-    document.getElementById("filter-6months-application").addEventListener("change", () => applyFilterApplications(vtId, 6));
-
-    // 초기화 버튼 이벤트 설정
-    document.getElementById("Initialization-application").addEventListener("click", () => {
-        document.querySelectorAll("#application .fItXBi.toggle input[type='checkbox']").forEach((checkbox) => {
-            checkbox.checked = false;
-        });
-
-        fetchApplications(vtId);
-    });
-};
-
-// 봉사 신청 내역 가져오기
-const fetchApplications = async (vtId) => {
+// 봉사 신청 내역 가져오기 함수
+const fetchApplications = async (memberId) => {
     try {
-        const response = await fetch(`/vt-applications/vt/${vtId}`);
+        const response = await fetch(`/vt-applications/application-list/${memberId}`);
         if (!response.ok) throw new Error(`서버로부터 데이터를 가져오는 데 실패했습니다. 상태 코드: ${response.status}`);
 
         const data = await response.json();
@@ -1014,13 +968,9 @@ const fetchApplications = async (vtId) => {
 };
 
 // 필터된 봉사 신청 내역 가져오기 함수
-const applyFilterApplications = async (vtId, months) => {
-    const today = new Date();
-    const startDate = new Date(today.setMonth(today.getMonth() - months)).toISOString().split("T")[0];
-    const endDate = new Date().toISOString().split("T")[0];
-
+const applyFilterApplications = async (memberId, startDate, endDate) => {
     try {
-        const response = await fetch(`/vt-applications/vt/${vtId}?startDate=${startDate}&endDate=${endDate}`);
+        const response = await fetch(`/vt-applications/application-list/${memberId}?startDate=${startDate}&endDate=${endDate}`);
         if (!response.ok) throw new Error("서버로부터 데이터를 가져오는 데 실패했습니다.");
 
         const applications = await response.json();
@@ -1035,11 +985,42 @@ const applyFilterApplications = async (vtId, months) => {
 const updateDateRangeApplications = async () => {
     const startDate = document.getElementById("start-date-application").value;
     const endDate = document.getElementById("end-date-application").value;
-    const vtId = 77;
+    const memberId = await getMemberInfo(); // memberId를 동적으로 가져오도록 수정
 
     if (startDate && endDate) {
-        await applyFilterApplications(vtId, startDate, endDate);
+        await applyFilterApplications(memberId, startDate, endDate);
     }
+};
+
+// 봉사 신청 내역 초기화 및 이벤트 리스너 설정
+const initializeApplicationSection = (memberId) => {
+    fetchApplications(memberId);
+
+    // 필터 이벤트 설정
+    document.getElementById("filter-1year-application").addEventListener("change", () => applyFilterApplications(memberId, getDateMonthsAgo(12), getToday()));
+    document.getElementById("filter-1month-application").addEventListener("change", () => applyFilterApplications(memberId, getDateMonthsAgo(1), getToday()));
+    document.getElementById("filter-3months-application").addEventListener("change", () => applyFilterApplications(memberId, getDateMonthsAgo(3), getToday()));
+    document.getElementById("filter-6months-application").addEventListener("change", () => applyFilterApplications(memberId, getDateMonthsAgo(6), getToday()));
+
+    // 초기화 버튼 이벤트 설정
+    document.getElementById("Initialization-application").addEventListener("click", () => {
+        document.querySelectorAll("#application .fItXBi.toggle input[type='checkbox']").forEach((checkbox) => {
+            checkbox.checked = false;
+        });
+
+        fetchApplications(memberId);
+    });
+};
+
+// Helper functions to get date strings for filtering
+const getToday = () => {
+    return new Date().toISOString().split("T")[0];
+};
+
+const getDateMonthsAgo = (months) => {
+    const date = new Date();
+    date.setMonth(date.getMonth() - months);
+    return date.toISOString().split("T")[0];
 };
 
 /*********************공통*********************/
@@ -1207,7 +1188,7 @@ if (refuse && refuseCloseModal) {
 
 // 후기 작성하기 버튼 클릭 시 후기 작성 페이지로 이동
 document.addEventListener("click", function (event) {
-    if (event.target.closest(".btn-request")) {
+    if (event.target.closest(".btn-gowrite")) {
         event.preventDefault();
         // 후기 작성 페이지로 이동
         window.location.href = "/donation/donation-write";
@@ -1242,6 +1223,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         initializeVolunteerSection(memberId);
 
         initializeApplicationSection(memberId);
+
 
 
     } catch (error) {

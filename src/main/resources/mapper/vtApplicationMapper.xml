@@ -58,11 +58,11 @@
         WHERE id = #{id}
     </delete>
 
-    <!-- 특정 게시글에 지원한 사용자 목록 조회 -->
-    <select id="selectByVtId" parameterType="long" resultType="com.app.back.domain.vt_application.VtApplicationDTO">
+
+    <select id="selectByVtId" parameterType="long" resultType="vtApplicationDTO">
         SELECT
         a.id,
-        p.created_date AS applicationDate, <!-- tbl_post의 created_date 사용 -->
+        p.created_date AS applicationDate,
         a.application_status AS applicationStatus,
         a.vt_id AS vtId,
         a.member_id AS memberId
@@ -73,18 +73,53 @@
         WHERE
         a.vt_id = #{vtId}
         ORDER BY
-        p.created_date DESC <!-- created_date 기준 정렬 -->
+        p.created_date DESC
     </select>
 
-    <!-- 특정 게시글에 지원한 사용자 수 조회 -->
     <select id="countByVtId" parameterType="long" resultType="int">
         SELECT COUNT(*) FROM tbl_vt_application WHERE vt_id = #{vtId}
     </select>
 
-    <!-- 지원자 상태 업데이트 (승인/거절) -->
     <update id="updateApplicationStatus" parameterType="map">
         UPDATE tbl_vt_application
         SET application_status = #{status}
         WHERE id = #{applicationId}
     </update>
+
+    <select id="selectByMemberIdAndDateRange" resultType="vtApplicationDTO">
+        SELECT
+            a.id,
+            p.created_date AS applicationDate,
+            a.application_status AS applicationStatus,
+            a.vt_id AS vtId,
+            a.member_id AS memberId
+        FROM
+            tbl_vt_application a
+                JOIN tbl_vt v ON a.vt_id = v.id
+                JOIN tbl_post p ON v.id = p.id
+        WHERE
+            p.member_id = #{memberId}
+          AND p.created_date BETWEEN #{startDate} AND #{endDate} + INTERVAL '1' DAY
+        ORDER BY
+            p.created_date DESC
+    </select>
+
+    <select id="selectByMemberId" resultType="vtApplicationDTO">
+        SELECT
+            a.id,
+            p.created_date AS applicationDate,
+            a.application_status AS applicationStatus,
+            a.vt_id AS vtId,
+            a.member_id AS memberId
+        FROM
+            tbl_vt_application a
+                JOIN tbl_vt v ON a.vt_id = v.id
+                JOIN tbl_post p ON v.id = p.id
+        WHERE
+            p.member_id = #{memberId}
+        ORDER BY
+            p.created_date DESC
+    </select>
+
+
 </mapper>

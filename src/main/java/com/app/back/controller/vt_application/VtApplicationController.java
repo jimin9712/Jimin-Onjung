@@ -1,8 +1,10 @@
 package com.app.back.controller.vt_application;
 
+import com.app.back.domain.donation_record.DonationRecordDTO;
 import com.app.back.domain.vt_application.VtApplicationDTO;
 import com.app.back.service.vt_application.VtApplicationService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,6 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/vt-applications")
 @RequiredArgsConstructor
+@Slf4j
 public class VtApplicationController {
 
     private final VtApplicationService vtApplicationService;
@@ -70,6 +73,23 @@ public class VtApplicationController {
     @PostMapping("/refuse/{applicationId}")
     public String refuseApplication(@PathVariable Long applicationId) {
         vtApplicationService.refuseApplication(applicationId);
-        return "지원 거절..";
+        return "지원 거절";
     }
+    @GetMapping("/application-list/{memberId}")
+    public List<VtApplicationDTO> getApplicationsByMemberIdAndDateRange(
+            @PathVariable Long memberId,
+            @RequestParam(required = false) String startDate,
+            @RequestParam(required = false) String endDate) {
+
+        log.info("받은 회원 ID: {}, 시작 날짜: {}, 끝 날짜: {}",
+                memberId, startDate, endDate);
+
+        if (startDate != null && endDate != null) {
+            return vtApplicationService.getApplicationsByMemberIdAndDateRange(memberId, startDate, endDate);
+        } else {
+            return vtApplicationService.getApplicationsByMemberId(memberId);
+        }
+    }
+
+
 }

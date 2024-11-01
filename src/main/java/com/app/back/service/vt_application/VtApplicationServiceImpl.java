@@ -24,6 +24,7 @@ public class VtApplicationServiceImpl implements VtApplicationService {
         return vtApplicationDAO.findById(id);
     }
 
+
     @Override
     public List<VtApplicationDTO> findAll() {
         return vtApplicationDAO.findAll();
@@ -51,12 +52,24 @@ public class VtApplicationServiceImpl implements VtApplicationService {
 
     @Override
     public void approveApplication(Long applicationId) {
-        vtApplicationDAO.updateApplicationStatus(applicationId,"APPROVED");
+        vtApplicationDAO.updateApplicationStatus(applicationId, "APPROVED");
 
     }
 
     @Override
     public void refuseApplication(Long applicationId) {
-        vtApplicationDAO.updateApplicationStatus(applicationId,"REJECTED");
+        vtApplicationDAO.updateApplicationStatus(applicationId, "REJECTED");
     }
+
+    @Override
+    public List<VtApplicationDTO> getApplicationsByMemberIdAndDateRange(Long memberId, String startDate, String endDate) {
+        return vtApplicationDAO.findByMemberIdAndDateRange(memberId, startDate, endDate);
+    }
+
+
+    @Override
+    public List<VtApplicationDTO> getApplicationsByMemberId(Long memberId) {
+        return vtApplicationDAO.findByMemberId(memberId);
+    }
+
 }
