@@ -6,8 +6,8 @@ const reviewWriteService = (() => {
             method: "post",
             body: formData
         });
-        const attachmentFile = await response.json();
-        return attachmentFile;
+        const attachmentFileName = await response.json();
+        return attachmentFileName;
     }
 
     return {upload: upload};

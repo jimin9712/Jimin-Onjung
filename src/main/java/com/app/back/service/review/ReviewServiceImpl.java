@@ -35,6 +35,7 @@ public class ReviewServiceImpl implements ReviewService {
         postDAO.save(reviewDTO.toPostVO());
         Long id = postDAO.selectCurrentId();
         reviewDTO.setId(id);
+        reviewDTO.setPostId(id);
         reviewDAO.save(reviewDTO.toVO());
         for(int i=0; i<files.size(); i++){
             reviewDTO.setAttachmentFileName(uuids.get(i) + "_" + files.get(i).getOriginalFilename());

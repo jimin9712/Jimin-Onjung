@@ -60,7 +60,7 @@ public class AttachmentController {
     //    가져오기
     @GetMapping("display")
     @ResponseBody
-    public byte[] display(String fileName) throws IOException{
-        return FileCopyUtils.copyToByteArray(new File("C:/upload", fileName));
+    public byte[] display(String attachmentFileName) throws IOException{
+        return FileCopyUtils.copyToByteArray(new File("C:/upload", attachmentFileName));
     }
 }
