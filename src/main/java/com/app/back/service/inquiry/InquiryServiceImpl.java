@@ -56,6 +56,11 @@ public class InquiryServiceImpl implements InquiryService {
     }
 
     @Override
+    public void updateInquiryStatus(Long id, String status) {
+        inquiryDAO.updateStatus(id, status);
+    }
+
+    @Override
     public void delete(Long id) {
         inquiryDAO.delete(id);
     }

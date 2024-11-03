@@ -46,7 +46,7 @@ public class DonationRecordController {
     public int getTotalDonationByMemberId(@PathVariable Long memberId) {
         log.info("받은 회원 ID: {}", memberId);
         int total = donationRecordService.getTotalDonationByMemberId(memberId);
-        log.info("Total Donation for memberId {}: {}", memberId, total); // 결과 로그
+        log.info("Total Donation for memberId {}: {}", memberId, total);
         return total;
     }
     @GetMapping("/my-donation/{memberId}")

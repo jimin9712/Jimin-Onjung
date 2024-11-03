@@ -8,6 +8,6 @@ import org.apache.ibatis.annotations.Mapper;
 public interface InquiryAnswerMapper {
 
     //    답변 추가
-    public void insertAnswer(InquiryAnswerVO inquiry_answerVO);
+    public void insertAnswer(InquiryAnswerVO inquiryanswerVO);
 
 }

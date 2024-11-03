@@ -70,19 +70,6 @@
         select * from tbl_member where reset_uuid = #{uuid}
     </select>
 
-    <select id="getTotalVtTimeByMemberId" parameterType="long" resultType="int">
-        select coalesce(SUM(vr.vt_time), 0) as totalVtTime
-        from tbl_vt_application va
-                 join tbl_vt_record vr on va.id = vr.id
-        where va.member_id = #{memberId}
-    </select>
-
-    <select id="getVtCountByMemberId" parameterType="long" resultType="int">
-        select count(*)
-        from tbl_vt_application
-        where member_id = #{memberId}
-    </select>
-
     <update id="updateProfile" parameterType="memberVO">
         UPDATE tbl_member
         SET

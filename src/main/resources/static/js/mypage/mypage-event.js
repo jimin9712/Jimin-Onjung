@@ -760,6 +760,393 @@ const fetchFilteredBoostRecords = async (memberId, startDate, endDate) => {
     }
 };
 
+/*********************봉사 활동 내역 섹션*********************/
+
+// 봉사 활동 내역 렌더링
+const renderVolunteers = (volunteers) => {
+    const volunteerList = document.querySelector("#volunteer-record .volunteer-list");
+    const emptyComponent = document.querySelector("#volunteer-record .empty-component");
+
+    if (volunteers.length === 0) {
+        volunteerList.style.display = "none";
+        emptyComponent.style.display = "block";
+    } else {
+        volunteerList.style.display = "block";
+        emptyComponent.style.display = "none";
+        volunteerList.innerHTML = `
+            <table class="news-center-table" style="margin-top: 0; margin-bottom: 20px;">
+                <colgroup>
+                    <col style="width: 57px;">
+                    <col style="width: 132px;">
+                    <col style="width: 150px;">
+                    <col style="width: 150px;"> <!-- postTitle 컬럼 추가 -->
+                </colgroup>
+                <thead class="news-center-table-head">
+                    <tr>
+                        <th>활동 번호</th>
+                        <th>게시글 제목</th> 
+                        <th>봉사 시간</th>
+                        <th>신청일</th>
+                    </tr>
+                </thead>
+                <tbody class="news-center-table-body">
+                    ${volunteers.map(volunteer => `
+                        <tr class="news-data-rows" data-forloop="${volunteer.id}">
+                            <td class="news-center-table-body-number">${volunteer.id}</td>
+                            <td class="news-center-table-body-postTitle">
+                                ${volunteer.postTitle ? volunteer.postTitle : "제목 없음"}
+                            </td>
+                            <td class="news-center-table-body-title">
+                                <span>${volunteer.vtTime} 시간</span>
+                            </td>
+                            <td class="news-center-table-body-date">
+                                ${new Date(volunteer.createdDate).toLocaleDateString('ko-KR')}
+                            </td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        `;
+    }
+
+    document.getElementById("volunteer-totalCount").textContent = volunteers.length;
+};
+
+
+// 봉사 활동 내역 초기화 및 이벤트 리스너 설정
+const initializeVolunteerSection = (memberId) => {
+    fetchVolunteerRecords(memberId);
+
+    // 봉사 활동 섹션의 toggle 요소 선택
+    const volunteerToggleElements = document.querySelectorAll("#volunteer-record .fItXBi.toggle");
+
+    // 각 toggle 요소에 이벤트 리스너 추가
+    volunteerToggleElements.forEach(function (element) {
+        element.addEventListener("click", function () {
+            // 모든 요소에서 active 클래스 제거
+            volunteerToggleElements.forEach(function (el) {
+                el.classList.remove("active");
+            });
+
+            // 클릭된 요소에만 active 클래스 추가
+            this.classList.add("active");
+        });
+    });
+
+    // 필터 이벤트 설정
+    document.getElementById("filter-1year-volunteer").addEventListener("change", () => applyFilterVolunteerRecords(memberId, 12));
+    document.getElementById("filter-1month-volunteer").addEventListener("change", () => applyFilterVolunteerRecords(memberId, 1));
+    document.getElementById("filter-3months-volunteer").addEventListener("change", () => applyFilterVolunteerRecords(memberId, 3));
+    document.getElementById("filter-6months-volunteer").addEventListener("change", () => applyFilterVolunteerRecords(memberId, 6));
+
+    // 초기화 버튼 이벤트 설정
+    document.getElementById("Initialization-volunteer").addEventListener("click", () => {
+        // 모든 필터 체크박스 해제
+        document.querySelectorAll("#volunteer-record .fItXBi.toggle input[type='checkbox']").forEach((checkbox) => {
+            checkbox.checked = false;
+        });
+
+        // active 클래스 제거
+        volunteerToggleElements.forEach((el) => el.classList.remove("active"));
+
+        // 초기 상태로 봉사 활동 내역 다시 가져오기
+        fetchVolunteerRecords(memberId);
+    });
+};
+
+// 특정 기간의 봉사 활동 내역 가져오기
+const applyFilterVolunteerRecords = async (memberId, months) => {
+    const today = new Date();
+    const startDate = new Date(today.setMonth(today.getMonth() - months)).toISOString().split("T")[0];
+    const endDate = new Date().toISOString().split("T")[0];
+
+    console.log(`applyFilterVolunteerRecords 호출됨. memberId: ${memberId}, startDate: ${startDate}, endDate: ${endDate}`);
+    await fetchFilteredVolunteerRecords(memberId, startDate, endDate);
+};
+
+// 날짜 지정 시 봉사 활동 내역 조회
+const updateDateRangeVolunteers = async () => {
+    const startDate = document.getElementById("start-date-volunteer").value;
+    const endDate = document.getElementById("end-date-volunteer").value;
+    const memberId = await getMemberInfo();
+
+    console.log(`updateDateRangeVolunteers 호출됨. startDate: ${startDate}, endDate: ${endDate}, memberId: ${memberId}`);
+
+    if (startDate && endDate) {
+        await fetchFilteredVolunteerRecords(memberId, startDate, endDate);
+    }
+};
+
+// 전체 봉사 활동 내역 가져오기
+const fetchVolunteerRecords = async (memberId) => {
+    try {
+        const response = await fetch(`/vt-records/my-vt-record/${memberId}`);
+        console.log("응답 상태:", response.status);
+        if (!response.ok) throw new Error("서버로부터 데이터를 가져오는 데 실패했습니다.");
+
+        const data = await response.json();
+        console.log("봉사 활동 내역 데이터:", data);
+        renderVolunteers(data);
+    } catch (error) {
+        console.error("봉사 활동 내역 불러오기 오류:", error);
+        alert("봉사 활동 내역을 불러오는 중 문제가 발생했습니다.");
+    }
+};
+
+// 필터된 봉사 활동 내역 가져오기
+const fetchFilteredVolunteerRecords = async (memberId, startDate, endDate) => {
+    try {
+        const response = await fetch(`/vt-records/my-vt-record/${memberId}?startDate=${startDate}&endDate=${endDate}`);
+        console.log("응답 상태:", response.status);
+        if (!response.ok) throw new Error("서버로부터 데이터를 가져오는 데 실패했습니다.");
+
+        const data = await response.json();
+        console.log("필터된 봉사 활동 내역 데이터:", data);
+        renderVolunteers(data);
+    } catch (error) {
+        console.error("봉사 활동 내역 필터 조회 오류:", error);
+        alert("봉사 활동 내역을 불러오는 중 문제가 발생했습니다.");
+    }
+};
+//*********************봉사 활동 신청 현황 섹연*********************
+// 신청 내역을 화면에 렌더링하는 함수
+const renderApplications = (applications) => {
+    const applicationList = document.querySelector("#application-list");
+    const emptyComponent = document.querySelector("#application .empty-component");
+
+    if (applications.length === 0) {
+        applicationList.style.display = "none";
+        emptyComponent.style.display = "block";
+    } else {
+        applicationList.style.display = "block";
+        emptyComponent.style.display = "none";
+        applicationList.innerHTML = `
+            <table class="news-center-table" style="margin-top: 0; margin-bottom: 20px;">
+                <colgroup>
+                    <col style="width: 57px;">
+                    <col style="width: 132px;">
+                    <col style="width: 150px;">
+                    <col style="width: 150px;">
+                </colgroup>
+                <thead class="news-center-table-head">
+                    <tr>
+                        <th>신청 번호</th>
+                        <th>활동 제목</th>
+                        <th>신청 상태</th>
+                        <th>신청일</th>
+                    </tr>
+                </thead>
+                <tbody class="news-center-table-body">
+                    ${applications.map((application) => `
+                        <tr class="news-data-rows" data-id="${application.id}">
+                            <td>${application.id}</td>
+                            <td>${application.title || '활동 제목 없음'}</td>
+                            <td>${application.applicationStatus}</td>
+                            <td>${new Date(application.applicationDate).toLocaleDateString('ko-KR')}</td>
+                        </tr>`).join("")}
+                </tbody>
+            </table>
+        `;
+    }
+
+    document.getElementById("application-totalCount").textContent = applications.length;
+};
+
+// 봉사 신청 내역 가져오기 함수
+const fetchApplications = async (memberId) => {
+    try {
+        const response = await fetch(`/vt-applications/application-list/${memberId}`);
+        if (!response.ok) throw new Error(`서버로부터 데이터를 가져오는 데 실패했습니다. 상태 코드: ${response.status}`);
+
+        const data = await response.json();
+        console.log("봉사 신청 내역 데이터:", data);
+        renderApplications(data);
+    } catch (error) {
+        console.error("봉사 신청 내역을 불러오는 중 오류:", error);
+        alert("봉사 신청 내역을 불러오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.");
+    }
+};
+
+// 필터된 봉사 신청 내역 가져오기 함수
+const applyFilterApplications = async (memberId, startDate, endDate) => {
+    try {
+        const response = await fetch(`/vt-applications/application-list/${memberId}?startDate=${startDate}&endDate=${endDate}`);
+        if (!response.ok) throw new Error("서버로부터 데이터를 가져오는 데 실패했습니다.");
+
+        const applications = await response.json();
+        renderApplications(applications);
+    } catch (error) {
+        console.error("필터된 봉사 신청 내역을 불러오는 중 오류:", error);
+        alert("필터된 봉사 신청 내역을 불러오는 중 문제가 발생했습니다.");
+    }
+};
+
+// 날짜 범위 지정 시 봉사 신청 내역 조회
+const updateDateRangeApplications = async () => {
+    const startDate = document.getElementById("start-date-application").value;
+    const endDate = document.getElementById("end-date-application").value;
+    const memberId = await getMemberInfo(); // memberId를 동적으로 가져오도록 수정
+
+    if (startDate && endDate) {
+        await applyFilterApplications(memberId, startDate, endDate);
+    }
+};
+
+// 봉사 신청 내역 초기화 및 이벤트 리스너 설정
+const initializeApplicationSection = (memberId) => {
+    fetchApplications(memberId);
+
+    // 필터 이벤트 설정
+    document.getElementById("filter-1year-application").addEventListener("change", () => applyFilterApplications(memberId, getDateMonthsAgo(12), getToday()));
+    document.getElementById("filter-1month-application").addEventListener("change", () => applyFilterApplications(memberId, getDateMonthsAgo(1), getToday()));
+    document.getElementById("filter-3months-application").addEventListener("change", () => applyFilterApplications(memberId, getDateMonthsAgo(3), getToday()));
+    document.getElementById("filter-6months-application").addEventListener("change", () => applyFilterApplications(memberId, getDateMonthsAgo(6), getToday()));
+
+    // 초기화 버튼 이벤트 설정
+    document.getElementById("Initialization-application").addEventListener("click", () => {
+        document.querySelectorAll("#application .fItXBi.toggle input[type='checkbox']").forEach((checkbox) => {
+            checkbox.checked = false;
+        });
+
+        fetchApplications(memberId);
+    });
+};
+
+// Helper functions to get date strings for filtering
+const getToday = () => {
+    return new Date().toISOString().split("T")[0];
+};
+
+const getDateMonthsAgo = (months) => {
+    const date = new Date();
+    date.setMonth(date.getMonth() - months);
+    return date.toISOString().split("T")[0];
+};
+/*********************결제 내역*********************/
+// 결제 내역 렌더링 함수
+const renderPayments = (payments) => {
+    const paymentList = document.querySelector("#payment-list");
+    const emptyComponent = document.querySelector("#payment .empty-component");
+
+    if (payments.length === 0) {
+        paymentList.style.display = "none";
+        emptyComponent.style.display = "block";
+    } else {
+        paymentList.style.display = "block";
+        emptyComponent.style.display = "none";
+        paymentList.innerHTML = `
+            <table class="news-center-table" style="margin-top: 0; margin-bottom: 20px;">
+                <colgroup>
+                    <col style="width: 57px;">
+                    <col style="width: 150px;">
+                    <col style="width: 104px;">
+                    <col style="width: 150px;">
+                </colgroup>
+                <thead class="news-center-table-head">
+                    <tr>
+                        <th>결제 번호</th>
+                        <th>결제 상태</th>
+                        <th>결제 금액</th>
+                        <th>결제 일시</th>
+                    </tr>
+                </thead>
+                <tbody class="news-center-table-body">
+                    ${payments
+            .map(
+                (payment) => `
+                            <tr class="news-data-rows" data-id="${payment.id}">
+                                <td>${payment.id}</td>
+                                <td>${payment.paymentStatus}</td>
+                                <td>${payment.paymentAmount.toLocaleString()} 원</td>
+                                <td>${new Date(payment.createdDate).toLocaleDateString('ko-KR')}</td>
+                            </tr>`
+            )
+            .join("")}
+                </tbody>
+            </table>
+        `;
+    }
+
+    document.getElementById("payment-totalCount").textContent = payments.length;
+};
+
+// 결제 데이터 가져오기 함수
+const fetchPayments = async (memberId) => {
+    try {
+        const response = await fetch(`/payments/my-payments/${memberId}`);
+        if (!response.ok) throw new Error("서버에서 결제 데이터를 가져오는 데 실패했습니다.");
+
+        const data = await response.json();
+        console.log("결제 데이터:", data);
+        renderPayments(data);
+    } catch (error) {
+        console.error("결제 데이터 불러오기 오류:", error);
+        alert("결제 데이터를 불러오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.");
+    }
+};
+
+const initializePaymentSection = (memberId) => {
+    fetchPayments(memberId);
+
+    const paymentToggleElements = document.querySelectorAll("#payment .fItXBi.toggle");
+
+    paymentToggleElements.forEach((element) => {
+        element.addEventListener("click", function () {
+            paymentToggleElements.forEach((el) => el.classList.remove("active"));
+            this.classList.add("active");
+        });
+    });
+
+    // 필터 버튼 이벤트 설정
+    document.getElementById("filter-1year-payment").addEventListener("change", () => applyFilterPayments(memberId, 12));
+    document.getElementById("filter-1month-payment").addEventListener("change", () => applyFilterPayments(memberId, 1));
+    document.getElementById("filter-3months-payment").addEventListener("change", () => applyFilterPayments(memberId, 3));
+    document.getElementById("filter-6months-payment").addEventListener("change", () => applyFilterPayments(memberId, 6));
+
+    // 초기화 버튼 이벤트 설정
+    document.getElementById("Initialization-payment").addEventListener("click", () => {
+        paymentToggleElements.forEach((el) => el.classList.remove("active"));
+        fetchPayments(memberId);
+    });
+};
+
+// 날짜 범위 필터 적용
+const updateDateRangePayments = async () => {
+    const startDate = document.getElementById("start-date-payments").value;
+    const endDate = document.getElementById("end-date-payments").value;
+    const memberId = await getMemberInfo();
+
+    console.log(`결제 내역 날짜 범위: 시작일 ${startDate}, 종료일 ${endDate}, 회원 ID: ${memberId}`);
+
+    if (startDate && endDate) {
+        await fetchFilteredPayments(memberId, startDate, endDate);
+    }
+};
+
+const applyFilterPayments = async (memberId, months) => {
+    const today = new Date();
+    const startDate = new Date(today.setMonth(today.getMonth() - months)).toISOString().split("T")[0];
+    const endDate = new Date().toISOString().split("T")[0];
+
+    console.log(`applyFilterPayments 호출됨. memberId: ${memberId}, startDate: ${startDate}, endDate: ${endDate}`);
+    await fetchFilteredPayments(memberId, startDate, endDate);
+};
+
+
+// 필터된 결제 데이터 가져오기
+const fetchFilteredPayments = async (memberId, startDate, endDate) => {
+    try {
+        const response = await fetch(`/payments/my-payments/${memberId}?startDate=${startDate}&endDate=${endDate}`);
+        if (!response.ok) throw new Error("서버에서 필터된 결제 데이터를 가져오는 데 실패했습니다.");
+
+        const data = await response.json();
+        console.log("필터된 결제 데이터:", data);
+        renderPayments(data);
+    } catch (error) {
+        console.error("필터된 결제 데이터 불러오기 오류:", error);
+        alert("필터된 결제 데이터를 불러오는 중 문제가 발생했습니다.");
+    }
+};
 /*********************공통*********************/
 
 // 모든 .fItXBi.toggle 요소를 선택
@@ -925,7 +1312,7 @@ if (refuse && refuseCloseModal) {
 
 // 후기 작성하기 버튼 클릭 시 후기 작성 페이지로 이동
 document.addEventListener("click", function (event) {
-    if (event.target.closest(".btn-request")) {
+    if (event.target.closest(".btn-gowrite")) {
         event.preventDefault();
         // 후기 작성 페이지로 이동
         window.location.href = "/donation/donation-write";
@@ -956,6 +1343,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         // initializeInquirySection(memberId);
         //후원 내역 섹션 초기화
         initializeBoostRecordSection(memberId);
+        //봉사 활동 내역 섹션 초기화
+        initializeVolunteerSection(memberId);
+
+        initializeApplicationSection(memberId);
+
+        initializePaymentSection(memberId);
+
 
 
     } catch (error) {
