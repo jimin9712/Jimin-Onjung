@@ -1022,7 +1022,131 @@ const getDateMonthsAgo = (months) => {
     date.setMonth(date.getMonth() - months);
     return date.toISOString().split("T")[0];
 };
+/*********************결제 내역*********************/
+// 결제 내역 렌더링 함수
+const renderPayments = (payments) => {
+    const paymentList = document.querySelector("#payment-list");
+    const emptyComponent = document.querySelector("#payment .empty-component");
 
+    if (payments.length === 0) {
+        paymentList.style.display = "none";
+        emptyComponent.style.display = "block";
+    } else {
+        paymentList.style.display = "block";
+        emptyComponent.style.display = "none";
+        paymentList.innerHTML = `
+            <table class="news-center-table" style="margin-top: 0; margin-bottom: 20px;">
+                <colgroup>
+                    <col style="width: 57px;">
+                    <col style="width: 150px;">
+                    <col style="width: 104px;">
+                    <col style="width: 150px;">
+                </colgroup>
+                <thead class="news-center-table-head">
+                    <tr>
+                        <th>결제 번호</th>
+                        <th>결제 상태</th>
+                        <th>결제 금액</th>
+                        <th>결제 일시</th>
+                    </tr>
+                </thead>
+                <tbody class="news-center-table-body">
+                    ${payments
+            .map(
+                (payment) => `
+                            <tr class="news-data-rows" data-id="${payment.id}">
+                                <td>${payment.id}</td>
+                                <td>${payment.paymentStatus}</td>
+                                <td>${payment.paymentAmount.toLocaleString()} 원</td>
+                                <td>${new Date(payment.createdDate).toLocaleDateString('ko-KR')}</td>
+                            </tr>`
+            )
+            .join("")}
+                </tbody>
+            </table>
+        `;
+    }
+
+    document.getElementById("payment-totalCount").textContent = payments.length;
+};
+
+// 결제 데이터 가져오기 함수
+const fetchPayments = async (memberId) => {
+    try {
+        const response = await fetch(`/payments/my-payments/${memberId}`);
+        if (!response.ok) throw new Error("서버에서 결제 데이터를 가져오는 데 실패했습니다.");
+
+        const data = await response.json();
+        console.log("결제 데이터:", data);
+        renderPayments(data);
+    } catch (error) {
+        console.error("결제 데이터 불러오기 오류:", error);
+        alert("결제 데이터를 불러오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.");
+    }
+};
+
+const initializePaymentSection = (memberId) => {
+    fetchPayments(memberId);
+
+    const paymentToggleElements = document.querySelectorAll("#payment .fItXBi.toggle");
+
+    paymentToggleElements.forEach((element) => {
+        element.addEventListener("click", function () {
+            paymentToggleElements.forEach((el) => el.classList.remove("active"));
+            this.classList.add("active");
+        });
+    });
+
+    // 필터 버튼 이벤트 설정
+    document.getElementById("filter-1year-payment").addEventListener("change", () => applyFilterPayments(memberId, 12));
+    document.getElementById("filter-1month-payment").addEventListener("change", () => applyFilterPayments(memberId, 1));
+    document.getElementById("filter-3months-payment").addEventListener("change", () => applyFilterPayments(memberId, 3));
+    document.getElementById("filter-6months-payment").addEventListener("change", () => applyFilterPayments(memberId, 6));
+
+    // 초기화 버튼 이벤트 설정
+    document.getElementById("Initialization-payment").addEventListener("click", () => {
+        paymentToggleElements.forEach((el) => el.classList.remove("active"));
+        fetchPayments(memberId);
+    });
+};
+
+// 날짜 범위 필터 적용
+const updateDateRangePayments = async () => {
+    const startDate = document.getElementById("start-date-payments").value;
+    const endDate = document.getElementById("end-date-payments").value;
+    const memberId = await getMemberInfo();
+
+    console.log(`결제 내역 날짜 범위: 시작일 ${startDate}, 종료일 ${endDate}, 회원 ID: ${memberId}`);
+
+    if (startDate && endDate) {
+        await fetchFilteredPayments(memberId, startDate, endDate);
+    }
+};
+
+const applyFilterPayments = async (memberId, months) => {
+    const today = new Date();
+    const startDate = new Date(today.setMonth(today.getMonth() - months)).toISOString().split("T")[0];
+    const endDate = new Date().toISOString().split("T")[0];
+
+    console.log(`applyFilterPayments 호출됨. memberId: ${memberId}, startDate: ${startDate}, endDate: ${endDate}`);
+    await fetchFilteredPayments(memberId, startDate, endDate);
+};
+
+
+// 필터된 결제 데이터 가져오기
+const fetchFilteredPayments = async (memberId, startDate, endDate) => {
+    try {
+        const response = await fetch(`/payments/my-payments/${memberId}?startDate=${startDate}&endDate=${endDate}`);
+        if (!response.ok) throw new Error("서버에서 필터된 결제 데이터를 가져오는 데 실패했습니다.");
+
+        const data = await response.json();
+        console.log("필터된 결제 데이터:", data);
+        renderPayments(data);
+    } catch (error) {
+        console.error("필터된 결제 데이터 불러오기 오류:", error);
+        alert("필터된 결제 데이터를 불러오는 중 문제가 발생했습니다.");
+    }
+};
 /*********************공통*********************/
 
 // 모든 .fItXBi.toggle 요소를 선택
@@ -1223,6 +1347,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         initializeVolunteerSection(memberId);
 
         initializeApplicationSection(memberId);
+
+        initializePaymentSection(memberId);
 
 
 

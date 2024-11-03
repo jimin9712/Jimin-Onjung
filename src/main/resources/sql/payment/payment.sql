@@ -15,4 +15,7 @@ select * from tbl_payment;
 alter table tbl_payment
     modify column payment_status varchar(100) default 'COMPLETED';
 
+insert into tbl_payment
+values (1,'COMPLETED',10000,23,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)
+
 

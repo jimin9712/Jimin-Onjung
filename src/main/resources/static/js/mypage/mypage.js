@@ -40,11 +40,27 @@ document.addEventListener("DOMContentLoaded", () => {
                 document.getElementById("profileIntroduction").textContent =
                     data.memberIntroduction || "한 줄 소개가 없습니다.";
 
+                // Update memberNickName and memberPoint in charge section
+                document.querySelector(".withdraw-input strong").textContent = displayName;
+                document.querySelector(".input-box span").textContent = `${data.memberPoint.toLocaleString()}원`;
+
                 const memberId = data.id;
                 if (!memberId) {
                     console.error("memberId가 존재하지 않습니다. 응답 데이터 구조를 확인하세요:", data);
                     alert("회원 ID를 가져오지 못했습니다.");
                     return;
+                }
+                    // 단체 회원이면 봉사 활동 신청 현황 보이고 아니면 안보임
+                    // 단체 회원이면 기부 감사 인사가 안보이고 아니면 보임
+                const gratitudeTab = document.querySelector(".lnb-item a[onclick*='gratitude']")
+                const applicationTab = document.querySelector(".lnb-item a[onclick*='application']")
+                if (data.memberType === "ORGANIZATION") {
+                    gratitudeTab.parentElement.style.display = "none";
+                    applicationTab.parentElement.style.display = "block";
+                } else {
+                    gratitudeTab.parentElement.style.display = "block";
+                    applicationTab.parentElement.style.display = "none";
+
                 }
 
                 // 지원 기록 및 기부 기록 조회 함수 정의
