@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -52,6 +53,12 @@ public class VolunteerServiceImpl implements VolunteerService {
     @Override
     public int getTotal() {
         return 0;
+    }
+
+    @Override
+    public Optional<VolunteerDTO> getPost(Long id) {
+        volunteerDAO.updatePostReadCount(id);
+        return volunteerDAO.findById(id);
     }
 
 }

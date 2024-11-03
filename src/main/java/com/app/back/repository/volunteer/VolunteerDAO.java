@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -28,6 +29,17 @@ public class VolunteerDAO {
     public int getTotal(){
         return volunteerMapper.selectTotal();
 }
+
+    //    게시글 조회
+    public Optional<VolunteerDTO> findById(Long id){
+        return volunteerMapper.selectById(id);
+    }
+
+    //    게시글 조회수 증가
+    public void updatePostReadCount(Long id){
+        volunteerMapper.updatePostReadCount(id);
+    }
+
 
 //  게시글 수정
 

@@ -77,6 +77,12 @@ public class VolunteerController {
         return volunteerList;
     }
 
+    @GetMapping("/volunteer-inquiry")
+    public void read(Long id, Model model){
+        VolunteerDTO volunteerDTO = volunteerService.getPost(id).orElseThrow();
+        model.addAttribute("list", volunteerDTO);
+    }
+
 }
 
 
