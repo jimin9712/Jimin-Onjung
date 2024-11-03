@@ -21,6 +21,9 @@ public interface InquiryService {
     public Optional<InquiryDTO> getPost(Long id);
     //    수정
     public void update(InquiryDTO inquiryDTO);
+
+    // 문의 상태 업데이트 메소드
+    public  void updateInquiryStatus(Long id, String status);
     //    삭제
     public void delete(Long id);
     //    전체 게시물 수
