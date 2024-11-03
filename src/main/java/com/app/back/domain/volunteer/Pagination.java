@@ -49,25 +49,31 @@ public class Pagination {
     }
 
     public void vtProgress() {
-        this.page = (page == null || page < 1) ? 1 : page;
-        this.rowCount = 10; // 페이지당 10개의 항목을 표시
-        this.pageCount = 10;
+        this.page = (page == null || page < 1) ? 1 : page;  // 현재 페이지가 null이거나 1보다 작으면 1로 설정
+        this.rowCount = 10;  // 한 페이지당 항목 수
+        this.pageCount = 10;  // 한 페이지 블록당 표시할 페이지 수
 
-        this.endRow = page * rowCount;
-        this.startRow = (page - 1) * rowCount; // 0부터 시작하도록 조정
+        // 데이터 조회의 시작 및 끝 행 계산
+        this.endRow = page * rowCount;  // 끝 행 번호
+        this.startRow = (page - 1) * rowCount;  // 시작 행 번호, 0부터 시작
 
+        // 총 페이지 수 계산
         this.realEnd = (int) Math.ceil((double) total / rowCount);
 
+        // 현재 페이지 블록의 마지막 페이지 계산
         this.endPage = (int) (Math.ceil((double) page / pageCount) * pageCount);
         this.startPage = endPage - pageCount + 1;
 
+        // 실제 총 페이지 수(realEnd)가 블록의 끝 페이지 수보다 작은 경우 보정
         if (realEnd < endPage) {
             endPage = realEnd == 0 ? 1 : realEnd;
         }
 
+        // 이전, 다음 버튼 여부 설정
         this.prev = startPage > 1;
         this.next = endPage < realEnd;
     }
+
 
 
 }

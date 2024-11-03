@@ -592,31 +592,25 @@ const showList = ({ lists}) => {
 // });
 
 document.addEventListener("DOMContentLoaded", () => {
-    console.log("Pagination values:", pagination); // 추가: pagination 객체 값 출력
-    // 나머지 코드
+    console.log("Pagination 객체:", pagination);  // pagination 값을 출력하여 제대로 전달되었는지 확인
 
     const pageContainer = document.querySelector(".page-container");
-
     if (!pageContainer) {
         console.error("The page-container element is missing in the DOM.");
         return;
     }
 
-    // 페이지 버튼을 생성하는 함수
     const showPaging = () => {
         let text = ``;
 
-        // 이전 페이지 버튼 추가
         if (pagination.prev) {
             text += `<a href="/volunteer/volunteer-list?page=${pagination.startPage - 1}" class="page-btn">이전</a>`;
         }
 
-        // 페이지 번호 생성
         for (let i = pagination.startPage; i <= pagination.endPage; i++) {
             text += `<a class="page-btn ${pagination.page === i ? 'active' : ''}" href="/volunteer/volunteer-list?page=${i}">${i}</a>`;
         }
 
-        // 다음 페이지 버튼 추가
         if (pagination.next) {
             text += `<a href="/volunteer/volunteer-list?page=${pagination.endPage + 1}" class="page-btn">다음</a>`;
         }
@@ -626,6 +620,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     showPaging();
 });
+
 
 
 

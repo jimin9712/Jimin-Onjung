@@ -10,7 +10,9 @@ const fetchVolunteers = async (order = "recent") => {
         const pagination = data.pagination || {};  // pagination 데이터가 없으면 빈 객체 사용
 
         console.log("봉사 모집 데이터:", lists);
-        console.log("페이지네이션 데이터:", pagination);
+        // console.log("페이지네이션 데이터:", pagination);
+        console.log("페이지네이션 데이터:", JSON.stringify(pagination));
+
 
         showList({ lists, pagination });
     } catch (error) {
