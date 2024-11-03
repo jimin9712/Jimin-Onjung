@@ -17,15 +17,6 @@ public interface VolunteerService {
 
     //    게시글 전체 개수 조회
     public int getTotal();
-
-    // 마감순 정렬
-    public List<VolunteerDTO> getListByEndingSoon(Pagination pagination);
-
-    // 기본 정렬
-    public List<VolunteerDTO> getListByRecent(Pagination pagination);
-
-    // 조회수 순 정렬 조회
-    List<VolunteerDTO> getListByViewCount(Pagination pagination);
 }
 
 

@@ -20,13 +20,19 @@ public class VolunteerDAO {
 
 
 //    게시글 전체 개수 조회(목록 가져오기<최신순, 조회수 순, 마감 임박 순>)
-public List<VolunteerDTO> findAll(Pagination pagination) {
+    public List<VolunteerDTO> findAll(Pagination pagination) {
     return volunteerMapper.selectAll(pagination);
 }
 
 //    게시글 전체 개수 조회
-public int getTotal(){
-    return volunteerMapper.selectTotal();
+    public int getTotal(){
+        return volunteerMapper.selectTotal();
 }
+
+//  게시글 수정
+
+
+
+
 
 }

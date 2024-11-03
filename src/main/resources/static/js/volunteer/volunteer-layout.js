@@ -594,6 +594,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
+
 // 게시글 목록과 페이지 네비게이션 표시 함수 호출
 // showList();
 // showPaging();
