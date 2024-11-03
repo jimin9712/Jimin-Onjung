@@ -93,7 +93,9 @@ public class MemberController {
             return "redirect:/member/login";
         }
 
-        return "main/main";
+        return "mypage/mypage";
+//        일단 마이페이지로 이동하게 바꿨습니다
+
     }
 
     // SMS 인증번호 전송 API
@@ -230,49 +232,15 @@ public class MemberController {
         }
     }
 
-    @GetMapping("/mypage/total-time")
-    @ResponseBody
-    public ResponseEntity<Integer> getTotalVtTime(HttpSession session) {
-        MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
-
-        if (loginMember != null) {
-            Long memberId = loginMember.getId();
-            log.info("총 봉사시간 요청: memberId = {}", memberId);
-            int totalVtTime = memberService.getTotalVtTime(memberId);
-            log.info("총 봉사시간: {}", totalVtTime);
-            return ResponseEntity.ok(totalVtTime);
-        } else {
-            log.warn("세션에 로그인된 회원 정보가 없습니다.");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-    }
-
-    @GetMapping("/mypage/vt-count")
-    @ResponseBody
-    public ResponseEntity<Integer> getVtCount(HttpSession session) {
-        MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
-
-        if (loginMember != null) {
-            Long memberId = loginMember.getId();
-            log.info("봉사활동 횟수 요청: memberId = {}", memberId);
-            int vtCount = memberService.getVtCountByMemberId(memberId);
-            log.info("봉사활동 횟수: {}", vtCount);
-            return ResponseEntity.ok(vtCount);
-        } else {
-            log.warn("세션에 로그인된 회원 정보가 없습니다.");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-    }
-
     @GetMapping("/mypage/mypage-profile-edit")
     public String goToProfileEdit(HttpSession session, Model model) {
         MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
 
         if (loginMember != null) {
             model.addAttribute("member", loginMember);
-            return "mypage/mypage-profile-edit"; // 프로필 수정 페이지로 이동
+            return "mypage/mypage-profile-edit";
         } else {
-            return "redirect:/member/login"; // 로그인 안 된 경우 로그인 페이지로 리다이렉트
+            return "redirect:/member/login";
         }
     }
 

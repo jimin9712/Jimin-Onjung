@@ -12,7 +12,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,14 +28,22 @@ public class DonationServiceImpl implements DonationService {
     private final AttachmentDAO attachmentDAO;
 
     @Override
-    public void write(DonationDTO donationDTO) {
+    public void write(DonationDTO donationDTO, List<String> uuids, List<String> paths, List<String> sizes, List<MultipartFile> files) throws IOException {
         postDAO.save(donationDTO.toPostVO());
         Long id = postDAO.selectCurrentId();
         donationDTO.setId(id);
-        if(donationDTO.getAttachmentFileName() != null && donationDTO.getAttachmentFilePath() != null && donationDTO.getAttachmentFileType() != null && donationDTO.getAttachmentFileSize() != null) {
-//            attachmentDAO.save(donationDTO.toAttachmentVO());
-        }
+        donationDTO.setPostId(id);
         donationDAO.save(donationDTO.toVO());
+        for(int i=0; i<files.size(); i++){
+            donationDTO.setAttachmentFileName(uuids.get(i) + "_" + files.get(i).getOriginalFilename());
+            donationDTO.setAttachmentFilePath(paths.get(i));
+            donationDTO.setAttachmentFileSize(String.valueOf(sizes.get(i)));
+            donationDTO.setAttachmentFileType(files.get(i).getContentType());
+            attachmentDAO.save(donationDTO.toAttachmentVO());
+        }
+//        if(donationDTO.getAttachmentFileName() != null && donationDTO.getAttachmentFilePath() != null && donationDTO.getAttachmentFileType() != null && donationDTO.getAttachmentFileSize() != null) {
+//            attachmentDAO.save(donationDTO.toAttachmentVO());
+//        }
     }
 
     @Override

@@ -1,10 +1,13 @@
+
 package com.app.back.controller.attachment;
+
 import com.app.back.domain.attachment.AttachmentDTO;
 import com.app.back.domain.attachment.AttachmentVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnailator;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -39,6 +42,7 @@ public class AttachmentController {
         for(int i=0; i<files.size(); i++){
             files.get(i).transferTo(new File(rootPath, uuid.toString() + "_" + files.get(i).getOriginalFilename()));
             attachmentDTO.setAttachmentFileName(uuid.toString() + "_" + files.get(i).getOriginalFilename());
+            attachmentDTO.setAttachmentFileSize(String.valueOf(files.get(i).getSize()));
 
             if(files.get(i).getContentType().startsWith("image")){
                 FileOutputStream fileOutputStream = new FileOutputStream(new File(rootPath, "t_" + uuid.toString() + "_" + files.get(i).getOriginalFilename()));
@@ -52,5 +56,12 @@ public class AttachmentController {
 
     private String getPath(){
         return LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+    }
+
+    //    가져오기
+    @GetMapping("display")
+    @ResponseBody
+    public byte[] display(String attachmentFileName) throws IOException{
+        return FileCopyUtils.copyToByteArray(new File("C:/upload", attachmentFileName));
     }
 }

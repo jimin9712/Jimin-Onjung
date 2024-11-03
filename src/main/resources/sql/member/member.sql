@@ -27,7 +27,7 @@ select * from tbl_member;
 
 
 insert into tbl_member(id,member_nickname)
-values(2,"닉네임2");
+values(3,"닉네임3");
 
 # alter table tbl_member
 #     modify column member_type smallint not null;
