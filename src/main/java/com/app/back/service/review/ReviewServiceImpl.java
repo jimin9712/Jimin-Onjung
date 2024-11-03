@@ -31,7 +31,7 @@ public class ReviewServiceImpl implements ReviewService {
     private final AttachmentDAO attachmentDAO;
 
     @Override
-    public void write(ReviewDTO reviewDTO, List<String> uuids, List<String> paths, List<MultipartFile> files) throws IOException {
+    public void write(ReviewDTO reviewDTO, List<String> uuids, List<String> paths, List<String> sizes, List<MultipartFile> files) throws IOException {
         postDAO.save(reviewDTO.toPostVO());
         Long id = postDAO.selectCurrentId();
         reviewDTO.setId(id);
@@ -40,8 +40,8 @@ public class ReviewServiceImpl implements ReviewService {
         for(int i=0; i<files.size(); i++){
             reviewDTO.setAttachmentFileName(uuids.get(i) + "_" + files.get(i).getOriginalFilename());
             reviewDTO.setAttachmentFilePath(paths.get(i));
+            reviewDTO.setAttachmentFileSize(sizes.get(i));
             reviewDTO.setAttachmentFileType(files.get(i).getContentType());
-            reviewDTO.setAttachmentFileSize(String.valueOf(files.get(i).getSize()));
             attachmentDAO.save(reviewDTO.toAttachmentVO());
         }
 //        if(reviewDTO.getAttachmentFileName() != null && reviewDTO.getAttachmentFilePath() != null && reviewDTO.getAttachmentFileType() != null && reviewDTO.getAttachmentFileSize() != null) {
@@ -75,5 +75,15 @@ public class ReviewServiceImpl implements ReviewService {
         reviewDAO.delete(id);
         postDAO.delete(id);
         // ID로 Q&A 게시글 삭제
+    }
+
+    @Override
+    public List<ReviewDTO> findByMemberId(Long memberId) {
+        return reviewDAO.findByMemberId(memberId);
+    }
+
+    @Override
+    public List<ReviewDTO> findByMemberIdAndDateRange(Long memberId, String startDate, String endDate) {
+        return reviewDAO.findByMemberIdAndDateRange(memberId, startDate, endDate);
     }
 }

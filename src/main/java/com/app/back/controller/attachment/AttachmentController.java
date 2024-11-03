@@ -42,6 +42,7 @@ public class AttachmentController {
         for(int i=0; i<files.size(); i++){
             files.get(i).transferTo(new File(rootPath, uuid.toString() + "_" + files.get(i).getOriginalFilename()));
             attachmentDTO.setAttachmentFileName(uuid.toString() + "_" + files.get(i).getOriginalFilename());
+            attachmentDTO.setAttachmentFileSize(String.valueOf(files.get(i).getSize()));
 
             if(files.get(i).getContentType().startsWith("image")){
                 FileOutputStream fileOutputStream = new FileOutputStream(new File(rootPath, "t_" + uuid.toString() + "_" + files.get(i).getOriginalFilename()));
