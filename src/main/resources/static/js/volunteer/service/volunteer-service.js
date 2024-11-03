@@ -35,18 +35,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 /////////////////////////////////페이지네이션부분////////////////////////////////////
-const vtListService = (() => {
-    const getList = async (page, id, callback) => {
-        page = page || 1;
-        const response = await fetch(`/lists/${id}/${page}`); // 여기서 소문자 id 사용
-        const lists = await response.json();
-
-        if (callback) {
-            callback(lists);
-        }
-    };
-    return { getList }; // 객체 반환
-})();
+// const vtListService = (() => {
+//     const getList = async (page, id, callback) => {
+//         page = page || 1;
+//         const response = await fetch(`/lists/${id}/${page}`); // 여기서 소문자 id 사용
+//         const lists = await response.json();
+//
+//         if (callback) {
+//             callback(lists);
+//         }
+//     };
+//     return { getList }; // 객체 반환
+// })();
 
 
 document.addEventListener("DOMContentLoaded", () => {

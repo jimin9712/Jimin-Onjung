@@ -49,6 +49,8 @@ public class VolunteerController {
     @GetMapping("/volunteer-list")
     public String getList(Pagination pagination, Model model) {
         pagination.setTotal(postService.getTotal("VOLUNTEER"));
+        pagination.setTotal(30);
+        pagination.setRowCount(2);
         pagination.vtProgress();
         model.addAttribute("lists", volunteerService.getList(pagination));
 
