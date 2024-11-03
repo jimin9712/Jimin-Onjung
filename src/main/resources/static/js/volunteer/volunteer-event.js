@@ -1,13 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const radioButtons = document.querySelectorAll(
-        '.contest-list-state input[type="radio"]'
-    );
-    const labels = document.querySelectorAll(".contest-list-state label");
-    const accordionDescription = document.querySelector(
-        ".accordion-description"
-    );
-    const svgToggle = document.querySelector(".status-svg svg"); // SVG 요소 선택
-    const openButton = document.querySelector(".open-button");
     const inputField = document.querySelector(".header-wrap input");
     const headerWrap = document.querySelector(".header-wrap");
     const bottomWrap = document.querySelector(".bottom-wrap");
@@ -59,27 +50,18 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
+
+// 페이지 버튼 가져오기
 const pageBtns = document.querySelectorAll("nav .page-btn");
 
+// 각 버튼에 이벤트 리스너 추가
 pageBtns.forEach((pageBtn) => {
-});
-pageBtn.addEventListener("click", (e) => {
-    // 클릭된 버튼에만 active 클래스 추가
+    pageBtn.addEventListener("click", (e) => {
+        // 모든 버튼에서 active 클래스 제거
+        pageBtns.forEach(btn => btn.classList.remove("active"));
 
-    pageBtn.classList.add("active");
-});
-// 모든 버튼에서 active 클래스 제거
-pageBtns.forEach(pageBtn => pageBtn.classList.remove("active"));
+        // 클릭된 버튼에만 active 클래스 추가
+        pageBtn.classList.add("active");
 
-/**********************************페이지네이션****************************************/
-
-vtListService.getList(1, postId, showList);
-globalThis.page = 1;
-
-vtPaging.addEventListener("click", (e) => {
-    e.preventDefault();
-    if(e.target.tagName === "A") {
-        globalThis.page = e.target.getAttribute("href");
-        vtListService.getList(globalThis.page, postId, showList);
-    }
+    });
 });
