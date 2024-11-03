@@ -138,3 +138,27 @@ const renderAnswer = (inquiryAnswer) => {
         console.error("answerContainer 요소를 찾을 수 없습니다.");
     }
 };
+// =============================================================여기서부터 공지사항 목록
+const notificationContainer = document.querySelector(".notification-list-wrap");
+
+// 공지사항 목록을 렌더링하는 함수
+const renderNotices = (notices) => {
+    let content = '';
+    notices.forEach((notice) => {
+        content += `
+            <li class="notification-container">
+                <a href="/help/help-notification-inquiry?id=${notice.id}" class="notification">
+                    <p class="notification-num">${notice.id}</p>
+                    <h4 class="notification-title">${notice.postTitle}</h4>
+                    <p class="notification-date">${notice.createdDate}</p>
+                </a>
+            </li>
+        `;
+    });
+
+    if (notificationContainer) {
+        notificationContainer.innerHTML = content;
+    } else {
+        console.error("notificationContainer 요소를 찾을 수 없습니다.");
+    }
+};

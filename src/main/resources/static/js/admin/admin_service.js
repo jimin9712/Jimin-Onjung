@@ -145,3 +145,18 @@ const handleAnswerSubmit = async (event) => {
         // 오류 처리
     }
 };
+// ========================================================================== 여기서부터 공지사항
+const fetchNotices = async (page = 1, keyword = '', filterType = '최신순') => {
+    try {
+        const response = await fetch(`/admin/notice-list?page=${page}&query=${keyword}&filterType=${filterType}`);
+        const data = await response.json();
+
+        console.log("공지사항 데이터:", data.notices); // 공지사항 목록 확인
+        console.log("페이지네이션 데이터:", data.pagination); // 페이지네이션 데이터 확인
+
+        renderNotices(data.notices);
+        renderPagination(data.pagination, keyword, filterType);
+    } catch (error) {
+        console.error("공지사항 데이터를 가져오는 중 오류 발생:", error);
+    }
+};
