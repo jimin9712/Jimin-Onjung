@@ -52,6 +52,10 @@ public class InquiryDAO {
         inquiryMapper.updateById(inquiryDTO);
     }
 
+    // 상태 업데이트
+    public void updateStatus(Long id, String status) {
+        inquiryMapper.updateStatus(id, status);
+    }
     //    삭제
     public void delete(Long id) {inquiryMapper.deleteById(id);}
 

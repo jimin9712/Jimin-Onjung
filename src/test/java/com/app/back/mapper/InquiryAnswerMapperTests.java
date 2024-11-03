@@ -18,10 +18,10 @@ public class InquiryAnswerMapperTests {
     @Test
     public void testwrite() {
         InquiryAnswerDTO inquiryAnswerDTO = new InquiryAnswerDTO();
-        inquiryAnswerDTO.setId(2L);
+        inquiryAnswerDTO.setId(3L);
         inquiryAnswerDTO.setInquiryId(2L);
         inquiryAnswerDTO.setInquiryAnswer("답변작성2");
-        inquiryAnswerMapper.insertAnswer(inquiryAnswerDTO.toVO());
+        inquiryAnswerMapper.insertAnswer(inquiryAnswerDTO.toAnswerVO());
     }
 
 
