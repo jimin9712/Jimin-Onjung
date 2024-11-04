@@ -126,49 +126,38 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 // ======================================================================================================== 답변제출
 const handleAnswerSubmit = async (event) => {
-    event.preventDefault();
+    event.preventDefault(); // 기본 폼 제출 방지
 
-    const form = event.target;
-    console.log("폼 요소:", form); // 폼 요소 확인
-
-    const inquiryId = form.querySelector('input[name="request-title"]').getAttribute("data-id");
-    console.log("문의 ID:", inquiryId); // 문의 ID 확인
-
-    const answerContent = form.querySelector('textarea[name="answer-content"]').value;
-    console.log("답변 내용:", answerContent); // 답변 내용 확인
+    const form = event.target; // 제출된 폼
+    const inquiryId = form.querySelector('input[name="request-title"]').getAttribute("data-id"); // 문의 ID 가져오기
+    const answerContent = form.querySelector('textarea[name="answer-content"]').value; // 답변 내용 가져오기
 
     const payload = {
         inquiryId: inquiryId,
         inquiryAnswer: answerContent,
     };
-    console.log("전송 페이로드:", payload); // 전송할 데이터 확인
 
     try {
         const response = await fetch('/admin/inquiry-answer', {
             method: 'POST',
-            body: JSON.stringify(payload),
+            body: JSON.stringify(payload), // JSON 형식으로 변환
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/json', // JSON 형식으로 설정
             },
         });
-        console.log("서버 응답 상태:", response.ok); // 응답 상태 확인
+
         if (response.ok) {
-            alert("답변이 제출되었습니다.");
+            alert("답변이 제출되었습니다."); // 사용자에게 피드백
             fetchInquiries();
 
-            sections.forEach((section) => {
-                section.classList.remove("selected");
-            });
-            console.log("모든 섹션 선택 해제 완료"); // 섹션 해제 확인
-
-            const inquiryListSection = Array.from(sections).find(
+            // 모든 섹션의 `selected` 클래스 제거
+            sections.forEach((section) => section.classList.remove("selected"));
+            console.log("이건가" + sections);
+            const inquiryListSection = sections.filter(
                 (section) => section.dataset.value === "고객센터 문의 목록"
             );
-            console.log("고객센터 문의 목록 섹션:", inquiryListSection); // 고객센터 문의 목록 섹션 확인
-
             if (inquiryListSection) {
                 inquiryListSection.classList.add("selected");
-                console.log("고객센터 문의 목록 섹션 선택됨"); // 섹션 선택 확인
             } else {
                 console.error("고객센터 문의 목록 섹션을 찾을 수 없습니다.");
             }
@@ -180,7 +169,6 @@ const handleAnswerSubmit = async (event) => {
         console.error("서버 요청 중 오류 발생:", error);
     }
 };
-
 // ========================================================================== 여기서부터 공지사항
 const fetchNotices = async (page = 1, keyword = '', filterType = '최신순') => {
     try {
