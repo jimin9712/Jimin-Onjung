@@ -111,13 +111,13 @@ public Map<String, Object> submitAnswer(@RequestBody InquiryAnswerDTO inquiryAns
         pagination.progress();
 
         // 공지사항 목록 가져오기 (필터 없이 기본 목록만)
-        List<NoticeDTO> notices = noticeService.getList(pagination, search);
+        List<NoticeDTO> notis = noticeService.getList(pagination, search);
 
         // 결과를 Map에 담아 JSON 형태로 반환
         Map<String, Object> result = new HashMap<>();
-        result.put("notices", notices);
+        result.put("notis", notis);
         result.put("pagination", pagination);
-        log.info("공지사항 목록 반환: {}", notices); // 응답 로그
+        log.info("공지사항 목록 반환: {}", notis); // 응답 로그
         return result;
     }
 

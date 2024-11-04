@@ -257,7 +257,7 @@ notificationLinks.forEach((notificationLink) => {
         notificationInquirySection[0].classList.add("selected"); // 해당 섹션 선택
     });
 });
-
+//============================================================================고객센터
 const inquiryAnswerButtons = document.querySelectorAll(
     ".inquiryTable_cell button.editBtn"
 );
@@ -295,3 +295,15 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
+// =====================================================================공지사항
+const noticeKeyword = document.querySelector("input[name='keyword']");
+
+// 검색 이벤트
+noticeKeyword.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        const keyword = noticeKeyword.value.trim();
+        fetchNotices(1, keyword);
+    }
+});
+
