@@ -86,4 +86,9 @@ public class ReviewServiceImpl implements ReviewService {
     public List<ReviewDTO> findByMemberIdAndDateRange(Long memberId, String startDate, String endDate) {
         return reviewDAO.findByMemberIdAndDateRange(memberId, startDate, endDate);
     }
+
+    @Override
+    public List<ReviewDTO> getLatest10Reviews() {
+        return reviewDAO.findTop10();
+    }
 }

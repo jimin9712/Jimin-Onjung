@@ -31,4 +31,6 @@ public interface ReviewMapper {
             @Param("startDate") String startDate,
             @Param("endDate") String endDate
     );
+
+    public List<ReviewDTO> selectTop10Reviews();
 }
