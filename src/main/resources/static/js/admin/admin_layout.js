@@ -131,7 +131,6 @@ const renderAnswer = (inquiryAnswer) => {
                     </form>
                 </div>
             </div>`;
-        answerContainer.style.display = "block"; // 화면에 보이도록 설정
         const answerForm = document.getElementById("new-request");
         answerForm.addEventListener("submit", handleAnswerSubmit);
 
