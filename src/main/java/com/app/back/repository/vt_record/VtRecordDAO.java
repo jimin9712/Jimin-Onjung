@@ -39,5 +39,12 @@ public class VtRecordDAO {
         return vtRecordMapper.selectByMemberIdAndDateRange(memberId, startDate, endDate);
     }
 
+    public int getTotalvtTimeByMemberId(Long memberId) {
+        return vtRecordMapper.selectTotalVtTimeByMemberId(memberId);
+    }
+    public int getTotalvtCountByMemberId(Long memberId) {
+        return vtRecordMapper.selectVtCountByMemberId(memberId);
+    }
+
 
 }

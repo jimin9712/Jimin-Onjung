@@ -50,4 +50,14 @@ public class VtRecordServiceImpl implements VtRecordService {
     public List<VtRecordDTO> findByMemberIdAndDateRange(Long memberId, String startDate, String endDate) {
         return vtRecordDAO.findByMemberIdAndDateRange(memberId, startDate, endDate);
     }
+
+    @Override
+    public int getTotalvtTimeCountByMemberId(Long memberId) {
+        return vtRecordDAO.getTotalvtTimeByMemberId(memberId);
+    }
+
+    @Override
+    public int getTotalvtCountByMemberId(Long memberId) {
+        return vtRecordDAO.getTotalvtCountByMemberId(memberId);
+    }
 }
