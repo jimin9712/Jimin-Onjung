@@ -1,5 +1,6 @@
 package com.app.back.controller.volunteer;
 
+import com.app.back.domain.review.ReviewDTO;
 import com.app.back.domain.volunteer.Pagination;
 import com.app.back.domain.volunteer.VolunteerDTO;
 import com.app.back.service.post.PostService;
@@ -82,6 +83,18 @@ public class VolunteerController {
         VolunteerDTO volunteerDTO = volunteerService.getPost(id).orElseThrow();
         model.addAttribute("list", volunteerDTO);
     }
+
+    @PostMapping("volunteer-update")
+    public RedirectView volunteerUpdate(ReviewDTO reviewDTO) {
+        volunteerService.update(reviewDTO);
+        return new RedirectView("/volunteer/volunteer-list"); // 게시물 리스트로 리턴
+    }
+
+    @GetMapping("volunteer-delete")
+    public RedirectView volunteerDelete(@RequestParam("postId") Long postId) {
+        volunteerService.delete(postId);
+        return new RedirectView("/volunteer/volunteer-list"); } // 게시물 리스트로 리턴
+
 
 }
 

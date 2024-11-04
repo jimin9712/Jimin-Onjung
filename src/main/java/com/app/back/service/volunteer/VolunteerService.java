@@ -1,5 +1,6 @@
 package com.app.back.service.volunteer;
 
+import com.app.back.domain.review.ReviewDTO;
 import com.app.back.domain.volunteer.Pagination;
 import com.app.back.domain.volunteer.VolunteerDTO;
 
@@ -20,6 +21,12 @@ public interface VolunteerService {
 
     //    개시글 조회
     public Optional<VolunteerDTO> getPost(Long id);
+
+    //    개시글 수정
+    public void update(ReviewDTO reviewDTO);
+
+    //    개시글 삭제
+    public void delete(Long id);
 }
 
 

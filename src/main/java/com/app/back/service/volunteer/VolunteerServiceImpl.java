@@ -2,6 +2,7 @@ package com.app.back.service.volunteer;
 
 import com.app.back.domain.attachment.AttachmentVO;
 import com.app.back.domain.post.PostVO;
+import com.app.back.domain.review.ReviewDTO;
 import com.app.back.domain.volunteer.Pagination;
 import com.app.back.domain.volunteer.VolunteerDTO;
 import com.app.back.mapper.attachment.AttachmentMapper;
@@ -32,15 +33,12 @@ public class VolunteerServiceImpl implements VolunteerService {
 
         // 2. PostVO 객체 삽입 (게시물 정보 저장)
         postMapper.insert(postVO);
-
         // 3. AttachmentVO가 null이 아닐 때만 삽입
         if (attachmentVO != null) {
             attachmentMapper.insert(attachmentVO);
         }
-
         // 4. 삽입 후 생성된 postVO의 ID를 VolunteerDTO에 설정
         volunteerDTO.setId(postVO.getId());
-
         // 5. VolunteerVO 객체로 변환 후 삽입
         volunteerMapper.insert(volunteerDTO.toVO());
     }
@@ -59,6 +57,19 @@ public class VolunteerServiceImpl implements VolunteerService {
     public Optional<VolunteerDTO> getPost(Long id) {
         volunteerDAO.updatePostReadCount(id);
         return volunteerDAO.findById(id);
+    }
+
+    @Override
+    public void update(ReviewDTO reviewDTO) {
+        volunteerDAO.update(reviewDTO); // Q&A 게시글 수정
+    }
+
+    @Override
+    public void delete(Long id) {
+
+        volunteerDAO.delete(id);
+        volunteerDAO.delete(id);
+        // ID로 Q&A 게시글 삭제
     }
 
 }

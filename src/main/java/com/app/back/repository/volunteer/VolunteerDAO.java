@@ -1,6 +1,7 @@
 package com.app.back.repository.volunteer;
 
 
+import com.app.back.domain.review.ReviewDTO;
 import com.app.back.domain.volunteer.Pagination;
 import com.app.back.domain.volunteer.VolunteerDTO;
 import com.app.back.domain.volunteer.VolunteerVO;
@@ -40,8 +41,15 @@ public class VolunteerDAO {
         volunteerMapper.updatePostReadCount(id);
     }
 
+    // ID로 프로젝트 포스트 수정
+    public void update(ReviewDTO reviewDTO) {
+        volunteerMapper.update(reviewDTO);
+    }
 
-//  게시글 수정
+    // ID로 프로젝트 포스트 삭제
+    public void delete(Long id) {
+        volunteerMapper.deleteById(id);
+    }
 
 
 

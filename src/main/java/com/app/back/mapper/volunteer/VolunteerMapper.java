@@ -1,5 +1,6 @@
 package com.app.back.mapper.volunteer;
 
+import com.app.back.domain.review.ReviewDTO;
 import com.app.back.domain.volunteer.Pagination;
 import com.app.back.domain.volunteer.VolunteerDTO;
 import com.app.back.domain.volunteer.VolunteerVO;
@@ -25,17 +26,11 @@ public interface VolunteerMapper {
     //  봉사활동 게시글 조회
     public Optional<VolunteerDTO> selectById(@Param("id") Long id);
 
-    //    봉사활동 게시글 수정
-    @Mapper
-//public interface PostMapper {
-//    void updatePost(VtApplicationDTO vtApplicationDTO);
-//    void updateVt(VtApplicationDTO vtApplicationDTO);
-//    void updateAttachment(VtApplicationDTO vtApplicationDTO);
-//
-//    VtApplicationDTO selectPostById(Long id);
-//    VtApplicationDTO selectVtById(Long id);
-//    VtApplicationDTO selectAttachmentByPostId(Long postId);
-//}
+    //  봉사활동 게시글 수정
+    public void update(ReviewDTO reviewDTO);
+
+    //  봉사활동 게시글 삭제
+    public void deleteById(Long id);
 
     // 봉사활동 지원자 증가
     public void updateNowRecruitment(@Param("id") int id);
