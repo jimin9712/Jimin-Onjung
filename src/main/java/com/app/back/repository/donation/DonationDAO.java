@@ -24,6 +24,10 @@ public class DonationDAO {
     public List<DonationDTO> findAll(Pagination pagination) {
         return donationMapper.selectAll(pagination);
     }
+
+    public List<DonationDTO> findFilterAll(Pagination pagination) {
+        return donationMapper.selectFilterAll(pagination);
+    }
     //    전체 개수
     public int findCount(){
         return donationMapper.selectCount();

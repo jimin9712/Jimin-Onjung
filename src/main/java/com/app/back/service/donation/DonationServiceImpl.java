@@ -57,6 +57,9 @@ public class DonationServiceImpl implements DonationService {
     }
 
     @Override
+    public List<DonationDTO> getFilterList(Pagination pagination) { return donationDAO.findFilterAll(pagination);}
+
+    @Override
     public int getTotal() {
         return donationDAO.findCount();
     }
