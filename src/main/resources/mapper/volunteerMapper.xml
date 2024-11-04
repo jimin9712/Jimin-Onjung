@@ -20,24 +20,25 @@
         left join tbl_member m on p.member_id = m.id
         left join tbl_profile pf on p.member_id = pf.id
         <where>
+            <if test="pagination.postType == 'VOLUNTEER'">
+                p.post_type = #{pagination.postType}
+            </if>
             <if test="pagination.order == 'endingSoon'">
-                v.vt_e_date >= current_date
+                v.vt_e_date >= curdate()
             </if>
         </where>
         order by
         <choose>
             <when test="pagination.order == 'recent'">p.created_date desc</when>
-            <when test="pagination.order == 'viewCount'">p.post_view_count desc,p.created_date desc</when>
+            <when test="pagination.order == 'viewCount'">p.post_view_count desc, p.created_date desc</when>
             <when test="pagination.order == 'endingSoon'">v.vt_e_date asc, p.created_date desc</when>
             <otherwise>p.created_date desc</otherwise>
         </choose>
         limit #{pagination.startRow}, #{pagination.rowCount}
     </select>
 
-
-
     <select id="selectTotal">
-        select count(*) from tbl_vt
+        select count(*) from tbl_post
     </select>
 
     <select id="selectById" resultType="VolunteerDTO">

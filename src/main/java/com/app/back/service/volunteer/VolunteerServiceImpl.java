@@ -50,7 +50,7 @@ public class VolunteerServiceImpl implements VolunteerService {
 
     @Override
     public int getTotal() {
-        return 0;
+        return volunteerDAO.findCount();
     }
 
     @Override

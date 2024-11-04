@@ -65,3 +65,18 @@ pageBtns.forEach((pageBtn) => {
 
     });
 });
+
+// 페이지네이션 버튼 클릭 이벤트
+// document.addEventListener("click", (e) => {
+//     if (e.target.closest("#paging")) {
+//         e.preventDefault();
+//         const target = e.target.closest("a");
+//         if (target) {
+//             const page = target.getAttribute("href").split("=")[1];
+//             console.log("요청된 페이지 번호:", page); // 요청된 페이지 번호 로그 출력
+//             vtListService.getList(page, (data) => {
+//                 showList({ lists: data.lists, pagination: data.pagination });
+//             });
+//         }
+//     }
+// });
