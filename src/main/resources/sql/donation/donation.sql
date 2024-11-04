@@ -7,7 +7,7 @@ create table tbl_donation(
     references tbl_post(id)
 
 );
-
 select * from tbl_donation;
+
 
 drop table tbl_donation;
