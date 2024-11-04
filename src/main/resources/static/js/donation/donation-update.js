@@ -143,3 +143,5 @@ const updateDateRange = () => {
         dateCountDisplay.textContent = "X";
     }
 };
+
+updateDateRange();

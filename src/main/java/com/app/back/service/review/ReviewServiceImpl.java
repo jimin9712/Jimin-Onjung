@@ -37,12 +37,14 @@ public class ReviewServiceImpl implements ReviewService {
         reviewDTO.setId(id);
         reviewDTO.setPostId(id);
         reviewDAO.save(reviewDTO.toVO());
-        for(int i=0; i<files.size(); i++){
-            reviewDTO.setAttachmentFileName(uuids.get(i) + "_" + files.get(i).getOriginalFilename());
-            reviewDTO.setAttachmentFilePath(paths.get(i));
-            reviewDTO.setAttachmentFileSize(sizes.get(i));
-            reviewDTO.setAttachmentFileType(files.get(i).getContentType());
-            attachmentDAO.save(reviewDTO.toAttachmentVO());
+        if(files != null) {
+            for(int i=0; i<files.size(); i++){
+                reviewDTO.setAttachmentFileName(uuids.get(i) + "_" + files.get(i).getOriginalFilename());
+                reviewDTO.setAttachmentFilePath(paths.get(i));
+                reviewDTO.setAttachmentFileSize(sizes.get(i));
+                reviewDTO.setAttachmentFileType(files.get(i).getContentType());
+                attachmentDAO.save(reviewDTO.toAttachmentVO());
+            }
         }
 //        if(reviewDTO.getAttachmentFileName() != null && reviewDTO.getAttachmentFilePath() != null && reviewDTO.getAttachmentFileType() != null && reviewDTO.getAttachmentFileSize() != null) {
 //            attachmentDAO.save(reviewDTO.toAttachmentVO());

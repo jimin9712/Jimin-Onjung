@@ -1,5 +1,4 @@
 const searchInput = document.querySelector(".Filter_searchInput");
-const paginationContainer = document.querySelector(".pagination-list.inquiry-page");
 const inquiryFilters = document.querySelectorAll(".sort-filter-option.inquiry-list");
 
 // 전역 변수로 현재 검색어와 필터를 저장
@@ -39,42 +38,6 @@ const fetchFilteredInquiries = async (page = 1, keyword = inquiryKeyword, filter
     }
 };
 
-// 페이지네이션을 렌더링하는 함수
-const renderPagination = (pagination, keyword = '', filterType = '') => {
-    let paginationHTML = '';
-
-    paginationHTML += `<li class="pagination-first">
-        <a href="#" data-page="1" class="pagination-first-link">«</a></li>`;
-
-    if (pagination.prev) {
-        paginationHTML += `<li class="pagination-prev">
-            <a href="#" data-page="${pagination.startPage - 1}" class="pagination-prev-link">‹</a></li>`;
-    }
-
-    for (let i = pagination.startPage; i <= pagination.endPage; i++) {
-        paginationHTML += `<li class="pagination-page ${pagination.page === i ? 'active' : ''}">
-            <a href="#" data-page="${i}" class="pagination-page-link">${i}</a></li>`;
-    }
-
-    if (pagination.next) {
-        paginationHTML += `<li class="pagination-next">
-            <a href="#" data-page="${pagination.endPage + 1}" class="pagination-next-link">›</a></li>`;
-    }
-
-    paginationHTML += `<li class="pagination-last">
-        <a href="#" data-page="${pagination.realEnd}" class="pagination-last-link">»</a></li>`;
-
-    paginationContainer.innerHTML = paginationHTML;
-
-    document.querySelectorAll(".pagination-page-link, .pagination-prev-link, .pagination-next-link, .pagination-first-link, .pagination-last-link").forEach(link => {
-        link.addEventListener("click", (e) => {
-            e.preventDefault();
-            const page = e.target.getAttribute("data-page");
-            fetchFilteredInquiries(page, inquiryKeyword, inquiryFilterType);
-        });
-    });
-};
-
 // 전체 문의 데이터를 가져오는 함수
 const fetchInquiries = async (page = 1) => {
     try {
@@ -84,64 +47,122 @@ const fetchInquiries = async (page = 1) => {
         renderPagination(data.pagination);
     } catch (error) {
         // 오류 처리
+        console.error("데이터 가져오는 중 오류 발생:", error);
     }
 };
 
 // 초기 데이터 로드
 fetchInquiries(); // 첫 페이지의 데이터를 로드합니다.
-
+// ===============================================================================답변하기
 document.addEventListener("DOMContentLoaded", () => {
+    const sections = document.querySelectorAll("section.admin-page");
     const inquiryAnswerContainer = document.getElementById("inquiry_answer");
 
-    inquiryAnswerContainer.addEventListener("click", async (event) => {
+    document.querySelector(".inquiryTable_container").addEventListener("click", async (event) => {
         if (event.target.classList.contains("editBtn")) {
-            event.preventDefault(); // 기본 이벤트 방지
-
-            const inquiryId = event.target.closest(".data_row").getAttribute("data-id");
-            try {
-                const response = await fetch(`/admin/inquiry-answer?id=${inquiryId}`);
-
-                if (response.ok) {
-                    const data = await response.json();
-                    renderAnswer(data.inquiry);
+            sections.forEach((section) => section.classList.remove("selected")); // 모든 섹션 선택 해제
+            const inquiryAnswerSection = Array.from(sections).find(
+                (section) => section.dataset.value === "고객센터 문의 답변"
+            );
+            if (inquiryAnswerSection) {
+                inquiryAnswerSection.classList.add("selected"); // 고객센터 문의 답변 섹션에 selected 추가
+                const inquiryId = event.target.closest(".data_row").getAttribute("data-id"); // 게시글 ID 가져오기
+                try {
+                    const response = await fetch(`/admin/inquiry-answer?id=${inquiryId}`);
+                    if (response.ok) {
+                        const data = await response.json();
+                        renderAnswer(data.inquiry); // 받아온 데이터 렌더링
+                    } else {
+                    }
+                } catch (error) {
                 }
-            } catch (error) {
-                // 오류 처리
+            } else {
             }
         }
     });
 });
-
-// 답변 제출 폼 처리
+// ======================================================================================================== 답변제출
 const handleAnswerSubmit = async (event) => {
-    event.preventDefault(); // 기본 폼 제출 방지
+    event.preventDefault();
 
-    const form = event.target; // 제출된 폼
-    const inquiryId = form.querySelector('input[name="request-title"]').getAttribute("data-id"); // 문의 ID 가져오기
-    const answerContent = form.querySelector('textarea[name="answer-content"]').value; // 답변 내용 가져오기
-
+    const form = event.target;
+    const inquiryId = form.querySelector('input[name="request-title"]').getAttribute("data-id");
+    const answerContent = form.querySelector('textarea[name="answer-content"]').value;
     const payload = {
         inquiryId: inquiryId,
         inquiryAnswer: answerContent,
     };
-
     try {
         const response = await fetch('/admin/inquiry-answer', {
             method: 'POST',
-            body: JSON.stringify(payload), // JSON 형식으로 변환
+            body: JSON.stringify(payload),
             headers: {
-                'Content-Type': 'application/json', // JSON 형식으로 설정
+                'Content-Type': 'application/json',
             },
         });
-
+        console.log("서버 응답 상태:", response.ok); // 응답 상태 확인
         if (response.ok) {
-            window.location.href = '/admin'; // 문의 목록 페이지로 이동
-            alert("답변이 제출되었습니다."); // 사용자에게 피드백
+            alert("답변이 제출되었습니다.");
+            fetchInquiries();
+
+            sections.forEach((section) => {
+                section.classList.remove("selected");
+            });
+            const inquiryListSection = Array.from(sections).find(
+                (section) => section.dataset.value === "고객센터 문의 목록"
+            );
+            if (inquiryListSection) {
+                inquiryListSection.classList.add("selected");
+            } else {
+            }
         } else {
-            const errorText = await response.text(); // 서버 응답 본문 읽기
-            // 오류 처리
+            const errorText = await response.text();
         }
     } catch (error) {
-        // 오류 처리
     }
 };
+
+// ========================================================================== 여기서부터 공지사항
+// 공지사항 데이터를 가져오는 함수
+const fetchNotices = async (page = 1, keyword = '') => {
+    try {
+        const response = await fetch(`/admin/notice-list?page=${page}&query=${keyword}`);
+        const data = await response.json();
+        renderNotice(data.notis); // 공지사항 목록 렌더링
+        renderNoticePagination(data.pagination, keyword); // 페이지네이션 렌더링
+    } catch (error) {
+        console.error("공지사항 데이터를 불러오는 중 오류 발생:", error);
+    }
+};
+// 공지사항 목록 초기 로드
+fetchNotices(); // 초기 공지사항 데이터 로드
+
+// 공지사항 링크 클릭 시 공지사항 조회 섹션으로 이동하고 세부 내용 로드
+document.querySelector(".notification-wrap").addEventListener("click", async (event) => {
+    if (event.target.closest(".notification")) { // 공지사항 아이템 클릭 시
+        sections.forEach((section) => section.classList.remove("selected")); // 모든 섹션 선택 해제
+
+        const notificationInquirySection = Array.from(sections).find(
+            (section) => section.dataset.value === "공지사항 조회"
+        );
+
+        if (notificationInquirySection) {
+            notificationInquirySection.classList.add("selected"); // 공지사항 조회 섹션에 selected 추가
+            const noticeId = event.target.closest(".notification").getAttribute("data-id"); // 공지사항 ID 가져오기
+
+            try {
+                const response = await fetch(`/admin/notice-detail?id=${noticeId}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    renderNoticeDetail(data.notice); // 공지사항 세부내용 렌더링
+                } else {
+                    console.error("공지사항 데이터를 불러오는 데 실패했습니다.");
+                }
+            } catch (error) {
+                console.error("공지사항 데이터 로드 중 오류 발생:", error);
+            }
+        } else {
+            console.error("공지사항 조회 섹션을 찾을 수 없습니다.");
+        }
+    }
+});

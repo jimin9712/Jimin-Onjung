@@ -222,7 +222,7 @@ const showPaging = () => {
     // 이전 페이지 버튼 추가
     if (pagination.page > 1) {
         text += `<a 
-                    href="/review/review-list?page=${pagination.page - 1}" 
+                    href="/donation/donation-list?page=${pagination.page - 1}" 
                     class="page-btn prev"
                     ><svg
                         viewBox="0 0 12 12"
@@ -245,7 +245,7 @@ const showPaging = () => {
             text += `<a class="page-btn active">${i}</a>`;
         } else {
             // 다른 페이지인 경우
-            text += `<a href="/review/review-list?page=${i}" class="page-btn">${i}</a>`;
+            text += `<a href="/donation/donation-list?page=${i}" class="page-btn">${i}</a>`;
         }
     }
 
@@ -255,7 +255,7 @@ const showPaging = () => {
     // 다음 페이지 버튼 추가: endPage가 realEnd보다 작거나, 더 로드할 데이터가 있을 경우
     if (shouldShowNext) {
         text += `<a 
-                    href="/review/review-list?page=${pagination.page + 1}" 
+                    href="/donation/donation-list?page=${pagination.page + 1}" 
                     class="page-btn next"
                     ><svg
                         viewBox="0 0 12 12"
