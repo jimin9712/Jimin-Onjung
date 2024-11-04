@@ -22,6 +22,9 @@ public interface ReviewService {
     public List<ReviewDTO> findByMemberId(Long memberId);
     public List<ReviewDTO> findByMemberIdAndDateRange(Long memberId, String startDate, String endDate);
 
+    public List<ReviewDTO> getLatest10Reviews();
+
+
 }
 
 
