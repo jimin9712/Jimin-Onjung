@@ -1,12 +1,13 @@
 package com.app.back.service.volunteer;
 
+import com.app.back.domain.review.ReviewDTO;
 import com.app.back.domain.volunteer.Pagination;
 import com.app.back.domain.volunteer.VolunteerDTO;
-import com.app.back.mapper.volunteer.VolunteerMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 
 
 import java.util.List;
+import java.util.Optional;
+
 public interface VolunteerService {
 
     //    봉사모집 작성
@@ -18,14 +19,14 @@ public interface VolunteerService {
     //    게시글 전체 개수 조회
     public int getTotal();
 
-    // 마감순 정렬
-    public List<VolunteerDTO> getListByEndingSoon(Pagination pagination);
+    //    개시글 조회
+    public Optional<VolunteerDTO> getPost(Long id);
 
-    // 기본 정렬
-    public List<VolunteerDTO> getListByRecent(Pagination pagination);
+    //    개시글 수정
+    public void update(ReviewDTO reviewDTO);
 
-    // 조회수 순 정렬 조회
-    List<VolunteerDTO> getListByViewCount(Pagination pagination);
+    //    개시글 삭제
+    public void delete(Long id);
 }
 
 

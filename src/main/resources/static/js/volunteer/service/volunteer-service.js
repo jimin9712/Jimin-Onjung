@@ -10,7 +10,9 @@ const fetchVolunteers = async (order = "recent") => {
         const pagination = data.pagination || {};  // pagination 데이터가 없으면 빈 객체 사용
 
         console.log("봉사 모집 데이터:", lists);
-        console.log("페이지네이션 데이터:", pagination);
+        // console.log("페이지네이션 데이터:", pagination);
+        // console.log("페이지네이션 데이터:", JSON.stringify(pagination));
+
 
         showList({ lists, pagination });
     } catch (error) {
@@ -35,18 +37,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 /////////////////////////////////페이지네이션부분////////////////////////////////////
-const vtListService = (() => {
-    const getList = async (page, id, callback) => {
-        page = page || 1;
-        const response = await fetch(`/lists/${id}/${page}`); // 여기서 소문자 id 사용
-        const lists = await response.json();
-
-        if (callback) {
-            callback(lists);
-        }
-    };
-    return { getList }; // 객체 반환
-})();
+// const vtListService = (() => {
+//     const getList = async (page, callback) => {
+//         page = page || 1; // 기본값 설정
+//         const response = await fetch(`/volunteer/volunteer-info?order=recent&page=${page}`);
+//         const lists = await response.json();
+//
+//         if (callback) {
+//             callback(lists);
+//         }
+//     };
+//     return { getList };
+// })();
 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -55,16 +57,4 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-// 페이지네이션 버튼 클릭 이벤트
-// document.addEventListener("click", (e) => {
-//     if (e.target.closest("#paging")) {
-//         e.preventDefault();
-//         const target = e.target.closest("a");
-//         if (target) {
-//             const page = target.getAttribute("href").split("=")[1];
-//             vtListService.getList(page, "someId", (data) => {
-//                 showList({ lists: data.lists, pagination: data.pagination });
-//             });
-//         }
-//     }
-// });
+

@@ -20,7 +20,7 @@ from tbl_vt v
 # DESCRIBE tbl_vt;
 
 INSERT INTO tbl_vt (id, recruitment_count, vt_s_date, vt_e_date)
-VALUES (77, 10, '2024-10-23', '2024-11-25');
+VALUES (40, 13, '2024-11-03', '2024-11-12');
 
 # drop table tbl_vt;
 
@@ -44,7 +44,11 @@ FROM tbl_vt v
          LEFT JOIN tbl_member m ON p.member_id = m.id
          LEFT JOIN tbl_attachment at ON at.post_id = p.id
 WHERE p.id = 23;
-#
-#
-# SELECT * FROM tbl_vt WHERE id = 5;
+
+select count(*) from tbl_vt ;
+
+SELECT COUNT(*) FROM tbl_post WHERE post_type = 'VOLUNTEER';  -- 특정 조건의 데이터 개수 확인
+
+
+
 
