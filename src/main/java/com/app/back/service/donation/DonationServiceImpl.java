@@ -34,12 +34,14 @@ public class DonationServiceImpl implements DonationService {
         donationDTO.setId(id);
         donationDTO.setPostId(id);
         donationDAO.save(donationDTO.toVO());
-        for(int i=0; i<files.size(); i++){
-            donationDTO.setAttachmentFileName(uuids.get(i) + "_" + files.get(i).getOriginalFilename());
-            donationDTO.setAttachmentFilePath(paths.get(i));
-            donationDTO.setAttachmentFileSize(String.valueOf(sizes.get(i)));
-            donationDTO.setAttachmentFileType(files.get(i).getContentType());
-            attachmentDAO.save(donationDTO.toAttachmentVO());
+        if(files != null) {
+            for(int i=0; i<files.size(); i++){
+                donationDTO.setAttachmentFileName(uuids.get(i) + "_" + files.get(i).getOriginalFilename());
+                donationDTO.setAttachmentFilePath(paths.get(i));
+                donationDTO.setAttachmentFileSize(String.valueOf(sizes.get(i)));
+                donationDTO.setAttachmentFileType(files.get(i).getContentType());
+                attachmentDAO.save(donationDTO.toAttachmentVO());
+            }
         }
 //        if(donationDTO.getAttachmentFileName() != null && donationDTO.getAttachmentFilePath() != null && donationDTO.getAttachmentFileType() != null && donationDTO.getAttachmentFileSize() != null) {
 //            attachmentDAO.save(donationDTO.toAttachmentVO());

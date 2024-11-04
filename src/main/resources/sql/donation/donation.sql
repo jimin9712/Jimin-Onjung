@@ -9,5 +9,4 @@ create table tbl_donation(
 );
 select * from tbl_donation;
 
-
 drop table tbl_donation;
