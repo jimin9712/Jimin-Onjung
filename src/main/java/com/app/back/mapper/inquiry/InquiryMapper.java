@@ -43,6 +43,8 @@ public int selectTotal();
 //    검색 결과 개수 조회
 public int selectTotalWithSearch(@Param("search") Search search);
 
+
+
 public List<InquiryDTO> selectByMemberId(@Param("memberId") Long memberId); // 반환 타입 수정
 
 public List<InquiryDTO> selectByMemberIdAndDateRange(
