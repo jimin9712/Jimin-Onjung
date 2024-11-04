@@ -12,7 +12,7 @@
             rel="icon"
             href="https://cdn-dantats.stunning.kr/static/feature/loudFavicon/loud-favicon-32-new.png"
         />
-        <link rel="stylesheet" href="../../static/css/main/basic-header.css" />
+        <link rel="stylesheet" href="/css/main/basic-header.css" />
     </head>
     <body style="overflow-x: hidden">
         <div class="content-container-maincontent">
@@ -240,7 +240,7 @@
                                                     id="report-btn"
                                                     ><img
                                                         class="img-report"
-                                                        src="../../static/images/report.png"
+                                                        src="/images/report.png"
                                                     />신고하기</span
                                                 >
                                             </div>
@@ -337,14 +337,14 @@
                                             </div>
 
                                             <div class="donation-btn-container">
-                                                <a class="donation-btn-style2"
+                                                <a class="donation-btn-style2 go-update"
                                                     ><span
                                                         class="visual-correction"
                                                         >수정하기</span
                                                     ></a
                                                 >
                                                 <div class="space"></div>
-                                                <a class="donation-btn-style2"
+                                                <a class="donation-btn-style2 go-delete"
                                                     ><span
                                                         class="visual-correction"
                                                         >삭제하기</span
@@ -387,5 +387,22 @@
             </div>
         </div>
     </body>
+    <script th:inline="javascript">
+        const donation = [[${donation}]];
+        const donationContentWrap = document.querySelector("div.content-content.row-content");
+        const updateButton = document.querySelector("a.go-update");
+        const deleteButton = document.querySelector("a.go-delete");
+
+        donationContentWrap.innerText = donation.postContent;
+
+        updateButton.addEventListener("click", (e) => {
+            location.href = `/donation/donation-update?postId=${donation.id}`;
+        });
+
+        deleteButton.addEventListener("click", (e) => {
+            location.href = `/donation/donation-delete?postId=${donation.id}`;
+        })
+
+    </script>
     <script src="/js/donation/donation-inquiry.js"></script>
 </html>

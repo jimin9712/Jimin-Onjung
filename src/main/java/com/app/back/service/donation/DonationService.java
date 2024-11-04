@@ -14,6 +14,7 @@ public interface DonationService {
     public void write(DonationDTO donationDTO, List<String> uuids, List<String> paths, List<String> sizes, List<MultipartFile> files) throws IOException;;
     public Optional<DonationDTO> getById(Long id);
     public List<DonationDTO> getList(Pagination pagination);
+    public List<DonationDTO> getFilterList(Pagination pagination);
     public int getTotal();
     public void update(DonationDTO donationDTO);
     public void delete(Long id);

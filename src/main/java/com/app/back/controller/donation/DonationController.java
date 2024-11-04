@@ -61,14 +61,19 @@ public class DonationController {
     }
 
     @GetMapping("donation-list")
-    public String goToList(Pagination pagination, Model model) {
+    public String goToList(Pagination pagination, Model model, @RequestParam(required = false) String filterType) {
         if (pagination.getOrder() == null) {
             pagination.setOrder("created_date desc, n.id desc"); // 기본 정렬 기준
+        } else {
+            pagination.setOrder(filterType);
         }
         pagination.setTotal(postService.getTotal("DONATION"));
         pagination.progressReview();
-        model.addAttribute("donations", donationService.getList(pagination));
-
+        if(filterType == null || filterType.equals("최신등록순")) {
+            model.addAttribute("donations", donationService.getList(pagination));
+        } else {
+            model.addAttribute("donations", donationService.getFilterList(pagination));
+        }
         return "donation/donation-list";
     }
 
