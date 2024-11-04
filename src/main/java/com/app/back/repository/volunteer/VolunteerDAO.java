@@ -1,6 +1,7 @@
 package com.app.back.repository.volunteer;
 
 
+import com.app.back.domain.review.ReviewDTO;
 import com.app.back.domain.volunteer.Pagination;
 import com.app.back.domain.volunteer.VolunteerDTO;
 import com.app.back.domain.volunteer.VolunteerVO;
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -20,12 +22,37 @@ public class VolunteerDAO {
 
 
 //    게시글 전체 개수 조회(목록 가져오기<최신순, 조회수 순, 마감 임박 순>)
-public List<VolunteerDTO> findAll(Pagination pagination) {
+    public List<VolunteerDTO> findAll(Pagination pagination) {
     return volunteerMapper.selectAll(pagination);
 }
 
-//    게시글 조회수 순으로 전체 개수 조회
-//    public
+//    게시글 전체 개수 조회
+public int findCount(){
+    return volunteerMapper.selectCount();
+}
+
+    //    게시글 조회
+    public Optional<VolunteerDTO> findById(Long id){
+        return volunteerMapper.selectById(id);
+    }
+
+    //    게시글 조회수 증가
+    public void updatePostReadCount(Long id){
+        volunteerMapper.updatePostReadCount(id);
+    }
+
+    // ID로 프로젝트 포스트 수정
+    public void update(ReviewDTO reviewDTO) {
+        volunteerMapper.update(reviewDTO);
+    }
+
+    // ID로 프로젝트 포스트 삭제
+    public void delete(Long id) {
+        volunteerMapper.deleteById(id);
+    }
+
+
+
 
 
 }

@@ -16,19 +16,26 @@
         pf.profile_file_name, pf.profile_file_path, pf.profile_file_size, pf.profile_file_type,
         v.vt_s_date, v.vt_e_date, p.post_view_count, p.post_type, p.post_summary, p.created_date
         from tbl_vt v
-        join tbl_post p on v.id = p.id
-        join tbl_member m on p.member_id = m.id
-        join tbl_profile pf on p.member_id = pf.id
+        left join tbl_post p on v.id = p.id
+        left join tbl_member m on p.member_id = m.id
+        left join tbl_profile pf on p.member_id = pf.id
+        <where>
+            <if test="pagination.postType == 'VOLUNTEER'">
+                p.post_type = #{pagination.postType}
+            </if>
+            <if test="pagination.order == 'endingSoon'">
+                v.vt_e_date >= curdate()
+            </if>
+        </where>
         order by
         <choose>
             <when test="pagination.order == 'recent'">p.created_date desc</when>
-            <when test="pagination.order == 'viewCount'">p.post_view_count desc</when>
-            <when test="pagination.order == 'endingSoon'">v.vt_e_date asc</when>
+            <when test="pagination.order == 'viewCount'">p.post_view_count desc, p.created_date desc</when>
+            <when test="pagination.order == 'endingSoon'">v.vt_e_date asc, p.created_date desc</when>
             <otherwise>p.created_date desc</otherwise>
         </choose>
         limit #{pagination.startRow}, #{pagination.rowCount}
     </select>
-
 
     <select id="selectTotal">
         select count(*) from tbl_post

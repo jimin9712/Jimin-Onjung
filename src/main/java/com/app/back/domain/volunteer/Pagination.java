@@ -17,13 +17,12 @@ public class Pagination {
     private boolean prev, next;
     private int total;
     private String order;
-//        더보기 구현 시, 1개 더 가져오는 변수이다.
+    private String postType;  // postType 필드 추가
     private int moreRowcount;
 
     public void progress() {
         this.page = page == null ? 1 : page;
-        this.rowCount = 10;
-//        더보기 구현 시, 다음 페이지의 게시글 1개를 더 가져온다.
+        this.rowCount = 5;
         this.moreRowcount = rowCount + 1;
         this.pageCount = 10;
         this.endRow = page * rowCount;
@@ -36,7 +35,36 @@ public class Pagination {
         }
         this.prev = startPage > 1;
         this.next = endPage < realEnd;
-//        limit 문법에서 시작 인덱스는 0부터 시작하기 때문에 1 감소해준다.
         this.startRow--;
     }
+
+    public void vtProgress() {
+        this.page = (page == null || page < 1) ? 1 : page;
+        this.rowCount = 10;
+        this.pageCount = 10;
+
+        this.endRow = page * rowCount;
+        this.startRow = (page - 1) * rowCount;
+
+        this.realEnd = (int) Math.ceil((double) total / rowCount);
+
+        this.endPage = (int) (Math.ceil((double) page / pageCount) * pageCount);
+        this.startPage = endPage - pageCount + 1;
+
+        if (realEnd < endPage) {
+            endPage = realEnd == 0 ? 1 : realEnd;
+        }
+
+        this.prev = startPage > 1;
+        this.next = endPage < realEnd;
+
+        // 페이지네이션 설정 완료 후 로그 출력
+//        log.info("Pagination 설정 - page: {}, startRow: {}, endRow: {}, startPage: {}, endPage: {}, realEnd: {}",
+//                page, startRow, endRow, startPage, endPage, realEnd);
+
+        log.info("페이지네이션 설정 - page: {}, startRow: {}, endRow: {}", page, startRow, endRow);
+
+    }
+
+
 }

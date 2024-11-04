@@ -19,8 +19,9 @@ public class ProfileServiceImpl implements ProfileService {
         // DTO를 VO로 변환
         ProfileVO profileVO = profileDTO.toVO();
 
-        // 기존 프로필 존재 여부 확인
+        // 기존 프로필 존재 여부 확인하고
         ProfileVO existingProfileVO = profileDAO.selectByMemberId(profileVO.getMemberId());
+//        있으면 업데이트
         if (existingProfileVO != null) {
 
             ProfileVO updatedProfileVO = new ProfileVO(
@@ -34,7 +35,7 @@ public class ProfileServiceImpl implements ProfileService {
             );
             profileDAO.update(updatedProfileVO);
         } else {
-
+//    없으면 insert!!
             profileDAO.insert(profileVO);
         }
     }

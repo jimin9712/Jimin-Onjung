@@ -1,5 +1,4 @@
 package com.app.back.controller.inquiry;
-
 import com.app.back.domain.inquiry.InquiryDTO;
 import com.app.back.domain.inquiry_answer.InquiryAnswerDTO;
 import com.app.back.domain.notice.NoticeDTO;
@@ -13,7 +12,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+
 import org.springframework.web.bind.annotation.*;
+
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 
 import java.util.HashMap;
 import java.util.List;
@@ -121,5 +128,22 @@ public Map<String, Object> submitAnswer(@RequestBody InquiryAnswerDTO inquiryAns
         return result;
     }
 
+
+    @GetMapping("/my-inquirys/{memberId}")
+    @ResponseBody
+    public List<InquiryDTO> getMyInquirys(
+            @PathVariable Long memberId,
+            @RequestParam(required = false) String startDate,
+            @RequestParam(required = false) String endDate){
+
+        log.info("받은 회원 ID: {}, 시작 날짜: {}, 끝 날짜: {}",
+                memberId, startDate, endDate);
+
+        if (startDate != null && endDate != null) {
+            return inquiryService.findByMemberIdAndDateRange(memberId, startDate, endDate);
+        } else {
+            return inquiryService.findByMemberId(memberId);
+        }
+    }
 
 }

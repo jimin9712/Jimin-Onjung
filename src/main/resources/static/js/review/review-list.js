@@ -40,15 +40,6 @@ document.addEventListener("click", (event) => {
 const tabs = document.querySelectorAll(".tab-container .tab");
 const reviewListContainer = document.querySelector(".review-list-cards");
 
-// 게시글을 표시하는 함수
-const showPost = (type) => {
-    // 기존 카드 요소 제거
-    reviewListContainer.innerHTML = "";
-
-    // 선택된 타입에 따라 게시글 생성
-    type === "봉사활동 후기" ? showVolunteerPosts() : showDonationPosts();
-};
-
 // 별점 설정 함수
 // const setStarRating = (score, reviewElement) => {
 //     const stars = reviewElement.querySelectorAll(".stunning-star");
@@ -60,20 +51,21 @@ const showPost = (type) => {
 // };
 
 const showVolunteerPosts = () => {
-        const cardDivider = document.createElement("div");
-        cardDivider.classList.add(
-            "review-card-divider",
-            "review-rectangle-card"
-        );
-        let text = '';
-        let lightStar = `<svg class="gKXOVf dryTGB stunning-star active" viewBox="0 0 32 32">
-                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M29.2658 12.7468C29.1247 12.3246 28.7691 12.0213 28.3358 11.9557L20.5396 10.7669L17.0476 3.33933C16.851 2.9249 16.4499 2.66602 15.9977 2.66602C15.5444 2.66602 15.1433 2.9249 14.9467 3.34044L11.4546 10.7669L3.65733 11.9557C3.22625 12.0213 2.8696 12.3246 2.72739 12.7468C2.58295 13.179 2.68961 13.649 3.00626 13.9734L8.67481 19.7066L7.32933 27.9441C7.25267 28.404 7.43933 28.8551 7.81486 29.1196C8.01374 29.2607 8.24594 29.3318 8.47704 29.3318C8.66592 29.3318 8.85702 29.284 9.03145 29.1873L15.9977 25.3441L22.9628 29.1873C23.3506 29.4007 23.8183 29.3751 24.1794 29.1196C24.5538 28.8551 24.7416 28.404 24.6638 27.9452L23.2839 19.8066L28.988 13.9734C29.3047 13.649 29.4113 13.1801 29.2658 12.7468Z"></path>
-                                 <defs></defs>
-                           </svg>`;
-        let star = `<svg class="gKXOVf dryTGB stunning-star" viewBox="0 0 32 32">
-                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M29.2658 12.7468C29.1247 12.3246 28.7691 12.0213 28.3358 11.9557L20.5396 10.7669L17.0476 3.33933C16.851 2.9249 16.4499 2.66602 15.9977 2.66602C15.5444 2.66602 15.1433 2.9249 14.9467 3.34044L11.4546 10.7669L3.65733 11.9557C3.22625 12.0213 2.8696 12.3246 2.72739 12.7468C2.58295 13.179 2.68961 13.649 3.00626 13.9734L8.67481 19.7066L7.32933 27.9441C7.25267 28.404 7.43933 28.8551 7.81486 29.1196C8.01374 29.2607 8.24594 29.3318 8.47704 29.3318C8.66592 29.3318 8.85702 29.284 9.03145 29.1873L15.9977 25.3441L22.9628 29.1873C23.3506 29.4007 23.8183 29.3751 24.1794 29.1196C24.5538 28.8551 24.7416 28.404 24.6638 27.9452L23.2839 19.8066L28.988 13.9734C29.3047 13.649 29.4113 13.1801 29.2658 12.7468Z"></path>
-                                 <defs></defs>
-                           </svg>`;
+    reviewListContainer.innerHTML = '';
+    const cardDivider = document.createElement("div");
+    cardDivider.classList.add(
+        "review-card-divider",
+        "review-rectangle-card"
+    );
+    let text = '';
+    let lightStar = `<svg class="gKXOVf dryTGB stunning-star active" viewBox="0 0 32 32">
+                             <path fill-rule="evenodd" clip-rule="evenodd" d="M29.2658 12.7468C29.1247 12.3246 28.7691 12.0213 28.3358 11.9557L20.5396 10.7669L17.0476 3.33933C16.851 2.9249 16.4499 2.66602 15.9977 2.66602C15.5444 2.66602 15.1433 2.9249 14.9467 3.34044L11.4546 10.7669L3.65733 11.9557C3.22625 12.0213 2.8696 12.3246 2.72739 12.7468C2.58295 13.179 2.68961 13.649 3.00626 13.9734L8.67481 19.7066L7.32933 27.9441C7.25267 28.404 7.43933 28.8551 7.81486 29.1196C8.01374 29.2607 8.24594 29.3318 8.47704 29.3318C8.66592 29.3318 8.85702 29.284 9.03145 29.1873L15.9977 25.3441L22.9628 29.1873C23.3506 29.4007 23.8183 29.3751 24.1794 29.1196C24.5538 28.8551 24.7416 28.404 24.6638 27.9452L23.2839 19.8066L28.988 13.9734C29.3047 13.649 29.4113 13.1801 29.2658 12.7468Z"></path>
+                             <defs></defs>
+                       </svg>`;
+    let star = `<svg class="gKXOVf dryTGB stunning-star" viewBox="0 0 32 32">
+                             <path fill-rule="evenodd" clip-rule="evenodd" d="M29.2658 12.7468C29.1247 12.3246 28.7691 12.0213 28.3358 11.9557L20.5396 10.7669L17.0476 3.33933C16.851 2.9249 16.4499 2.66602 15.9977 2.66602C15.5444 2.66602 15.1433 2.9249 14.9467 3.34044L11.4546 10.7669L3.65733 11.9557C3.22625 12.0213 2.8696 12.3246 2.72739 12.7468C2.58295 13.179 2.68961 13.649 3.00626 13.9734L8.67481 19.7066L7.32933 27.9441C7.25267 28.404 7.43933 28.8551 7.81486 29.1196C8.01374 29.2607 8.24594 29.3318 8.47704 29.3318C8.66592 29.3318 8.85702 29.284 9.03145 29.1873L15.9977 25.3441L22.9628 29.1873C23.3506 29.4007 23.8183 29.3751 24.1794 29.1196C24.5538 28.8551 24.7416 28.404 24.6638 27.9452L23.2839 19.8066L28.988 13.9734C29.3047 13.649 29.4113 13.1801 29.2658 12.7468Z"></path>
+                             <defs></defs>
+                       </svg>`;
     reviews.forEach((review) => {
         let stars = '';
         for (let i = 0; i < review.reviewStarRate; i++) {
@@ -197,7 +189,7 @@ const showPaging = () => {
     pagingDiv.innerHTML = text;
 }
 
-showPost("봉사활동 후기");
+showVolunteerPosts();
 showPaging();
 
 // 부모 컨테이너 가져오기
@@ -208,7 +200,7 @@ for (let i = 0; i < 9; i++) {
     const rightBarImgWrap = document.createElement("div");
     rightBarImgWrap.classList.add("right-bar-img-wrap");
     rightBarImgWrap.innerHTML = `
-        <a href="/contest/view/152313" class="right-bar">
+        <a href="" class="right-bar">
             <div class="right-bar-img-container cover">
                 <div class="card-image-default aspect-ratio-card-wrapper card-image">
                     <div>

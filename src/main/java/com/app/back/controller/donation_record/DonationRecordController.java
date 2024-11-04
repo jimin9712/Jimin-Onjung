@@ -18,41 +18,35 @@ public class DonationRecordController {
 
     private final DonationRecordService donationRecordService;
 
-    // 기부 기록 생성
-    @PostMapping("/create")
+    @PostMapping("/write")
     public void createDonationRecord(@RequestBody DonationRecordDTO donationRecordDTO) {
         donationRecordService.save(donationRecordDTO);
     }
 
-    // ID로 특정 기부 기록 조회
     @GetMapping("/{id}")
     public Optional<DonationRecordDTO> getDonationRecordById(@PathVariable Long id) {
         return donationRecordService.findById(id);
     }
 
-    // 모든 기부 기록 조회
     @GetMapping("/all")
     public List<DonationRecordDTO> getAllDonationRecords() {
         return donationRecordService.findAll();
     }
 
-    // 기부 기록 수정
     @PutMapping("/update")
-    public void updateDonationRecord(@RequestBody DonationRecordDTO dto) {
-        donationRecordService.update(dto);
+    public void updateDonationRecord(@RequestBody DonationRecordDTO donationRecordDTO) {
+        donationRecordService.update(donationRecordDTO);
     }
 
-    // ID로 기부 기록 삭제
     @DeleteMapping("/{id}")
     public void deleteDonationRecord(@PathVariable Long id) {
         donationRecordService.deleteById(id);
     }
-    //   기부한 내역 합산
     @GetMapping("/total/{memberId}")
     public int getTotalDonationByMemberId(@PathVariable Long memberId) {
         log.info("받은 회원 ID: {}", memberId);
         int total = donationRecordService.getTotalDonationByMemberId(memberId);
-        log.info("Total Donation for memberId {}: {}", memberId, total); // 결과 로그
+        log.info("Total Donation for memberId {}: {}", memberId, total);
         return total;
     }
     @GetMapping("/my-donation/{memberId}")

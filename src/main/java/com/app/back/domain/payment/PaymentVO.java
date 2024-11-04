@@ -19,7 +19,7 @@ public class PaymentVO {
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
 
-    public PaymentDTO toPaymentDTO() {
+    public PaymentDTO toDTO() {
         PaymentDTO paymentDTO = new PaymentDTO();
         paymentDTO.setId(id);
         paymentDTO.setPaymentStatus(paymentStatus);
