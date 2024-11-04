@@ -100,7 +100,7 @@ public class ReviewController {
 
     @GetMapping("/my-review/{memberId}")
     @ResponseBody
-    public List<ReviewDTO> getMyDonationRecords(
+    public List<ReviewDTO> getMyReviews(
             @PathVariable Long memberId,
             @RequestParam(required = false) String startDate,
             @RequestParam(required = false) String endDate) {
@@ -113,6 +113,13 @@ public class ReviewController {
         } else {
             return reviewService.findByMemberId(memberId);
         }
+    }
+
+    @GetMapping("/latest-review")
+    @ResponseBody
+    public List<ReviewDTO> getLatestReviews() {
+        log.info("최신 리뷰 10개 조회 요청");
+        return reviewService.getLatest10Reviews();
     }
 
     }

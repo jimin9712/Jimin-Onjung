@@ -93,8 +93,7 @@ public class MemberController {
             return "redirect:/member/login";
         }
 
-        return "mypage/mypage";
-//        일단 마이페이지로 이동하게 바꿨습니다
+        return "main/main";
 
     }
 
@@ -263,5 +262,14 @@ public class MemberController {
         memberService.updateProfile(loginMember.toVO());
 
         return ResponseEntity.ok("프로필이 성공적으로 수정되었습니다.");
+    }
+
+    @GetMapping("/main/footer")
+    public String goTO() {
+        return "main/footer";
+    }
+    @GetMapping("/introduction/introduction")
+    public String goTOIntroduction() {
+        return "introduction/introduction";
     }
 }

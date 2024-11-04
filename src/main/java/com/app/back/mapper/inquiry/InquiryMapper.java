@@ -53,4 +53,5 @@ public List<InquiryDTO> selectByMemberIdAndDateRange(
         @Param("endDate") String endDate
 );
 
+
 }
