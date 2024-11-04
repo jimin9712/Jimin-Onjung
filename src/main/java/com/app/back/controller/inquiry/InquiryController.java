@@ -1,10 +1,12 @@
 package com.app.back.controller.inquiry;
 import com.app.back.domain.inquiry.InquiryDTO;
 import com.app.back.domain.inquiry_answer.InquiryAnswerDTO;
+import com.app.back.domain.notice.NoticeDTO;
 import com.app.back.domain.post.Pagination;
 import com.app.back.domain.post.Search;
 import com.app.back.service.inquiry.InquiryService;
 import com.app.back.service.inquiryAnswer.InquiryAnswerService;
+import com.app.back.service.notice.NoticeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -31,6 +33,7 @@ import java.util.Optional;
 public class InquiryController {
     private final InquiryService inquiryService;
     private final InquiryAnswerService inquiryAnswerService;
+    private final NoticeService noticeService;
 
 @GetMapping("/admin")   // 관리자 페이지
 public List<InquiryDTO> admin(Pagination pagination, Search search) {
@@ -98,6 +101,33 @@ public Map<String, Object> submitAnswer(@RequestBody InquiryAnswerDTO inquiryAns
     }
     return result;
 }
+    @GetMapping("/admin/notice-list")
+    @ResponseBody
+    public Map<String, Object> getNoticeList(Pagination pagination, Search search, @RequestParam(required = false) String query) {
+        log.info("공지사항 목록 요청이 수신되었습니다."); // 요청 확인 로그
+        // 검색어 설정
+        search.setKeyword(query);
+        pagination.setOrder("created_date desc"); // 기본 정렬 기준 설정
+
+        // 공지사항의 총 개수를 설정 (검색어에 따라 다름)
+        if (search.getKeyword() != null) {
+            pagination.setTotal(noticeService.getTotalWithSearch(search));
+        } else {
+            pagination.setTotal(noticeService.getTotal());
+        }
+        pagination.progress();
+
+        // 공지사항 목록 가져오기 (필터 없이 기본 목록만)
+        List<NoticeDTO> notis = noticeService.getList(pagination, search);
+
+        // 결과를 Map에 담아 JSON 형태로 반환
+        Map<String, Object> result = new HashMap<>();
+        result.put("notis", notis);
+        result.put("pagination", pagination);
+        log.info("공지사항 목록 반환: {}", notis); // 응답 로그
+        return result;
+    }
+
 
     @GetMapping("/my-inquirys/{memberId}")
     @ResponseBody

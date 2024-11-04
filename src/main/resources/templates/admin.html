@@ -295,6 +295,7 @@
                                             <!-- 이미지 -->
                                             <path
                                                 fill-rule="evenodd"
+
                                                 clip-rule="evenodd"
                                                 d="M6.656 3.944a1.4 1.4 0 0 1 .92-.344h9.448c.375 0 .735.15.998.417l2.84 2.883H3.258l3.398-2.956zM2.6 8.1V19A1.4 1.4 0 0 0 4 20.4h16a1.4 1.4 0 0 0 1.4-1.4V8.1H2.6zm4.976-5.7a2.6 2.6 0 0 0-1.706.638L2.293 6.15a2.6 2.6 0 0 0-.894 1.962V19A2.6 2.6 0 0 0 4 21.6h16a2.6 2.6 0 0 0 2.6-2.6V8.02a2.6 2.6 0 0 0-.747-1.825l-2.976-3.02a2.6 2.6 0 0 0-1.852-.775h-9.45zM9.4 12a.6.6 0 0 1 .6-.6h4a.6.6 0 1 1 0 1.2h-4a.6.6 0 0 1-.6-.6z"
                                             ></path>
@@ -914,10 +915,10 @@
                                 <div class="ServiceHeader_container"><h2 class="ServiceHeader_title">공지사항 목록</h2></div>
                                 <div class="list-top">
                                     <div class="category-notification-num">번호</div>
-                                    <div class="category-notification-title">제목</div>
-                                    <div class="category-notification-date notification-table">작성일</div>
+                                    <div class="category-notification-title noti-title-admin">제목</div>
+                                    <div class="category-notification-date notification-table noti-date-admin">작성일</div>
                                 </div>
-                                <ul class="notification-list-wrap" style="height: 360px;"></ul>
+                                <ul class="notification-list-wrap" style="height:360px;"></ul>
                                 <nav class="pagination-wrap notification-table">
                                     <div class="pagination-container">
                                         <div class="pagination-num-container">
@@ -1100,7 +1101,6 @@
                         <section
                             class="admin-page"
                             data-value="고객센터 문의 목록"
-                            id="inquiry_answer"
                             >
                             <div style="max-width: 1080px; margin: 24px 16px 0;">
                                 <!-- body_header -->
@@ -1434,128 +1434,7 @@
                                 </nav>
                             </div>
                         </section>
-                        <section class="admin-page" data-value="고객센터 문의 답변">
-                            <div style="max-width: 1080px; margin: 24px 16px 0;">
-                                <h1>고객센터 문의 답변</h1>
-                                <div class="form">
-                                    <form
-                                            id="new-request"
-                                            class="request-form"
-                                            data-form
-                                            data-form-type="request"
-                                            action="/help/write"
-                                            accept-charset="UTF-8"
-                                            method="post"
-                                    >
-                                        <div class="form-field required">
-                                            <label for="request-title">문의 제목</label>
-                                            <input
-                                                    type="text"
-                                                    name="request-title"
-                                                    id="request-title"
-                                                    maxlength="150"
-                                                    size="150"
-                                                    placeholder="간단한 제목을 입력해주세요."
-                                                    value="마이페이지에서 문제가 발생했는데 해결해주세요."
-                                            />
-                                        </div>
-                                        <div class="form-field-gap"></div>
-                                        <div class="form-field required">
-                                            <label for="request-description">문의 내용</label>
-                                            <textarea
-                                                    name="request-description"
-                                                    id="request-description"
-                                            >마이페이지를 열었더니 제가 이전에 충전한 포인트가 없어졌는데 이거 왜 그런건가요? 사진 첨부해서 보냅니다.</textarea>
-                                            <input
-                                                    type="hidden"
-                                                    name="request-description-input"
-                                                    id="request-description-input"
-                                                    value="text/plain"
-                                                    style="display: none"
-                                                    autocomplete="off"
-                                            />
-                                        </div>
-                                        <div class="form-field">
-                                            <label for="request-attachments"
-                                            >첨부파일</label
-                                            >
-                                            <div id="upload-zone" class="upload-zone">
-                                                <input
-                                                        type="file"
-                                                        multiple="true"
-                                                        id="attach-input"
-                                                        data-fileupload="true"
-                                                        data-dropzone="upload-dropzone"
-                                                />
-                                                <span>
-                                        <a>파일 추가</a>
-                                        또는 파일을 여기로 드래그
-                                    </span>
-                                            </div>
-                                            <ul
-                                                    id="attachments-upload-pool"
-                                                    class="attachments-upload-pool"
-                                            ></ul>
-                                        </div>
-                                        <div
-                                                class="form-field-agreements"
-                                                style="clear: both"
-                                        >
-                                            <p id="request-agreements">
-                                                (주)온정은 정보통신망 이용촉진 및 정보보호
-                                                등 관한 법률을 준수하며 고객님의 개인정보를
-                                                수집하고 소중하게 다루고 있습니다. 1. 수집
-                                                및 이용 항목 : 이메일, 이름, 연락처 2. 수집
-                                                및 이용 목적 : 앱 이용 문의에 대한 답변 관련
-                                                업무 3, 보유 및 이용 기간 : 수집 목적이
-                                                달성되면 모든 개인정보를 파기합니다. 동의를
-                                                하지 않을 경우 문의한 내용에 대한 답변에
-                                                제한이 있을 수 있습니다.
-                                            </p>
-                                            <label for="request-agreements-check" class="checked"
-                                            >동의합니다.</label
-                                            >
-                                            <input
-                                                    name="request-agreements-check"
-                                                    type="hidden"
-                                                    value="off"
-                                                    autocomplete="off"
-                                            />
-                                            <input
-                                                    type="checkbox"
-                                                    value="on"
-                                                    id="request-agreements-check"
-                                                    name="request-agreements-check"
-                                            />
-                                        </div>
-                                        <div class="form-field required">
-                                            <label for="request-description">답변 작성</label>
-                                            <textarea
-                                                    name="request-description"
-                                                    id="request-description"
-                                            ></textarea>
-                                            <input
-                                                    type="hidden"
-                                                    name="request-description-input"
-                                                    id="request-description-input"
-                                                    value="text/plain"
-                                                    style="display: none"
-                                                    autocomplete="off"
-                                            />
-                                        </div>
-                                        <footer>
-                                            <input
-                                                    type="submit"
-                                                    name="submit"
-                                                    value="답변제출"
-                                                    style="margin-bottom: 30px;"
-                                            />
-                                        </footer>
-                                    </form>
-                                </div>
-                            </div>
-                        </section>
-                        <section class="admin-page" data-value="고객센터 문의 답변">
+                        <section class="admin-page" data-value="고객센터 문의 답변" id="inquiry_answer">
                             <div style="max-width: 1080px; margin: 24px 16px 0;">
                                 <h1>고객센터 문의 답변</h1>
                     <div class="form">
@@ -1668,6 +1547,7 @@
                                 <input
                                     type="submit"
                                     name="submit"
+                                    id="submit-button"
                                     value="답변제출"
                                     style="margin-bottom: 30px;"
                                 />

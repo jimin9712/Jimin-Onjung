@@ -123,6 +123,7 @@ const renderAnswer = (inquiryAnswer) => {
                             <input
                                 type="submit"
                                 name="submit"
+                                id="submit-button"
                                 value="답변 제출"
                                 style="margin-bottom: 30px;"
                             />
@@ -130,7 +131,6 @@ const renderAnswer = (inquiryAnswer) => {
                     </form>
                 </div>
             </div>`;
-        answerContainer.style.display = "block"; // 화면에 보이도록 설정
         const answerForm = document.getElementById("new-request");
         answerForm.addEventListener("submit", handleAnswerSubmit);
 
@@ -138,3 +138,103 @@ const renderAnswer = (inquiryAnswer) => {
         console.error("answerContainer 요소를 찾을 수 없습니다.");
     }
 };
+// ==================================================================================================문의 목록 페이지네이션
+const paginationContainer = document.querySelector(".pagination-list.inquiry-page");
+// 페이지네이션을 렌더링하는 함수
+const renderPagination = (pagination, keyword = '', filterType = '') => {
+    let paginationHTML = '';
+
+    paginationHTML += `<li class="pagination-first">
+        <a href="#" data-page="1" class="pagination-first-link">«</a></li>`;
+
+    if (pagination.prev) {
+        paginationHTML += `<li class="pagination-prev">
+            <a href="#" data-page="${pagination.startPage - 1}" class="pagination-prev-link">‹</a></li>`;
+    }
+
+    for (let i = pagination.startPage; i <= pagination.endPage; i++) {
+        paginationHTML += `<li class="pagination-page ${pagination.page === i ? 'active' : ''}">
+            <a href="#" data-page="${i}" class="pagination-page-link">${i}</a></li>`;
+    }
+
+    if (pagination.next) {
+        paginationHTML += `<li class="pagination-next">
+            <a href="#" data-page="${pagination.endPage + 1}" class="pagination-next-link">›</a></li>`;
+    }
+
+    paginationHTML += `<li class="pagination-last">
+        <a href="#" data-page="${pagination.realEnd}" class="pagination-last-link">»</a></li>`;
+
+    paginationContainer.innerHTML = paginationHTML;
+
+    document.querySelectorAll(".pagination-page-link, .pagination-prev-link, .pagination-next-link, .pagination-first-link, .pagination-last-link").forEach(link => {
+        link.addEventListener("click", (e) => {
+            e.preventDefault();
+            const page = e.target.getAttribute("data-page");
+            fetchFilteredInquiries(page, inquiryKeyword, inquiryFilterType);
+        });
+    });
+};
+
+// =============================================================여기서부터 공지사항 목록
+const noticeContainer = document.querySelector(".notification-list-wrap");
+const pagingNotice = document.querySelector(".pagination-wrap.notification-table");
+
+// 공지사항 목록 렌더링 함수
+const renderNotice = (notis) => {
+    let content = '';
+    notis.forEach((notice) => {
+        content +=
+            `<li class="notification-container" >
+                <a href="/admin/notice-list?id=${notice.id}" class="notification noit-admin">
+                    <p class="notification-num">${notice.id}</p>
+                    <h4 class="notification-title">${notice.postTitle}</h4>
+                    <p class="notification-date noit-date-admin">${notice.createdDate}</p>
+                </a>
+            </li>`;
+    });
+    noticeContainer.innerHTML = content;
+};
+
+// 페이징을 렌더링하는 함수
+const renderNoticePagination = (pagination, keyword = '') => {
+    let paginationHTML = '';
+
+    if (pagination.prev) {
+        paginationHTML += `<a href="#" data-page="${pagination.startPage - 1}" class="pagination-prev">‹</a>`;
+    }
+
+    for (let i = pagination.startPage; i <= pagination.endPage; i++) {
+        paginationHTML += `<a href="#" data-page="${i}" class="${pagination.page === i ? 'active' : ''}">${i}</a>`;
+    }
+
+    if (pagination.next) {
+        paginationHTML += `<a href="#" data-page="${pagination.endPage + 1}" class="pagination-next">›</a>`;
+    }
+
+    pagingNotice.innerHTML = paginationHTML;
+};
+
+// 페이지네이션 이벤트 연결
+pagingNotice.querySelectorAll("a").forEach(link => {
+    link.addEventListener("click", (e) => {
+        e.preventDefault();
+        const page = e.target.getAttribute("data-page");
+        fetchNotices(page, keyword);
+    });
+});
+
+// 공지사항 세부 내용을 렌더링하는 함수
+const renderNoticeDetail = (notice) => {
+    const notificationContainer = document.querySelector(".notification-content"); // 세부내용 표시할 요소
+    if (notificationContainer) {
+        notificationContainer.innerHTML = `
+            <h1>${notice.postTitle}</h1>
+            <p>${notice.createdDate}</p>
+            <div>${notice.postContent}</div>
+        `;
+    } else {
+        console.error("notificationContainer 요소를 찾을 수 없습니다.");
+    }
+};
+fetchNotices();

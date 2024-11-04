@@ -262,10 +262,17 @@ button {
     text-align: center;
     width: 369px;
 }
-
+.noti-title-admin{
+    position: absolute;
+    left: 197px;
+}
 .category-notification-date {
     text-align: end;
     width: 462px;
+}
+.noti-date-admin{
+    position: absolute;
+    right: 223px;
 }
 
 .notification {
@@ -444,4 +451,11 @@ button {
     .search-container {
         width: 25%;
     }
+}
+
+.notification.noit-admin{
+    height: 44px;
+}
+.notification-date.noit-date-admin{
+    width: 76px;
 }

@@ -257,19 +257,53 @@ notificationLinks.forEach((notificationLink) => {
         notificationInquirySection[0].classList.add("selected"); // 해당 섹션 선택
     });
 });
-
+//============================================================================고객센터
 const inquiryAnswerButtons = document.querySelectorAll(
     ".inquiryTable_cell button.editBtn"
 );
+const inquirySubButton = document.getElementById("submit-button");
 
+// 답변하기 버튼 클릭 시 고객센터 문의 답변 섹션으로 이동
 inquiryAnswerButtons.forEach((inquiryAnswerButton) => {
     inquiryAnswerButton.addEventListener("click", (e) => {
         sections.forEach((section) => {
             section.classList.remove("selected"); // 모든 섹션 선택 해제
         });
-        const inquiryAnswerSection = sections.filter(
+        const inquiryAnswerSection = Array.from(sections).find(
             (section) => section.dataset.value === "고객센터 문의 답변" // 고객센터 문의 답변 섹션 찾기
         );
-        inquiryAnswerSection[0].classList.add("selected"); // 해당 섹션 선택
+        inquiryAnswerSection.classList.add("selected"); // 해당 섹션 선택
     });
 });
+
+// 제출 버튼 클릭 시 고객센터 문의 목록 섹션으로 이동
+document.addEventListener("DOMContentLoaded", () => {
+    // inquirySubButton 클릭 시 고객센터 문의 목록 섹션만 보이도록 설정
+    const inquirySubButton = document.getElementById("submit-button");
+
+    if (inquirySubButton) {
+        inquirySubButton.addEventListener("click", () => {
+            sections.forEach((section) => section.classList.remove("selected"));
+            const inquiryListSection = Array.from(sections).find(
+                (section) => section.dataset.value === "고객센터 문의 목록"
+            );
+            if (inquiryListSection) {
+                inquiryListSection.classList.add("selected");
+            } else {
+                console.error("고객센터 문의 목록 섹션을 찾을 수 없습니다.");
+            }
+        });
+    }
+});
+// =====================================================================공지사항
+const noticeKeyword = document.querySelector("input[name='keyword']");
+
+// 검색 이벤트
+noticeKeyword.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        const keyword = noticeKeyword.value.trim();
+        fetchNotices(1, keyword);
+    }
+});
+
