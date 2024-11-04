@@ -1012,7 +1012,6 @@ const initializeApplicationSection = (memberId) => {
     });
 };
 
-// Helper functions to get date strings for filtering
 const getToday = () => {
     return new Date().toISOString().split("T")[0];
 };
