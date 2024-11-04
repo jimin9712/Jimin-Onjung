@@ -18,4 +18,3 @@ select *from tbl_vt_application;
 insert into tbl_vt_application(id, created_date, application_status, vt_id, member_id)
 VALUES (3, current_timestamp, 'REJECTED',77,21)
 
-# alter table tbl_vt_application change created_date application_date datetime default current_timestamp;

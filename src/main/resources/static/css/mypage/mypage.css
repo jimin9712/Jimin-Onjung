@@ -1298,7 +1298,7 @@ div > ul {
     letter-spacing: -0.25px;
     font-weight: 700;
     margin-left: 650px;
-    margin-bottom: 15px;
+    margin: 5px;
 }
 
 .jBsNEF .visual-correction {
@@ -1628,4 +1628,48 @@ p {
     vertical-align: middle;
     font-family: "Pretendard" !important;
     -webkit-font-smoothing: antialiased;
+}
+.edit-button{
+    position: relative;
+    display: inline-flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 0px;
+    text-align: center;
+    box-sizing: border-box;
+    background-color: rgb(80, 118, 240);
+    color: rgb(255, 255, 255);
+    padding: 8px 17px;
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: -0.25px;
+    font-weight: 700;
+    margin-left: 650px;
+    margin: 5px;
+}
+.delete-button{
+    position: relative;
+    display: inline-flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 0px;
+    text-align: center;
+    box-sizing: border-box;
+    background-color: rgb(80, 118, 240);
+    color: rgb(255, 255, 255);
+    padding: 8px 17px;
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: -0.25px;
+    font-weight: 700;
+    margin-left: 650px;
+    margin: 5px;
 }

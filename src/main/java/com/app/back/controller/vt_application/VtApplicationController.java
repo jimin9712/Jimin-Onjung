@@ -5,6 +5,7 @@ import com.app.back.domain.vt_application.VtApplicationDTO;
 import com.app.back.service.vt_application.VtApplicationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -64,17 +65,30 @@ public class VtApplicationController {
 
     // 지원자 승인
     @PostMapping("/approve/{applicationId}")
-    public String approveApplication(@PathVariable Long applicationId) {
-        vtApplicationService.approveApplication(applicationId);
-        return "지원 승인!";
+    public ResponseEntity<String> approveApplication(@PathVariable Long applicationId) {
+        log.info("Approve request received for applicationId: {}", applicationId);
+        try {
+            vtApplicationService.approveApplication(applicationId);
+            return ResponseEntity.ok("지원 승인!");
+        } catch (Exception e) {
+            log.error("Error approving applicationId: {}", applicationId, e);
+            return ResponseEntity.status(500).body("지원 승인 실패!");
+        }
     }
 
     // 지원자 거절
     @PostMapping("/refuse/{applicationId}")
-    public String refuseApplication(@PathVariable Long applicationId) {
-        vtApplicationService.refuseApplication(applicationId);
-        return "지원 거절";
+    public ResponseEntity<String> refuseApplication(@PathVariable Long applicationId) {
+        log.info("Refuse request received for applicationId: {}", applicationId);
+        try {
+            vtApplicationService.refuseApplication(applicationId);
+            return ResponseEntity.ok("지원 거절");
+        } catch (Exception e) {
+            log.error("Error refusing applicationId: {}", applicationId, e);
+            return ResponseEntity.status(500).body("지원 거절 실패!");
+        }
     }
+
     @GetMapping("/application-list/{memberId}")
     public List<VtApplicationDTO> getApplicationsByMemberIdAndDateRange(
             @PathVariable Long memberId,
