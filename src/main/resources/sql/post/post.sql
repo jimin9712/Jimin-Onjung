@@ -38,6 +38,6 @@ SHOW CREATE TABLE tbl_post;
 drop table tbl_post;
 
 insert into tbl_post(id, post_title, post_summary, post_content,post_view_count, post_type, post_status, member_id)
-values(22,'봉사활동구인테스트제목51','봉사활동테스트요약51','봉사활동테스트내용51',1,1,0,1);
+values(40,'봉사활동구인테스트제목37','봉사활동테스트요약231','봉사활동테스트내용5231',35,'VOLUNTEER',0,2);
 
 

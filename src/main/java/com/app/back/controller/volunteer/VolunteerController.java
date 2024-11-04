@@ -1,5 +1,6 @@
 package com.app.back.controller.volunteer;
 
+import com.app.back.domain.review.ReviewDTO;
 import com.app.back.domain.volunteer.Pagination;
 import com.app.back.domain.volunteer.VolunteerDTO;
 import com.app.back.service.post.PostService;
@@ -48,34 +49,65 @@ public class VolunteerController {
 
     @GetMapping("/volunteer-list")
     public String getList(Pagination pagination, Model model) {
+
         pagination.setTotal(postService.getTotal("VOLUNTEER"));
         pagination.vtProgress();
+
+        log.info("pagination 객체(Controller): {}", pagination);
         model.addAttribute("lists", volunteerService.getList(pagination));
 
         return "volunteer/volunteer-list";
     }
 
-
     @GetMapping("/volunteer-info")
     @ResponseBody
-    public List<VolunteerDTO> getListInfo(@RequestParam(value = "order", defaultValue = "recent") String order) {
-        Pagination pagination = new Pagination();
+    public List<VolunteerDTO> getListInfo(
+            @RequestParam(value = "order", defaultValue = "recent") String order,
+            @RequestParam(value = "page", defaultValue = "1") int page) {
 
+        log.info("받은 page 파라미터: {}", page); // 요청된 페이지 번호 확인
+
+        Pagination pagination = new Pagination();
         pagination.setOrder(order);
+        pagination.setPostType("VOLUNTEER");
+        pagination.setPage(page); // 페이지 번호 설정
         pagination.setTotal(postService.getTotal("VOLUNTEER"));
         pagination.vtProgress();
-        log.info(pagination.toString());
+
+        log.info("Pagination 객체: {}", pagination); // Pagination 설정 확인
 
         List<VolunteerDTO> volunteerList = volunteerService.getList(pagination);
 
-        // 각 VolunteerDTO에 대해 daysLeft와 postTypeDisplayName 설정
         for (VolunteerDTO volunteer : volunteerList) {
-            volunteer.calculateDaysLeft(); // daysLeft 계산
-            volunteer.setPostType(volunteer.getPostType()); // 기존 postType 값으로 displayName 설정
+            volunteer.calculateDaysLeft();
+            volunteer.setPostType(volunteer.getPostType());
         }
 
         return volunteerList;
     }
+
+
+
+
+
+
+    @GetMapping("/volunteer-inquiry")
+    public void read(Long id, Model model){
+        VolunteerDTO volunteerDTO = volunteerService.getPost(id).orElseThrow();
+        model.addAttribute("list", volunteerDTO);
+    }
+
+    @PostMapping("/volunteer-update")
+    public RedirectView volunteerUpdate(ReviewDTO reviewDTO) {
+        volunteerService.update(reviewDTO);
+        return new RedirectView("/volunteer/volunteer-list"); // 게시물 리스트로 리턴
+    }
+
+    @GetMapping("/volunteer-delete")
+    public RedirectView volunteerDelete(@RequestParam("postId") Long postId) {
+        volunteerService.delete(postId);
+        return new RedirectView("/volunteer/volunteer-list"); } // 게시물 리스트로 리턴
+
 
 }
 
