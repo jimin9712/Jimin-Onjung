@@ -89,30 +89,42 @@ const fetchInquiries = async (page = 1) => {
 
 // 초기 데이터 로드
 fetchInquiries(); // 첫 페이지의 데이터를 로드합니다.
-
+// ===============================================================================답변하기
 document.addEventListener("DOMContentLoaded", () => {
+    const sections = document.querySelectorAll("section.admin-page");
     const inquiryAnswerContainer = document.getElementById("inquiry_answer");
 
-    inquiryAnswerContainer.addEventListener("click", async (event) => {
+    document.querySelector(".inquiryTable_container").addEventListener("click", async (event) => {
         if (event.target.classList.contains("editBtn")) {
-            event.preventDefault(); // 기본 이벤트 방지
+            sections.forEach((section) => section.classList.remove("selected")); // 모든 섹션 선택 해제
 
-            const inquiryId = event.target.closest(".data_row").getAttribute("data-id");
-            try {
-                const response = await fetch(`/admin/inquiry-answer?id=${inquiryId}`);
+            const inquiryAnswerSection = Array.from(sections).find(
+                (section) => section.dataset.value === "고객센터 문의 답변"
+            );
 
-                if (response.ok) {
-                    const data = await response.json();
-                    renderAnswer(data.inquiry);
+            if (inquiryAnswerSection) {
+                inquiryAnswerSection.classList.add("selected"); // 고객센터 문의 답변 섹션에 selected 추가
+
+                const inquiryId = event.target.closest(".data_row").getAttribute("data-id"); // 게시글 ID 가져오기
+
+                try {
+                    const response = await fetch(`/admin/inquiry-answer?id=${inquiryId}`);
+                    if (response.ok) {
+                        const data = await response.json();
+                        renderAnswer(data.inquiry); // 받아온 데이터 렌더링
+                    } else {
+                        console.error("문의 내역을 가져오는 중 오류 발생:", await response.text());
+                    }
+                } catch (error) {
+                    console.error("서버 요청 중 오류 발생:", error);
                 }
-            } catch (error) {
-                // 오류 처리
+            } else {
+                console.error("고객센터 문의 답변 섹션을 찾을 수 없습니다.");
             }
         }
     });
 });
-
-// 답변 제출 폼 처리
+// ======================================================================================================== 답변제출
 const handleAnswerSubmit = async (event) => {
     event.preventDefault(); // 기본 폼 제출 방지
 
@@ -135,14 +147,26 @@ const handleAnswerSubmit = async (event) => {
         });
 
         if (response.ok) {
-            window.location.href = '/admin'; // 문의 목록 페이지로 이동
             alert("답변이 제출되었습니다."); // 사용자에게 피드백
+            fetchInquiries();
+
+            // 모든 섹션의 `selected` 클래스 제거
+            sections.forEach((section) => section.classList.remove("selected"));
+
+            const inquiryListSection = sections.filter(
+                (section) => section.dataset.value === "고객센터 문의 목록"
+            );
+            if (inquiryListSection) {
+                inquiryListSection.classList.add("selected");
+            } else {
+                console.error("고객센터 문의 목록 섹션을 찾을 수 없습니다.");
+            }
         } else {
-            const errorText = await response.text(); // 서버 응답 본문 읽기
-            // 오류 처리
+            const errorText = await response.text();
+            console.error("답변 제출 실패:", errorText);
         }
     } catch (error) {
-        // 오류 처리
+        console.error("서버 요청 중 오류 발생:", error);
     }
 };
 // ========================================================================== 여기서부터 공지사항

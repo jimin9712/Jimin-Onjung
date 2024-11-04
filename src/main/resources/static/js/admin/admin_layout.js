@@ -123,6 +123,7 @@ const renderAnswer = (inquiryAnswer) => {
                             <input
                                 type="submit"
                                 name="submit"
+                                id="submit-button"
                                 value="답변 제출"
                                 style="margin-bottom: 30px;"
                             />
