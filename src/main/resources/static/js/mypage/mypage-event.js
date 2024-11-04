@@ -74,21 +74,22 @@ const renderReviews = (reviews) => {
     </table>
 `;
 
-// 수정 및 삭제 버튼에 이벤트 리스너 추가
+// 수정 버튼 이벤트 리스너
         document.querySelectorAll(".edit-button").forEach((button) =>
             button.addEventListener("click", (event) => {
                 const reviewId = event.target.dataset.id;
                 console.log(`후기 수정 버튼 클릭됨: ${reviewId}`);
-                window.location.href = `/review/review-update/${reviewId}`;
+                window.location.href = `/review/review-update?postId=${reviewId}`;
             })
         );
 
+// 삭제 버튼 이벤트 리스너
         document.querySelectorAll(".delete-button").forEach((button) =>
             button.addEventListener("click", async (event) => {
                 const reviewId = event.target.dataset.id;
                 if (confirm("정말 이 후기를 삭제하시겠습니까?")) {
                     try {
-                        const response = await fetch(`/review/review-delete/${reviewId}`, {
+                        const response = await fetch(`/review/${reviewId}`, {
                             method: "DELETE",
                         });
 
@@ -495,149 +496,149 @@ const initializeDonationPostSection = (memberId) => {
 };
 /********************* 내 문의 *********************/
 // 문의 내역 렌더링
-// const renderInquiries = (inquiries) => {
-//     const inquiryList = document.querySelector(".inquiry-list");
-//     const emptyComponent = document.querySelector("#inquiry .empty-component");
-//
-//     if (inquiries.length === 0) {
-//         inquiryList.style.display = "none";
-//         emptyComponent.style.display = "block";
-//     } else {
-//         inquiryList.style.display = "block";
-//         emptyComponent.style.display = "none";
-//         inquiryList.innerHTML = `
-//             <table class="news-center-table" style="margin-top: 0; margin-bottom: 20px;">
-//                 <colgroup>
-//                     <col style="width: 57px;">
-//                     <col style="width: 150px;">
-//                     <col style="width: 104px;">
-//                     <col style="width: 80px;">
-//                 </colgroup>
-//                 <thead class="news-center-table-head">
-//                     <tr>
-//                         <th>문의 번호</th>
-//                         <th>제목</th>
-//                         <th>작성일</th>
-//                         <th>상태</th>
-//                     </tr>
-//                 </thead>
-//                 <tbody class="news-center-table-body">
-//                     ${inquiries
-//             .map(
-//                 (inquiry) => `
-//                                 <tr class="news-data-rows" data-forloop="${inquiry.id}">
-//                                     <td class="news-center-table-body-number">${inquiry.id}</td>
-//                                     <td class="news-center-table-body-title">${inquiry.postTitle}</td>
-//                                     <td class="news-center-table-body-date">
-//                                         ${new Date(inquiry.createdDate).toLocaleDateString('ko-KR')}
-//                                     </td>
-//                                     <td class="news-center-table-body-status">${inquiry.inquiryStatus}</td>
-//                                 </tr>
-//                             `
-//             )
-//             .join("")}
-//                 </tbody>
-//             </table>
-//         `;
-//     }
-//
-//     document.getElementById("inquiry-totalCount").textContent = inquiries.length;
-// };
-//
-// // 문의 섹션 초기화 및 이벤트 리스너 설정
-// const initializeInquirySection = (memberId) => {
-//     fetchInquiries(memberId);
-//
-//     // 문의 섹션의 toggle 요소 선택
-//     const inquiryToggleElements = document.querySelectorAll("#inquiry .fItXBi.toggle");
-//
-//     // 각 toggle 요소에 이벤트 리스너 추가
-//     inquiryToggleElements.forEach(function (element) {
-//         element.addEventListener("click", function () {
-//             // 모든 요소에서 active 클래스 제거
-//             inquiryToggleElements.forEach(function (el) {
-//                 el.classList.remove("active");
-//             });
-//
-//             // 클릭된 요소에만 active 클래스 추가
-//             this.classList.add("active");
-//         });
-//     });
-//
-//     // 필터 이벤트 설정
-//     document.getElementById("filter-1year-inquiry").addEventListener("change", () => applyFilterInquiries(memberId, 12));
-//     document.getElementById("filter-1month-inquiry").addEventListener("change", () => applyFilterInquiries(memberId, 1));
-//     document.getElementById("filter-3months-inquiry").addEventListener("change", () => applyFilterInquiries(memberId, 3));
-//     document.getElementById("filter-6months-inquiry").addEventListener("change", () => applyFilterInquiries(memberId, 6));
-//
-//     // 초기화 버튼 이벤트 설정
-//     document.getElementById("Initialization-inquiry").addEventListener("click", () => {
-//         // 모든 필터 체크박스 해제
-//         document.querySelectorAll("#inquiry .fItXBi.toggle input[type='checkbox']").forEach((checkbox) => {
-//             checkbox.checked = false;
-//         });
-//
-//         // active 클래스 제거
-//         inquiryToggleElements.forEach((el) => el.classList.remove("active"));
-//
-//         // 초기 상태로 문의 내역 다시 가져오기
-//         fetchInquiries(memberId);
-//     });
-// };
-// // 문의 내역 가져오기
-// const fetchInquiries = async (memberId) => {
-//     try {
-//         const response = await fetch(`/my-inquirys/${memberId}`);
-//         console.log("응답 상태:", response.status);
-//         if (!response.ok) throw new Error("서버로부터 데이터를 가져오는 데 실패했습니다.");
-//
-//         const data = await response.json();
-//         console.log("문의 데이터:", data);
-//         renderInquiries(data);
-//     } catch (error) {
-//         console.error("Error fetching inquiries:", error);
-//         alert("문의 내역을 불러오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.");
-//     }
-// };
-//
-// // 필터된 문의 내역 가져오기
-// const fetchFilteredInquiries = async (memberId, startDate, endDate) => {
-//     try {
-//         const response = await fetch(
-//             `/inquiry/my-inquirys/${memberId}?startDate=${startDate}&endDate=${endDate}`
-//         );
-//         console.log("응답 상태:", response.status);
-//         if (!response.ok) throw new Error("서버로부터 데이터를 가져오는 데 실패했습니다.");
-//
-//         const data = await response.json();
-//         console.log("필터된 문의 데이터:", data);
-//         renderInquiries(data);
-//     } catch (error) {
-//         console.error("Error fetching filtered inquiries:", error);
-//         alert("문의 내역을 불러오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.");
-//     }
-// };
-// // 특정 기간의 문의 내역 가져오기
-// const applyFilterInquiries = async (memberId, months) => {
-//     const today = new Date();
-//     const startDate = new Date(today.setMonth(today.getMonth() - months)).toISOString().split("T")[0];
-//     const endDate = new Date().toISOString().split("T")[0];
-//
-//     console.log(`applyFilterInquiries 호출됨. memberId: ${memberId}, startDate: ${startDate}, endDate: ${endDate}`);
-//     await fetchFilteredInquiries(memberId, startDate, endDate);
-// };
-// // 날짜 지정 시 문의 내역 조회
-// const updateDateRangeInquiries = async () => {
-//     const startDate = document.getElementById("start-date-inquiry").value;
-//     const endDate = document.getElementById("end-date-inquiry").value;
-//     const memberId = await getMemberInfo();
-//
-//     console.log(`updateDateRangeInquiries 호출됨. startDate: ${startDate}, endDate: ${endDate}, memberId: ${memberId}`);
-//
-//     if (startDate && endDate) {
-//         await fetchFilteredInquiries(memberId, startDate, endDate);
-//     }
-// };
+const renderInquiries = (inquiries) => {
+    const inquiryList = document.querySelector(".inquiry-list");
+    const emptyComponent = document.querySelector("#inquiry .empty-component");
+
+    if (inquiries.length === 0) {
+        inquiryList.style.display = "none";
+        emptyComponent.style.display = "block";
+    } else {
+        inquiryList.style.display = "block";
+        emptyComponent.style.display = "none";
+        inquiryList.innerHTML = `
+            <table class="news-center-table" style="margin-top: 0; margin-bottom: 20px;">
+                <colgroup>
+                    <col style="width: 57px;">
+                    <col style="width: 150px;">
+                    <col style="width: 104px;">
+                    <col style="width: 80px;">
+                </colgroup>
+                <thead class="news-center-table-head">
+                    <tr>
+                        <th>문의 번호</th>
+                        <th>제목</th>
+                        <th>작성일</th>
+                        <th>상태</th>
+                    </tr>
+                </thead>
+                <tbody class="news-center-table-body">
+                    ${inquiries
+            .map(
+                (inquiry) => `
+                                <tr class="news-data-rows" data-forloop="${inquiry.id}">
+                                    <td class="news-center-table-body-number">${inquiry.id}</td>
+                                    <td class="news-center-table-body-title">${inquiry.postTitle}</td>
+                                    <td class="news-center-table-body-date">
+                                        ${new Date(inquiry.createdDate).toLocaleDateString('ko-KR')}
+                                    </td>
+                                    <td class="news-center-table-body-status">${inquiry.inquiryStatus}</td>
+                                </tr>
+                            `
+            )
+            .join("")}
+                </tbody>
+            </table>
+        `;
+    }
+
+    document.getElementById("inquiry-totalCount").textContent = inquiries.length;
+};
+
+// 문의 섹션 초기화 및 이벤트 리스너 설정
+const initializeInquirySection = (memberId) => {
+    fetchInquiries(memberId);
+
+    // 문의 섹션의 toggle 요소 선택
+    const inquiryToggleElements = document.querySelectorAll("#inquiry .fItXBi.toggle");
+
+    // 각 toggle 요소에 이벤트 리스너 추가
+    inquiryToggleElements.forEach(function (element) {
+        element.addEventListener("click", function () {
+            // 모든 요소에서 active 클래스 제거
+            inquiryToggleElements.forEach(function (el) {
+                el.classList.remove("active");
+            });
+
+            // 클릭된 요소에만 active 클래스 추가
+            this.classList.add("active");
+        });
+    });
+
+    // 필터 이벤트 설정
+    document.getElementById("filter-1year-inquiry").addEventListener("change", () => applyFilterInquiries(memberId, 12));
+    document.getElementById("filter-1month-inquiry").addEventListener("change", () => applyFilterInquiries(memberId, 1));
+    document.getElementById("filter-3months-inquiry").addEventListener("change", () => applyFilterInquiries(memberId, 3));
+    document.getElementById("filter-6months-inquiry").addEventListener("change", () => applyFilterInquiries(memberId, 6));
+
+    // 초기화 버튼 이벤트 설정
+    document.getElementById("Initialization-inquiry").addEventListener("click", () => {
+        // 모든 필터 체크박스 해제
+        document.querySelectorAll("#inquiry .fItXBi.toggle input[type='checkbox']").forEach((checkbox) => {
+            checkbox.checked = false;
+        });
+
+        // active 클래스 제거
+        inquiryToggleElements.forEach((el) => el.classList.remove("active"));
+
+        // 초기 상태로 문의 내역 다시 가져오기
+        fetchInquiries(memberId);
+    });
+};
+// 문의 내역 가져오기
+const fetchInquiries = async (memberId) => {
+    try {
+        const response = await fetch(`/my-inquirys/${memberId}`);
+        console.log("응답 상태:", response.status);
+        if (!response.ok) throw new Error("서버로부터 데이터를 가져오는 데 실패했습니다.");
+
+        const data = await response.json();
+        console.log("문의 데이터:", data);
+        renderInquiries(data);
+    } catch (error) {
+        console.error("Error fetching inquiries:", error);
+        alert("문의 내역을 불러오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.");
+    }
+};
+
+// 필터된 문의 내역 가져오기
+const fetchFilteredInquiries = async (memberId, startDate, endDate) => {
+    try {
+        const response = await fetch(
+            `/inquiry/my-inquirys/${memberId}?startDate=${startDate}&endDate=${endDate}`
+        );
+        console.log("응답 상태:", response.status);
+        if (!response.ok) throw new Error("서버로부터 데이터를 가져오는 데 실패했습니다.");
+
+        const data = await response.json();
+        console.log("필터된 문의 데이터:", data);
+        renderInquiries(data);
+    } catch (error) {
+        console.error("Error fetching filtered inquiries:", error);
+        alert("문의 내역을 불러오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.");
+    }
+};
+// 특정 기간의 문의 내역 가져오기
+const applyFilterInquiries = async (memberId, months) => {
+    const today = new Date();
+    const startDate = new Date(today.setMonth(today.getMonth() - months)).toISOString().split("T")[0];
+    const endDate = new Date().toISOString().split("T")[0];
+
+    console.log(`applyFilterInquiries 호출됨. memberId: ${memberId}, startDate: ${startDate}, endDate: ${endDate}`);
+    await fetchFilteredInquiries(memberId, startDate, endDate);
+};
+// 날짜 지정 시 문의 내역 조회
+const updateDateRangeInquiries = async () => {
+    const startDate = document.getElementById("start-date-inquiry").value;
+    const endDate = document.getElementById("end-date-inquiry").value;
+    const memberId = await getMemberInfo();
+
+    console.log(`updateDateRangeInquiries 호출됨. startDate: ${startDate}, endDate: ${endDate}, memberId: ${memberId}`);
+
+    if (startDate && endDate) {
+        await fetchFilteredInquiries(memberId, startDate, endDate);
+    }
+};
 
 /*********************후원 내역*********************/
 const renderBoostRecords = (boostRecords) => {
@@ -909,6 +910,130 @@ const fetchFilteredVolunteerRecords = async (memberId, startDate, endDate) => {
     }
 };
 //*********************봉사 활동 신청 현황 섹연*********************
+let currentApplicationId = null;
+
+// 승인 및 거절 모달 이벤트 설정
+const setupModalEvents = () => {
+    console.log("Setting up modal events...");
+
+    // 승인 모달 닫기 버튼 이벤트
+    const approveCloseModal = document.getElementById("approvecloseModal");
+    if (approveCloseModal && !approveCloseModal.dataset.listener) {
+        approveCloseModal.addEventListener("click", () => {
+            console.log("Approve modal closed");
+            document.querySelector(".approvemodal").style.display = "none";
+            currentApplicationId = null;
+        });
+        approveCloseModal.dataset.listener = "true"; // 중복 설정 방지
+    }
+
+    // 거절 모달 닫기 버튼 이벤트
+    const refuseCloseModal = document.getElementById("refusecloseModal");
+    if (refuseCloseModal && !refuseCloseModal.dataset.listener) {
+        refuseCloseModal.addEventListener("click", () => {
+            console.log("Refuse modal closed");
+            document.querySelector(".refusemodal").style.display = "none";
+            currentApplicationId = null;
+        });
+        refuseCloseModal.dataset.listener = "true"; // 중복 설정 방지
+    }
+
+    // 승인 확인 버튼 이벤트
+    const confirmApprove = document.getElementById("confirmApprove");
+    if (confirmApprove && !confirmApprove.dataset.listener) {
+        confirmApprove.addEventListener("click", async () => {
+            if (currentApplicationId) {
+                console.log(`Attempting to approve application ID: ${currentApplicationId}`);
+                await approveApplication(currentApplicationId);
+                document.querySelector(".approvemodal").style.display = "none";
+                currentApplicationId = null;
+            } else {
+                console.warn("No currentApplicationId set");
+            }
+        });
+        confirmApprove.dataset.listener = "true";
+    }
+
+    // 거절 확인 버튼 이벤트
+    const confirmRefuse = document.getElementById("confirmRefuse");
+    if (confirmRefuse && !confirmRefuse.dataset.listener) {
+        confirmRefuse.addEventListener("click", async () => {
+            if (currentApplicationId) {
+                console.log(`Attempting to refuse application ID: ${currentApplicationId}`);
+                await refuseApplication(currentApplicationId);
+                document.querySelector(".refusemodal").style.display = "none";
+                currentApplicationId = null;
+            } else {
+                console.warn("No currentApplicationId set");
+            }
+        });
+        confirmRefuse.dataset.listener = "true";
+    }
+};
+
+// 승인 요청 함수
+const approveApplication = async (applicationId) => {
+    console.log(`Sending approve request for applicationId: ${applicationId}`);
+    try {
+        const response = await fetch(`/vt-applications/approve/${applicationId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include', // 필요한 경우 활성화
+        });
+
+        console.log(`Response status: ${response.status}`);
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error(`Error response: ${errorText}`);
+            throw new Error(`상태 업데이트 실패: ${response.status} - ${errorText}`);
+        }
+
+        const result = await response.text();
+        console.log(`Update result: ${result}`);
+        const memberId = await getMemberInfo(); // 회원 ID를 다시 가져옴
+        if (memberId) {
+            fetchApplications(memberId);
+        }
+    } catch (error) {
+        console.error("상태 업데이트 중 오류:", error);
+        alert(`지원서 승인 중 오류가 발생했습니다. ${error.message}`);
+    }
+};
+
+// 거절 요청 함수
+const refuseApplication = async (applicationId) => {
+    console.log(`Sending refuse request for applicationId: ${applicationId}`);
+    try {
+        const response = await fetch(`/vt-applications/refuse/${applicationId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include', // 필요한 경우 활성화
+        });
+
+        console.log(`Response status: ${response.status}`);
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error(`Error response: ${errorText}`);
+            throw new Error(`상태 업데이트 실패: ${response.status} - ${errorText}`);
+        }
+
+        const result = await response.text();
+        console.log(`Update result: ${result}`);
+
+        const memberId = await getMemberInfo(); // 회원 ID를 다시 가져옴
+        if (memberId) {
+            fetchApplications(memberId);
+        }
+    } catch (error) {
+        console.error("상태 업데이트 중 오류:", error);
+        alert(`지원서 거절 중 오류가 발생했습니다. ${error.message}`);
+    }
+};
+
 // 신청 내역을 화면에 렌더링하는 함수
 const renderApplications = (applications) => {
     const applicationList = document.querySelector("#application-list");
@@ -927,22 +1052,45 @@ const renderApplications = (applications) => {
                     <col style="width: 132px;">
                     <col style="width: 150px;">
                     <col style="width: 150px;">
+                    <col style="width: 100px;">
+                    <col style="width: 100px;">
+                    <col style="width: 100px;">
                 </colgroup>
                 <thead class="news-center-table-head">
                     <tr>
                         <th>신청 번호</th>
                         <th>활동 제목</th>
                         <th>신청 상태</th>
+                        <th>회원명</th>
                         <th>신청일</th>
+                        <th>승인</th>
+                        <th>거절</th>
                     </tr>
                 </thead>
                 <tbody class="news-center-table-body">
                     ${applications.map((application) => `
                         <tr class="news-data-rows" data-id="${application.id}">
                             <td>${application.id}</td>
-                            <td>${application.title || '활동 제목 없음'}</td>
+                            <td>${application.postTitle}</td>
                             <td>${application.applicationStatus}</td>
+                            <td>${application.memberName}</td>
                             <td>${new Date(application.applicationDate).toLocaleDateString('ko-KR')}</td>
+                            <td>
+                                <a href="#" class="jBsNEF btn-request btn-request-case-2 approve-btn" data-id="${application.id}" style="margin-left: 10px;">
+                                    <span class="visual-correction">
+                                        승인하기
+                                        <div class="request-description-tooltip"></div>
+                                    </span>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="#" class="jBsNEF btn-request btn-request-case-2 refuse-btn" data-id="${application.id}" style="margin-left: 10px;">
+                                    <span class="visual-correction">
+                                        거절하기
+                                        <div class="request-description-tooltip"></div>
+                                    </span>
+                                </a>
+                            </td>
                         </tr>`).join("")}
                 </tbody>
             </table>
@@ -950,6 +1098,28 @@ const renderApplications = (applications) => {
     }
 
     document.getElementById("application-totalCount").textContent = applications.length;
+
+    // 승인 버튼에 이벤트 추가
+    document.querySelectorAll(".approve-btn").forEach(button => {
+        button.addEventListener("click", (e) => {
+            e.preventDefault();
+            const applicationId = button.getAttribute("data-id");
+            console.log(`Approve button clicked for application ID: ${applicationId}`);
+            currentApplicationId = applicationId;
+            document.querySelector(".approvemodal").style.display = "flex";
+        });
+    });
+
+    // 거절 버튼에 이벤트 추가
+    document.querySelectorAll(".refuse-btn").forEach(button => {
+        button.addEventListener("click", (e) => {
+            e.preventDefault();
+            const applicationId = button.getAttribute("data-id");
+            console.log(`Refuse button clicked for application ID: ${applicationId}`);
+            currentApplicationId = applicationId;
+            document.querySelector(".refusemodal").style.display = "flex";
+        });
+    });
 };
 
 // 봉사 신청 내역 가져오기 함수
@@ -995,6 +1165,7 @@ const updateDateRangeApplications = async () => {
 // 봉사 신청 내역 초기화 및 이벤트 리스너 설정
 const initializeApplicationSection = (memberId) => {
     fetchApplications(memberId);
+    setupModalEvents(); // 모달 이벤트 설정
 
     // 필터 이벤트 설정
     document.getElementById("filter-1year-application").addEventListener("change", () => applyFilterApplications(memberId, getDateMonthsAgo(12), getToday()));
@@ -1012,10 +1183,12 @@ const initializeApplicationSection = (memberId) => {
     });
 };
 
+// 오늘 날짜 반환 함수
 const getToday = () => {
     return new Date().toISOString().split("T")[0];
 };
 
+// 지정한 개월 수 전의 날짜 반환 함수
 const getDateMonthsAgo = (months) => {
     const date = new Date();
     date.setMonth(date.getMonth() - months);
@@ -1267,46 +1440,6 @@ const activateFirstTab = (lnbItem) => {
     }
 };
 
-/*********************모달 관련 로직*********************/
-
-// 승인버튼 및 모달 요소 확인
-const approve = document.getElementById("approve");
-const approveCloseModal = document.getElementById("approvecloseModal");
-
-if (approve && approveCloseModal) {
-    // 승인 버튼 클릭 시 모달 열기
-    approve.addEventListener("click", (e) => {
-        e.preventDefault();
-        document.querySelector(".approvemodal").style.display = "flex";
-    });
-
-    // 모달 닫기 버튼 클릭 시 모달 닫기
-    approveCloseModal.addEventListener("click", (e) => {
-        if (e.target.id === "approvecloseModal") {
-            document.querySelector(".approvemodal").style.display = "none";
-        }
-    });
-}
-
-// 거절버튼 및 모달 요소 확인
-const refuse = document.getElementById("refuse");
-const refuseCloseModal = document.getElementById("refusecloseModal");
-
-if (refuse && refuseCloseModal) {
-    // 거절 버튼 클릭 시 모달 열기
-    refuse.addEventListener("click", (e) => {
-        e.preventDefault();
-        document.querySelector(".refusemodal").style.display = "flex";
-    });
-
-    // 모달 닫기 버튼 클릭 시 모달 닫기
-    refuseCloseModal.addEventListener("click", (e) => {
-        if (e.target.id === "refusecloseModal") {
-            document.querySelector(".refusemodal").style.display = "none";
-        }
-    });
-}
-
 /*********************후기 작성 버튼 이벤트*********************/
 
 // 후기 작성하기 버튼 클릭 시 후기 작성 페이지로 이동
@@ -1339,14 +1472,14 @@ document.addEventListener("DOMContentLoaded", async () => {
         //기부 감사 인사 섹션 초기화
         initializeDonationPostSection(memberId);
         //내 문의 섹션 초기화
-        // initializeInquirySection(memberId);
+        initializeInquirySection(memberId);
         //후원 내역 섹션 초기화
         initializeBoostRecordSection(memberId);
         //봉사 활동 내역 섹션 초기화
         initializeVolunteerSection(memberId);
-
+        // 봉사 신청 현황 섹션 초기화
         initializeApplicationSection(memberId);
-
+        // 결제하기 섹션 초기화
         initializePaymentSection(memberId);
 
 

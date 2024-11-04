@@ -3,6 +3,7 @@ package com.app.back.service.vt_application;
 import com.app.back.domain.vt_application.VtApplicationDTO;
 import com.app.back.repository.vt_application.VtApplicationDAO;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,6 +12,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional(rollbackFor = Exception.class)
+@Slf4j
 public class VtApplicationServiceImpl implements VtApplicationService {
     private final VtApplicationDAO vtApplicationDAO;
 
@@ -52,13 +54,16 @@ public class VtApplicationServiceImpl implements VtApplicationService {
 
     @Override
     public void approveApplication(Long applicationId) {
+        log.info("Approving application with ID: {}", applicationId);
         vtApplicationDAO.updateApplicationStatus(applicationId, "APPROVED");
-
+        log.info("Application with ID: {} approved successfully.", applicationId);
     }
 
     @Override
     public void refuseApplication(Long applicationId) {
+        log.info("Refusing application with ID: {}", applicationId);
         vtApplicationDAO.updateApplicationStatus(applicationId, "REJECTED");
+        log.info("Application with ID: {} refused successfully.", applicationId);
     }
 
     @Override

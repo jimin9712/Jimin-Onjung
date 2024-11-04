@@ -18,7 +18,10 @@ public class VtApplicationDTO {
     private Long vtId;
     private Long memberId;
 
+    private String memberName;
+    private String postTitle;
+
     public VtApplicationVO toVO() {
-        return new VtApplicationVO(id,applicationDate,applicationStatus,vtId,memberId);}
+        return new VtApplicationVO(id,applicationDate,applicationStatus,vtId,memberId,memberName,postTitle);}
 
 }
