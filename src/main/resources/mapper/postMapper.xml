@@ -69,6 +69,12 @@
     where id = #{id}
 </select>
 
+<select id="selectByPostId" resultType="postVO">
+    select *
+    from tbl_post
+    where id = #{id}
+</select>
+
 <delete id="deleteById">
     delete from tbl_post
     where id = #{id}
