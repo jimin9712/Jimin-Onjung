@@ -68,12 +68,12 @@ public class DonationServiceImpl implements DonationService {
     public void update(DonationDTO donationDTO, List<String> uuids, List<String> realNames, List<String> paths, List<String> sizes, List<MultipartFile> files, List<Long> ids) throws IOException {
         postDAO.update(donationDTO.toPostVO());
         donationDAO.update(donationDTO.toVO());
-        if(files != null) {
+        if(files != null && uuids.size() > 0) {
             for(int i=0; i<files.size(); i++){
-                donationDTO.setAttachmentFileName(uuids.get(i) + "_" + files.get(i).getOriginalFilename());
-                donationDTO.setAttachmentFileRealName(realNames.get(i));
-                donationDTO.setAttachmentFilePath(paths.get(i));
-                donationDTO.setAttachmentFileSize(String.valueOf(sizes.get(i)));
+                donationDTO.setAttachmentFileName(uuids.get(i+1) + "_" + files.get(i).getOriginalFilename());
+                donationDTO.setAttachmentFileRealName(realNames.get(i+1));
+                donationDTO.setAttachmentFilePath(paths.get(i+1));
+                donationDTO.setAttachmentFileSize(String.valueOf(sizes.get(i+1)));
                 donationDTO.setAttachmentFileType(files.get(i).getContentType());
                 attachmentDAO.save(donationDTO.toAttachmentVO());
             }

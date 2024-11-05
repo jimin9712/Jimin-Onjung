@@ -54,6 +54,7 @@
                                             maxlength="19"
                                             value=""
                                             oninput="updateCharCount(this)"
+                                            name="postTitle"
                                         />
                                         <div class="max-length">
                                             <span id="charCount">0</span>/20
@@ -91,6 +92,7 @@
                                             placeholder="내용을 한 줄로 소개해주세요!"
                                             maxlength="300"
                                             th:text="*{postSummary}"
+                                            name="postSummary"
                                         ></textarea>
                                     </label>
                                 </div>
@@ -111,6 +113,7 @@
                                             placeholder="숫자만 입력 가능합니다."
                                             value=""
                                             oninput="validateAndDisplayNumber(this)"
+                                            name="goalPoint"
                                             th:value="*{goalPoint}"
                                         />
                                     </label>
@@ -133,6 +136,7 @@
                                             type="date"
                                             id="start-date"
                                             onchange="updateDateRange()"
+                                            name="donationSDate"
                                             th:value="*{donationSDate}"
                                         />
                                     </label>
@@ -142,6 +146,7 @@
                                             type="date"
                                             id="end-date"
                                             onchange="updateDateRange()"
+                                            name="donationEDate"
                                             th:value="*{donationEDate}"
                                         />
                                     </label>
@@ -168,6 +173,7 @@
                                         id="briefing"
                                         aria-hidden="true"
                                         placeholder="내용을 자세히 작성해주세요!"
+                                        name="postContent"
                                         th:text="*{postContent}"
                                     ></textarea>
 
@@ -197,6 +203,7 @@
                                             type="file"
                                             id="drop-zone-input"
                                             class="attach-file-zone2"
+                                            name="file"
                                         /><svg
                                             viewBox="0 0 24 24"
                                             class="attach-file-img"
@@ -241,6 +248,11 @@
                             </button>
                         </div>
                     </main>
+                    <input type="hidden" name="id" />
+                    <input type="hidden" name="uuid" />
+                    <input type="hidden" name="realName" />
+                    <input type="hidden" name="path" />
+                    <input type="hidden" name="size" />
                 </form>
             </div>
         </div>
