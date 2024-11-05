@@ -82,19 +82,8 @@ public class MemberController {
     }
 
     @GetMapping("/main/main")
-    public String goToMain(HttpSession session, Model model) {
-        MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
-        MemberLoginType loginType = (MemberLoginType) session.getAttribute("loginType");
-
-        if (loginMember != null) {
-            model.addAttribute("member", loginMember);
-            model.addAttribute("loginType", loginType);
-        } else {
-            return "redirect:/member/login";
-        }
-
+    public String goToMain() {
         return "main/main";
-
     }
 
     // SMS 인증번호 전송 API

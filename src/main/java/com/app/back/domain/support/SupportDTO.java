@@ -1,8 +1,7 @@
-package com.app.back.domain.review;
+package com.app.back.domain.support;
 
-import com.app.back.domain.attachment.AttachmentVO;
 import com.app.back.domain.post.PostVO;
-import com.app.back.domain.profile.ProfileVO;
+import com.app.back.domain.review.ReviewVO;
 import lombok.*;
 import org.springframework.stereotype.Component;
 
@@ -12,8 +11,13 @@ import org.springframework.stereotype.Component;
 @ToString
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
-public class ReviewDTO {
+@AllArgsConstructor
+public class SupportDTO {
     private Long id;
+    private int goal_point;
+    private String support_s_date;
+    private String support_e_date;
+
     private String postTitle;
     private String postContent;
     private String postSummary;
@@ -24,8 +28,7 @@ public class ReviewDTO {
     private Long memberId;
     private String createdDate;
     private String updatedDate;
-    private double reviewStarRate;
-    private String vtGroupName;
+
     private String attachmentFileName;
     private String attachmentFilePath;
     private String attachmentFileSize;
@@ -42,11 +45,9 @@ public class ReviewDTO {
         return new PostVO(id, postTitle, postContent, postSummary, postType, postStatus, postViewCount, memberId, createdDate, updatedDate);
     }
 
-    public ReviewVO toVO() {
-        return new ReviewVO(id, reviewStarRate, vtGroupName);
+    public SupportVO toVO() {
+        return new SupportVO(id,goal_point,support_e_date,support_s_date);
     }
 
-    public AttachmentVO toAttachmentVO(){
-        return new AttachmentVO(id, attachmentFileName, attachmentFilePath, attachmentFileSize, attachmentFileType, postId, createdDate);
-    }
+
 }
