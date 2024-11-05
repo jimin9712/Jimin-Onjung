@@ -31,7 +31,7 @@ public class ReviewServiceImpl implements ReviewService {
     private final AttachmentDAO attachmentDAO;
 
     @Override
-    public void write(ReviewDTO reviewDTO, List<String> uuids, List<String> paths, List<String> sizes, List<MultipartFile> files) throws IOException {
+    public void write(ReviewDTO reviewDTO, List<String> uuids, List<String> realNames, List<String> paths, List<String> sizes, List<MultipartFile> files) throws IOException {
         postDAO.save(reviewDTO.toPostVO());
         Long id = postDAO.selectCurrentId();
         reviewDTO.setId(id);
@@ -40,6 +40,7 @@ public class ReviewServiceImpl implements ReviewService {
         if(files != null) {
             for(int i=0; i<files.size(); i++){
                 reviewDTO.setAttachmentFileName(uuids.get(i) + "_" + files.get(i).getOriginalFilename());
+                reviewDTO.setAttachmentFileRealName(realNames.get(i));
                 reviewDTO.setAttachmentFilePath(paths.get(i));
                 reviewDTO.setAttachmentFileSize(sizes.get(i));
                 reviewDTO.setAttachmentFileType(files.get(i).getContentType());

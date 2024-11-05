@@ -65,6 +65,10 @@ const handleFiles = async (files) => {
     attachmentFileName.type = "hidden";
     attachmentFileName.name = "uuid";
     attachmentFileName.value = `${uuid}`;
+    const attachmentFileRealName = document.createElement("input");
+    attachmentFileRealName.type = "hidden";
+    attachmentFileRealName.name = "realName";
+    attachmentFileRealName.value = `${attachmentFile.attachmentFileName.substring(attachmentFile.attachmentFileName.indexOf("_") + 1)}`;
     const attachmentFilePath = document.createElement("input");
     attachmentFilePath.type = "hidden";
     attachmentFilePath.name = "path";

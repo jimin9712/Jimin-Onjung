@@ -82,14 +82,11 @@ public class DonationController {
     @GetMapping("donation-inquiry")
     public String goToInquiry( @RequestParam("postId") Long postId, Model model) {
         Optional<DonationDTO> donationDTO = donationService.getById(postId);
-        log.info("{}", donationDTO);
+
         if (donationDTO.isPresent()) {
             model.addAttribute("donation", donationDTO.get());
             model.addAttribute("attachments", attachmentService.getList(postId));
         } else {
-            log.info("{}",postId);
-            log.info("hihihi");
-            log.info("{}", donationService.getById(postId));
             return "redirect:/donation/donation-list";
         }
         return "donation/donation-inquiry";
@@ -102,7 +99,6 @@ public class DonationController {
         if (donationDTO.isPresent()) {
             model.addAttribute("donation", donationDTO.get());
             model.addAttribute("attachments", attachmentService.getList(postId));
-            log.info("{}", attachmentService.getList(postId));
         } else {
             return "redirect:/donation/donation-inquiry?postId=" + postId;
         }
@@ -121,7 +117,7 @@ public class DonationController {
 
         donationService.update(donationDTO, uuids, realNames, paths, sizes, files, ids);
 
-        return new RedirectView("/donation/donation-inquiry");
+        return new RedirectView("/donation/donation-inquiry?postId=" + postId);
     }
 
     @GetMapping("donation-delete")
