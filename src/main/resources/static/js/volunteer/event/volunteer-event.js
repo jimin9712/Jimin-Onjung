@@ -108,6 +108,16 @@ const addPageButtonEventListeners = () => {
     });
 };
 
+document.querySelectorAll('.page-btn').forEach(button => {
+    button.removeEventListener('click', handlePageChange); // 기존 리스너 제거
+    button.addEventListener('click', handlePageChange); // 새로운 리스너 등록
+});
+
+function handlePageChange(event) {
+    const page = event.target.getAttribute('data-page');
+    fetchVolunteers(page);
+}
+
 
 
 
