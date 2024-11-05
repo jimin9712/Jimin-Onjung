@@ -24,18 +24,20 @@
                 p.post_type = #{pagination.postType}
             </if>
             <if test="pagination.order == 'endingSoon'">
-                v.vt_e_date >= curdate()
+                and v.vt_e_date >= curdate()
             </if>
         </where>
         order by
         <choose>
-            <when test="pagination.order == 'recent'">p.created_date desc</when>
-            <when test="pagination.order == 'viewCount'">p.post_view_count desc, p.created_date desc</when>
-            <when test="pagination.order == 'endingSoon'">v.vt_e_date asc, p.created_date desc</when>
-            <otherwise>p.created_date desc</otherwise>
+            <when test="pagination.order == 'recent'">p.created_date desc, v.id</when>
+            <when test="pagination.order == 'viewCount'">p.post_view_count desc, p.created_date desc, v.id</when>
+            <when test="pagination.order == 'endingSoon'">v.vt_e_date asc, p.created_date desc, v.id</when>
+            <otherwise>p.created_date desc, v.id</otherwise>
         </choose>
+
         limit #{pagination.startRow}, #{pagination.rowCount}
     </select>
+
 
     <select id="selectTotal">
         select count(*) from tbl_post

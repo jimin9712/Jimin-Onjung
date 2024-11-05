@@ -63,6 +63,8 @@ public class Pagination {
 //                page, startRow, endRow, startPage, endPage, realEnd);
 
         log.info("페이지네이션 설정 - page: {}, startRow: {}, endRow: {}", page, startRow, endRow);
+        System.out.println("현재 페이지 번호: " + page);
+        System.out.println("시작 행: " + startRow + ", 끝 행: " + endRow);
 
     }
 
