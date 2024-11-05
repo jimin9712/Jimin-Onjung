@@ -29,8 +29,6 @@ public class NoticeMapperTests {
         noticeDTO.setPostType("0");
         noticeDTO.setPostStatus("VISIBLE");
         noticeDTO.setMemberId(1L);
-        log.info("{}", noticeDTO);
-        log.info("Converted to VO: {}", noticeDTO.toVO());
         noticeMapper.insert(noticeDTO.toVO());
     }
     @Test
@@ -45,8 +43,6 @@ public class NoticeMapperTests {
             noticeDTO.setPostStatus("VISIBLE");
             noticeDTO.setMemberId(1L);
 
-            log.info("{}", noticeDTO);
-            log.info("Converted to VO: {}", noticeDTO.toVO());
             noticeMapper.insert(noticeDTO.toVO());
         }
     }

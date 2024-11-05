@@ -31,8 +31,6 @@ public class MemberDTO{
     private String updatedDate;
     private String resetUuid;
 
-
-
     public MemberVO toVO(){
         return new MemberVO(id,kakaoEmail,kakaoProfileURL,kakaoNickName,memberEmail,memberName,memberPhone,memberPassword,memberType,memberNickName,memberJung,memberPoint,memberLoginType,memberStarRate,memberIntroduction,createdDate,updatedDate,resetUuid);}
 

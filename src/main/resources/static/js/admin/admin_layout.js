@@ -1,3 +1,4 @@
+// ========================== 문의 내역 렌더링 함수 ==========================
 const inquiryContainer = document.querySelector(".inquiryTable_container");
 
 // 문의 내역 렌더링
@@ -24,8 +25,7 @@ const renderInquiries = (inquiries) => {
         console.error("inquiryContainer 요소를 찾을 수 없습니다.");
     }
 };
-
-//========================================================================================
+// ========================== 답변 렌더링 함수 ==========================
 // 답변 렌더링 함수
 const answerContainer = document.getElementById("inquiry_answer");
 
@@ -138,7 +138,7 @@ const renderAnswer = (inquiryAnswer) => {
         console.error("answerContainer 요소를 찾을 수 없습니다.");
     }
 };
-// ==================================================================================================문의 목록 페이지네이션
+// ========================== 페이지네이션 렌더링 함수 (문의 목록) =========================================
 const paginationContainer = document.querySelector(".pagination-list.inquiry-page");
 
 // 페이지네이션을 렌더링하는 함수
@@ -184,7 +184,7 @@ const renderPagination = (pagination, keyword = '', filterType = '') => {
     });
 };
 
-// =============================================================여기서부터 공지사항 목록
+// ========================== 공지사항 목록 렌더링 함수 ==========================
 const noticeContainer = document.querySelector(".notification-list-wrap");
 const pagingNotice = document.querySelector(".pagination-wrap.notification-table");
 
@@ -203,7 +203,7 @@ const renderNotice = (notis) => {
     });
     noticeContainer.innerHTML = content;
 };
-
+// =====================================공지사항 페이지네이션 ======================================================
 // 페이징을 렌더링하는 함수
 const renderNoticePagination = (pagination, keyword = '') => {
     let notiPagination = ''; // HTML 내용을 저장할 변수 초기화
@@ -260,25 +260,14 @@ const renderNoticePagination = (pagination, keyword = '') => {
             fetchNotices(page, keyword); // 해당 페이지의 데이터를 가져오는 함수 호출
         });
     });
-
-    const fetchFilteredNotices = async (page, keyword) => {
-        try {
-            const response = await fetch(`/admin/notice-list?page=${page}&query=${keyword}`);
-            const data = await response.json();
-            renderNotice(data.notis); // 공지사항 목록 렌더링
-            renderNoticePagination(data.pagination, keyword); // 페이지네이션 렌더링
-        } catch (error) {
-            console.error("공지사항 데이터를 불러오는 중 오류 발생:", error);
-        }
-    };
 };
-
+// ========================== 공지사항 조회 =======================================
 const notificationContainer = document.querySelector(".notification-container"); // 공지사항 세부 내용 컨테이너
-const sidebarContainer = document.querySelector(".sidebar-container"); // 사이드바 컨테이너
+const sidebarContainer = document.querySelector(".sidebar-container .sidebar-content"); // 사이드바 컨테이너
 
 // 공지사항 세부 내용을 렌더링하는 함수
 const renderNoticeDetail = (notice) => {
-    if (notificationContainer && sidebarContainer) {
+    if (notificationContainer) {
         // 공지사항 세부 내용 렌더링
         notificationContainer.innerHTML = `
             <header class="notification-header">
@@ -297,19 +286,51 @@ const renderNoticeDetail = (notice) => {
                 </div>
             </section>
         `;
-
-        // 사이드바 목록 렌더링
-        let sidebarContentHTML = '';
-        notice.otherNotices.forEach(item => {
-            sidebarContentHTML += `
-                <li>
-                    <a href="#" data-id="${item.id}" class="sidebar-item">${item.title}</a>
-                </li>`;
-        });
-        sidebarContentHTML += `<li><a class="more-button">+ 더보기</a></li>`;
-
-        sidebarContainer.querySelector(".sidebar-content").innerHTML = sidebarContentHTML;
     } else {
         console.error("notificationContainer 요소를 찾을 수 없습니다.");
     }
 };
+
+const renderSidebarNotices = (notices) => {
+    let content = '';
+
+    notices.forEach((notice) => {
+        content += `
+            <li>
+                <a href="#" data-id="${notice.id}" class="sidebar-item">${notice.postTitle}</a>
+            </li>`;
+    });
+    content += `<li><a href="#" class="more-button">+ 더보기</a></li>`;
+
+    sidebarContainer.innerHTML = content;
+
+    // "더보기" 버튼 클릭 이벤트
+    sidebarContainer.querySelector(".more-button").addEventListener("click", (e) => {
+        e.preventDefault();
+
+        // 더보기 클릭 시 전체 목록을 불러오기
+        fetchNotices(1, ''); // 페이지 1로 초기화하여 전체 공지사항 목록 불러오기
+
+        // `조회`에서 `목록`으로 `selected` 클래스 전환
+        sections.forEach((section) => section.classList.remove("selected")); // 모든 섹션의 `selected` 클래스 제거
+        const listSection = Array.from(sections).find(
+            (section) => section.dataset.value === "공지사항 목록"
+        );
+        if (listSection) {
+            listSection.classList.add("selected"); // `목록` 섹션에 `selected` 클래스 추가
+        } else {
+            console.error("목록 섹션을 찾을 수 없습니다.");
+        }
+    });
+
+
+    // 각 공지사항 제목 클릭 시 상세 조회 이벤트 추가
+    sidebarContainer.querySelectorAll(".sidebar-item").forEach((item) => {
+        item.addEventListener("click", (e) => {
+            e.preventDefault();
+            const noticeId = item.getAttribute("data-id");
+            fetchNoticeDetail(noticeId); // 공지사항 상세 조회
+        });
+    });
+};
+// ==================================게시글 목록==========================================================================

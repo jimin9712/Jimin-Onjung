@@ -1,40 +1,99 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.app.back.mapper.post.PostMapper">
-    <insert id="insert">
-        insert into tbl_post(id, post_title, post_content, post_summary, post_type, post_status, post_view_count, member_id, created_date, updated_date)
-        values (#{id}, #{postTitle}, #{postContent}, #{postSummary}, #{postType}, #{postStatus}, #{postViewCount}, #{memberId}, current_timestamp, current_timestamp)
-    </insert>
+<sql id="search">
+    <if test="search.keyword != null and search.keyword != 'null'.toString()">
+        <choose>
+            <when test="search.types != null">
+                <foreach item="type" collection="search.types">
+                    <if test="type == 'post-title'.toString()">
+                        and post_title like concat('%', #{search.keyword}, '%')
+                    </if>
+                </foreach>
+            </when>
+            <otherwise>
+                and (
+                post_title like concat('%', #{search.keyword}, '%')
+                )
+            </otherwise>
+        </choose>
+    </if>
+</sql>
 
-    <select id="getTotal" resultType="int">
-        select count(id)
-        from tbl_post
-        where post_type = #{postType}
-    </select>
+<insert id="insert">
+    insert into tbl_post(id, post_title, post_content, post_summary, post_type, post_status, post_view_count, member_id, created_date, updated_date)
+    values (#{id}, #{postTitle}, #{postContent}, #{postSummary}, #{postType}, #{postStatus}, #{postViewCount}, #{memberId}, current_timestamp, current_timestamp)
+</insert>
 
-    <select id="selectCurrentId" resultType="long">
-        select last_insert_id();
-    </select>
+<select id="selectAll" resultType="postDTO">
+    select
+    p.id,
+    p.post_title,
+    p.post_type
+    p.created_date,
+    p.updated_date,
+    p.post_view_count,
+    m.member_nickname,
+    (select count(*) from tbl_reply r where r.post_id = p.id) as reply_count
+    from tbl_post p
+            join tbl_member m on p.member_id = m.id
+    <include refid="search"/>
+    order by p.created_date desc
+    limit #{pagination.startRow}, #{pagination.rowCount};
+</select>
 
-    <select id="selectById" resultType="postVO">
-        select *
-        from tbl_post
-        where id = #{id}
-    </select>
+<select id="selectFilterAll" resultType="postDTO">
+    select
+    p.id,
+    p.post_title,
+    p.post_type
+    p.created_date,
+    p.updated_date,
+    p.post_view_count,
+    m.member_nickname,
+    (select count(*) from tbl_reply r where r.post_id = p.id) as reply_count
+    from tbl_post p
+    join tbl_member m on p.member_id = m.id
+    <include refid="search"/>
+    order by
+    <choose>
+        <when test="pagination.order == 'recent'.toString()">p.created_date</when>
+        <otherwise>p.post_type</otherwise>
+    </choose>
+    limit #{pagination.startRow}, #{pagination.rowCount};
+</select>
 
-    <update id="updateById">
-        update tbl_post
-        set
-            post_title = #{postTitle},
-            post_summary = #{postSummary},
-            post_content = #{postContent},
-            updated_date = current_timestamp
-        where id = #{id}
-    </update>
+<select id="selectById" resultType="postVO">
+    select *
+    from tbl_post
+    where id = #{id}
+</select>
 
-    <delete id="deleteById">
-        delete from tbl_post
-        where id = #{id}
-    </delete>
+<delete id="deleteById">
+    delete from tbl_post
+    where id = #{id}
+</delete>
+
+<select id="getTotal" resultType="int">
+    select count(id)
+    from tbl_post
+    where post_type = #{postType}
+</select>
+
+<select id="selectCurrentId" resultType="long">
+    select last_insert_id();
+</select>
+
+
+<update id="updateById">
+    update tbl_post
+    set
+        post_title = #{postTitle},
+        post_content = #{postContent},
+        updated_date = current_timestamp
+    where id = #{id}
+</update>
+
+
 
 </mapper>

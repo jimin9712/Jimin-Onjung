@@ -1,15 +1,16 @@
 package com.app.back.domain.post;
 
+
 import lombok.*;
 import org.springframework.stereotype.Component;
 
 @Component
 @Getter
+@Setter
 @ToString
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
-@AllArgsConstructor
-public class PostVO {
+public class PostDTO {
     private Long id;
     private String postTitle;
     private String postContent;
@@ -20,5 +21,15 @@ public class PostVO {
     private Long memberId;
     private String createdDate;
     private String updatedDate;
+
+
+    private String memberNickName;
+
+    private Integer replyCount;
+    
+
+    public PostVO toPostVO() {
+        return new PostVO(id, postTitle, postContent, postSummary, postType, postStatus, postViewCount, memberId, createdDate, updatedDate);
+    }
 
 }
