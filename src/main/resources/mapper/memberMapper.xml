@@ -38,12 +38,29 @@
     </select>
 
     <select id="selectByMemberEmailAndMemberPassword" parameterType="map" resultType="memberVO">
-        select id, member_email, member_star_rate, member_introduction,
-               member_name, member_phone, member_password, member_nickname, member_jung,
-               member_point, member_type, member_login_type, created_date, updated_date
-        from tbl_member
-        where member_email = #{memberEmail}
-          and member_password = #{memberPassword}
+        select
+            m.id,
+            m.member_email,
+            m.member_star_rate,
+            m.member_introduction,
+            m.member_name,
+            m.member_phone,
+            m.member_password,
+            m.member_nickname,
+            m.member_jung,
+            m.member_point,
+            m.member_type,
+            m.member_login_type,
+            m.created_date,
+            m.updated_date,
+            p.profile_file_name,
+            p.profile_file_path,
+            p.profile_file_size,
+            p.profile_file_type
+        from tbl_member m
+                 left join tbl_profile p on m.id = p.member_id
+        where m.member_email = #{memberEmail}
+          and m.member_password = #{memberPassword}
     </select>
 
     <update id="update">

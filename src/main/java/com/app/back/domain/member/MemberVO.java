@@ -32,6 +32,11 @@ public class MemberVO implements Serializable {
     private String updatedDate;
     private String resetUuid;
 
+    private String profileFileName;
+    private String profileFilePath;
+    private Long profileFileSize;
+    private String profileFileType;
+
 
 
     public MemberDTO toDTO() {
@@ -54,6 +59,10 @@ public class MemberVO implements Serializable {
         memberDTO.setCreatedDate(createdDate);
         memberDTO.setUpdatedDate(updatedDate);
         memberDTO.setResetUuid(resetUuid);
+        memberDTO.setProfileFileName(profileFileName);
+        memberDTO.setProfileFilePath(profileFilePath);
+        memberDTO.setProfileFileSize(profileFileSize);
+        memberDTO.setProfileFileType(profileFileType);
         return memberDTO;
     }
 }
