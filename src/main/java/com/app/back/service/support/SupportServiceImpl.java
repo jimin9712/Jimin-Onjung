@@ -1,6 +1,7 @@
 package com.app.back.service.support;
 
 import com.app.back.domain.review.ReviewDTO;
+import com.app.back.domain.support.SupportDTO;
 import com.app.back.repository.support.SupportDAO;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -20,7 +21,7 @@ public class SupportServiceImpl implements SupportService {
     private final SupportDAO supportDAO;
 
     @Override
-    public List<ReviewDTO> getLatest10Reviews() {
+    public List<SupportDTO> getLatest10Supports() {
         return supportDAO.findTop10();
     }
 }

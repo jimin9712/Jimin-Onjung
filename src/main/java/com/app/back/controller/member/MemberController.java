@@ -74,7 +74,6 @@ public class MemberController {
     public RedirectView logout(HttpSession session) {
         log.info("로그아웃 시도: {}", session.getAttribute("loginMember"));
 
-        // 세션 무효화
         session.invalidate();
 
         log.info("로그아웃 성공: 세션이 무효화되었습니다.");
@@ -82,7 +81,14 @@ public class MemberController {
     }
 
     @GetMapping("/main/main")
-    public String goToMain() {
+    public String goToMain(HttpSession session, Model model) {
+        MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
+        model.addAttribute("loginMember", loginMember);
+        if (loginMember != null) {
+            log.info("세션에서 가져온 회원 정보: {}", loginMember);
+        } else {
+            log.warn("세션에 로그인 정보가 없습니다.");
+        }
         return "main/main";
     }
 
