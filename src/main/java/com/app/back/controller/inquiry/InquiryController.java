@@ -147,6 +147,9 @@ public Map<String, Object> getNoticeRead(@RequestParam Long id) {
     }
     return result;
 }
+//  게시글 목록
+
+
 
 @GetMapping("/my-inquirys/{memberId}")
 @ResponseBody
