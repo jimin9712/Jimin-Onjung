@@ -8,17 +8,16 @@
         <link rel="stylesheet" href="/css/main/basic-header.css" />
         <link rel="stylesheet" href="/css/rank/rank.css" />
         <link rel="stylesheet" href="/css/main/footer.css"/>
-        <link
-                rel="stylesheet"
-                href="/css/main/login-header-no-noti.css"
-        />
+        <link rel="stylesheet" href="/css/main/login-header-no-noti.css">
 
     </head>
     <body>
-
-    <div th:if="${loginMember != null}" th:replace="~{main/login-header-no-noti :: header}"></div>
-
-    <div th:unless="${loginMember != null}" th:replace="~{main/basic-header :: header}"></div>
+    <div th:if="${isLogin}">
+        <th:block th:replace="~{main/login-header-no-noti :: header}"></th:block>
+    </div>
+    <div th:if="${!isLogin}">
+        <th:block th:replace="~{main/basic-header :: header}"></th:block>
+    </div>
 
 
     <div id="root">
@@ -443,5 +442,6 @@
         <script src="/js/main/main.js"></script>
         <script src="/js/rank/rank.js"></script>
         <script src="/js/main/login-header.js"></script>
+
 
 </html>

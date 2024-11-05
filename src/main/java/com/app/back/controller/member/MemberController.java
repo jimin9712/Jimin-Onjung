@@ -83,14 +83,13 @@ public class MemberController {
     @GetMapping("/main/main")
     public String goToMain(HttpSession session, Model model) {
         MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
-        model.addAttribute("loginMember", loginMember);
-        if (loginMember != null) {
-            log.info("세션에서 가져온 회원 정보: {}", loginMember);
-        } else {
-            log.warn("세션에 로그인 정보가 없습니다.");
-        }
+        boolean isLoggedIn = (loginMember != null);
+
+        model.addAttribute("isLogin", isLoggedIn);
+        log.info("Navigating to main page. isLogin: {}", isLoggedIn);
         return "main/main";
     }
+
 
     // SMS 인증번호 전송 API
     @PostMapping("/send-auth-code")
