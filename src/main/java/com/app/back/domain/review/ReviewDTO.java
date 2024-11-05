@@ -2,6 +2,7 @@ package com.app.back.domain.review;
 
 import com.app.back.domain.attachment.AttachmentVO;
 import com.app.back.domain.post.PostVO;
+import com.app.back.domain.profile.ProfileVO;
 import lombok.*;
 import org.springframework.stereotype.Component;
 
@@ -30,6 +31,12 @@ public class ReviewDTO {
     private String attachmentFilePath;
     private String attachmentFileSize;
     private String attachmentFileType;
+
+    private String profileFileName;
+    private String profileFilePath;
+    private Long profileFileSize;
+    private String profileFileType;
+
     private Long postId;
 
     public PostVO toPostVO(){

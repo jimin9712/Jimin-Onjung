@@ -115,7 +115,7 @@ public class ReviewController {
         }
     }
 
-    @GetMapping("/latest-review")
+    @GetMapping("/lastest-review")
     @ResponseBody
     public List<ReviewDTO> getLatestReviews() {
         log.info("최신 리뷰 10개 조회 요청");
