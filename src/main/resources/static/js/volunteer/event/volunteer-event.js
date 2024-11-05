@@ -67,16 +67,47 @@ pageBtns.forEach((pageBtn) => {
 });
 
 // 페이지네이션 버튼 클릭 이벤트
-// document.addEventListener("click", (e) => {
-//     if (e.target.closest("#paging")) {
-//         e.preventDefault();
-//         const target = e.target.closest("a");
-//         if (target) {
-//             const page = target.getAttribute("href").split("=")[1];
-//             console.log("요청된 페이지 번호:", page); // 요청된 페이지 번호 로그 출력
-//             vtListService.getList(page, (data) => {
-//                 showList({ lists: data.lists, pagination: data.pagination });
-//             });
-//         }
-//     }
-// });
+
+document.addEventListener("DOMContentLoaded", () => {
+    const pageContainer = document.querySelector(".page-container");
+
+    pageContainer.addEventListener("click", (e) => {
+        // 클릭된 요소가 .page-btn 클래스인지 확인
+        if (e.target.classList.contains("page-btn")) {
+            e.preventDefault();
+
+            // 모든 .page-btn 요소에서 active 클래스 제거
+            document.querySelectorAll(".page-btn").forEach(btn => btn.classList.remove("active"));
+
+            // 클릭된 버튼에 active 클래스 추가
+            e.target.classList.add("active");
+
+            // 추가적으로 페이지 번호에 맞는 데이터 불러오는 부분 추가 가능
+            const selectedPage = parseInt(e.target.getAttribute("data-page"), 10);
+            console.log("선택된 페이지:", selectedPage);
+
+            fetchVolunteers("recent", selectedPage);
+            window.history.pushState(null, "", `/volunteer/volunteer-list?page=${selectedPage}`);
+        }
+    });
+});
+
+const addPageButtonEventListeners = () => {
+    document.querySelectorAll(".page-btn").forEach(button => {
+        button.addEventListener("click", (e) => {
+            e.preventDefault();
+            const selectedPage = parseInt(button.getAttribute("data-page"), 10);
+            console.log("선택된 페이지:", selectedPage);
+
+            // URL 변경 없이 페이지 데이터 불러오기
+            fetchVolunteers("recent", selectedPage);
+
+            // URL을 업데이트하여 브라우저 주소 표시줄에 현재 페이지 반영
+            window.history.pushState(null, "", `/volunteer/volunteer-list?page=${selectedPage}`);
+        });
+    });
+};
+
+
+
+

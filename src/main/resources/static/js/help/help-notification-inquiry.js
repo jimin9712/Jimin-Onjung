@@ -1,11 +1,11 @@
-const lisdiv = document.querySelector(".sidebar-wrap");
+const noticeSidebar = document.querySelector(".sidebar-wrap");
 const keyword = document.querySelector("input[name='keyword']");
-const notificationWrap = document.getElementById("notification-wrap");
+const notificationRead = document.getElementById("notification-wrap");
 const pageWrap = document.getElementById("page-wrap");
 
 let content = ``;
 
-// 게시글 목록을 표시하는 함수
+// 문의 조회페이지의 사이드바
 const showList = () => {
     let text = ``; // HTML 내용을 저장할 변수 초기화
     console.log(notices);
@@ -21,7 +21,7 @@ const showList = () => {
              </li>`;
 
     // 게시글 목록을 HTML 요소에 삽입
-    lisdiv.innerHTML = text;
+    noticeSidebar.innerHTML = text;
 };
 
 showList();
@@ -31,7 +31,7 @@ if (search.keyword === null) {
     search.keyword = '';
 }
 keyword.value = search.keyword;
-
+// 문의 조회페이지의 제목,내용
 notices.forEach((notice) => {
     content += `<li class="notification-container">
         <a href="/help/help-notification-inquiry?id=${notice.id}" class="notification"
@@ -40,7 +40,7 @@ notices.forEach((notice) => {
             <p class="notification-date">${notice.createdDate}</p></a>
         </li>`;
 });
-notificationWrap.innerHTML = content;
+notificationRead.innerHTML = content;
 
 // 페이지 네비게이션 링크 생성 및 삽입
 content = ``;
