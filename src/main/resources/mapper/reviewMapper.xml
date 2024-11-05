@@ -6,21 +6,25 @@
     </insert>
 
     <select id="selectAll" resultType="reviewDTO">
-        select r.id, r.review_star_rate, r.vt_group_name, p.post_title, p.post_content, p.member_id, p.created_date, p.updated_date, m.member_nickname
+        select r.id, r.review_star_rate, r.vt_group_name, p.post_title, p.post_content, p.member_id, p.created_date, p.updated_date, m.member_nickname, a.attachment_file_name, a.attachment_file_real_name, a.attachment_file_path
         from tbl_review r join tbl_post p
             on r.id = p.id
         join tbl_member m
             on p.member_id = m.id
+        join tbl_attachment a
+            on a.post_id = p.id
         order by created_date desc, r.id desc
         limit #{pagination.startRow}, #{pagination.rowCount};
     </select>
 
     <select id="selectById" resultType="reviewDTO">
-        select r.id, r.review_star_rate, r.vt_group_name, p.post_title, p.post_content, p.member_id, p.created_date, m.member_nickname
+        select r.id, r.review_star_rate, r.vt_group_name, p.post_title, p.post_content, p.member_id, p.created_date, m.member_nickname, a.attachment_file_name, a.attachment_file_real_name, a.attachment_file_path
         from tbl_review r join tbl_post p
             on r.id = p.id
         join tbl_member m
             on p.member_id = m.id
+        join tbl_attachment a
+            on a.post_id = p.id
         where r.id = #{id}
     </select>
 

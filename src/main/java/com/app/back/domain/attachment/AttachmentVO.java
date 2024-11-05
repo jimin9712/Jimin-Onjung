@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 public class AttachmentVO {
     private Long id;
     private String attachmentFileName;
+    private String attachmentFileRealName;
     private String attachmentFilePath;
     private String attachmentFileSize;
     private String attachmentFileType;

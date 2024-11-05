@@ -5,6 +5,7 @@ import com.app.back.domain.donation.DonationVO;
 import com.app.back.domain.donation_record.DonationRecordDTO;
 import com.app.back.domain.post.Pagination;
 import com.app.back.domain.review.ReviewDTO;
+import com.app.back.service.attachment.AttachmentService;
 import com.app.back.service.donation.DonationService;
 import com.app.back.service.post.PostService;
 import jakarta.servlet.http.HttpSession;
@@ -33,13 +34,14 @@ import java.util.UUID;
 public class DonationController {
     private final DonationService donationService;
     private final PostService postService;
+    private final AttachmentService attachmentService;
     private final HttpSession session;
 
     @GetMapping("donation-write")
     public String goToWriteForm(DonationDTO donationDTO) { return "donation/donation-write"; }
 
     @PostMapping("donation-write")
-    public RedirectView donationWrite(DonationDTO donationDTO, @RequestParam("uuid") List<String> uuids, @RequestParam("path") List<String> paths, @RequestParam("size") List<String> sizes, @RequestParam("file") List<MultipartFile> files) throws IOException {
+    public RedirectView donationWrite(DonationDTO donationDTO, @RequestParam("uuid") List<String> uuids, @RequestParam("realName") List<String> realNames, @RequestParam("path") List<String> paths, @RequestParam("size") List<String> sizes, @RequestParam("file") List<MultipartFile> files) throws IOException {
         donationDTO.setMemberId(1L);
         donationDTO.setPostType("DONATION");
 
@@ -51,7 +53,7 @@ public class DonationController {
 //        데이터가 문제없으면 세션에 저장
 //        session.setAttribute("donation", donationDTO);
 
-        donationService.write(donationDTO, uuids, paths, sizes, files);
+        donationService.write(donationDTO, uuids, realNames, paths, sizes, files);
 
         return new RedirectView("/donation/donation-list");
     }
@@ -83,7 +85,11 @@ public class DonationController {
         log.info("{}", donationDTO);
         if (donationDTO.isPresent()) {
             model.addAttribute("donation", donationDTO.get());
+            model.addAttribute("attachments", attachmentService.getList(postId));
         } else {
+            log.info("{}",postId);
+            log.info("hihihi");
+            log.info("{}", donationService.getById(postId));
             return "redirect:/donation/donation-list";
         }
         return "donation/donation-inquiry";
@@ -91,26 +97,37 @@ public class DonationController {
 
     @GetMapping("donation-update")
     public String goToUpdateForm(@RequestParam("postId") Long postId, Model model) {
-        Optional<DonationDTO> donationDTO =donationService.getById(postId);
+        Optional<DonationDTO> donationDTO = donationService.getById(postId);
 
         if (donationDTO.isPresent()) {
             model.addAttribute("donation", donationDTO.get());
+            model.addAttribute("attachments", attachmentService.getList(postId));
+            log.info("{}", attachmentService.getList(postId));
         } else {
-            return "redirect:/donation/donation-list";
+            return "redirect:/donation/donation-inquiry?postId=" + postId;
         }
         return "donation/donation-update";
     }
 
     @PostMapping("donation-update")
-    public RedirectView donationUpdate(DonationDTO donationDTO) {
-        donationService.update(donationDTO);
+    public RedirectView donationUpdate(DonationDTO donationDTO, @RequestParam("postId") Long postId, @RequestParam("uuid") List<String> uuids, @RequestParam("realName") List<String> realNames, @RequestParam("path") List<String> paths, @RequestParam("size") List<String> sizes, @RequestParam("file") List<MultipartFile> files, @RequestParam("id") List<Long> ids) throws IOException {
+        donationDTO.setId(postId);
+        donationDTO.setPostId(postId);
+
+//        if (donationDTO.getPostTitle() == null || donationDTO.getPostContent() == null) {
+//            log.error("필수 데이터가 없습니다.");
+//            return new RedirectView("/donation/donation-update?postId=" + postId);
+//        }
+
+        donationService.update(donationDTO, uuids, realNames, paths, sizes, files, ids);
+
         return new RedirectView("/donation/donation-inquiry");
     }
 
-    @GetMapping("review-delete")
+    @GetMapping("donation-delete")
     public RedirectView reviewDelete(@RequestParam("postId") Long postId) {
         donationService.delete(postId);
-        return new RedirectView("/review/review-list");
+        return new RedirectView("/donation/donation-list");
     }
 
     @GetMapping("/my-posts/{memberId}")

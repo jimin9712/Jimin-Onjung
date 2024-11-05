@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 public class AttachmentDTO {
     private Long id;
     private String attachmentFileName;
+    private String attachmentFileRealName;
     private String attachmentFilePath;
     private String attachmentFileSize;
     private String attachmentFileType;
@@ -19,6 +20,6 @@ public class AttachmentDTO {
     private String createdDate;
 
     public AttachmentVO toVO(){
-        return new AttachmentVO(id, attachmentFileName, attachmentFilePath, attachmentFileSize, attachmentFileType, postId,createdDate);
+        return new AttachmentVO(id, attachmentFileName, attachmentFileRealName, attachmentFilePath, attachmentFileSize, attachmentFileType, postId, createdDate);
     }
 }

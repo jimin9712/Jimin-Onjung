@@ -34,8 +34,8 @@ public class DonationDAO {
     }
 
     // ID로 프로젝트 포스트 수정
-    public void update(DonationDTO donationDTO) {
-        donationMapper.update(donationDTO);
+    public void update(DonationVO donationVO) {
+        donationMapper.update(donationVO);
     }
 
     // ID로 프로젝트 포스트 삭제
