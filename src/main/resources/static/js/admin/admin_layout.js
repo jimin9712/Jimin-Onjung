@@ -194,7 +194,7 @@ const renderNotice = (notis) => {
     notis.forEach((notice) => {
         content +=
             `<li class="notification-container" >
-                <a href="/admin/notice-list?id=${notice.id}" class="notification noit-admin">
+                <a data-id="${notice.id}" class="notification noit-admin">
                     <p class="notification-num">${notice.id}</p>
                     <h4 class="notification-title">${notice.postTitle}</h4>
                     <p class="notification-date noit-date-admin">${notice.createdDate}</p>
@@ -271,20 +271,45 @@ const renderNoticePagination = (pagination, keyword = '') => {
             console.error("공지사항 데이터를 불러오는 중 오류 발생:", error);
         }
     };
-
 };
+
+const notificationContainer = document.querySelector(".notification-container"); // 공지사항 세부 내용 컨테이너
+const sidebarContainer = document.querySelector(".sidebar-container"); // 사이드바 컨테이너
 
 // 공지사항 세부 내용을 렌더링하는 함수
 const renderNoticeDetail = (notice) => {
-    const notificationContainer = document.querySelector(".notification-content"); // 세부내용 표시할 요소
-    if (notificationContainer) {
+    if (notificationContainer && sidebarContainer) {
+        // 공지사항 세부 내용 렌더링
         notificationContainer.innerHTML = `
-            <h1>${notice.postTitle}</h1>
-            <p>${notice.createdDate}</p>
-            <div>${notice.postContent}</div>
+            <header class="notification-header">
+                <h1 style="font-size: 20px">
+                    ${notice.postTitle}
+                </h1>
+            </header>
+            <section class="notification-info">
+                <div class="notification-content">
+                    <div class="notification-body">
+                        ${notice.postContent}
+                    </div>
+                    <div class="notification-attachments">
+                        <ul class="attachments"></ul>
+                    </div>
+                </div>
+            </section>
         `;
+
+        // 사이드바 목록 렌더링
+        let sidebarContentHTML = '';
+        notice.otherNotices.forEach(item => {
+            sidebarContentHTML += `
+                <li>
+                    <a href="#" data-id="${item.id}" class="sidebar-item">${item.title}</a>
+                </li>`;
+        });
+        sidebarContentHTML += `<li><a class="more-button">+ 더보기</a></li>`;
+
+        sidebarContainer.querySelector(".sidebar-content").innerHTML = sidebarContentHTML;
     } else {
         console.error("notificationContainer 요소를 찾을 수 없습니다.");
     }
 };
-fetchNotices();
