@@ -144,6 +144,17 @@ const fetchNotices = async (page = 1, keyword = '') => {
 };
 // 공지사항 목록 초기 로드
 fetchNotices(); // 초기 공지사항 데이터 로드
+//  공지사항 검색
+const fetchFilteredNotices = async (page, keyword) => {
+    try {
+        const response = await fetch(`/admin/notice-list?page=${page}&query=${keyword}`);
+        const data = await response.json();
+        renderNotice(data.notis); // 공지사항 목록 렌더링
+        renderNoticePagination(data.pagination, keyword); // 페이지네이션 렌더링
+    } catch (error) {
+        console.error("공지사항 데이터를 불러오는 중 오류 발생:", error);
+    }
+};
 
 // 공지사항 조회
 document.querySelector(".notification-list-wrap").addEventListener("click", async (event) => {
@@ -178,3 +189,32 @@ document.querySelector(".notification-list-wrap").addEventListener("click", asyn
         }
     }
 });
+// 공지사항 상세 정보 가져오기
+const fetchNoticeDetail = async (noticeId) => {
+    try {
+        const response = await fetch(`/admin/notice-detail?id=${noticeId}`);
+        const data = await response.json();
+        if (data.success) {
+            renderNoticeDetail(data.inquiry); // 상세 정보 렌더링
+        } else {
+            console.error(data.message);
+        }
+    } catch (error) {
+        console.error("공지사항 상세 정보 불러오기 오류:", error);
+    }
+};
+
+// 사이드바에 최신 공지사항 10개 가져오기
+const fetchRecentNotices = async () => {
+    try {
+        const response = await fetch('/admin/notice-list?limit=10'); // 최신 10개 공지사항 가져오기
+        const data = await response.json();
+        renderSidebarNotices(data.notis); // 가져온 공지사항을 사이드바에 렌더링
+    } catch (error) {
+        console.error("사이드바 공지사항 불러오기 오류:", error);
+    }
+};
+
+// 페이지 로드 시 최신 공지사항 10개를 사이드바에 표시
+fetchRecentNotices();
+//===============================회원 목록======================================================================

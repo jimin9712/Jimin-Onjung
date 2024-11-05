@@ -1,12 +1,17 @@
 const sections = document.querySelectorAll("section.admin-page");
 const submenus = document.querySelectorAll("a.MenuItems_submenu");
 const inquiryButtons = document.querySelectorAll("button.inquiry-button");
-const notificationListWrap = document.querySelector(".notification-list-wrap");
 
 // NodeList에 filter 메서드를 추가
 NodeList.prototype.filter = Array.prototype.filter;
 
-// 서브메뉴 클릭 시 해당 섹션 표시
+// 고객센터 문의 목록과 공지사항 목록의 검색어와 페이지를 초기화하는 함수
+const resetSearchAndPage = () => {
+    inquiryKeyword = ''; // 고객센터 문의 검색어 초기화
+    if (searchInput) searchInput.value = ''; // 검색 입력 필드 초기화
+};
+
+// 서브메뉴 클릭 시 해당 섹션 표시 및 검색어와 페이지 초기화
 submenus.forEach((submenu) => {
     submenu.addEventListener("click", (e) => {
         sections.forEach((section) => {
@@ -16,6 +21,14 @@ submenus.forEach((submenu) => {
             (section) => submenu.textContent === section.dataset.value // 클릭된 서브메뉴와 일치하는 섹션 찾기
         );
         selectedSection[0].classList.add("selected"); // 해당 섹션 선택
+        resetSearchAndPage(); // 검색어와 페이지 초기화
+
+        // 선택된 섹션에 따라 데이터 목록을 처음 페이지로 다시 로드
+        if (submenu.textContent === "고객센터 문의 목록") {
+            fetchFilteredInquiries(1, inquiryKeyword, inquiryFilterType); // 고객센터 문의 첫 페이지로
+        } else if (submenu.textContent === "공지사항 목록") {
+            fetchNotices(1); // 공지사항 첫 페이지로
+        }
     });
 });
 
@@ -295,14 +308,4 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
-// =====================================================================공지사항
-const noticeKeyword = document.querySelector("input[name='keyword']");
-
-// 검색 이벤트
-noticeKeyword.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
-        event.preventDefault();
-        const keyword = noticeKeyword.value.trim();
-        fetchNotices(1, keyword);
-    }
-});
+// =====================================회원 목록============================================
