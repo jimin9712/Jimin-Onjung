@@ -1,7 +1,7 @@
 // 봉사 지원 모집 게시글 가져오기
-const fetchVolunteers = async (order = "recent") => {
+const fetchVolunteers = async (order = "recent", page = 1) => {
     try {
-        const response = await fetch(`/volunteer/volunteer-info?order=${order}`);
+        const response = await fetch(`/volunteer/volunteer-info?order=${order}&page=${page}`);
         console.log("서버 응답 상태 코드:", response.status);
 
         if (!response.ok) throw new Error("서버로부터 데이터를 가져오는데 실패했습니다.");
@@ -10,7 +10,8 @@ const fetchVolunteers = async (order = "recent") => {
         const lists = data.lists || data;
         const pagination = data.pagination || {};
 
-        console.log("봉사 모집 데이터:", lists);
+        console.log("pagination 객체:", pagination);
+        console.log("선택된 페이지:", pagination.page || "페이지 정보가 없습니다");
 
         showList({ lists, pagination });
     } catch (error) {

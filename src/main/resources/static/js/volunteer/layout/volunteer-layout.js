@@ -523,7 +523,114 @@ const showList = ({ lists}) => {
 }
 
 
-// 페이징처리 부분
+// // 페이징처리 부분
+// 페이지 이동은 정상적으로 되나 1페이지 데이터로 고정되어있음
+// document.addEventListener("DOMContentLoaded", () => {
+//     const pageContainer = document.querySelector(".page-container");
+//     if (!pageContainer) {
+//         console.error("The page-container element is missing in the DOM.");
+//         return;
+//     }
+//
+//     const totalPages = Math.ceil(pagination.total / pagination.rowCount);
+//     console.log("총 페이지 수:", totalPages);
+//
+//     if (totalPages === 1) {
+//         console.log("총 페이지 수가 1인 이유 확인 - total:", pagination.total, "rowCount:", pagination.rowCount);
+//     }
+//
+//     const showPaging = () => {
+//         let pagingText = ``;
+//
+//         // 기존의 pagingText 생성 로직 (구조 변경하지 않음)
+//         for (let i = pagination.startPage; i <= pagination.endPage; i++) {
+//             if (pagination.page === i) {
+//                 pagingText += `<a class="page-btn ${pagination.page === i ? 'active' : ''}" href="/volunteer/volunteer-list?page=${i}">${i}</a>`;
+//             } else {
+//                 pagingText += `<a class="page-btn ${pagination.page === i ? '' : ''}" href="/volunteer/volunteer-list?page=${i}">${i}</a>`;
+//             }
+//             console.log(`현재 페이지 번호: ${i}`);
+//         }
+//
+//         if (pagination.next) {
+//             pagingText += `
+//                 <a href="/volunteer/volunteer-list?page=${pagination.endPage + 1}" class="page-btn" style="padding: 12px;">
+//                     <svg viewBox="0 0 12 12" class="iFpvod">
+//                         <path fill-rule="evenodd" clip-rule="evenodd" d="M3.68888 11.0004C3.85188 11.0004 4.01388 10.9424 4.13688 10.8264L8.81688 6.43738C9.06088 6.20738 9.06088 5.83638 8.81588 5.60738L4.07988 1.17438C3.83288 0.942377 3.43288 0.942377 3.18588 1.17138C2.93888 1.40038 2.93788 1.77238 3.18388 2.00338L7.47788 6.02238L3.24088 9.99738C2.99588 10.2294 2.99688 10.6014 3.24488 10.8294C3.36788 10.9434 3.52888 11.0004 3.68888 11.0004Z"></path>
+//                     </svg>
+//                 </a>
+//             `;
+//         }
+//
+//         pageContainer.innerHTML = pagingText;
+//
+//         // 페이지 번호 클릭 이벤트 추가
+//         addPageButtonEventListeners();
+//     };
+//
+//
+//     showPaging();
+// });
+
+
+// 데이터는 정상적으로 나오나 주소이동이 안됨
+// document.addEventListener("DOMContentLoaded", () => {
+//     const pageContainer = document.querySelector(".page-container");
+//     if (!pageContainer) {
+//         console.error("The page-container element is missing in the DOM.");
+//         return;
+//     }
+//
+//     const totalPages = Math.ceil(pagination.total / pagination.rowCount);
+//     console.log("총 페이지 수:", totalPages);
+//
+//     if (totalPages === 1) {
+//         console.log("총 페이지 수가 1인 이유 확인 - total:", pagination.total, "rowCount:", pagination.rowCount);
+//     }
+//
+//     const showPaging = () => {
+//         let pagingText = ``;
+//
+//         // 페이지 번호 버튼 생성
+//         for (let i = pagination.startPage; i <= pagination.endPage; i++) {
+//             // 현재 페이지와 일치하는 경우 스타일 변경 (예: 현재 페이지는 활성화 표시)
+//             pagingText += `<a class="page-btn ${pagination.page === i ? 'active' : ''}" data-page="${i}" href="#">${i}</a>`;
+//             console.log(`현재 페이지 번호: ${i}`);
+//         }
+//
+//         // 다음 페이지 버튼 추가
+//         if (pagination.next) {
+//             pagingText += `
+//                 <a href="#" class="page-btn" data-page="${pagination.endPage + 1}" style="padding: 12px;">
+//                     <svg viewBox="0 0 12 12" class="iFpvod">
+//                         <path fill-rule="evenodd" clip-rule="evenodd" d="M3.68888 11.0004C3.85188 11.0004 4.01388 10.9424 4.13688 10.8264L8.81688 6.43738C9.06088 6.20738 9.06088 5.83638 8.81588 5.60738L4.07988 1.17438C3.83288 0.942377 3.43288 0.942377 3.18588 1.17138C2.93888 1.40038 2.93788 1.77238 3.18388 2.00338L7.47788 6.02238L3.24088 9.99738C2.99588 10.2294 2.99688 10.6014 3.24488 10.8294C3.36788 10.9434 3.52888 11.0004 3.68888 11.0004Z"></path>
+//                     </svg>
+//                 </a>
+//             `;
+//         }
+//
+//         pageContainer.innerHTML = pagingText;
+//
+//         // 페이지 번호 클릭 이벤트 추가
+//         addPageButtonEventListeners();
+//     };
+//
+//     const addPageButtonEventListeners = () => {
+//         document.querySelectorAll(".page-btn").forEach(button => {
+//             button.addEventListener("click", (e) => {
+//                 e.preventDefault();
+//                 const selectedPage = parseInt(button.getAttribute("data-page"), 10);
+//                 console.log("선택된 페이지:", selectedPage);
+//
+//                 // 선택한 페이지로 데이터 로드
+//                 fetchVolunteers("recent", selectedPage);  // 필요한 경우 order 값을 변경하세요
+//             });
+//         });
+//     };
+//
+//     showPaging();
+// });
+
 document.addEventListener("DOMContentLoaded", () => {
     const pageContainer = document.querySelector(".page-container");
     if (!pageContainer) {
@@ -534,30 +641,19 @@ document.addEventListener("DOMContentLoaded", () => {
     const totalPages = Math.ceil(pagination.total / pagination.rowCount);
     console.log("총 페이지 수:", totalPages);
 
-    if (totalPages === 1) {
-        console.log("총 페이지 수가 1인 이유 확인 - total:", pagination.total, "rowCount:", pagination.rowCount);
-    }
-
     const showPaging = () => {
         let pagingText = ``;
 
         // 페이지 번호 버튼 생성
         for (let i = pagination.startPage; i <= pagination.endPage; i++) {
-            // 현재 페이지와 일치하는 경우 스타일 변경 (예: 현재 페이지는 빨간색으로 표시)
-            if (pagination.page === i) {
-                pagingText += `<a class="page-btn ${pagination.page === i ? 'active' : ''}" href="/volunteer/volunteer-list?page=${i}">${i}</a>`;
-            } else {
-                pagingText += `<a class="page-btn ${pagination.page === i ? '' : ''}" href="/volunteer/volunteer-list?page=${i}">${i}</a>`;
-            }
-
-            // 반복이 될 때마다 로그 출력
+            pagingText += `<a class="page-btn ${pagination.page === i ? 'active' : ''}" data-page="${i}" href="#">${i}</a>`;
             console.log(`현재 페이지 번호: ${i}`);
         }
 
-// 다음 페이지 버튼 추가
+        // 다음 페이지 버튼 추가
         if (pagination.next) {
             pagingText += `
-                <a href="/volunteer/volunteer-list?page=${pagination.endPage + 1}" class="page-btn" style="padding: 12px;">
+                <a href="#" class="page-btn" data-page="${pagination.endPage + 1}" style="padding: 12px;">
                     <svg viewBox="0 0 12 12" class="iFpvod">
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M3.68888 11.0004C3.85188 11.0004 4.01388 10.9424 4.13688 10.8264L8.81688 6.43738C9.06088 6.20738 9.06088 5.83638 8.81588 5.60738L4.07988 1.17438C3.83288 0.942377 3.43288 0.942377 3.18588 1.17138C2.93888 1.40038 2.93788 1.77238 3.18388 2.00338L7.47788 6.02238L3.24088 9.99738C2.99588 10.2294 2.99688 10.6014 3.24488 10.8294C3.36788 10.9434 3.52888 11.0004 3.68888 11.0004Z"></path>
                     </svg>
@@ -566,6 +662,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         pageContainer.innerHTML = pagingText;
+        addPageButtonEventListeners();
     };
 
     showPaging();
@@ -574,22 +671,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-
-
-
-
-
-
-
-// 게시글 목록과 페이지 네비게이션 표시 함수 호출
-// showList();
-// showPaging();
-
-// 페이지 네비게이션 링크 생성 및 삽입
-// content = ``;
-// for (let i = pagination.startPage; i <= pagination.endPage; i++) {
-//     content += `<a href="/volunteer/volunteer-list?page=${i}">${i}</a>`;
-// }
 
 
 
