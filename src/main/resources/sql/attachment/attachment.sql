@@ -21,4 +21,6 @@ show databases;
 alter table tbl_attachment modify attachment_file_type varchar(255);
 
 insert into tbl_attachment(id,attachment_file_name,attachment_file_path,attachment_file_size,attachment_file_type,post_id)
-values (2,'테스트이름','테스트path','테스트size','테스트type',1)
+values (2,'테스트이름','테스트path','테스트size','테스트type',1);
+
+delete from tbl_attachment where id = 6;
