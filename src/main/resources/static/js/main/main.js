@@ -266,7 +266,7 @@ async function loadReviews() {
                                         <div class="jslvlk aspect-ratio-card-wrapper card-image">
                                             <div>
                                                 <div class="observer"></div>
-                                                <img class="hkaqym" src="${review.attachmentFileName ? `/attachment/display?attachmentFileName=${review.attachmentFilePath + "/t_"  + review.attachmentFileName}` : 'default-image.jpg'}" alt="review image">
+                                                <img class="hkaqym" src="${review.attachmentFileName ? `/attachment/display?attachmentFileName=${review.attachmentFilePath + "/t_"  + review.attachmentFileName + review.attachmentFileRealName}` : 'default-image.jpg'}" alt="review image">
                                             </div>
                                         </div>
                                     </div>
