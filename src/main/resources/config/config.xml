@@ -18,6 +18,7 @@
         <typeAlias type="com.app.back.domain.notice.NoticeVO" alias="noticeVO"/>
         <typeAlias type="com.app.back.domain.notice.NoticeDTO" alias="noticeDTO"/>
         <typeAlias type="com.app.back.domain.attachment.AttachmentVO" alias="attachmentVO"/>
+        <typeAlias type="com.app.back.domain.attachment.AttachmentDTO" alias="attachmentDTO"/>
         <typeAlias type="com.app.back.domain.inquiry.InquiryVO" alias="inquiryVO"/>
         <typeAlias type="com.app.back.domain.inquiry.InquiryDTO" alias="inquiryDTO"/>
         <typeAlias type="com.app.back.domain.inquiry_answer.InquiryAnswerVO" alias="inquiryAnswerVO"/>
@@ -34,6 +35,9 @@
         <typeAlias type="com.app.back.domain.vt_application.VtApplicationDTO" alias="vtApplicationDTO"/>
         <typeAlias type="com.app.back.domain.payment.PaymentVO" alias="paymentVO"/>
         <typeAlias type="com.app.back.domain.payment.PaymentDTO" alias="paymentDTO"/>
+        <typeAlias type="com.app.back.domain.support.SupportVO" alias="supportVO"/>
+        <typeAlias type="com.app.back.domain.support.SupportDTO" alias="supportDTO"/>
+
 
 
     </typeAliases>

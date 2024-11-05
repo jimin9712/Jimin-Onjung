@@ -13,7 +13,7 @@ import java.util.Optional;
 
 public interface ReviewService {
     @Async
-    public void write(ReviewDTO reviewDTO, List<String> uuids, List<String> paths, List<String> sizes, List<MultipartFile> files) throws IOException;
+    public void write(ReviewDTO reviewDTO, List<String> uuids, List<String> realNames, List<String> paths, List<String> sizes, List<MultipartFile> files) throws IOException;
     public Optional<ReviewDTO> getById(Long id);
     public List<ReviewDTO> getList(Pagination pagination);
     public int getTotal();
@@ -21,6 +21,9 @@ public interface ReviewService {
     public void delete(Long id);
     public List<ReviewDTO> findByMemberId(Long memberId);
     public List<ReviewDTO> findByMemberIdAndDateRange(Long memberId, String startDate, String endDate);
+
+    public List<ReviewDTO> getLatest10Reviews();
+
 
 }
 

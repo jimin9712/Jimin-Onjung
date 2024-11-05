@@ -28,22 +28,22 @@ public class DonationServiceImpl implements DonationService {
     private final AttachmentDAO attachmentDAO;
 
     @Override
-    public void write(DonationDTO donationDTO, List<String> uuids, List<String> paths, List<String> sizes, List<MultipartFile> files) throws IOException {
+    public void write(DonationDTO donationDTO, List<String> uuids, List<String> realNames, List<String> paths, List<String> sizes, List<MultipartFile> files) throws IOException {
         postDAO.save(donationDTO.toPostVO());
         Long id = postDAO.selectCurrentId();
         donationDTO.setId(id);
         donationDTO.setPostId(id);
         donationDAO.save(donationDTO.toVO());
-        for(int i=0; i<files.size(); i++){
-            donationDTO.setAttachmentFileName(uuids.get(i) + "_" + files.get(i).getOriginalFilename());
-            donationDTO.setAttachmentFilePath(paths.get(i));
-            donationDTO.setAttachmentFileSize(String.valueOf(sizes.get(i)));
-            donationDTO.setAttachmentFileType(files.get(i).getContentType());
-            attachmentDAO.save(donationDTO.toAttachmentVO());
+        if(files != null) {
+            for(int i=0; i<files.size(); i++){
+                donationDTO.setAttachmentFileName(uuids.get(i) + "_" + files.get(i).getOriginalFilename());
+                donationDTO.setAttachmentFileRealName(realNames.get(i));
+                donationDTO.setAttachmentFilePath(paths.get(i));
+                donationDTO.setAttachmentFileSize(String.valueOf(sizes.get(i)));
+                donationDTO.setAttachmentFileType(files.get(i).getContentType());
+                attachmentDAO.save(donationDTO.toAttachmentVO());
+            }
         }
-//        if(donationDTO.getAttachmentFileName() != null && donationDTO.getAttachmentFilePath() != null && donationDTO.getAttachmentFileType() != null && donationDTO.getAttachmentFileSize() != null) {
-//            attachmentDAO.save(donationDTO.toAttachmentVO());
-//        }
     }
 
     @Override
@@ -65,8 +65,24 @@ public class DonationServiceImpl implements DonationService {
     }
 
     @Override
-    public void update(DonationDTO donationDTO) {
-        donationDAO.update(donationDTO);
+    public void update(DonationDTO donationDTO, List<String> uuids, List<String> realNames, List<String> paths, List<String> sizes, List<MultipartFile> files, List<Long> ids) throws IOException {
+        postDAO.update(donationDTO.toPostVO());
+        donationDAO.update(donationDTO.toVO());
+        if(files != null && uuids.size() > 0) {
+            for(int i=0; i<files.size(); i++){
+                donationDTO.setAttachmentFileName(uuids.get(i+1) + "_" + files.get(i).getOriginalFilename());
+                donationDTO.setAttachmentFileRealName(realNames.get(i+1));
+                donationDTO.setAttachmentFilePath(paths.get(i+1));
+                donationDTO.setAttachmentFileSize(String.valueOf(sizes.get(i+1)));
+                donationDTO.setAttachmentFileType(files.get(i).getContentType());
+                attachmentDAO.save(donationDTO.toAttachmentVO());
+            }
+        }
+        if(ids != null) {
+            for(int i=0; i<ids.size(); i++){
+                attachmentDAO.delete(ids.get(i));
+            }
+        }
     }
 
     @Override

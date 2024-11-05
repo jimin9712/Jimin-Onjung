@@ -59,10 +59,9 @@ public class Pagination {
         this.next = endPage < realEnd;
 
         // 페이지네이션 설정 완료 후 로그 출력
-//        log.info("Pagination 설정 - page: {}, startRow: {}, endRow: {}, startPage: {}, endPage: {}, realEnd: {}",
-//                page, startRow, endRow, startPage, endPage, realEnd);
+        log.info("Pagination 설정 - page: {}, startRow: {}, endRow: {}, startPage: {}, endPage: {}, realEnd: {}, next: {}",
+                page, startRow, endRow, startPage, endPage, realEnd, next);
 
-        log.info("페이지네이션 설정 - page: {}, startRow: {}, endRow: {}", page, startRow, endRow);
 
     }
 

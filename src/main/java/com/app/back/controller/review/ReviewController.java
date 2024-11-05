@@ -39,8 +39,8 @@ public class ReviewController {
     public String goToWriteForm(ReviewDTO reviewDTO) { return "review/review-write"; }
 
     @PostMapping("review-write")
-    public RedirectView reviewWrite(ReviewDTO reviewDTO, @RequestParam("uuid") List<String> uuids, @RequestParam("path") List<String> paths, @RequestParam("size") List<String>sizes, @RequestParam("file") List<MultipartFile> files) throws IOException {
-        reviewDTO.setMemberId(1L);
+    public RedirectView reviewWrite(ReviewDTO reviewDTO, @RequestParam("uuid") List<String> uuids, @RequestParam("realName") List<String> realNames, @RequestParam("path") List<String> paths, @RequestParam("size") List<String>sizes, @RequestParam("file") List<MultipartFile> files) throws IOException {
+        reviewDTO.setMemberId(22L);
         reviewDTO.setPostType("REVIEW");
         reviewDTO.setPostTitle(reviewDTO.getVtGroupName());
 
@@ -52,7 +52,7 @@ public class ReviewController {
 //        session.setAttribute("review", reviewDTO);
 
         // 데이터베이스에 게시글 저장
-        reviewService.write(reviewDTO, uuids, paths, sizes, files);
+        reviewService.write(reviewDTO, uuids, realNames, paths, sizes, files);
 
         return new RedirectView("/review/review-list");
     }
@@ -100,7 +100,7 @@ public class ReviewController {
 
     @GetMapping("/my-review/{memberId}")
     @ResponseBody
-    public List<ReviewDTO> getMyDonationRecords(
+    public List<ReviewDTO> getMyReviews(
             @PathVariable Long memberId,
             @RequestParam(required = false) String startDate,
             @RequestParam(required = false) String endDate) {
@@ -113,6 +113,13 @@ public class ReviewController {
         } else {
             return reviewService.findByMemberId(memberId);
         }
+    }
+
+    @GetMapping("/lastest-review")
+    @ResponseBody
+    public List<ReviewDTO> getLatestReviews() {
+        log.info("최신 리뷰 10개 조회 요청");
+        return reviewService.getLatest10Reviews();
     }
 
     }

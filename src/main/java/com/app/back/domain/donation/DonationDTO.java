@@ -27,6 +27,7 @@ public class DonationDTO {
     private String donationSDate;
     private String donationEDate;
     private String attachmentFileName;
+    private String attachmentFileRealName;
     private String attachmentFilePath;
     private String attachmentFileSize;
     private String attachmentFileType;
@@ -41,6 +42,6 @@ public class DonationDTO {
     }
 
     public AttachmentVO toAttachmentVO(){
-        return new AttachmentVO(id, attachmentFileName, attachmentFilePath, attachmentFileSize, attachmentFileType, postId, createdDate);
+        return new AttachmentVO(id, attachmentFileName, attachmentFileRealName, attachmentFilePath, attachmentFileSize, attachmentFileType, postId, createdDate);
     }
 }

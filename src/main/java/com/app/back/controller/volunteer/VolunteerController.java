@@ -1,5 +1,6 @@
 package com.app.back.controller.volunteer;
 
+import com.app.back.domain.donation.DonationDTO;
 import com.app.back.domain.review.ReviewDTO;
 import com.app.back.domain.volunteer.Pagination;
 import com.app.back.domain.volunteer.VolunteerDTO;
@@ -14,6 +15,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @Controller // 이 클래스가 컨트롤러임을 나타냄
 @RequestMapping("/volunteer/*") // QA 관련 요청을 처리
@@ -28,26 +30,26 @@ public class VolunteerController {
         return "volunteer/volunteer-write";
     }
 
-    @PostMapping("volunteer-write")
-    public RedirectView volunteerWrite(VolunteerDTO volunteerDTO) throws IOException {
-        volunteerDTO.setMemberId(1L);
-        volunteerDTO.setPostType("VOLUNTEER");
-//        volunteerDTO.setPostTitle(volunteerDTO.getVtGroupName());
-        log.info("{}", volunteerDTO);
-        if (volunteerDTO.getPostTitle() == null || volunteerDTO.getPostContent() == null) {
-            log.error("필수 데이터가 없습니다.");
-            return new RedirectView("/review/review-write");
-        }
-//        // 데이터가 문제없으면 세션에 저장
-//        session.setAttribute("review", reviewDTO);
+//    @PostMapping("volunteer-write")
+//    public RedirectView volunteerWrite(VolunteerDTO volunteerDTO) throws IOException {
+//        volunteerDTO.setMemberId(1L);
+//        volunteerDTO.setPostType("VOLUNTEER");
+////        volunteerDTO.setPostTitle(volunteerDTO.getVtGroupName());
+//        log.info("{}", volunteerDTO);
+//        if (volunteerDTO.getPostTitle() == null || volunteerDTO.getPostContent() == null) {
+//            log.error("필수 데이터가 없습니다.");
+//            return new RedirectView("/review/review-write");
+//        }
+////        // 데이터가 문제없으면 세션에 저장
+////        session.setAttribute("review", reviewDTO);
+//
+//        // 데이터베이스에 게시글 저장
+//        volunteerService.write(volunteerDTO);
+//
+//        return new RedirectView("/review/review-list");
+//    }
 
-        // 데이터베이스에 게시글 저장
-        volunteerService.write(volunteerDTO);
-
-        return new RedirectView("/review/review-list");
-    }
-
-    @GetMapping("/volunteer-list")
+    @GetMapping("volunteer-list")
     public String getList(Pagination pagination, Model model) {
 
         pagination.setTotal(postService.getTotal("VOLUNTEER"));
@@ -59,7 +61,7 @@ public class VolunteerController {
         return "volunteer/volunteer-list";
     }
 
-    @GetMapping("/volunteer-info")
+    @GetMapping("volunteer-info")
     @ResponseBody
     public List<VolunteerDTO> getListInfo(
             @RequestParam(value = "order", defaultValue = "recent") String order,
@@ -74,6 +76,7 @@ public class VolunteerController {
         pagination.setTotal(postService.getTotal("VOLUNTEER"));
         pagination.vtProgress();
 
+
         log.info("Pagination 객체: {}", pagination); // Pagination 설정 확인
 
         List<VolunteerDTO> volunteerList = volunteerService.getList(pagination);
@@ -82,7 +85,6 @@ public class VolunteerController {
             volunteer.calculateDaysLeft();
             volunteer.setPostType(volunteer.getPostType());
         }
-
         return volunteerList;
     }
 
@@ -91,11 +93,17 @@ public class VolunteerController {
 
 
 
-    @GetMapping("/volunteer-inquiry")
-    public void read(Long id, Model model){
-        VolunteerDTO volunteerDTO = volunteerService.getPost(id).orElseThrow();
-        model.addAttribute("list", volunteerDTO);
-    }
+//    @GetMapping("donation-inquiry")
+//    public String goToInquiry( @RequestParam("postId") Long postId, Model model) {
+//        Optional<DonationDTO> donationDTO = donationService.getById(postId);
+//        log.info("{}", donationDTO);
+//        if (donationDTO.isPresent()) {
+//            model.addAttribute("donation", donationDTO.get());
+//        } else {
+//            return "redirect:/donation/donation-list";
+//        }
+//        return "donation/donation-inquiry";
+//    }
 
     @PostMapping("/volunteer-update")
     public RedirectView volunteerUpdate(ReviewDTO reviewDTO) {

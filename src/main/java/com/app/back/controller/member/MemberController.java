@@ -74,7 +74,6 @@ public class MemberController {
     public RedirectView logout(HttpSession session) {
         log.info("로그아웃 시도: {}", session.getAttribute("loginMember"));
 
-        // 세션 무효화
         session.invalidate();
 
         log.info("로그아웃 성공: 세션이 무효화되었습니다.");
@@ -84,19 +83,13 @@ public class MemberController {
     @GetMapping("/main/main")
     public String goToMain(HttpSession session, Model model) {
         MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
-        MemberLoginType loginType = (MemberLoginType) session.getAttribute("loginType");
+        boolean isLoggedIn = (loginMember != null);
 
-        if (loginMember != null) {
-            model.addAttribute("member", loginMember);
-            model.addAttribute("loginType", loginType);
-        } else {
-            return "redirect:/member/login";
-        }
-
-        return "mypage/mypage";
-//        일단 마이페이지로 이동하게 바꿨습니다
-
+        model.addAttribute("isLogin", isLoggedIn);
+        log.info("Navigating to main page. isLogin: {}", isLoggedIn);
+        return "main/main";
     }
+
 
     // SMS 인증번호 전송 API
     @PostMapping("/send-auth-code")
@@ -263,5 +256,14 @@ public class MemberController {
         memberService.updateProfile(loginMember.toVO());
 
         return ResponseEntity.ok("프로필이 성공적으로 수정되었습니다.");
+    }
+
+    @GetMapping("/main/footer")
+    public String goTO() {
+        return "main/footer";
+    }
+    @GetMapping("/introduction/introduction")
+    public String goTOIntroduction() {
+        return "introduction/introduction";
     }
 }

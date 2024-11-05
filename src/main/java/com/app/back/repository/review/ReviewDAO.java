@@ -44,4 +44,8 @@ public class ReviewDAO {
     public List<ReviewDTO> findByMemberIdAndDateRange(Long memberId, String startDate, String endDate) {
         return reviewMapper.selectByMemberIdAndDateRange(memberId, startDate, endDate);
     }
+
+    public List<ReviewDTO> findTop10() {
+        return reviewMapper.selectTop10Reviews();
+    }
 }

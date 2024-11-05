@@ -1,6 +1,5 @@
 package com.app.back.domain.support;
 
-
 import lombok.*;
 import org.springframework.stereotype.Component;
 
@@ -12,7 +11,8 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class SupportVO {
     private Long id;
-    private int goalPoint;
-    private String supportSDate;
-    private String supportEDate;
+    private int goal_point;
+    private String support_s_date;
+    private String support_e_date;
+
 }
