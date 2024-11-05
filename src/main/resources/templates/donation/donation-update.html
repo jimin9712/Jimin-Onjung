@@ -90,7 +90,7 @@
                                         <textarea
                                             placeholder="내용을 한 줄로 소개해주세요!"
                                             maxlength="300"
-                                            th:value="*{postSummary}"
+                                            th:text="*{postSummary}"
                                         ></textarea>
                                     </label>
                                 </div>
@@ -245,8 +245,9 @@
             </div>
         </div>
     </body>
-<!--    <script th:inline="javascript">-->
-<!--        const donation = [[${donation}]];-->
-<!--    </script>-->
+    <script th:inline="javascript">
+        const attachments = [[${attachments}]];
+    </script>
+    <script src="/js/donation/donation-write-service.js"></script>
     <script src="/js/donation/donation-update.js"></script>
 </html>

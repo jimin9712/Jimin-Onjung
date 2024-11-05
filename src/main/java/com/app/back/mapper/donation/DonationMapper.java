@@ -27,7 +27,7 @@ public interface DonationMapper {
     // 전체 개수
     public int selectCount();
     // 수정
-    public void update(DonationDTO donationDTO);
+    public void update(DonationVO donationVO);
     // 삭제
     public void deleteById(Long id);
 

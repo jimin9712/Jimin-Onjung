@@ -9,7 +9,7 @@ let uploadedFiles = new Set(); // 업로드된 파일을 저장하는 Set
 let i = 0;
 
 // 파일 선택 시 호출되는 함수
-fileInput.addEventListener("change", async(event) => {
+fileInput.addEventListener("change", async (event) => {
     await handleFiles(event.target.files);
     fileInput.value = "";
 });
@@ -65,6 +65,10 @@ const handleFiles = async (files) => {
     attachmentFileName.type = "hidden";
     attachmentFileName.name = "uuid";
     attachmentFileName.value = `${uuid}`;
+    const attachmentFileRealName = document.createElement("input");
+    attachmentFileRealName.type = "hidden";
+    attachmentFileRealName.name = "realName";
+    attachmentFileRealName.value = `${attachmentFile.attachmentFileName.substring(attachmentFile.attachmentFileName.indexOf("_") + 1)}`;
     const attachmentFilePath = document.createElement("input");
     attachmentFilePath.type = "hidden";
     attachmentFilePath.name = "path";
@@ -74,6 +78,7 @@ const handleFiles = async (files) => {
     attachmentFileSize.name = "size";
     attachmentFileSize.value = `${attachmentFile.attachmentFileSize}`;
     form.append(attachmentFileName);
+    form.append(attachmentFileRealName);
     form.append(attachmentFilePath);
     form.append(attachmentFileSize);
     const receivedThumbnail = document.querySelector(`img.thumbnail-img-${i}`);

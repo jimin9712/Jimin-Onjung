@@ -1,6 +1,7 @@
 package com.app.back.service.attachment;
 
 
+import com.app.back.domain.attachment.AttachmentDTO;
 import com.app.back.domain.attachment.AttachmentVO;
 import com.app.back.repository.attachment.AttachmentDAO;
 import lombok.RequiredArgsConstructor;
@@ -17,17 +18,16 @@ public class AttachmentServiceImpl implements AttachmentService{
 
     @Override
     public void register(AttachmentVO attachmentVO) {
-
         attachmentDAO.save(attachmentVO);
     }
 
     @Override
-    public AttachmentVO getFile(Long id) {
+    public AttachmentDTO getFile(Long id) {
         return attachmentDAO.findById(id);
     }
 
     @Override
-    public List<AttachmentVO> getList(Long postId) {
+    public List<AttachmentDTO> getList(Long postId) {
         return attachmentDAO.findAll(postId);
     }
 

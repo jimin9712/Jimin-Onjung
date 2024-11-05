@@ -36,6 +36,7 @@ public class SupportDTO {
     private String memberNickName;
 
     private String attachmentFileName;
+    private String attachmentFileRealName;
     private String attachmentFilePath;
     private String attachmentFileSize;
     private String attachmentFileType;
@@ -56,7 +57,7 @@ public class SupportDTO {
 
     //    첨부파일 정보 가져오기
     public AttachmentVO toAttachmentVO() {
-        return new AttachmentVO(id, attachmentFileName, attachmentFilePath, attachmentFileSize, attachmentFileType, postId, createdDate);
+        return new AttachmentVO(id, attachmentFileName, attachmentFileRealName, attachmentFilePath, attachmentFileSize, attachmentFileType, postId, createdDate);
     }
 
     // 봉사게시글 정보 가져오기
