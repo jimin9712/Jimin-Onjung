@@ -85,7 +85,6 @@ public class VolunteerController {
             volunteer.calculateDaysLeft();
             volunteer.setPostType(volunteer.getPostType());
         }
-
         return volunteerList;
     }
 
