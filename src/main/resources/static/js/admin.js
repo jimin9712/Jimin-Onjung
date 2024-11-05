@@ -306,4 +306,3 @@ noticeKeyword.addEventListener("keydown", (event) => {
         fetchNotices(1, keyword);
     }
 });
-
