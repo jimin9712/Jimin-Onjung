@@ -188,5 +188,9 @@
             </main>
         </div>
     </body>
+    <script th:inline="javascript">
+        const lists = [[${lists}]];
+        const pagination = [[${pagination}]];
+    </script>
     <script src="/static/js/support/support-list.js"></script>
 </html>

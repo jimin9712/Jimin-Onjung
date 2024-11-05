@@ -1,6 +1,7 @@
 package com.app.back.repository.attachment;
 
 
+import com.app.back.domain.attachment.AttachmentDTO;
 import com.app.back.domain.attachment.AttachmentVO;
 import com.app.back.mapper.attachment.AttachmentMapper;
 import lombok.RequiredArgsConstructor;
@@ -19,12 +20,12 @@ public class AttachmentDAO {
     }
 
 //    파일 조회
-    public AttachmentVO findById(Long id){
+    public AttachmentDTO findById(Long id){
         return attachmentMapper.selectById(id);
     }
 
 //    파일 목록
-    public List<AttachmentVO> findAll(Long postId){
+    public List<AttachmentDTO> findAll(Long postId){
         return attachmentMapper.selectAll(postId);
     }
 

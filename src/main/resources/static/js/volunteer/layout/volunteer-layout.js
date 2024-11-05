@@ -358,16 +358,17 @@
 //     renderVolunteers(lists);
 //     renderPagings(pagination);
 // };
+
+
 const vtLayout = document.getElementById("contest-list");
-const vtPaging = document.querySelector("#paging"); // 페이지네이션 HTML 요소
 
 // 메인 리스트 렌더링 함수
-const showList = ({ lists = [], pagination = {} }) => {
-    let text = ``;
+const showList = ({ lists}) => {
+    let layText = ``;
 
     // 서버로부터 받은 lists가 비어있는지 확인
     if (!Array.isArray(lists) || lists.length === 0) {
-        text = `<p class="empty-component"> 게시글이 없습니다.</p>`;
+        layText = `<p class="empty-component"> 게시글이 없습니다.</p>`;
     } else {
         lists.forEach((list) => {
             const today = new Date().toISOString().split('T')[0];
@@ -383,7 +384,7 @@ const showList = ({ lists = [], pagination = {} }) => {
             }
 
             // 리스트 항목 HTML 생성
-            text += `
+            layText += `
                 <a href="/volunteer/volunteer?Id=${list.id}" class="donation-list-a">
                     <div class="contest-info">
                         <div class="contest-info-top">
@@ -518,48 +519,138 @@ const showList = ({ lists = [], pagination = {} }) => {
             `;
         });
     }
-    vtLayout.innerHTML = text;
+    vtLayout.innerHTML = layText;
+}
 
-    // 페이지네이션 생성
-    let pagingText = ``;
-    if (pagination.prev) {
-        pagingText += `
-           <a class="prev-page-btn" href="?page=${pagination.startPage - 1}">
-                <svg viewBox="0 0 12 12" class="icon-default">
-                    <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
-                        d="M8.31112 1.0004C8.14812 1.0004 7.98612 1.0584 7.86312 1.1744L3.18312 5.5634C2.93912 5.7934 2.93912 6.1644 3.18412 6.3934L7.92012 10.8264C8.16712 11.0584 8.56712 11.0584 8.81412 10.8294C9.06112 10.6004 9.06212 10.2284 8.81612 9.9974L4.52212 5.9784L8.75912 2.0034C9.00412 1.7714 9.00312 1.3994 8.75512 1.1714C8.63212 1.0574 8.47112 1.0004 8.31112 1.0004Z"
-                    ></path>
-                    <defs></defs>
-                </svg>
-           </a>`;
+// document.addEventListener("DOMContentLoaded", () => {
+//     // 페이지 네비게이션이 들어갈 요소 가져오기
+//     const pageContainer = document.querySelector(".page-container");
+//
+//     // pageContainer 요소가 있는지 확인
+//     if (!pageContainer) {
+//         console.error("The page-container element is missing in the DOM.");
+//         return;
+//     }
+//
+//     // pagination 객체가 제대로 초기화되어 있는지 확인
+//     if (!pagination) {
+//         console.error("Pagination data is missing or incorrect.");
+//         return;
+//     }
+//
+//     // 페이지 버튼을 생성하는 함수
+//     const showPaging = () => {
+//         // pagination 객체의 필드 값 출력
+//         console.log("Pagination values:", JSON.stringify({
+//             startPage: pagination.startPage,
+//             endPage: pagination.endPage,
+//             currentPage: pagination.page,
+//             prev: pagination.prev,
+//             next: pagination.next,
+//         }));
+//
+//
+//         let text = ``;
+//
+//         // 이전 페이지 버튼 추가
+//         if (pagination.prev) {
+//             text += `
+//                 <a href="/volunteer/volunteer-list?page=${pagination.startPage - 1}" class="page-btn" style="padding: 12px;">
+//                     <svg type="arrow12" viewBox="0 0 12 12" class="iFpvod" style="transform: rotate(-180deg);">
+//                         <path fill-rule="evenodd" clip-rule="evenodd" d="M3.68888 11.0004C3.85188 11.0004 4.01388 10.9424 4.13688 10.8264L8.81688 6.43738C9.06088 6.20738 9.06088 5.83638 8.81588 5.60738L4.07988 1.17438C3.83288 0.942377 3.43288 0.942377 3.18588 1.17138C2.93888 1.40038 2.93788 1.77238 3.18388 2.00338L7.47788 6.02238L3.24088 9.99738C2.99588 10.2294 2.99688 10.6014 3.24488 10.8294C3.36788 10.9434 3.52888 11.0004 3.68888 11.0004Z"></path>
+//                     </svg>
+//                 </a>
+//             `;
+//         }
+//
+//         // 페이지 번호 생성
+//         for (let i = pagination.startPage; i <= pagination.endPage; i++) {
+//             text += `
+//                 <a class="page-btn ${pagination.page === i ? 'active' : ''}" href="/volunteer/volunteer-list?page=${i}">
+//                     ${i}
+//                 </a>
+//             `;
+//         }
+//
+//         // 다음 페이지 버튼 추가
+//         if (pagination.next) {
+//             text += `
+//                 <a href="/volunteer/volunteer-list?page=${pagination.endPage + 1}" class="page-btn" style="padding: 12px;">
+//                     <svg viewBox="0 0 12 12" class="iFpvod">
+//                         <path fill-rule="evenodd" clip-rule="evenodd" d="M3.68888 11.0004C3.85188 11.0004 4.01388 10.9424 4.13688 10.8264L8.81688 6.43738C9.06088 6.20738 9.06088 5.83638 8.81588 5.60738L4.07988 1.17438C3.83288 0.942377 3.43288 0.942377 3.18588 1.17138C2.93888 1.40038 2.93788 1.77238 3.18388 2.00338L7.47788 6.02238L3.24088 9.99738C2.99588 10.2294 2.99688 10.6014 3.24488 10.8294C3.36788 10.9434 3.52888 11.0004 3.68888 11.0004Z"></path>
+//                     </svg>
+//                 </a>
+//             `;
+//         }
+//
+//         // 생성한 페이지 버튼 HTML을 pageContainer에 삽입
+//         pageContainer.innerHTML = text;
+//     };
+//
+//     // 페이지 버튼 생성 함수 호출
+//     showPaging();
+// });
+
+document.addEventListener("DOMContentLoaded", () => {
+    const pageContainer = document.querySelector(".page-container");
+    if (!pageContainer) {
+        console.error("The page-container element is missing in the DOM.");
+        return;
     }
 
-    for (let i = pagination.startPage; i <= pagination.endPage; i++) {
-        if (pagination.page === i) {
-            pagingText += `<a class="page-btn active">${i}</a>`;
-        } else {
-            pagingText += `<a class="page-btn" href="?page=${i}">${i}</a>`;
+    const totalPages = Math.ceil(pagination.total / pagination.rowCount);
+    console.log("총 페이지 수:", totalPages);
+
+    if (totalPages === 1) {
+        console.log("총 페이지 수가 1인 이유 확인 - total:", pagination.total, "rowCount:", pagination.rowCount);
+    }
+
+    const showPaging = () => {
+        let pagingText = ``;
+
+        for (let i = pagination.startPage; i <= pagination.endPage; i++) {
+            // 현재 페이지는 active 클래스를 추가하고, 나머지 페이지는 일반 버튼으로 표시
+            pagingText += `<a class="page-btn ${pagination.page === i ? 'active' : ''}" href="/volunteer/volunteer-list?page=${i}">${i}</a>`;
+            console.log(`현재 페이지 번호: ${i}`);
         }
-    }
 
-    if (pagination.next) {
-        pagingText += `
-            <a class="next-page-btn" href="?page=${pagination.endPage + 1}">
-                <svg viewBox="0 0 12 12" class="icon-default">
-                    <path
-                         fill-rule="evenodd"
-                         clip-rule="evenodd"
-                         d="M3.68888 11.0004C3.85188 11.0004 4.01388 10.9424 4.13688 10.8264L8.81688 6.43738C9.06088 6.20738 9.06088 5.83638 8.81588 5.60738L4.07988 1.17438C3.83288 0.942377 3.43288 0.942377 3.18588 1.17138C2.93888 1.40038 2.93788 1.77238 3.18388 2.00338L7.47788 6.02238L3.24088 9.99738C2.99588 10.2294 2.99688 10.6014 3.24488 10.8294C3.36788 10.9434 3.52888 11.0004 3.68888 11.0004Z"
-                    ></path>
-                    <defs></defs>
-                </svg>
-            </a>`;
-    }
+        // 다음 페이지 버튼 추가
+        if (pagination.next) {
+            pagingText += `
+                <a href="/volunteer/volunteer-list?page=${pagination.endPage + 1}" class="page-btn" style="padding: 12px;">
+                    <svg viewBox="0 0 12 12" class="iFpvod">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M3.68888 11.0004C3.85188 11.0004 4.01388 10.9424 4.13688 10.8264L8.81688 6.43738C9.06088 6.20738 9.06088 5.83638 8.81588 5.60738L4.07988 1.17438C3.83288 0.942377 3.43288 0.942377 3.18588 1.17138C2.93888 1.40038 2.93788 1.77238 3.18388 2.00338L7.47788 6.02238L3.24088 9.99738C2.99588 10.2294 2.99688 10.6014 3.24488 10.8294C3.36788 10.9434 3.52888 11.0004 3.68888 11.0004Z"></path>
+                    </svg>
+                </a>
+            `;
+        }
 
-    vtPaging.innerHTML = pagingText;
-};
+        pageContainer.innerHTML = pagingText;
+    };
+
+    showPaging();
+});
+
+
+
+
+
+
+
+
+
+// 게시글 목록과 페이지 네비게이션 표시 함수 호출
+// showList();
+// showPaging();
+
+// 페이지 네비게이션 링크 생성 및 삽입
+// content = ``;
+// for (let i = pagination.startPage; i <= pagination.endPage; i++) {
+//     content += `<a href="/volunteer/volunteer-list?page=${i}">${i}</a>`;
+// }
+
+
+
 
 
 

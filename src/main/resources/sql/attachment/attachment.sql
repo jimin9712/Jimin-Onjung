@@ -1,6 +1,7 @@
 create table tbl_attachment(
     id bigint unsigned auto_increment primary key,
     attachment_file_name varchar(255) not null,
+    attachment_file_real_name varchar(255) not null,
     attachment_file_path varchar(255) not null,
     attachment_file_size varchar(255) not null,
     attachment_file_type varchar(255) not null,

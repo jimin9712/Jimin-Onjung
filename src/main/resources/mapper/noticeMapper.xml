@@ -41,6 +41,7 @@
         limit #{pagination.startRow}, #{pagination.rowCount};
     </select>
 
+
     <select id="selectTotal">
         select count(*) from tbl_notice
     </select>

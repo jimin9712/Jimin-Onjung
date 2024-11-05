@@ -295,6 +295,7 @@
                                             <!-- 이미지 -->
                                             <path
                                                 fill-rule="evenodd"
+
                                                 clip-rule="evenodd"
                                                 d="M6.656 3.944a1.4 1.4 0 0 1 .92-.344h9.448c.375 0 .735.15.998.417l2.84 2.883H3.258l3.398-2.956zM2.6 8.1V19A1.4 1.4 0 0 0 4 20.4h16a1.4 1.4 0 0 0 1.4-1.4V8.1H2.6zm4.976-5.7a2.6 2.6 0 0 0-1.706.638L2.293 6.15a2.6 2.6 0 0 0-.894 1.962V19A2.6 2.6 0 0 0 4 21.6h16a2.6 2.6 0 0 0 2.6-2.6V8.02a2.6 2.6 0 0 0-.747-1.825l-2.976-3.02a2.6 2.6 0 0 0-1.852-.775h-9.45zM9.4 12a.6.6 0 0 1 .6-.6h4a.6.6 0 1 1 0 1.2h-4a.6.6 0 0 1-.6-.6z"
                                             ></path>
@@ -914,10 +915,10 @@
                                 <div class="ServiceHeader_container"><h2 class="ServiceHeader_title">공지사항 목록</h2></div>
                                 <div class="list-top">
                                     <div class="category-notification-num">번호</div>
-                                    <div class="category-notification-title">제목</div>
-                                    <div class="category-notification-date notification-table">작성일</div>
+                                    <div class="category-notification-title noti-title-admin">제목</div>
+                                    <div class="category-notification-date notification-table noti-date-admin">작성일</div>
                                 </div>
-                                <ul class="notification-list-wrap" style="height: 360px;"></ul>
+                                <ul class="notification-list-wrap" style="height:360px;"></ul>
                                 <nav class="pagination-wrap notification-table">
                                     <div class="pagination-container">
                                         <div class="pagination-num-container">
@@ -1140,54 +1141,54 @@
                                     <!--게시글 내역 테이블 -->
                                     <div class="inquiryTable_container">
                                         <div
-                                            class="inquiryTable_row inquiryTable_header"
+                                                class="inquiryTable_row inquiryTable_header"
                                         >
                                             <div
-                                                class="inquiryTable_cell inquiry-headerCell selectAllCell"
+                                                    class="inquiryTable_cell inquiry-headerCell selectAllCell"
                                             >
                                                 <input
-                                                    type="checkbox"
-                                                    id="selectAll"
+                                                        type="checkbox"
+                                                        id="selectAll"
                                                 />
                                             </div>
                                             <div
-                                                class="inquiryTable_cell inquiry-headerCell"
+                                                    class="inquiryTable_cell inquiry-headerCell"
                                             >
                                                 문의 분류
                                             </div>
                                             <div
-                                                class="inquiryTable_cell inquiry-headerCell"
+                                                    class="inquiryTable_cell inquiry-headerCell"
                                             >
                                                 작성일
                                             </div>
                                             <div
-                                                class="inquiryTable_cell inquiry-headerCell"
+                                                    class="inquiryTable_cell inquiry-headerCell"
                                             >
                                                 문의 제목
                                             </div>
 
                                             <div
-                                                class="inquiryTable_cell inquiry-headerCell"
+                                                    class="inquiryTable_cell inquiry-headerCell"
                                             >
                                                 문의 내용
                                             </div>
                                             <div
-                                                class="inquiryTable_cell inquiry-headerCell"
+                                                    class="inquiryTable_cell inquiry-headerCell"
                                             >
                                                 작성자
                                             </div>
                                             <div
-                                                class="inquiryTable_cell inquiry-headerCell"
+                                                    class="inquiryTable_cell inquiry-headerCell"
                                             >
                                                 이메일
                                             </div>
                                             <div
-                                                class="inquiryTable_cell inquiry-headerCell"
+                                                    class="inquiryTable_cell inquiry-headerCell"
                                             >
                                                 상태
                                             </div>
                                             <div
-                                                class="inquiryTable_cell inquiry-headerCell"
+                                                    class="inquiryTable_cell inquiry-headerCell"
                                             >
                                                 Action
                                             </div>
@@ -1197,8 +1198,8 @@
                                         <div class="inquiryTable_row data_row">
                                             <div class="inquiryTable_cell">
                                                 <input
-                                                    type="checkbox"
-                                                    class="inquiryCheckbox"
+                                                        type="checkbox"
+                                                        class="inquiryCheckbox"
                                                 />
                                             </div>
                                             <div class="inquiryTable_cell inquiry_type">
@@ -1241,8 +1242,8 @@
                                         <div class="inquiryTable_row data_row">
                                             <div class="inquiryTable_cell">
                                                 <input
-                                                    type="checkbox"
-                                                    class="inquiryCheckbox"
+                                                        type="checkbox"
+                                                        class="inquiryCheckbox"
                                                 />
                                             </div>
                                             <div class="inquiryTable_cell">
@@ -1288,8 +1289,8 @@
                                         <div class="inquiryTable_row data_row">
                                             <div class="inquiryTable_cell">
                                                 <input
-                                                    type="checkbox"
-                                                    class="inquiryCheckbox"
+                                                        type="checkbox"
+                                                        class="inquiryCheckbox"
                                                 />
                                             </div>
                                             <div class="inquiryTable_cell inquiry_type">
@@ -1325,8 +1326,8 @@
                                         <div class="inquiryTable_row data_row">
                                             <div class="inquiryTable_cell">
                                                 <input
-                                                    type="checkbox"
-                                                    class="inquiryCheckbox"
+                                                        type="checkbox"
+                                                        class="inquiryCheckbox"
                                                 />
                                             </div>
                                             <div class="inquiryTable_cell inquiry_type">
@@ -1364,71 +1365,71 @@
                                 </div>
                                 <nav class="pagination">
                                     <ul class="pagination-list inquiry-page">
-<!--                                        &lt;!&ndash; 처음 페이지로 이동하는 버튼 &ndash;&gt;-->
-<!--                                        <li class="pagination-first">-->
-<!--                                            <a-->
-<!--                                                href="#"-->
-<!--                                                class="pagination-first-link"-->
-<!--                                                rel="nofollow"-->
-<!--                                            >-->
-<!--                                                <span-->
-<!--                                                    class="pagination-first-icon"-->
-<!--                                                    aria-hidden="true"-->
-<!--                                                    >«</span-->
-<!--                                                >-->
-<!--                                            </a>-->
-<!--                                        </li>-->
-<!--                                        &lt;!&ndash; 이전 페이지로 이동하는 버튼 &ndash;&gt;-->
-<!--                                        <li class="pagination-prev">-->
-<!--                                            <a-->
-<!--                                                href="#"-->
-<!--                                                class="pagination-prev-link"-->
-<!--                                                rel="prev nofollow"-->
-<!--                                            >-->
-<!--                                                <span-->
-<!--                                                    class="pagination-prev-icon"-->
-<!--                                                    aria-hidden="true"-->
-<!--                                                    >‹</span-->
-<!--                                                >-->
-<!--                                            </a>-->
-<!--                                        </li>-->
-<!--                                        &lt;!&ndash; 페이지 번호 버튼 &ndash;&gt;-->
-<!--                                        <li class="pagination-page active">-->
-<!--                                            <a-->
-<!--                                                href="#"-->
-<!--                                                class="pagination-page-link"-->
-<!--                                                >1</a-->
-<!--                                            >-->
-<!--                                        </li>-->
+                                        <!--                                        &lt;!&ndash; 처음 페이지로 이동하는 버튼 &ndash;&gt;-->
+                                        <!--                                        <li class="pagination-first">-->
+                                        <!--                                            <a-->
+                                        <!--                                                href="#"-->
+                                        <!--                                                class="pagination-first-link"-->
+                                        <!--                                                rel="nofollow"-->
+                                        <!--                                            >-->
+                                        <!--                                                <span-->
+                                        <!--                                                    class="pagination-first-icon"-->
+                                        <!--                                                    aria-hidden="true"-->
+                                        <!--                                                    >«</span-->
+                                        <!--                                                >-->
+                                        <!--                                            </a>-->
+                                        <!--                                        </li>-->
+                                        <!--                                        &lt;!&ndash; 이전 페이지로 이동하는 버튼 &ndash;&gt;-->
+                                        <!--                                        <li class="pagination-prev">-->
+                                        <!--                                            <a-->
+                                        <!--                                                href="#"-->
+                                        <!--                                                class="pagination-prev-link"-->
+                                        <!--                                                rel="prev nofollow"-->
+                                        <!--                                            >-->
+                                        <!--                                                <span-->
+                                        <!--                                                    class="pagination-prev-icon"-->
+                                        <!--                                                    aria-hidden="true"-->
+                                        <!--                                                    >‹</span-->
+                                        <!--                                                >-->
+                                        <!--                                            </a>-->
+                                        <!--                                        </li>-->
+                                        <!--                                        &lt;!&ndash; 페이지 번호 버튼 &ndash;&gt;-->
+                                        <!--                                        <li class="pagination-page active">-->
+                                        <!--                                            <a-->
+                                        <!--                                                href="#"-->
+                                        <!--                                                class="pagination-page-link"-->
+                                        <!--                                                >1</a-->
+                                        <!--                                            >-->
+                                        <!--                                        </li>-->
 
-<!--                                        &lt;!&ndash; 다음 페이지로 이동하는 버튼 &ndash;&gt;-->
-<!--                                        <li class="pagination-next">-->
-<!--                                            <a-->
-<!--                                                href="#"-->
-<!--                                                class="pagination-next-link"-->
-<!--                                                rel="next nofollow"-->
-<!--                                            >-->
-<!--                                                <span-->
-<!--                                                    class="pagination-next-icon"-->
-<!--                                                    aria-hidden="true"-->
-<!--                                                    >›</span-->
-<!--                                                >-->
-<!--                                            </a>-->
-<!--                                        </li>-->
-<!--                                        &lt;!&ndash; 마지막 페이지로 이동하는 버튼 &ndash;&gt;-->
-<!--                                        <li class="pagination-last">-->
-<!--                                            <a-->
-<!--                                                href="#"-->
-<!--                                                class="pagination-last-link"-->
-<!--                                                rel="nofollow"-->
-<!--                                            >-->
-<!--                                                <span-->
-<!--                                                    class="pagination-last-icon"-->
-<!--                                                    aria-hidden="true"-->
-<!--                                                    >»</span-->
-<!--                                                >-->
-<!--                                            </a>-->
-<!--                                        </li>-->
+                                        <!--                                        &lt;!&ndash; 다음 페이지로 이동하는 버튼 &ndash;&gt;-->
+                                        <!--                                        <li class="pagination-next">-->
+                                        <!--                                            <a-->
+                                        <!--                                                href="#"-->
+                                        <!--                                                class="pagination-next-link"-->
+                                        <!--                                                rel="next nofollow"-->
+                                        <!--                                            >-->
+                                        <!--                                                <span-->
+                                        <!--                                                    class="pagination-next-icon"-->
+                                        <!--                                                    aria-hidden="true"-->
+                                        <!--                                                    >›</span-->
+                                        <!--                                                >-->
+                                        <!--                                            </a>-->
+                                        <!--                                        </li>-->
+                                        <!--                                        &lt;!&ndash; 마지막 페이지로 이동하는 버튼 &ndash;&gt;-->
+                                        <!--                                        <li class="pagination-last">-->
+                                        <!--                                            <a-->
+                                        <!--                                                href="#"-->
+                                        <!--                                                class="pagination-last-link"-->
+                                        <!--                                                rel="nofollow"-->
+                                        <!--                                            >-->
+                                        <!--                                                <span-->
+                                        <!--                                                    class="pagination-last-icon"-->
+                                        <!--                                                    aria-hidden="true"-->
+                                        <!--                                                    >»</span-->
+                                        <!--                                                >-->
+                                        <!--                                            </a>-->
+                                        <!--                                        </li>-->
                                     </ul>
                                 </nav>
                             </div>
@@ -1546,6 +1547,7 @@
                                 <input
                                     type="submit"
                                     name="submit"
+                                    id="submit-button"
                                     value="답변제출"
                                     style="margin-bottom: 30px;"
                                 />

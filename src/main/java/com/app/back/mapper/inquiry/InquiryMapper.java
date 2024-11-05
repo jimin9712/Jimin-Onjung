@@ -16,37 +16,42 @@ import java.util.Optional;
 @Mapper
 public interface InquiryMapper {
 
-    //    추가
-    public void insert(InquiryVO inquiryVO);
+//    추가
+public void insert(InquiryVO inquiryVO);
 
-    //    조회
+//    조회
 //    public InquiryDTO selectById(Long id);
-    public Optional<InquiryDTO> selectById(Long id);
+public Optional<InquiryDTO> selectById(Long id);
 
-    //  전체조회
+//  전체조회
 //    public List<InquiryDTO> selectAll(@Param("pagination") Pagination pagination);
-    public List<InquiryDTO> selectAll(@Param("pagination") Pagination pagination, @Param("search")Search search);
+public List<InquiryDTO> selectAll(@Param("pagination") Pagination pagination, @Param("search")Search search);
 
-    public List<InquiryDTO> selectFilterAll(@Param("pagination") Pagination pagination, @Param("search")Search search);
+public List<InquiryDTO> selectFilterAll(@Param("pagination") Pagination pagination, @Param("search")Search search);
 
-    //    수정
-    void updateById(InquiryDTO inquiryDTO);
+//    수정
+void updateById(InquiryDTO inquiryDTO);
 
-    //    삭제
-    void deleteById(Long id);
+// 문의 상태 업데이트 메소드
+void updateStatus(@Param("id") Long id, @Param("status") String status);
 
-    //    게시글 전체 개수 조회
-    public int selectTotal();
-    //    검색 결과 개수 조회
-    public int selectTotalWithSearch(@Param("search") Search search);
+//    삭제
+void deleteById(Long id);
+
+//    게시글 전체 개수 조회
+public int selectTotal();
+//    검색 결과 개수 조회
+public int selectTotalWithSearch(@Param("search") Search search);
 
 
 
-    public List<InquiryDTO> selectByMemberId(@Param("memberId") Long memberId); // 반환 타입 수정
-    public List<InquiryDTO> selectByMemberIdAndDateRange(
-            @Param("memberId") Long memberId,
-            @Param("startDate") String startDate,
-            @Param("endDate") String endDate
-    );
-    
+public List<InquiryDTO> selectByMemberId(@Param("memberId") Long memberId); // 반환 타입 수정
+
+public List<InquiryDTO> selectByMemberIdAndDateRange(
+        @Param("memberId") Long memberId,
+        @Param("startDate") String startDate,
+        @Param("endDate") String endDate
+);
+
+
 }
