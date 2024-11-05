@@ -1,17 +1,9 @@
 package com.app.back.domain.support;
 
-import com.app.back.domain.attachment.AttachmentVO;
 import com.app.back.domain.post.PostVO;
-import com.app.back.domain.volunteer.Pagination;
-import com.app.back.enums.PostType;
 import lombok.*;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.time.temporal.ChronoUnit;
-import java.util.List;
 
 @Component
 @Getter @Setter @ToString
