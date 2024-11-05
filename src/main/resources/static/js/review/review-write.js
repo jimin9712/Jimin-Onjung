@@ -78,6 +78,7 @@ const handleFiles = async (files) => {
     attachmentFileSize.name = "size";
     attachmentFileSize.value = `${attachmentFile.attachmentFileSize}`;
     form.append(attachmentFileName);
+    form.append(attachmentFileRealName);
     form.append(attachmentFilePath);
     form.append(attachmentFileSize);
     const receivedThumbnail = document.querySelector(`img.thumbnail-img-${i}`);

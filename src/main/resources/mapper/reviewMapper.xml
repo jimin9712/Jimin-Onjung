@@ -74,6 +74,7 @@
                a.attachment_file_path,
                a.attachment_file_size,
                a.attachment_file_type,
+               a.attachment_file_real_name,
                pr.profile_file_name,
                pr.profile_file_path,
                pr.profile_file_size,
