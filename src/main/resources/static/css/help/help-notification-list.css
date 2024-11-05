@@ -262,18 +262,18 @@ button {
     text-align: center;
     width: 369px;
 }
-.noti-title-admin{
-    position: absolute;
-    left: 197px;
-}
+/*.noti-title-admin{*/
+/*    position: absolute;*/
+/*    left: 197px;*/
+/*}*/
 .category-notification-date {
     text-align: end;
     width: 462px;
 }
-.noti-date-admin{
-    position: absolute;
-    right: 223px;
-}
+/*.noti-date-admin{*/
+/*    position: absolute;*/
+/*    right: 223px;*/
+/*}*/
 
 .notification {
     display: flex;
@@ -319,7 +319,7 @@ button {
 .pagination-wrap {
     display: flex;
     -webkit-box-pack: justify;
-    justify-content: space-between;
+    /*justify-content: space-between;*/
     padding: 24px 40px;
     margin-top: 24px;
     background-color: rgb(255, 255, 255);
@@ -456,6 +456,6 @@ button {
 .notification.noit-admin{
     height: 44px;
 }
-.notification-date.noit-date-admin{
-    width: 76px;
-}
+/*.notification-date.noit-date-admin{*/
+/*    width: 76px;*/
+/*}*/

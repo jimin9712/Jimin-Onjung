@@ -7,7 +7,6 @@ const getMemberInfo = async () => {
         const data = await response.json();
         console.log("받은 회원 데이터:", data);
 
-        // memberId 반환
         return data.id;
     } catch (error) {
         console.error("회원 정보 조회 실패:", error);

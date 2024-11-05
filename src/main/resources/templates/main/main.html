@@ -7,8 +7,18 @@
         <link rel="stylesheet" href="/css/main/main.css" />
         <link rel="stylesheet" href="/css/main/basic-header.css" />
         <link rel="stylesheet" href="/css/rank/rank.css" />
+        <link rel="stylesheet" href="/css/main/footer.css"/>
+        <link rel="stylesheet" href="/css/main/login-header-no-noti.css">
+
     </head>
     <body>
+    <div th:if="${isLogin}">
+        <th:block th:replace="~{main/login-header-no-noti :: header}"></th:block>
+    </div>
+    <div th:if="${!isLogin}">
+        <th:block th:replace="~{main/basic-header :: header}"></th:block>
+    </div>
+
 
     <div id="root">
             <div id="app" class="bfedap app">
@@ -34,7 +44,6 @@
                                                 </div>
                                             </div>
 
-                                            <!-- 다음 화살표 -->
                                             <div data-role="none" class="slick-arrow slick-next" style="display: block">
                                                 <svg color="#000000" viewBox="0 0 24 24" class="cafwxx">
                                                     <path
@@ -428,7 +437,11 @@
                 </div>
             </div>
         </div>
+        <div th:replace="~{main/footer :: footer}"></div>
+    </body>
         <script src="/js/main/main.js"></script>
         <script src="/js/rank/rank.js"></script>
-    </body>
+        <script src="/js/main/login-header.js"></script>
+
+
 </html>

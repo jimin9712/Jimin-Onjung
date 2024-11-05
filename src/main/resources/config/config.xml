@@ -35,6 +35,9 @@
         <typeAlias type="com.app.back.domain.vt_application.VtApplicationDTO" alias="vtApplicationDTO"/>
         <typeAlias type="com.app.back.domain.payment.PaymentVO" alias="paymentVO"/>
         <typeAlias type="com.app.back.domain.payment.PaymentDTO" alias="paymentDTO"/>
+        <typeAlias type="com.app.back.domain.support.SupportVO" alias="supportVO"/>
+        <typeAlias type="com.app.back.domain.support.SupportDTO" alias="supportDTO"/>
+
 
 
     </typeAliases>

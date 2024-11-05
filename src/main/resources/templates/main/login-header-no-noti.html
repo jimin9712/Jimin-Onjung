@@ -1,16 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>로그인 헤더</title>
-        <link
-            rel="stylesheet"
-            href="/static/css/main/login-header-no-noti.css"
-        />
-    </head>
-    <body>
-        <header id="gnb" class="sc-kywvva iwmrny">
+
+<header id="gnb" class="sc-kywvva iwmrny" th:fragment="header">
             <div class="sc-ewdcjz ipkyrr">
                 <div class="toolbar">
                     <div class="sc-dsutwq bpfqva">
@@ -30,7 +19,7 @@
                                 <div class="util">
                                     <ul class="util-btns group">
                                         <li class="btn-agency">
-                                            <a href="" class="sc-ccsojp hlisis"
+                                            <a href="/help/help" class="sc-ccsojp hlisis"
                                                 >고객센터
                                             </a>
                                             <span class="agency-hover">
@@ -61,7 +50,7 @@
                                             </span>
                                         </li>
                                         <li class="btn-agency">
-                                            <a href="" class="sc-ccsojp hlisis"
+                                            <a href="/help/help-notification-list" class="sc-ccsojp hlisis"
                                                 >공지사항</a
                                             >
                                         </li>
@@ -292,7 +281,7 @@
                                         >
                                             <a
                                                 class="sc-ccsojp jgkeau toolbar-nav-item-link"
-                                                href=""
+                                                href="/volunteer/volunteer-list"
                                                 ><p>
                                                     봉사활동<sup
                                                         class="toolbar-nav-item-sup"
@@ -306,7 +295,7 @@
                                         >
                                             <a
                                                 class="sc-ccsojp jgkeau toolbar-nav-item-link"
-                                                href=""
+                                                href="/donation/donation-list"
                                             >
                                                 <p>기부</p>
                                             </a>
@@ -326,7 +315,7 @@
                                         >
                                             <a
                                                 class="sc-ccsojp jgkeau toolbar-nav-item-link"
-                                                href=""
+                                                href="/rank/rank"
                                             >
                                                 <p>
                                                     랭킹<sup
@@ -341,7 +330,7 @@
                                         >
                                             <a
                                                 class="sc-ccsojp jgkeau toolbar-nav-item-link"
-                                                href=""
+                                                href="/review/review-list"
                                             >
                                                 <p>
                                                     봉사후기<sup
@@ -373,7 +362,7 @@
                                         >
                                             <a
                                                 class="sc-ccsojp jgkeau toolbar-nav-item-link"
-                                                href=""
+                                                href="/introduction/introduction"
                                             >
                                                 <p>사업소개</p>
                                             </a>
@@ -431,7 +420,3 @@
                 </div>
             </div>
         </header>
-
-        <script src="/static/js/main/login-header.js"></script>
-    </body>
-</html>

@@ -389,25 +389,7 @@
     </body>
     <script th:inline="javascript">
         const donation = [[${donation}]];
-        const postSummaryWrap = document.querySelector("div.post-summary");
-        const goalPointWrap = document.querySelector("div.goal-point");
-        const postContentWrap = document.querySelector("div.post-content");
-        const updateButton = document.querySelector("a.go-update");
-        const deleteButton = document.querySelector("a.go-delete");
-
-        postSummaryWrap.innerText = donation.postSummary;
-        goalPointWrap.innerText = donation.goalPoint;
-        postContentWrap.innerText = donation.postContent;
-
-
-        updateButton.addEventListener("click", (e) => {
-            location.href = `/donation/donation-update?postId=${donation.id}`;
-        });
-
-        deleteButton.addEventListener("click", (e) => {
-            location.href = `/donation/donation-delete?postId=${donation.id}`;
-        })
-
+        const attachments = [[${attachments}]]
     </script>
     <script src="/js/donation/donation-inquiry.js"></script>
 </html>
