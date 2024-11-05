@@ -33,9 +33,8 @@ public class PostMapperTests {
     // ID로 게시글 조회 테스트
     @Test
     public void testSelectByPostId() {
-        Long id = 1L; // 테스트할 게시글 ID (예시)
-        Optional<PostDTO> postDTO = postMapper.selectByPostId(id);
-
+        Long id = 109L;
+        Optional<PostDTO> postDTO = postMapper.selectById(id);
         if (postDTO.isPresent()) {
             log.info("조회된 게시글: {}", postDTO.get());
         } else {
@@ -46,12 +45,12 @@ public class PostMapperTests {
     // ID로 게시글 삭제 테스트
     @Test
     public void testDeleteById() {
-        Long id = 1L; // 삭제할 게시글 ID (예시)
+        Long id = 109L; // 삭제할 게시글 ID (예시)
         postMapper.deleteById(id);
         log.info("게시글이 삭제되었습니다. ID: {}", id);
 
         // 삭제 후 다시 조회하여 삭제 여부 확인
-        Optional<PostDTO> deletedPost = postMapper.selectByPostId(id);
+        Optional<PostDTO> deletedPost = postMapper.selectById(id);
         if (deletedPost.isEmpty()) {
             log.info("삭제 확인 완료. ID {}인 게시글이 존재하지 않습니다.", id);
         } else {

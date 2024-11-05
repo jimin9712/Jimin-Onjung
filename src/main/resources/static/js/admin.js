@@ -28,6 +28,8 @@ submenus.forEach((submenu) => {
             fetchFilteredInquiries(1, inquiryKeyword, inquiryFilterType); // 고객센터 문의 첫 페이지로
         } else if (submenu.textContent === "공지사항 목록") {
             fetchNotices(1); // 공지사항 첫 페이지로
+        }else if (submenu.textContent.trim() === "게시글 목록") {
+            fetchPosts(1);
         }
     });
 });
@@ -309,3 +311,30 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 // =====================================게시글 목록============================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

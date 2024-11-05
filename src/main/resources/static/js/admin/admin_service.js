@@ -144,6 +144,7 @@ const fetchNotices = async (page = 1, keyword = '') => {
 };
 // 공지사항 목록 초기 로드
 fetchNotices(); // 초기 공지사항 데이터 로드
+
 //  공지사항 검색
 const fetchFilteredNotices = async (page, keyword) => {
     try {
@@ -218,3 +219,56 @@ const fetchRecentNotices = async () => {
 // 페이지 로드 시 최신 공지사항 10개를 사이드바에 표시
 fetchRecentNotices();
 //===============================게시글 목록======================================================================
+// 게시글 목록을 가져오는 함수
+const fetchPosts = async (page = 1) => {
+    try {
+        const response = await fetch(`/admin/post-list?page=${page}`);
+        const data = await response.json();
+
+        renderPosts(data.posts); // 게시글 목록 렌더링
+        postPagination(data.pagination); // 페이지네이션 렌더링
+    } catch (error) {
+        console.error("게시글 데이터를 불러오는 중 오류 발생:", error);
+    }
+};
+// 페이지 로드 시 첫 페이지 데이터 로드
+fetchPosts();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

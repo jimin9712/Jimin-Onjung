@@ -23,7 +23,7 @@ public interface PostMapper {
     public Long selectCurrentId();
 
     // ID로 게시글 조회
-    public PostVO selectById(Long id);
+//    public PostVO selectById(Long id);
 
     // ID로 게시글 수정
     public void updateById(PostVO postVO);
@@ -40,7 +40,16 @@ public interface PostMapper {
     //  전체조회
     public List<PostDTO> selectAll(@Param("pagination") Pagination pagination, @Param("search") Search search);
 
+    public List<PostDTO> selectFilterAll(@Param("pagination") Pagination pagination, @Param("search")Search search);
+
     //    조회
-    public Optional<PostDTO> selectByPostId(Long id);
+    public Optional<PostDTO> selectById(Long id);
+
+    //    게시글 전체 개수 조회
+    public int selectTotal();
+    //    검색 결과 개수 조회
+    public int selectTotalWithSearch(@Param("search") Search search);
+
+
 
 }

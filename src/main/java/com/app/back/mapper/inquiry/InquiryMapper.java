@@ -1,7 +1,6 @@
 package com.app.back.mapper.inquiry;
 
 
-import com.app.back.domain.donation_record.DonationRecordDTO;
 import com.app.back.domain.inquiry.InquiryDTO;
 import com.app.back.domain.inquiry.InquiryVO;
 
