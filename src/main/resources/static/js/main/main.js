@@ -266,7 +266,7 @@ async function loadReviews() {
                                         <div class="jslvlk aspect-ratio-card-wrapper card-image">
                                             <div>
                                                 <div class="observer"></div>
-                                                <img class="hkaqym" src="${review.attachmentFilePath || 'default-image.jpg'}" alt="review image">
+                                                <img class="hkaqym" src="${review.attachmentFileName ? `/attachment/display?attachmentFileName=${review.attachmentFilePath + "/t_"  + review.attachmentFileName}` : 'default-image.jpg'}" alt="review image">
                                             </div>
                                         </div>
                                     </div>
@@ -277,7 +277,9 @@ async function loadReviews() {
                                         <span class="review-count">${review.reviewStarRate}점</span>
                                     </div>
                                     <div class="user-info">
-                                        <span class="cwvgid avatar"><img src="${review.avatar || 'default-avatar.jpg'}" alt="프로필"></span>
+                                        <span class="cwvgid avatar">
+                                            <img src="${review.profileFileName ? `/profile/display?memberId=${review.memberId}` : 'default-avatar.jpg'}" alt="프로필">
+                                        </span>
                                         <div class="ktmctf user-nick-wrapper">
                                             <p class="jqtfdi">
                                                 <span class="hdbjzp nick">${review.memberNickName || '익명'}</span>
@@ -325,3 +327,5 @@ function generateStars(rating) {
 
 // 페이지 로드 시 호출
 document.addEventListener('DOMContentLoaded', loadReviews);
+
+
