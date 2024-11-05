@@ -74,6 +74,7 @@ public class VolunteerController {
         pagination.setTotal(postService.getTotal("VOLUNTEER"));
         pagination.vtProgress();
 
+
         log.info("Pagination 객체: {}", pagination); // Pagination 설정 확인
 
         List<VolunteerDTO> volunteerList = volunteerService.getList(pagination);
