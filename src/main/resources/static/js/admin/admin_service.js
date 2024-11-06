@@ -195,11 +195,10 @@ fetchRecentNotices();
 // 필터링된 문의 데이터를 가져오는 함수
 const fetchFilteredPosts = async (page = 1, keyword = postKeyword, filterType = postFilterType) => {
     try {
-        const response = await fetch(`/admin/inquiry-page?page=${page}&query=${keyword}&filterType=${filterType}`);
+        const response = await fetch(`/admin/post-list?page=${page}&query=${keyword}&filterType=${filterType}`);
         const data = await response.json();
-
         renderPosts(data.posts);
-        postPagination(data.pagination, postKeyword, filterType);
+        postPagination(data.pagination, keyword, filterType);
     } catch (error) {
         // 오류 처리
     }
@@ -210,7 +209,6 @@ const fetchPosts = async (page = 1) => {
     try {
         const response = await fetch(`/admin/post-list?page=${page}`);
         const data = await response.json();
-
         renderPosts(data.posts); // 게시글 목록 렌더링
         postPagination(data.pagination); // 페이지네이션 렌더링
     } catch (error) {
@@ -220,10 +218,28 @@ const fetchPosts = async (page = 1) => {
 // 페이지 로드 시 첫 페이지 데이터 로드
 fetchPosts();
 
+// 선택한 게시글 삭제 요청 함수
+const deleteSelectedPosts = async (selectedIds) => {
+    try {
+        const response = await fetch("/admin/delete-posts", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ ids: selectedIds }),
+        });
 
-
-
-
+        if (response.ok) {
+            alert("선택한 게시글이 삭제되었습니다.");
+            fetchPosts(); // 게시글 목록 새로고침
+        } else {
+            const errorText = await response.text();
+            console.error("삭제 실패:", errorText);
+        }
+    } catch (error) {
+        console.error("삭제 요청 중 오류 발생:", error);
+    }
+};
 
 
 

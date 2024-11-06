@@ -9,6 +9,7 @@ import java.util.Optional;
 
 public interface PostService {
     public int getTotal(String postType);
+
     public int getPostTotal();
     //    검색 조건에 맞는 게시물 수
     public int getTotalWithSearch(Search search);
