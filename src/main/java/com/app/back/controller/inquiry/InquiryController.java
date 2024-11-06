@@ -152,8 +152,10 @@ public Map<String, Object> getNoticeRead(@RequestParam Long id) {
 //  게시글 목록
 @GetMapping("/admin/post-list")
 @ResponseBody
-public Map<String, Object> getPostList(Pagination pagination, Search search, @RequestParam(required = false) String postType) {
-    pagination.setOrder("created_date desc"); // 기본 정렬 기준 설정
+public Map<String, Object> getPostList(Pagination pagination, Search search,@RequestParam(required = false) String query, @RequestParam(required = false) String filterType) {
+    search.setKeyword(query);
+    pagination.setOrder(filterType); // 기본 정렬 기준
+
     // 총 게시글 수 설정
     if (search.getKeyword() != null) {
         pagination.setTotal(postService.getTotalWithSearch(search)); // 검색어가 있는 경우
@@ -163,15 +165,21 @@ public Map<String, Object> getPostList(Pagination pagination, Search search, @Re
     pagination.progress(); // 페이지네이션 계산
 
     // 게시글 목록 조회
-    List<PostDTO> posts = postService.getList(pagination, search);
+    List<PostDTO> posts;
 
+    if (filterType == null) {
+        posts = postService.getList(pagination, search);
+    } else if (filterType.equals("작성일 순")) {
+        posts = postService.getList(pagination, search);
+    } else {
+        posts = postService.getFilterList(pagination, search);
+    }
     // 결과를 Map에 담아 반환
     Map<String, Object> result = new HashMap<>();
     result.put("posts", posts);
     result.put("pagination", pagination);
     return result;
 }
-
 
 @GetMapping("/my-inquirys/{memberId}")
 @ResponseBody

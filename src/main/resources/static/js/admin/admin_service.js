@@ -2,15 +2,15 @@ const searchInput = document.querySelector(".Filter_searchInput");
 const inquiryFilters = document.querySelectorAll(".sort-filter-option.inquiry-list");
 
 // 전역 변수로 현재 검색어와 필터를 저장
-let inquiryKeyword = '';
+let Keyword = '';
 let inquiryFilterType = '최신순';
 
 // 검색어 입력 시 엔터키로 검색
 searchInput.addEventListener("keydown", (event) => {
     if (event.key === "Enter") {
         event.preventDefault();  // 폼 제출 방지
-        inquiryKeyword = searchInput.value.trim();  // 검색어를 전역 변수에 저장
-        fetchFilteredInquiries(1, inquiryKeyword, inquiryFilterType);  // 검색어로 데이터 불러오기
+        Keyword = searchInput.value.trim();  // 검색어를 전역 변수에 저장
+        fetchFilteredInquiries(1, Keyword, inquiryFilterType);  // 검색어로 데이터 불러오기
     }
 });
 
@@ -22,12 +22,12 @@ inquiryFilters.forEach((option) => {
         option.classList.add("selected"); // 선택된 필터만 활성화
 
         inquiryFilterType = option.textContent.trim();
-        fetchFilteredInquiries(1, inquiryKeyword, inquiryFilterType); // 필터 조건으로 데이터 불러오기
+        fetchFilteredInquiries(1, Keyword, inquiryFilterType); // 필터 조건으로 데이터 불러오기
     });
 });
 
 // 필터링된 문의 데이터를 가져오는 함수
-const fetchFilteredInquiries = async (page = 1, keyword = inquiryKeyword, filterType = inquiryFilterType) => {
+const fetchFilteredInquiries = async (page = 1, keyword = Keyword, filterType = inquiryFilterType) => {
     try {
         const response = await fetch(`/admin/inquiry-page?page=${page}&query=${keyword}&filterType=${filterType}`);
         const data = await response.json();
