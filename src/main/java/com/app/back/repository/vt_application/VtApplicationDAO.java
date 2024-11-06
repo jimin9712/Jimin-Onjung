@@ -54,5 +54,8 @@ public class VtApplicationDAO {
     public List<VtApplicationDTO> findByMemberId(Long memberId) {
         return vtApplicationMapper.selectByMemberId(memberId);
     }
+    public Long findMemberIdByApplicationId(Long applicationId) {
+        return vtApplicationMapper.findMemberIdByApplicationId(applicationId);
+    }
 
 }

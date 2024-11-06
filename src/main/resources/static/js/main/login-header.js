@@ -46,3 +46,22 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
+
+// 알림 데이터를 가져오는 함수
+async function fetchNotifications(memberId) {
+    try {
+        const response = await fetch(`/alarm/notifications/${memberId}`);
+
+        if (!response.ok) {
+            throw new Error("Failed to fetch notifications");
+        }
+
+        const notifications = await response.json();
+        displayNotifications(notifications);
+    } catch (error) {
+        console.error("Error fetching notifications:", error);
+    }
+}
+
+
