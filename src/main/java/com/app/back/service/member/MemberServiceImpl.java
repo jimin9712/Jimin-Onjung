@@ -1,7 +1,9 @@
 package com.app.back.service.member;
 
 import com.app.back.domain.Util.SmsUtil;
+import com.app.back.domain.member.MemberDTO;
 import com.app.back.domain.member.MemberVO;
+import com.app.back.domain.post.Pagination;
 import com.app.back.repository.member.MemberDAO;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
@@ -153,5 +155,10 @@ public class MemberServiceImpl implements MemberService {
         log.info("프로필 업데이트: {}", memberVO);
         memberDAO.updateProfile(memberVO);  // DAO 호출
     }
+
+    @Override
+    public List<MemberDTO> getTop100VolunteerGroup(Pagination pagination) {
+        return memberDAO.findTop100VolunteerGroup(pagination);
+    };
 }
 

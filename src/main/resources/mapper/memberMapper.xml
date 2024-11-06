@@ -95,4 +95,37 @@
             updated_date = CURRENT_TIMESTAMP
         WHERE id = #{id}
     </update>
+
+    <select id="selectTop100VolunteerGroup" resultType="memberDTO">
+        select m.id, m.member_nickname, m.member_introduction, m.member_star_rate, count(p.id), count(r.id)
+        from tbl_post p join (
+            select m.id, m.member_nickname, count(r.id)
+            from tbl_member m join tbl_review r
+            on m.member_nickname = r.vt_group_name and m.member_type = "ORGANIZATION"
+            group by m.id
+        )
+        on p.member_id = m.id and p.post_type = "VOLUNTEER"
+        group by m.id
+        order by
+        <choose>
+        <when test="pagination.order == '별점순'.toString()">m.member_star_rate</when>
+        <otherwise>count(r.id)</otherwise>
+        </choose>
+        desc
+        limit #{pagination.startRow}, #{pagination.rowCount};
+    </select>
+
+    <select id="selectTop5ByVt">
+        select m.id, m.member_nickname, sum(r.vt_time), r.vt_date
+        from tbl_member m join (
+            select r.id, a.member_id, sum(r.vt_time), r.vt_date
+            from tbl_vt_application a join tbl_vt_record r
+            on a.id = r.id and month(r.vt_date) = #{month}
+            group by a.member_id
+        )
+        on m.id = a.member_id
+        group by m.id
+        order by sum(r.vt_time) desc
+        limit 5;
+    </select>
 </mapper>

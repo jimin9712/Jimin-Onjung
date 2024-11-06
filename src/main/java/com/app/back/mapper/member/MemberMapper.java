@@ -1,6 +1,8 @@
 package com.app.back.mapper.member;
 
+import com.app.back.domain.member.MemberDTO;
 import com.app.back.domain.member.MemberVO;
+import com.app.back.domain.post.Pagination;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -43,6 +45,8 @@ public interface MemberMapper {
 
     public void updateProfile(MemberVO memberVO);  // 프로필 업데이트 메서드 선언
 
+    // 랭킹에 따른 봉사활동 단체 회원 목록
+    public List<MemberDTO> selectTop100VolunteerGroup(Pagination pagination);
 
 
 }

@@ -1,6 +1,8 @@
 package com.app.back.repository.member;
 
+import com.app.back.domain.member.MemberDTO;
 import com.app.back.domain.member.MemberVO;
+import com.app.back.domain.post.Pagination;
 import com.app.back.mapper.member.MemberMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -64,4 +66,6 @@ public class MemberDAO {
     public void updateProfile(MemberVO memberVO) {
         memberMapper.updateProfile(memberVO);
     }
+
+    public List<MemberDTO> findTop100VolunteerGroup(Pagination pagination) { return memberMapper.selectTop100VolunteerGroup(pagination); }
 }

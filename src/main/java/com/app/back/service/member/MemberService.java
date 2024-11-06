@@ -1,6 +1,8 @@
 package com.app.back.service.member;
 
+import com.app.back.domain.member.MemberDTO;
 import com.app.back.domain.member.MemberVO;
+import com.app.back.domain.post.Pagination;
 import com.app.back.mapper.member.MemberMapper;
 
 import java.util.List;
@@ -34,4 +36,6 @@ public interface MemberService {
     public int getVtCountByMemberId(Long memberId);
 
     public void updateProfile(MemberVO memberVO);
+
+    public List<MemberDTO> getTop100VolunteerGroup(Pagination pagination);
 }

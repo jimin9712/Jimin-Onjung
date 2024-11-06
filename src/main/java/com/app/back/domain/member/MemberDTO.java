@@ -30,6 +30,8 @@ public class MemberDTO{
     private String createdDate;
     private String updatedDate;
     private String resetUuid;
+    private Long countVt;
+    private Long countReview;
 
     private String profileFileName;
     private String profileFilePath;
