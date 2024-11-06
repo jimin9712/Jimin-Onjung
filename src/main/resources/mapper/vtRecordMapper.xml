@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.app.back.mapper.vt_record.VtRecordMapper">
 
-    <insert id="insert" parameterType="com.app.back.domain.vt_record.VtRecordDTO">
+    <insert id="insert" parameterType="VtRecordDTO">
         INSERT INTO tbl_vt_record(
         id,
         vt_time
@@ -30,7 +30,7 @@
             r.id = #{id}
     </select>
 
-    <select id="selectAll" resultType="com.app.back.domain.vt_record.VtRecordDTO">
+    <select id="selectAll" resultType="vtRecordDTO">
         SELECT
             r.id,
             r.vt_time AS vtTime,
@@ -46,7 +46,7 @@
             tbl_post p ON v.id = p.id
     </select>
 
-    <update id="update" parameterType="com.app.back.domain.vt_record.VtRecordDTO">
+    <update id="update" parameterType="vtRecordDTO">
         UPDATE tbl_vt_record
         SET vt_time = #{vtTime}
         WHERE id = #{id}

@@ -22,7 +22,8 @@ public interface VtApplicationMapper {
     public int countByVtId(@Param("vtId") Long vtId);
     public void updateApplicationStatus(@Param("applicationId") Long applicationId, @Param("status") String status);
     public List<VtApplicationDTO>selectByMemberId(@Param("memberId") Long memberId);
-    List<VtApplicationDTO> selectByMemberIdAndDateRange(@Param("memberId") Long memberId, @Param("startDate") String startDate, @Param("endDate") String endDate);
+    public List<VtApplicationDTO> selectByMemberIdAndDateRange(@Param("memberId") Long memberId, @Param("startDate") String startDate, @Param("endDate") String endDate);
+    public Long findMemberIdByApplicationId(@Param("applicationId") Long applicationId);
 
 }
 
