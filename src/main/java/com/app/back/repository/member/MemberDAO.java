@@ -68,4 +68,13 @@ public class MemberDAO {
     }
 
     public List<MemberDTO> findTop100VolunteerGroup(Pagination pagination) { return memberMapper.selectTop100VolunteerGroup(pagination); }
+
+    // 해당 월에 봉사활동을 한 시간이 가장 많은 5명의 회원 목록
+    public List<MemberDTO> selectTop5ByVt(int month) { return memberMapper.selectTop5ByVt(month); };
+
+    // 해당 월에 후원한 금액이 가장 많은 5명의 회원 목록
+    public List<MemberDTO> selectTop5BySupport(int month) { return memberMapper.selectTop5BySupport(month); };
+
+    // 해당 월에 기부한 금액이 가장 많은 5명의 회원 목록
+    public List<MemberDTO> selectTop5ByDonation(int month) { return memberMapper.selectTop5ByDonation(month); };
 }
