@@ -19,7 +19,7 @@ async function loadBanners() {
             bannerSlide.classList.add("slick-slide");
             bannerSlide.innerHTML = `
                 <div>
-                    <a href="/support-inquiry/${support.id}" class="lggyey ejtbh banner-link pc" style="width: 1038px; display: inline-block;">
+                    <a href="/support/support-inquiry/${support.id}" class="lggyey ejtbh banner-link pc" style="width: 1038px; display: inline-block;">
                         <div class="banner-content-wrapper inner1">
                             <div class="banner-content-wrapper inner2">
                                 <div class="banner-content-wrapper inner3">
