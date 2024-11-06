@@ -6,7 +6,7 @@
         <title>메인</title>
         <link rel="stylesheet" href="/css/main/main.css" />
         <link rel="stylesheet" href="/css/main/basic-header.css" />
-        <link rel="stylesheet" href="/css/rank/rank.css" />
+        <link rel="stylesheet" href="/css/main/rank-for-main.css" />
         <link rel="stylesheet" href="/css/main/footer.css"/>
         <link rel="stylesheet" href="/css/main/login-header-no-noti.css">
 
@@ -19,8 +19,8 @@
         <th:block th:replace="~{main/basic-header :: header}"></th:block>
     </div>
 
-
     <div id="root">
+        <h1 th:text="${alarm}"></h1>
             <div id="app" class="bfedap app">
                 <div class="wrap">
                     <div class="eucbbu content">
@@ -431,7 +431,7 @@
                                         </div>
                                     </div>
 
-                                </div>
+                                </div></div>
                         </div>
                     </div>
                 </div>

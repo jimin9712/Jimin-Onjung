@@ -762,6 +762,7 @@ p {
 }
 .bvvilt .tooltip-content.show {
     visibility: visible;
+    height: 400px;
 }
 .bvvilt .tooltip-content {
     --translateX: 160px;
