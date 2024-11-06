@@ -181,7 +181,7 @@ img {
     position: relative;
     z-index: 1;
     border-radius: 16px;
-    background-color: rgb(34, 34, 34);
+    background-color: #00c4c4;
     display: flex !important;
 }
 .lggyey .banner-content-wrapper.inner1 {
@@ -231,7 +231,7 @@ img {
     font-weight: 700;
 }
 .elrdiz {
-    background-color: rgb(34, 34, 34);
+    background-color: #00c4c4;
     color: rgb(255, 255, 255);
 }
 .lggyey .banner-button-primary .banner-button-arrow {
