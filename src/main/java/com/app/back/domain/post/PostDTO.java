@@ -1,8 +1,11 @@
 package com.app.back.domain.post;
 
 
+import com.app.back.domain.member.MemberVO;
 import lombok.*;
 import org.springframework.stereotype.Component;
+
+import java.lang.reflect.Member;
 
 @Component
 @Getter
@@ -22,7 +25,6 @@ public class PostDTO {
     private String createdDate;
     private String updatedDate;
 
-
     private String memberNickName;
 
     private Integer replyCount;
@@ -31,5 +33,4 @@ public class PostDTO {
     public PostVO toPostVO() {
         return new PostVO(id, postTitle, postContent, postSummary, postType, postStatus, postViewCount, memberId, createdDate, updatedDate);
     }
-
 }

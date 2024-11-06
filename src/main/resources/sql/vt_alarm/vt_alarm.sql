@@ -10,9 +10,12 @@ create table tbl_vt_alarm(
     references tbl_vt(id)
 );
 
-select * from tbl_alarm;
+select * from tbl_vt_alarm;
 
 use test2;
 
-drop table tbl_alarm;
+ALTER TABLE tbl_vt_alarm
+    ADD COLUMN vt_application_id BIGINT UNSIGNED NOT NULL,
+    ADD CONSTRAINT fk_vt_alarm_vt_application
+        FOREIGN KEY (vt_application_id) REFERENCES tbl_vt_application(id);
 

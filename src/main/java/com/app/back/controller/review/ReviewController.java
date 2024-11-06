@@ -40,7 +40,7 @@ public class ReviewController {
 
     @PostMapping("review-write")
     public RedirectView reviewWrite(ReviewDTO reviewDTO, @RequestParam("uuid") List<String> uuids, @RequestParam("realName") List<String> realNames, @RequestParam("path") List<String> paths, @RequestParam("size") List<String>sizes, @RequestParam("file") List<MultipartFile> files) throws IOException {
-        reviewDTO.setMemberId(22L);
+        reviewDTO.setMemberId(23L);
         reviewDTO.setPostType("REVIEW");
         reviewDTO.setPostTitle(reviewDTO.getVtGroupName());
 

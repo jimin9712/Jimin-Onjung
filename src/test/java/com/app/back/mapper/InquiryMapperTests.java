@@ -86,7 +86,7 @@ public void testSelectAll(){
     }
     @Test
     public void testDeleteById() {
-        Long id = 1L;
+        Long id = 109L;
         inquiryMapper.deleteById(id);
         log.info("inquiry가 삭제되었습니다. ID: " + id);
     }

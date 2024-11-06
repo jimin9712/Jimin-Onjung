@@ -6,6 +6,8 @@
     </settings>
 
     <typeAliases>
+        <typeAlias type="com.app.back.domain.alarm.AlarmVO" alias="alarmVO"/>
+        <typeAlias type="com.app.back.domain.alarm.AlarmDTO" alias="alarmDTO"/>
         <typeAlias type="com.app.back.domain.member.MemberVO" alias="memberVO"/>
         <typeAlias type="com.app.back.domain.member.MemberDTO" alias="memberDTO"/>
         <typeAlias type="com.app.back.domain.post.PostVO" alias="postVO"/>

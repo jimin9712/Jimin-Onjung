@@ -334,3 +334,102 @@ const renderSidebarNotices = (notices) => {
     });
 };
 // ==================================게시글 목록==========================================================================
+const postContainer = document.querySelector(".ServiceTable_row_wrapper");
+
+// 게시글 목록 렌더링 함수
+const renderPosts = (posts) => {
+    let content = '';
+    posts.forEach((post) => {
+        content += `
+            <div class="ServiceTable_row">
+                <div class="ServiceTable_cell"><input type="checkbox" class="userCheckbox"/></div>
+                <div class="ServiceTable_cell post_ID">${post.id}</div>
+                <div class="ServiceTable_cell user_name">${post.memberNickName}</div>
+                <div class="ServiceTable_cell Join_date">${post.createdDate}</div>
+                <div class="ServiceTable_cell post_title">${post.postTitle}</div>
+                <div class="ServiceTable_cell hit_ctn">${post.postViewCount}</div>
+                <div class="ServiceTable_cell reply_ctn">${post.replyCount}</div>
+                <div class="ServiceTable_cell post_kind">${post.postType}</div>
+                <div class="ServiceTable_cell"><button class="inquiry-button">조회</button></div>
+            </div>`;
+    });
+    postContainer.innerHTML = content;
+};
+
+const postPagingContainer = document.querySelector(".pagination-list.post-page");
+
+// 페이지네이션 렌더링 함수
+const postPagination = (pagination,keyword,filterType='') => {
+    let paginationHTML = '';
+
+    // 첫 페이지로 이동 버튼
+    paginationHTML += `<li class="pagination-first">
+        <a href="#" data-page="1" class="pagination-first-link">«</a></li>`;
+
+    // 이전 페이지 버튼
+    if (pagination.prev) {
+        paginationHTML += `<li class="pagination-prev">
+            <a href="#" data-page="${pagination.startPage - 1}" class="pagination-prev-link">‹</a></li>`;
+    }
+
+    // 페이지 번호 버튼
+    for (let i = pagination.startPage; i <= pagination.endPage; i++) {
+        paginationHTML += `<li class="pagination-page ${pagination.page === i ? 'active' : ''}">
+            <a href="#" data-page="${i}" class="pagination-page-link">${i}</a></li>`;
+    }
+
+    // 다음 페이지 버튼
+    if (pagination.next) {
+        paginationHTML += `<li class="pagination-next">
+            <a href="#" data-page="${pagination.endPage + 1}" class="pagination-next-link">›</a></li>`;
+    }
+
+    // 마지막 페이지로 이동 버튼
+    paginationHTML += `<li class="pagination-last">
+        <a href="#" data-page="${pagination.realEnd}" class="pagination-last-link">»</a></li>`;
+
+    // 생성된 HTML을 페이지네이션 컨테이너에 삽입
+    postPagingContainer.innerHTML = paginationHTML;
+
+// 페이지네이션 링크 클릭 이벤트 리스너 추가
+    document.querySelectorAll(".pagination-page-link, .pagination-prev-link, .pagination-next-link, .pagination-first-link, .pagination-last-link").forEach(link => {
+        link.addEventListener("click", (e) => {
+            e.preventDefault();
+            const page = e.target.getAttribute("data-page");
+            fetchPosts(page); // 해당 페이지의 게시글 데이터를 가져오기
+        });
+    });
+
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

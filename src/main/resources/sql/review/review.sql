@@ -7,3 +7,6 @@ create table tbl_review(
 );
 
 select * from tbl_review;
+
+delete from tbl_review
+where id = 606

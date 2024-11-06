@@ -29,7 +29,7 @@
     select
     p.id,
     p.post_title,
-    p.post_type
+    p.post_type,
     p.created_date,
     p.updated_date,
     p.post_view_count,
@@ -46,7 +46,7 @@
     select
     p.id,
     p.post_title,
-    p.post_type
+    p.post_type,
     p.created_date,
     p.updated_date,
     p.post_view_count,
@@ -64,6 +64,22 @@
 </select>
 
 <select id="selectById" resultType="postVO">
+    select *
+    from tbl_post
+    where id = #{id}
+</select>
+
+<select id="selectTotal">
+    select count(*) from tbl_post
+</select>
+
+<select id="selectTotalWithSearch">
+    select count(*)
+    from tbl_post p
+    <include refid="search"/>
+</select>
+
+<select id="selectByPostId" resultType="postVO">
     select *
     from tbl_post
     where id = #{id}
@@ -93,7 +109,5 @@
         updated_date = current_timestamp
     where id = #{id}
 </update>
-
-
 
 </mapper>
