@@ -41,3 +41,10 @@ insert into tbl_post(id, post_title, post_summary, post_content,post_view_count,
 values(40,'봉사활동구인테스트제목37','봉사활동테스트요약231','봉사활동테스트내용5231',35,'VOLUNTEER',0,2);
 
 
+ALTER TABLE tbl_inquiry
+    DROP FOREIGN KEY fk_inquiry_post;
+
+# 이거 해야 해 하면 지워
+ALTER TABLE tbl_inquiry
+    ADD CONSTRAINT fk_inquiry_post FOREIGN KEY (id)
+        REFERENCES tbl_post(id);

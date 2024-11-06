@@ -29,8 +29,8 @@ submenus.forEach((submenu) => {
             fetchFilteredInquiries(1, inquiryKeyword, inquiryFilterType); // 고객센터 문의 첫 페이지로
         } else if (submenu.textContent === "공지사항 목록") {
             fetchNotices(1); // 공지사항 첫 페이지로
-        }else if (submenu.textContent.trim() === "게시글 목록") {
-            fetchPosts(1);
+        }else if (submenu.textContent === "게시글 목록") {
+            fetchFilteredPosts(1,postKeyword,postFilterType);
         }
     });
 });
@@ -274,6 +274,8 @@ notificationLinks.forEach((notificationLink) => {
         notificationInquirySection[0].classList.add("selected"); // 해당 섹션 선택
     });
 });
+
+
 //============================================================================고객센터
 const inquirySearchInput = document.querySelector(".Filter_searchInput");
 const inquiryFilters = document.querySelectorAll(".sort-filter-option.inquiry-list");
@@ -340,6 +342,40 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
+
+// 고객센터 문의 목록의 전체 선택 및 개별 선택 체크박스 관리
+const selectAllInquiries = () => {
+    const selectAllCheckbox = document.getElementById("selectAllInquiries");
+    if (selectAllCheckbox) {
+        selectAllCheckbox.addEventListener("change", function () {
+            const checkboxes = document.querySelectorAll(".inquiryCheckbox");
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = this.checked;
+            });
+        });
+    }
+
+    // 개별 체크박스 클릭 시 전체 선택 체크박스 상태 업데이트
+    document.querySelectorAll(".inquiryCheckbox").forEach(checkbox => {
+        checkbox.addEventListener("change", function () {
+            const allChecked = document.querySelectorAll(".inquiryCheckbox:checked").length === document.querySelectorAll(".inquiryCheckbox").length;
+            selectAllCheckbox.checked = allChecked;
+        });
+    });
+};
+
+function resetSelectAllInquiriesCheckbox() {
+    const selectAllCheckbox = document.getElementById("selectAllInquiries");
+    if (selectAllCheckbox) {
+        selectAllCheckbox.checked = false;
+        console.log("고객센터 문의 목록 전체 선택 체크박스 해제 성공");
+    } else {
+        console.error("selectAllInquiries 체크박스를 찾을 수 없습니다.");
+    }
+}
+
+selectAllInquiries();
+
 // =====================================게시글 목록============================================
 const postSearchInput = document.querySelector(".Filter_searchInput.post-page-search");
 const postFilters = document.querySelectorAll(".post-filter-option");
@@ -357,7 +393,7 @@ postSearchInput.addEventListener("keydown", (event) => {
     }
 });
 
-// 고객센터 필터 버튼 클릭 시 필터에 맞는 데이터 불러오기
+// 게시글 필터 버튼 클릭 시 필터에 맞는 데이터 불러오기
 postFilters.forEach((option) => {
     option.addEventListener("click", () => {
         // classList : 동적으로 클래스를 추가하고 제거하여 필터가 선택되었음을 시각적 표시. 다른 필터는 비활성화 상태로 보이게하기위함
@@ -369,28 +405,42 @@ postFilters.forEach((option) => {
     });
 });
 
-const selectAll = async () => {
-    // "SelectAll" 체크박스를 클릭했을 때
-    document.getElementById("SelectAll").addEventListener("change", function () {
-        const checkboxes = document.querySelectorAll(".userCheckbox");
-        checkboxes.forEach(checkbox => {
-            checkbox.checked = this.checked; // 전체 선택 체크박스 상태에 맞춰 개별 체크박스도 체크/해제
+// 게시글 목록의 전체 선택 및 개별 선택 체크박스 관리
+const selectAllPosts = () => {
+    const selectAllCheckbox = document.getElementById("selectAllPosts");
+    if (selectAllCheckbox) {
+        selectAllCheckbox.addEventListener("change", function () {
+            const checkboxes = document.querySelectorAll(".postCheckbox");
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = this.checked;
+            });
         });
-    });
+    }
 
-// 개별 체크박스를 클릭했을 때, "전체 선택" 체크박스를 해제하거나 체크 상태를 업데이트
-    document.querySelectorAll(".userCheckbox").forEach(checkbox => {
+    // 개별 체크박스 클릭 시 전체 선택 체크박스 상태 업데이트
+    document.querySelectorAll(".postCheckbox").forEach(checkbox => {
         checkbox.addEventListener("change", function () {
-            const allChecked = document.querySelectorAll(".userCheckbox:checked").length === document.querySelectorAll(".userCheckbox").length;
-            document.getElementById("selectAll").checked = allChecked; // 모든 개별 체크박스가 체크되었으면 "전체 선택" 체크박스도 체크
+            const allChecked = document.querySelectorAll(".postCheckbox:checked").length === document.querySelectorAll(".postCheckbox").length;
+            selectAllCheckbox.checked = allChecked;
         });
     });
 };
 
-// 페이지 이동 시 호출하여 '전체 선택' 체크박스 해제
-function resetSelectAllCheckbox() {
-    document.getElementById("selectAll").checked = false;
+function resetSelectAllPostsCheckbox() {
+    const selectAllCheckbox = document.getElementById("selectAllPosts");
+    if (selectAllCheckbox) {
+        selectAllCheckbox.checked = false;
+        console.log("게시글 목록 전체 선택 체크박스 해제 성공");
+    } else {
+        console.error("selectAllPosts 체크박스를 찾을 수 없습니다.");
+    }
 }
+
+
+
+// 각 목록 초기화 시 호출
+selectAllPosts();
+
 
 // 삭제 버튼 클릭 시 이벤트
 document.getElementById("deleteSelectedBtn").addEventListener("click", () => {
@@ -404,13 +454,6 @@ document.getElementById("deleteSelectedBtn").addEventListener("click", () => {
 
     deleteSelectedPosts(selectedIds); // 삭제 요청 함수 호출
 });
-
-selectAll();
-
-
-
-
-
 
 
 

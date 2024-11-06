@@ -12,7 +12,7 @@ const renderInquiries = (inquiries) => {
                 >
                     <input
                             type="checkbox"
-                            id="selectAll"
+                            id="selectAllInquiries"
                     />
                 </div>
                 <div
@@ -74,6 +74,7 @@ const renderInquiries = (inquiries) => {
 
     if (inquiryContainer) {
         inquiryContainer.innerHTML = content;
+        selectAllInquiries();
     } else {
         console.error("inquiryContainer 요소를 찾을 수 없습니다.");
     }
@@ -233,6 +234,7 @@ const renderPagination = (pagination, keyword = '', filterType = '') => {
             e.preventDefault(); // 기본 링크 클릭 동작 방지
             const page = e.target.getAttribute("data-page"); // 클릭한 링크의 페이지 번호 가져오기
             fetchFilteredInquiries(page, inquiryKeyword, inquiryFilterType); // 해당 페이지의 데이터를 가져오는 함수 호출
+            resetSelectAllInquiriesCheckbox();// 페이지 변경 시 전체 선택 체크박스 해제
         });
     });
 };
@@ -394,7 +396,7 @@ const renderPosts = (posts) => {
     posts.forEach((post) => {
         content += `
             <div class="ServiceTable_row">
-                <div class="ServiceTable_cell"><input type="checkbox" class="userCheckbox"/></div>
+                <div class="ServiceTable_cell"><input type="checkbox" class="postCheckbox"/></div>
                 <div class="ServiceTable_cell post_ID">${post.id}</div>
                 <div class="ServiceTable_cell user_name">${post.memberNickName}</div>
                 <div class="ServiceTable_cell Join_date">${post.createdDate}</div>
@@ -449,7 +451,7 @@ const postPagination = (pagination,keyword,filterType='') => {
             e.preventDefault();
             const page = e.target.getAttribute("data-page");
             fetchPosts(page); // 해당 페이지의 게시글 데이터를 가져오기
-            resetSelectAllCheckbox();// 페이지 변경 시 전체 선택 체크박스 해제
+            resetSelectAllPostsCheckbox();// 페이지 변경 시 전체 선택 체크박스 해제
         });
     });
 

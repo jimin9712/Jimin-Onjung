@@ -181,9 +181,9 @@ public Map<String, Object> getPostList(Pagination pagination, Search search,@Req
     return result;
 }
 
-@DeleteMapping("/post-delete/{postId}")
-public ResponseEntity<Void> deletePost(@PathVariable Long postId) {
-    postService.delete(postId); // postId를 사용하여 게시글 삭제
+@DeleteMapping("/admin/delete-posts")
+public ResponseEntity<Void> deletePosts(@RequestBody List<Long> postIds) {
+    postIds.forEach(postService::delete); // 각 postId를 이용해 게시글 삭제
     return ResponseEntity.noContent().build(); // 삭제 후 204 No Content 반환
 }
 
