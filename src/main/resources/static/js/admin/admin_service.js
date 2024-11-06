@@ -6,6 +6,7 @@ const fetchFilteredInquiries = async (page = 1, keyword = inquiryKeyword, filter
 
         renderInquiries(data.inquiries);
         renderPagination(data.pagination, inquiryKeyword, filterType);
+        resetSelectAllInquiriesCheckbox();
     } catch (error) {
         // 오류 처리
     }
@@ -18,6 +19,7 @@ const fetchInquiries = async (page = 1) => {
         const data = await response.json();
         renderInquiries(data.inquiries);
         renderPagination(data.pagination);
+        resetSelectAllInquiriesCheckbox();
     } catch (error) {
         // 오류 처리
         console.error("데이터 가져오는 중 오류 발생:", error);
@@ -192,14 +194,14 @@ const fetchRecentNotices = async () => {
 // 페이지 로드 시 최신 공지사항 10개를 사이드바에 표시
 fetchRecentNotices();
 //===============================게시글 목록======================================================================
-// 필터링된 문의 데이터를 가져오는 함수
+// 필터링된 게시글 데이터를 가져오는 함수
 const fetchFilteredPosts = async (page = 1, keyword = postKeyword, filterType = postFilterType) => {
     try {
-        const response = await fetch(`/admin/inquiry-page?page=${page}&query=${keyword}&filterType=${filterType}`);
+        const response = await fetch(`/admin/post-list?page=${page}&query=${keyword}&filterType=${filterType}`);
         const data = await response.json();
-
         renderPosts(data.posts);
-        postPagination(data.pagination, postKeyword, filterType);
+        postPagination(data.pagination, keyword, filterType);
+        resetSelectAllPostsCheckbox();  // 전체 선택 체크박스 해제
     } catch (error) {
         // 오류 처리
     }
@@ -210,9 +212,9 @@ const fetchPosts = async (page = 1) => {
     try {
         const response = await fetch(`/admin/post-list?page=${page}`);
         const data = await response.json();
-
         renderPosts(data.posts); // 게시글 목록 렌더링
         postPagination(data.pagination); // 페이지네이션 렌더링
+        resetSelectAllPostsCheckbox();  // 전체 선택 체크박스 해제
     } catch (error) {
         console.error("게시글 데이터를 불러오는 중 오류 발생:", error);
     }
@@ -220,14 +222,26 @@ const fetchPosts = async (page = 1) => {
 // 페이지 로드 시 첫 페이지 데이터 로드
 fetchPosts();
 
+const deleteSelectedPosts = async (selectedIds) => {
+    try {
+        const response = await fetch("/admin/delete-posts", {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(selectedIds), // 배열을 JSON 형식으로 전송
+        });
 
-
-
-
-
-
-
-
+        if (response.ok) {
+            alert("선택한 게시글이 삭제되었습니다.");
+            fetchPosts(); // 게시글 목록 새로고침
+        } else {
+            console.error("삭제 실패");
+        }
+    } catch (error) {
+        console.error("삭제 요청 중 오류 발생:", error);
+    }
+};
 
 
 

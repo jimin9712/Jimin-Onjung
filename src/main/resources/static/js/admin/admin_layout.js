@@ -4,6 +4,59 @@ const inquiryContainer = document.querySelector(".inquiryTable_container");
 // 문의 내역 렌더링
 const renderInquiries = (inquiries) => {
     let content = '';
+    content+=` <div
+                    class="inquiryTable_row inquiryTable_header"
+            >
+                <div
+                        class="inquiryTable_cell inquiry-headerCell selectAllCell"
+                >
+                    <input
+                            type="checkbox"
+                            id="selectAllInquiries"
+                    />
+                </div>
+                <div
+                        class="inquiryTable_cell inquiry-headerCell"
+                >
+                    문의 분류
+                </div>
+                <div
+                        class="inquiryTable_cell inquiry-headerCell"
+                >
+                    작성일
+                </div>
+                <div
+                        class="inquiryTable_cell inquiry-headerCell"
+                >
+                    문의 제목
+                </div>
+    
+                <div
+                        class="inquiryTable_cell inquiry-headerCell"
+                >
+                    문의 내용
+                </div>
+                <div
+                        class="inquiryTable_cell inquiry-headerCell"
+                >
+                    작성자
+                </div>
+                <div
+                        class="inquiryTable_cell inquiry-headerCell"
+                >
+                    이메일
+                </div>
+                <div
+                        class="inquiryTable_cell inquiry-headerCell"
+                >
+                    상태
+                </div>
+                <div
+                        class="inquiryTable_cell inquiry-headerCell"
+                >
+                    Action
+                </div>
+            </div>`
     inquiries.forEach((inquiry) => {
         content +=
             `<div class="inquiryTable_row data_row" data-id="${inquiry.id}">
@@ -21,6 +74,7 @@ const renderInquiries = (inquiries) => {
 
     if (inquiryContainer) {
         inquiryContainer.innerHTML = content;
+        selectAllInquiries();
     } else {
         console.error("inquiryContainer 요소를 찾을 수 없습니다.");
     }
@@ -180,6 +234,7 @@ const renderPagination = (pagination, keyword = '', filterType = '') => {
             e.preventDefault(); // 기본 링크 클릭 동작 방지
             const page = e.target.getAttribute("data-page"); // 클릭한 링크의 페이지 번호 가져오기
             fetchFilteredInquiries(page, inquiryKeyword, inquiryFilterType); // 해당 페이지의 데이터를 가져오는 함수 호출
+            resetSelectAllInquiriesCheckbox();// 페이지 변경 시 전체 선택 체크박스 해제
         });
     });
 };
@@ -323,7 +378,6 @@ const renderSidebarNotices = (notices) => {
         }
     });
 
-
     // 각 공지사항 제목 클릭 시 상세 조회 이벤트 추가
     sidebarContainer.querySelectorAll(".sidebar-item").forEach((item) => {
         item.addEventListener("click", (e) => {
@@ -342,7 +396,7 @@ const renderPosts = (posts) => {
     posts.forEach((post) => {
         content += `
             <div class="ServiceTable_row">
-                <div class="ServiceTable_cell"><input type="checkbox" class="userCheckbox"/></div>
+                <div class="ServiceTable_cell"><input type="checkbox" class="postCheckbox"/></div>
                 <div class="ServiceTable_cell post_ID">${post.id}</div>
                 <div class="ServiceTable_cell user_name">${post.memberNickName}</div>
                 <div class="ServiceTable_cell Join_date">${post.createdDate}</div>
@@ -397,6 +451,7 @@ const postPagination = (pagination,keyword,filterType='') => {
             e.preventDefault();
             const page = e.target.getAttribute("data-page");
             fetchPosts(page); // 해당 페이지의 게시글 데이터를 가져오기
+            resetSelectAllPostsCheckbox();// 페이지 변경 시 전체 선택 체크박스 해제
         });
     });
 

@@ -76,8 +76,11 @@
 <select id="selectTotalWithSearch">
     select count(*)
     from tbl_post p
-    <include refid="search"/>
+    <where>
+        <include refid="search"/>
+    </where>
 </select>
+
 
 <select id="selectByPostId" resultType="postVO">
     select *
