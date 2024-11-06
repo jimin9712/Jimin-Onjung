@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.app.back.mapper.alarm.AlarmMapper">
+
+    <insert id="insertVtApplicationAlarm">
+        insert into tbl_vt_alarm (member_id, vt_application_id, alarm_content, created_date)
+        values (#{memberid}, #{vtapplicationid}, #{content}, current_timestamp)
+    </insert>
+
+    <insert id="insertDonationAlarm">
+        insert into tbl_donation_alarm (member_id, donation_id, alarm_content, created_date)
+        values (#{memberid}, #{donationid}, #{content}, current_timestamp)
+    </insert>
+
+    <insert id="insertSupportAlarm">
+        insert into tbl_support_alarm (member_id, support_id, alarm_content, created_date)
+        values (#{memberid}, #{supportid}, #{content}, current_timestamp)
+    </insert>
+
+    <insert id="insertReplyAlarm">
+        insert into tbl_reply_alarm (member_id, reply_id, alarm_content, created_date)
+        values (#{memberid}, #{replyid}, #{content}, current_timestamp)
+    </insert>
+
+    <select id="selectAlarmsByMemberId" resultType="alarmDTO">
+        select id, alarm_content, created_date, 'vt' as alarmtype from tbl_vt_alarm where member_id = #{memberid}
+        union all
+        select id, alarm_content, created_date, 'donation' as alarmtype from tbl_donation_alarm where member_id = #{memberid}
+        union all
+        select id, alarm_content, created_date, 'support' as alarmtype from tbl_support_alarm where member_id = #{memberid}
+        union all
+        select id, alarm_content, created_date, 'reply' as alarmtype from tbl_reply_alarm where member_id = #{memberid}
+        order by created_date desc
+    </select>
+
+</mapper>
