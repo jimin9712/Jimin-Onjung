@@ -115,7 +115,7 @@
         limit #{pagination.startRow}, #{pagination.rowCount};
     </select>
 
-    <select id="selectTop5ByVt">
+    <select id="selectTop5ByVt" resultType="memberDTO">
         select m.id, m.member_nickname, sum(r.vt_time), r.vt_date
         from tbl_member m join (
             select r.id, a.member_id, sum(r.vt_time), r.vt_date
@@ -126,6 +126,24 @@
         on m.id = a.member_id
         group by m.id
         order by sum(r.vt_time) desc
+        limit 5;
+    </select>
+
+    <select id="selectTop5BySupport" resultType="memberDTO">
+        select m.id, m.member_nickname, s.id, s.member_id, sum(s.support_amount), s.created_date
+        from tbl_member m join tbl_support_record s
+        on m.id = s.member_id and month(s.created_date) = #{month}
+        group by m.id
+        order by sum(s.support_amount) desc
+        limit 5;
+    </select>
+
+    <select id="selectTop5ByDonation" resultType="memberDTO">
+        select m.id, m.member_nickname, d.id, d.member_id, sum(d.donation_amount), d.created_date
+        from tbl_member m join tbl_donation_record d
+        on m.id = d.member_id and month(d.created_date) = #{month}
+        group by m.id
+        order by sum(d.donation_amout) desc
         limit 5;
     </select>
 </mapper>

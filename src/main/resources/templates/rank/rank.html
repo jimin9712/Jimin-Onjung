@@ -398,7 +398,10 @@
         </div>
     </body>
     <script th:inline="javascript">
-        const volunteerGroups = [[${volunteerGroups}]]
+        const volunteerGroups = [[${volunteerGroups}]];
+        const vtRankMembers = [[${vtRankMembers}]];
+        const supportRankMembers = [[${supportRankMembers}]];
+        const donationRankMembers = [[${donationRankMembers}]];
     </script>
     <script src="../../static/js/rank/rank.js"></script>
 </html>

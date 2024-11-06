@@ -29,7 +29,7 @@ public interface MemberMapper {
     //    카카오 회원 정보 조회
     public Optional<MemberVO> selectByMemberKakaoEmail(String memberKakaoEmail);
 
-    // 회원 전체 정보 조회
+    //    회원 전체 정보 조회
     public List<MemberVO> selectAll();
 
     public Optional<MemberVO> selectByResetUuid(String uuid);
@@ -47,7 +47,15 @@ public interface MemberMapper {
 
     // 랭킹에 따른 봉사활동 단체 회원 목록
     public List<MemberDTO> selectTop100VolunteerGroup(Pagination pagination);
-
+    
+    // 해당 월에 봉사활동을 한 시간이 가장 많은 5명의 회원 목록
+    public List<MemberDTO> selectTop5ByVt(int month);
+    
+    // 해당 월에 후원한 금액이 가장 많은 5명의 회원 목록
+    public List<MemberDTO> selectTop5BySupport(int month);
+    
+    // 해당 월에 기부한 금액이 가장 많은 5명의 회원 목록
+    public List<MemberDTO> selectTop5ByDonation(int month);
 
 }
 
