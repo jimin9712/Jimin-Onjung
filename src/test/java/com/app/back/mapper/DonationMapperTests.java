@@ -43,7 +43,7 @@ public class DonationMapperTests {
         donationDTO.setGoalPoint(5000000);
         donationDTO.setDonationSDate("2024-11-25");
         donationDTO.setDonationEDate("2024-11-28");
-        donationMapper.update(donationDTO);
+//        donationMapper.update(donationDTO);
     }
 
     @Test

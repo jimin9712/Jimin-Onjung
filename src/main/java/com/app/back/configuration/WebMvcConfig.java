@@ -15,5 +15,11 @@ public class WebMvcConfig  implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new AlarmInterceptor(alarmService)).addPathPatterns("/main/**");
         registry.addInterceptor(new AlarmInterceptor(alarmService)).addPathPatterns("/mypage/**");
+        registry.addInterceptor(new AlarmInterceptor(alarmService)).addPathPatterns("/volunteer/**");
+        registry.addInterceptor(new AlarmInterceptor(alarmService)).addPathPatterns("/support/**");
+        registry.addInterceptor(new AlarmInterceptor(alarmService)).addPathPatterns("/donation/**");
+        registry.addInterceptor(new AlarmInterceptor(alarmService)).addPathPatterns("/review/**");
+        registry.addInterceptor(new AlarmInterceptor(alarmService)).addPathPatterns("/help/**");
+
     }
 }

@@ -15,13 +15,13 @@ public class AlarmInterceptor implements HandlerInterceptor {
         this.alarmService = alarmService;
     }
 
-//    @Override
-//    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 //        Long memberId = (Long) request.getSession().getAttribute("loginMember");
-//
-//        request.setAttribute("alarm", "테스트");
-//        return true;
-//    }
+
+        request.setAttribute("alarm", "이제 여기에 뭐가 들어가야 하지");
+        return true;
+    }
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {

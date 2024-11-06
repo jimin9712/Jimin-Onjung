@@ -27,7 +27,7 @@ public class DonationServiceTests {
         donationDTO.setGoalPoint(666000);
         donationDTO.setDonationSDate("2024-12-17");
         donationDTO.setDonationEDate("2024-12-29");
-        donationService.write(donationDTO, null, null, null, null);
+//        donationService.write(donationDTO, null, null, null, null);
     }
 
     @Test

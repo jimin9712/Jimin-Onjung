@@ -2,6 +2,7 @@ package com.app.back.service.vt_application;
 
 import com.app.back.domain.vt_application.VtApplicationDTO;
 import com.app.back.repository.vt_application.VtApplicationDAO;
+import com.app.back.service.alarm.AlarmService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import java.util.List;
 @Slf4j
 public class VtApplicationServiceImpl implements VtApplicationService {
     private final VtApplicationDAO vtApplicationDAO;
+    private final AlarmService alarmService;
 
     @Override
     public void save(VtApplicationDTO vtApplicationDTO) {
@@ -54,16 +56,19 @@ public class VtApplicationServiceImpl implements VtApplicationService {
 
     @Override
     public void approveApplication(Long applicationId) {
-        log.info("Approving application with ID: {}", applicationId);
         vtApplicationDAO.updateApplicationStatus(applicationId, "APPROVED");
-        log.info("Application with ID: {} approved successfully.", applicationId);
+
+        Long memberId = vtApplicationDAO.findMemberIdByApplicationId(applicationId);
+        String content = "봉사활동 신청이 승인되었습니다!";
+        alarmService.createVtApplicationAlarm(memberId, applicationId, content);
     }
 
     @Override
     public void refuseApplication(Long applicationId) {
-        log.info("Refusing application with ID: {}", applicationId);
         vtApplicationDAO.updateApplicationStatus(applicationId, "REJECTED");
-        log.info("Application with ID: {} refused successfully.", applicationId);
+        Long memberId = vtApplicationDAO.findMemberIdByApplicationId(applicationId);
+        String content = "봉사활동 신청이 거부되었습니다.";
+        alarmService.createVtApplicationAlarm(memberId, applicationId, content);
     }
 
     @Override
