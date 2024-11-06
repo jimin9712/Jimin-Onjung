@@ -162,6 +162,7 @@ document.querySelector(".notification-list-wrap").addEventListener("click", asyn
         }
     }
 });
+
 // 공지사항 상세 정보 가져오기
 const fetchNoticeDetail = async (noticeId) => {
     try {
