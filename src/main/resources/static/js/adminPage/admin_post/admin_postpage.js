@@ -321,19 +321,4 @@ document.addEventListener("DOMContentLoaded", function () {
         .addEventListener("click", function () {
             handleSortClick("replies");
         });
-
-    // 검색 기능 추가 (엔터 키를 눌렀을 때)
-    const searchInput = document.querySelector(".PostFilter_searchInput");
-    searchInput.addEventListener("keypress", function (event) {
-        if (event.key === "Enter") {
-            const keyword = searchInput.value.trim();
-            if (keyword) {
-                filterPostsByKeyword(keyword);
-            } else {
-                // 검색어가 없을 때는 모든 게시글을 다시 표시
-                postsContainer.innerHTML = "";
-                allPosts.forEach((post) => postsContainer.appendChild(post));
-            }
-        }
-    });
 });
