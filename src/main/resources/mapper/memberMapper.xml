@@ -79,13 +79,6 @@
         WHERE id = #{id}
     </update>
 
-    <select id="getTotalVt" resultType="long">
-        select count(p.id)
-        from tbl_member m join tbl_post p
-        on m.id = p.member_id
-        where post_type = "VOLUNTEER"
-    </select>
-
     <select id="selectTop100VolunteerGroup" resultType="memberDTO">
         select m.id, m.member_nickname, m.member_introduction, m.member_star_rate, count(p.id), count(r.id)
         from tbl_post p join (
@@ -96,7 +89,26 @@
         )
         on p.member_id = m.id and p.post_type = "VOLUNTEER"
         group by m.id
-        order by #{pagination.order} desc, member_nickname desc
+        order by
+        <choose>
+        <when test="pagination.order == '별점순'.toString()">m.member_star_rate</when>
+        <otherwise>count(r.id)</otherwise>
+        </choose>
+        desc
         limit #{pagination.startRow}, #{pagination.rowCount};
+    </select>
+
+    <select id="selectTop5ByVt">
+        select m.id, m.member_nickname, sum(r.vt_time), r.vt_date
+        from tbl_member m join (
+            select r.id, a.member_id, sum(r.vt_time), r.vt_date
+            from tbl_vt_application a join tbl_vt_record r
+            on a.id = r.id and month(r.vt_date) = #{month}
+            group by a.member_id
+        )
+        on m.id = a.member_id
+        group by m.id
+        order by sum(r.vt_time) desc
+        limit 5;
     </select>
 </mapper>
