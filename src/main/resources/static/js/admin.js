@@ -311,16 +311,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 // =====================================게시글 목록============================================
-const postSearchInput = document.querySelector(".Filter_searchInput");
-let postKeyword = ''; // 검색어 저장
-
-postSearchInput.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
-        event.preventDefault();
-        postKeyword = postSearchInput.value.trim();
-        fetchPosts(1, postKeyword, postFilterType); // 검색어를 이용해 첫 페이지 불러오기
-    }
-});
 
 
 
