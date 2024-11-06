@@ -1,9 +1,16 @@
 package com.app.back.mapper.post;
 
+import com.app.back.domain.inquiry.InquiryDTO;
+import com.app.back.domain.post.Pagination;
+import com.app.back.domain.post.PostDTO;
 import com.app.back.domain.post.PostVO;
+import com.app.back.domain.post.Search;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Optional;
+
 @Mapper
 public interface PostMapper {
     //    게시글 작성
@@ -16,7 +23,7 @@ public interface PostMapper {
     public Long selectCurrentId();
 
     // ID로 게시글 조회
-    public PostVO selectById(Long id);
+//    public PostVO selectById(Long id);
 
     // ID로 게시글 수정
     public void updateById(PostVO postVO);
@@ -29,4 +36,20 @@ public interface PostMapper {
 
     //    조회수 증가
     public void increaseViewCountById(Long id);
+
+    //  전체조회
+    public List<PostDTO> selectAll(@Param("pagination") Pagination pagination, @Param("search") Search search);
+
+    public List<PostDTO> selectFilterAll(@Param("pagination") Pagination pagination, @Param("search")Search search);
+
+    //    조회
+    public Optional<PostDTO> selectById(Long id);
+
+    //    게시글 전체 개수 조회
+    public int selectTotal();
+    //    검색 결과 개수 조회
+    public int selectTotalWithSearch(@Param("search") Search search);
+
+
+
 }

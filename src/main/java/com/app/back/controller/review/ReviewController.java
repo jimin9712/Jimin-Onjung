@@ -1,5 +1,6 @@
 package com.app.back.controller.review;
 
+import com.app.back.domain.donation_record.DonationRecordDTO;
 import com.app.back.domain.post.Pagination;
 import com.app.back.domain.review.ReviewDTO;
 import com.app.back.service.attachment.AttachmentServiceImpl;
@@ -11,10 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnailator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -41,24 +39,20 @@ public class ReviewController {
     public String goToWriteForm(ReviewDTO reviewDTO) { return "review/review-write"; }
 
     @PostMapping("review-write")
-    public RedirectView reviewWrite(ReviewDTO reviewDTO, @RequestParam("uuid") List<String> uuids, @RequestParam("path") List<String> paths, @RequestParam("file") List<MultipartFile> files) throws IOException {
-
-        reviewDTO.setMemberId(1L);
+    public RedirectView reviewWrite(ReviewDTO reviewDTO, @RequestParam("uuid") List<String> uuids, @RequestParam("realName") List<String> realNames, @RequestParam("path") List<String> paths, @RequestParam("size") List<String>sizes, @RequestParam("file") List<MultipartFile> files) throws IOException {
+        reviewDTO.setMemberId(22L);
         reviewDTO.setPostType("REVIEW");
         reviewDTO.setPostTitle(reviewDTO.getVtGroupName());
-        log.info("{}", reviewDTO);
-        log.info("{}", uuids);
-        log.info("{}", paths);
-        log.info("{}", files);
+
         if (reviewDTO.getPostTitle() == null || reviewDTO.getPostContent() == null) {
             log.error("필수 데이터가 없습니다.");
             return new RedirectView("/review/review-write");
         }
-//        // 데이터가 문제없으면 세션에 저장
+//        데이터가 문제없으면 세션에 저장
 //        session.setAttribute("review", reviewDTO);
 
         // 데이터베이스에 게시글 저장
-        reviewService.write(reviewDTO, uuids, paths, files);
+        reviewService.write(reviewDTO, uuids, realNames, paths, sizes, files);
 
         return new RedirectView("/review/review-list");
     }
@@ -102,4 +96,30 @@ public class ReviewController {
     public RedirectView reviewDelete(@RequestParam("postId") Long postId) {
         reviewService.delete(postId);
         return new RedirectView("/review/review-list"); } // 마이페이지로 리턴
+
+
+    @GetMapping("/my-review/{memberId}")
+    @ResponseBody
+    public List<ReviewDTO> getMyReviews(
+            @PathVariable Long memberId,
+            @RequestParam(required = false) String startDate,
+            @RequestParam(required = false) String endDate) {
+
+        log.info("받은 회원 ID: {}, 시작 날짜: {}, 끝 날짜: {}",
+                memberId, startDate, endDate);
+
+        if (startDate != null && endDate != null) {
+            return reviewService.findByMemberIdAndDateRange(memberId, startDate, endDate);
+        } else {
+            return reviewService.findByMemberId(memberId);
+        }
+    }
+
+    @GetMapping("/lastest-review")
+    @ResponseBody
+    public List<ReviewDTO> getLatestReviews() {
+        log.info("최신 리뷰 10개 조회 요청");
+        return reviewService.getLatest10Reviews();
+    }
+
     }

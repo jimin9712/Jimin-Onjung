@@ -8,4 +8,7 @@ create table tbl_vt_record(
 
 );
 
-drop table tbl_vt_record;
+select * from tbl_vt_record;
+
+insert into tbl_vt_record(id, vt_time)
+VALUES (2,4);

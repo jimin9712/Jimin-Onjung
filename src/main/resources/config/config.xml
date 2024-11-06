@@ -9,6 +9,7 @@
         <typeAlias type="com.app.back.domain.member.MemberVO" alias="memberVO"/>
         <typeAlias type="com.app.back.domain.member.MemberDTO" alias="memberDTO"/>
         <typeAlias type="com.app.back.domain.post.PostVO" alias="postVO"/>
+        <typeAlias type="com.app.back.domain.post.PostDTO" alias="postDTO"/>
         <typeAlias type="com.app.back.domain.review.ReviewVO" alias="reviewVO"/>
         <typeAlias type="com.app.back.domain.review.ReviewDTO" alias="reviewDTO"/>
         <typeAlias type="com.app.back.domain.volunteer.VolunteerVO" alias="volunteerVO"/>
@@ -18,6 +19,7 @@
         <typeAlias type="com.app.back.domain.notice.NoticeVO" alias="noticeVO"/>
         <typeAlias type="com.app.back.domain.notice.NoticeDTO" alias="noticeDTO"/>
         <typeAlias type="com.app.back.domain.attachment.AttachmentVO" alias="attachmentVO"/>
+        <typeAlias type="com.app.back.domain.attachment.AttachmentDTO" alias="attachmentDTO"/>
         <typeAlias type="com.app.back.domain.inquiry.InquiryVO" alias="inquiryVO"/>
         <typeAlias type="com.app.back.domain.inquiry.InquiryDTO" alias="inquiryDTO"/>
         <typeAlias type="com.app.back.domain.inquiry_answer.InquiryAnswerVO" alias="inquiryAnswerVO"/>
@@ -28,6 +30,15 @@
         <typeAlias type="com.app.back.domain.support_record.SupportRecordVO" alias="supportRecordVO"/>
         <typeAlias type="com.app.back.domain.profile.ProfileVO" alias="profileVO"/>
         <typeAlias type="com.app.back.domain.profile.ProfileDTO" alias="profileDTO"/>
+        <typeAlias type="com.app.back.domain.vt_record.VtRecordVO" alias="vtRecordVO"/>
+        <typeAlias type="com.app.back.domain.vt_record.VtRecordVO" alias="vtRecordDTO"/>
+        <typeAlias type="com.app.back.domain.vt_application.VtApplicationVO" alias="vtApplicationVO"/>
+        <typeAlias type="com.app.back.domain.vt_application.VtApplicationDTO" alias="vtApplicationDTO"/>
+        <typeAlias type="com.app.back.domain.payment.PaymentVO" alias="paymentVO"/>
+        <typeAlias type="com.app.back.domain.payment.PaymentDTO" alias="paymentDTO"/>
+        <typeAlias type="com.app.back.domain.support.SupportVO" alias="supportVO"/>
+        <typeAlias type="com.app.back.domain.support.SupportDTO" alias="supportDTO"/>
+
 
 
     </typeAliases>

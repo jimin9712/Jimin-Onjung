@@ -2,6 +2,50 @@ const tabs = document.querySelectorAll(".tabs .tab");
 const contentContainer = document.querySelector(".content-wrap"); // 내용 섹션 컨테이너
 const commentSection = document.querySelector(".comment-wrap"); // 댓글 섹션
 const commentInputSection = document.querySelector(".contest-comment-input"); // 댓글 작성 창
+const postSummaryWrap = document.querySelector("div.post-summary");
+const goalPointWrap = document.querySelector("div.goal-point");
+const postContentWrap = document.querySelector("div.post-content");
+const updateButton = document.querySelector("a.go-update");
+const deleteButton = document.querySelector("a.go-delete");
+const attachmentList = document.querySelector("ul.attach-list.attachments");
+
+postSummaryWrap.innerText = donation.postSummary;
+goalPointWrap.innerText = donation.goalPoint;
+postContentWrap.innerText = donation.postContent;
+
+
+updateButton.addEventListener("click", (e) => {
+    location.href = `/donation/donation-update?postId=${donation.id}`;
+});
+
+deleteButton.addEventListener("click", (e) => {
+    location.href = `/donation/donation-delete?postId=${donation.id}`;
+})
+
+attachmentList.innerHTML = '';
+const liElement = document.createElement("li");
+attachments.forEach((attachment) => {
+    let text = '';
+    text += `<p
+                className="file-name"
+                title="1725933473451-0.jpg"
+            >
+                1725933473451-0.jpg
+            </p>
+            <span className="file-download"
+            ><span className="size"
+            >42.8 KB</span
+            ><a
+                href="https://cdn-dantats.stunning.kr/prod/contest/de56377e-3288-4254-83e2-1ed3d14ba51c/attachments/dfiQd4P4mfYFmBaa/1725933473451-0.jpg"
+                download="1725933473451-0.jpg"
+                className="attach-save"
+            ><span
+                className="visual-correction"
+            >저장</span
+            ></a
+            ></span
+            >`;
+})
 
 // 탭 클릭 이벤트 처리
 tabs.forEach((tab, index) => {

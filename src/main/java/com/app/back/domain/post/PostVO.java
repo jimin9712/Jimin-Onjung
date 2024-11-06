@@ -20,4 +20,5 @@ public class PostVO {
     private Long memberId;
     private String createdDate;
     private String updatedDate;
+
 }

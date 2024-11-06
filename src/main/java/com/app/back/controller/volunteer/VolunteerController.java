@@ -1,37 +1,35 @@
 package com.app.back.controller.volunteer;
 
+import com.app.back.domain.donation.DonationDTO;
 import com.app.back.domain.review.ReviewDTO;
 import com.app.back.domain.volunteer.Pagination;
 import com.app.back.domain.volunteer.VolunteerDTO;
+import com.app.back.service.post.PostService;
 import com.app.back.service.volunteer.VolunteerService;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 @Controller // 이 클래스가 컨트롤러임을 나타냄
 @RequestMapping("/volunteer/*") // QA 관련 요청을 처리
 @RequiredArgsConstructor // 생성자 자동 생성
 @Slf4j // 로깅 기능 추가
 public class VolunteerController {
-
+    private final PostService postService;
     private final VolunteerService volunteerService;
 
-//    @GetMapping("volunteer-write")
-//    public String goToWriteForm(VolunteerDTO volunteerDTO) {
-//        return "volunteer/volunteer-write";
-//    }
-//
+    @GetMapping("volunteer-write")
+    public String goToWriteForm(VolunteerDTO volunteerDTO) {
+        return "volunteer/volunteer-write";
+    }
+
 //    @PostMapping("volunteer-write")
 //    public RedirectView volunteerWrite(VolunteerDTO volunteerDTO) throws IOException {
 //        volunteerDTO.setMemberId(1L);
@@ -51,54 +49,42 @@ public class VolunteerController {
 //        return new RedirectView("/review/review-list");
 //    }
 
-    @GetMapping("/volunteer-list")
-    public List<VolunteerDTO> getList(
-            @RequestParam(value = "order", defaultValue = "recent") String order,
-            Pagination pagination,
-            Model model,
-            HttpServletRequest request) {
+    @GetMapping("volunteer-list")
+    public String getList(Pagination pagination, Model model) {
 
-        pagination.setOrder(order);
-        pagination.setTotal(volunteerService.getTotal());
-        pagination.progress();
+        pagination.setTotal(postService.getTotal("VOLUNTEER"));
+        pagination.vtProgress();
 
-        List<VolunteerDTO> lists;
-        if ("endingSoon".equals(pagination.getOrder())) {
-            lists = volunteerService.getListByEndingSoon(pagination);
-        } else if ("viewCount".equals(pagination.getOrder())) {
-            lists = volunteerService.getListByViewCount(pagination);
-        } else {
-            lists = volunteerService.getListByRecent(pagination);
-        }
+        log.info("pagination 객체(Controller): {}", pagination);
+        model.addAttribute("lists", volunteerService.getList(pagination));
 
-        // 각 DTO의 남은 일수 계산
-        for (VolunteerDTO volunteerDTO : lists) {
-            volunteerDTO.calculateDaysLeft();
-        }
-
-        model.addAttribute("pagination", pagination);
-        model.addAttribute("lists", lists);
-
-        return lists;
+        return "volunteer/volunteer-list";
     }
 
-
-
-    @GetMapping("/volunteer-info")
+    @GetMapping("volunteer-info")
     @ResponseBody
-    public List<VolunteerDTO> getListInfo() {
+    public List<VolunteerDTO> getListInfo(
+            @RequestParam(value = "order", defaultValue = "recent") String order,
+            @RequestParam(value = "page", defaultValue = "1") int page) {
+
+        log.info("받은 page 파라미터: {}", page); // 요청된 페이지 번호 확인
+
         Pagination pagination = new Pagination();
+        pagination.setOrder(order);
+        pagination.setPostType("VOLUNTEER");
+        pagination.setPage(page); // 페이지 번호 설정
+        pagination.setTotal(postService.getTotal("VOLUNTEER"));
+        pagination.vtProgress();
 
-        // 기본 페이지 및 페이징 설정 진행
-        pagination.setPage(1); // 기본 페이지를 1로 설정
-        pagination.setOrder("recent"); // 기본 정렬 기준을 설정
-        pagination.setTotal(volunteerService.getTotal()); // 전체 게시글 수를 설정
-        pagination.progress(); // 페이징 관련 필드 설정
 
-        // Pagination 설정을 마친 후 서비스 호출
+        log.info("Pagination 객체: {}", pagination); // Pagination 설정 확인
+
         List<VolunteerDTO> volunteerList = volunteerService.getList(pagination);
-        log.info("Retrieved volunteer list: " + volunteerList); // 데이터 로깅
 
+        for (VolunteerDTO volunteer : volunteerList) {
+            volunteer.calculateDaysLeft();
+            volunteer.setPostType(volunteer.getPostType());
+        }
         return volunteerList;
     }
 
@@ -107,6 +93,32 @@ public class VolunteerController {
 
 
 
+//    @GetMapping("donation-inquiry")
+//    public String goToInquiry( @RequestParam("postId") Long postId, Model model) {
+//        Optional<DonationDTO> donationDTO = donationService.getById(postId);
+//        log.info("{}", donationDTO);
+//        if (donationDTO.isPresent()) {
+//            model.addAttribute("donation", donationDTO.get());
+//        } else {
+//            return "redirect:/donation/donation-list";
+//        }
+//        return "donation/donation-inquiry";
+//    }
+
+    @PostMapping("/volunteer-update")
+    public RedirectView volunteerUpdate(ReviewDTO reviewDTO) {
+        volunteerService.update(reviewDTO);
+        return new RedirectView("/volunteer/volunteer-list"); // 게시물 리스트로 리턴
+    }
+
+    @GetMapping("/volunteer-delete")
+    public RedirectView volunteerDelete(@RequestParam("postId") Long postId) {
+        volunteerService.delete(postId);
+        return new RedirectView("/volunteer/volunteer-list"); } // 게시물 리스트로 리턴
+
+
 }
+
+
 
 

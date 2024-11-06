@@ -37,8 +37,8 @@
     i.inquiry_type,
     i.inquiry_status
     from tbl_inquiry i
-    join tbl_post p on i.id = p.id
-    join tbl_member m on p.member_id = m.id
+            join tbl_post p on i.id = p.id
+            join tbl_member m on p.member_id = m.id
     <include refid="search"/>
     order by p.created_date desc
     limit #{pagination.startRow}, #{pagination.rowCount};

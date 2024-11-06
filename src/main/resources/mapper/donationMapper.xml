@@ -6,17 +6,32 @@
     </insert>
 
     <select id="selectAll" resultType="donationDTO">
-        select r.id, r.review_star_rate, r.vt_group_name, p.post_title, p.post_content, p.member_id, p.created_date, p.updated_date, m.member_nickname
-        from tbl_review r join tbl_post p
-             on r.id = p.id
+        select d.id, d.goal_point, d.donation_s_date, d.donation_e_date, p.post_title, p.post_content, p.post_view_count, p.member_id, p.created_date, p.updated_date, m.member_nickname
+        from tbl_donation d join tbl_post p
+            on d.id = p.id
         join tbl_member m
-             on p.member_id = m.id
-        order by created_date desc, r.id desc
+            on p.member_id = m.id
+        order by created_date desc, d.id desc
+        limit #{pagination.startRow}, #{pagination.rowCount};
+    </select>
+
+    <select id="selectFilterAll" resultType="donationDTO">
+        select d.id, d.goal_point, d.donation_s_date, d.donation_e_date, p.post_title, p.post_content, p.post_view_count, p.member_id, p.created_date, p.updated_date, m.member_nickname
+        from tbl_donation d join tbl_post p
+                                 on d.id = p.id
+                            join tbl_member m
+                                 on p.member_id = m.id
+        order by
+        <choose>
+            <when test="pagination.order = '조회순'.toString()">p.post_view_count</when>
+            <otherwise>d.donation_e_date</otherwise>
+        </choose>
+        desc
             limit #{pagination.startRow}, #{pagination.rowCount};
     </select>
 
     <select id="selectById" resultType="donationDTO">
-        select d.id, p.post_title, p.post_content, p.member_id, p.created_date, d.goal_point, d.donation_s_date, d.donation_e_date, m.member_nickname
+        select d.id, p.post_title, p.post_content, p.post_summary, p.member_id, p.created_date, d.goal_point, d.donation_s_date, d.donation_e_date, m.member_nickname
         from tbl_donation d join tbl_post p
             on d.id = p.id
         join tbl_member m

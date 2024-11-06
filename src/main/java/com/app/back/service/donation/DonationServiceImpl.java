@@ -12,7 +12,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,14 +28,22 @@ public class DonationServiceImpl implements DonationService {
     private final AttachmentDAO attachmentDAO;
 
     @Override
-    public void write(DonationDTO donationDTO) {
+    public void write(DonationDTO donationDTO, List<String> uuids, List<String> realNames, List<String> paths, List<String> sizes, List<MultipartFile> files) throws IOException {
         postDAO.save(donationDTO.toPostVO());
         Long id = postDAO.selectCurrentId();
         donationDTO.setId(id);
-        if(donationDTO.getAttachmentFileName() != null && donationDTO.getAttachmentFilePath() != null && donationDTO.getAttachmentFileType() != null && donationDTO.getAttachmentFileSize() != null) {
-//            attachmentDAO.save(donationDTO.toAttachmentVO());
-        }
+        donationDTO.setPostId(id);
         donationDAO.save(donationDTO.toVO());
+        if(files != null) {
+            for(int i=0; i<files.size(); i++){
+                donationDTO.setAttachmentFileName(uuids.get(i) + "_" + files.get(i).getOriginalFilename());
+                donationDTO.setAttachmentFileRealName(realNames.get(i));
+                donationDTO.setAttachmentFilePath(paths.get(i));
+                donationDTO.setAttachmentFileSize(String.valueOf(sizes.get(i)));
+                donationDTO.setAttachmentFileType(files.get(i).getContentType());
+                attachmentDAO.save(donationDTO.toAttachmentVO());
+            }
+        }
     }
 
     @Override
@@ -47,13 +57,32 @@ public class DonationServiceImpl implements DonationService {
     }
 
     @Override
+    public List<DonationDTO> getFilterList(Pagination pagination) { return donationDAO.findFilterAll(pagination);}
+
+    @Override
     public int getTotal() {
         return donationDAO.findCount();
     }
 
     @Override
-    public void update(DonationDTO donationDTO) {
-        donationDAO.update(donationDTO);
+    public void update(DonationDTO donationDTO, List<String> uuids, List<String> realNames, List<String> paths, List<String> sizes, List<MultipartFile> files, List<Long> ids) throws IOException {
+        postDAO.update(donationDTO.toPostVO());
+        donationDAO.update(donationDTO.toVO());
+        if(files != null && uuids.size() > 0) {
+            for(int i=0; i<files.size(); i++){
+                donationDTO.setAttachmentFileName(uuids.get(i+1) + "_" + files.get(i).getOriginalFilename());
+                donationDTO.setAttachmentFileRealName(realNames.get(i+1));
+                donationDTO.setAttachmentFilePath(paths.get(i+1));
+                donationDTO.setAttachmentFileSize(String.valueOf(sizes.get(i+1)));
+                donationDTO.setAttachmentFileType(files.get(i).getContentType());
+                attachmentDAO.save(donationDTO.toAttachmentVO());
+            }
+        }
+        if(ids != null) {
+            for(int i=0; i<ids.size(); i++){
+                attachmentDAO.delete(ids.get(i));
+            }
+        }
     }
 
     @Override

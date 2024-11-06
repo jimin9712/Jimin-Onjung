@@ -7,4 +7,7 @@ create table tbl_support(
                         references tbl_post(id)
 );
 
+select * from tbl_support;
 
+insert into tbl_support(id, goal_point, support_s_date, support_e_date)
+VALUES(604,30000,'2024-12-02', '2025-06-03');

@@ -1,6 +1,7 @@
 package com.app.back.mapper.attachment;
 
 
+import com.app.back.domain.attachment.AttachmentDTO;
 import com.app.back.domain.attachment.AttachmentVO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -13,10 +14,10 @@ public interface AttachmentMapper {
     public void insert(AttachmentVO attachmentVO);
 
 //  파일 조회
-    public AttachmentVO selectById(Long id);
+    public AttachmentDTO selectById(Long id);
 
 //  파일 목록
-    public List<AttachmentVO> selectAll(Long postId);
+    public List<AttachmentDTO> selectAll(Long postId);
 
 //  파일 삭제
     public void delete(Long id);

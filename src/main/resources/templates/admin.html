@@ -915,11 +915,11 @@
                                 <div class="ServiceHeader_container"><h2 class="ServiceHeader_title">공지사항 목록</h2></div>
                                 <div class="list-top">
                                     <div class="category-notification-num">번호</div>
-                                    <div class="category-notification-title">제목</div>
-                                    <div class="category-notification-date notification-table">작성일</div>
+                                    <div class="category-notification-title noti-title-admin">제목</div>
+                                    <div class="category-notification-date notification-table noti-date-admin">작성일</div>
                                 </div>
-                                <ul class="notification-list-wrap" style="height: 360px;"></ul>
-                                <nav class="pagination-wrap notification-table">
+                                <ul class="notification-list-wrap" style="height:360px;"></ul>
+                                <nav class="pagination-wrap notification-table" id="noti-paging-admin">
                                     <div class="pagination-container">
                                         <div class="pagination-num-container">
                                             <a class="pagination-num active" href=""
@@ -963,7 +963,7 @@
                                 <section class="sidebar-container">
                                     <section class="sidebar" style="width: 259.4px; margin-top: 24px;">
                                         <h3 class="sidebar-title" style="height: 54px;">공지사항</h3>
-                                        <ul style="height: 445.4px;">
+                                        <ul style="height: 445.4px;" class="sidebar-content">
                                             <li>
                                                 <a
                                                     href="/hc/ko/articles/38453158191641-%ED%95%9C%EA%B8%80%EB%82%A0%EB%A1%9C-%EC%9D%B8%ED%95%9C-%EA%B3%A0%EA%B0%9D%EC%84%BC%ED%84%B0-%EC%9A%B4%EC%98%81-%EC%95%88%EB%82%B4-10-9"
@@ -1939,7 +1939,7 @@
                                         </div>
                                     </div>
                                     <nav class="pagination">
-                                        <ul class="pagination-list">
+                                        <ul class="pagination-list post-page">
                                             <!-- 처음 페이지로 이동하는 버튼 -->
                                             <li class="pagination-first">
                                                 <a
@@ -2920,7 +2920,7 @@
     <script src="/js/adminPage/admin_page/admin.js"></script>
     <script src="/js/adminPage/admin_user/modal_user.js"></script>
     <!-- 공지사항 목록 -->
-    <!-- <script src="/static/js/admin.js"> -->
+<!--     <script src="/static/js/admin.js"> -->
     <!-- 공지사항 조회 -->
     <script src="/js/help/help-notification-inquiry.js"></script>
     <!-- 고객센터 문의 목록 -->
