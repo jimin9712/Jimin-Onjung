@@ -544,6 +544,7 @@ p {
 }
 .hvowwg .tooltip-content.show {
     visibility: visible;
+    height: 400px;
 }
 .hvowwg .tooltip-content {
     background: rgb(255, 255, 255);
