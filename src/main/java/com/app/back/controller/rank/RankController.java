@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.UUID;
 
 @Controller
@@ -22,22 +23,25 @@ public class RankController {
     private final RankService rankService;
 
     @GetMapping("/rank")
-    @ResponseBody
-    public String goToList(Pagination pagination, Model model, @RequestParam(required = false) String month, @RequestParam(required = false) String filterType) {
+
+    public String goToList(Pagination pagination, Model model, @RequestParam(value = "month", required = false) String month, @RequestParam(value = "filterType", required = false) String filterType) {
         if(month == null) {
-            log.info("오류 : month 미 입력");
+            log.info("month 미 입력 : 첫 로딩");
+            month = new Date().getMonth() + 1 + "";
+            log.info("month : " + month);
         }
 
         if(Integer.parseInt(month) > 0 && Integer.parseInt(month) <= 12) {
             model.addAttribute("vtRankMembers", rankService.selectTop5ByVt(Integer.parseInt(month)));
             model.addAttribute("supportRankMembers", rankService.selectTop5BySupport(Integer.parseInt(month)));
             model.addAttribute("donationRankMembers", rankService.selectTop5ByDonation(Integer.parseInt(month)));
+
+            log.info("회원 봉사 랭킹 : {}", model.getAttribute("vtRankMembers"));
+            log.info("회원 후원 랭킹 : {}", model.getAttribute("supportRankMembers"));
+            log.info("회원 기부 랭킹 : {}", model.getAttribute("donationRankMembers"));
         } else {
             log.info("오류 : month 범위 오류");
         }
-        log.info("회원 봉사 랭킹 : {}", model.getAttribute("vtRankMembers"));
-        log.info("회원 후원 랭킹 : {}", model.getAttribute("supportRankMembers"));
-        log.info("회원 기부 랭킹 : {}", model.getAttribute("donationRankMembers"));
 
         pagination.setOrder(filterType);
         if (pagination.getOrder() == null || pagination.getOrder().equals("별점순")) {
@@ -52,6 +56,6 @@ public class RankController {
         model.addAttribute("volunteerGroups", rankService.getTop100VolunteerGroup(pagination));
         log.info("봉사활동 단체 회원 랭킹 목록 : {}", model.getAttribute("volunteerGroups"));
 
-        return "review/review-list";
+        return "rank/rank";
     }
 }
