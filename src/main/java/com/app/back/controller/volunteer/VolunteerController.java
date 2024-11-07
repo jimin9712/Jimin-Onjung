@@ -4,17 +4,21 @@ import com.app.back.domain.donation.DonationDTO;
 import com.app.back.domain.review.ReviewDTO;
 import com.app.back.domain.volunteer.Pagination;
 import com.app.back.domain.volunteer.VolunteerDTO;
+import com.app.back.mapper.volunteer.VolunteerMapper;
 import com.app.back.service.post.PostService;
 import com.app.back.service.volunteer.VolunteerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller // 이 클래스가 컨트롤러임을 나타냄
@@ -24,6 +28,7 @@ import java.util.Optional;
 public class VolunteerController {
     private final PostService postService;
     private final VolunteerService volunteerService;
+    private final VolunteerMapper volunteerMapper;
 
     @GetMapping("volunteer-write")
     public String goToWriteForm(VolunteerDTO volunteerDTO) {
@@ -49,48 +54,54 @@ public class VolunteerController {
 //        return new RedirectView("/review/review-list");
 //    }
 
+//        봉사 모집 게시글 목록
     @GetMapping("volunteer-list")
-    public String getList(Pagination pagination, Model model) {
-
+    public String getList(Pagination pagination, Model model,@RequestParam(value = "order", defaultValue = "recent") String order) {
         pagination.setTotal(postService.getTotal("VOLUNTEER"));
-        pagination.vtProgress();
+        pagination.setTotal(volunteerMapper.selectTotal());
+        pagination.progress();
 
-        log.info("pagination 객체(Controller): {}", pagination);
-        model.addAttribute("lists", volunteerService.getList(pagination));
+        // Pagination 객체의 시작 및 끝 행을 확인하는 로그 추가
+        log.info("페이지네이션 설정 - page: {}, startRow: {}, rowCount: {}", pagination.getPage(), pagination.getStartRow(), pagination.getRowCount());
 
+        List<VolunteerDTO> volunteers = volunteerService.getList(pagination);
+        log.info("현재 받은 데이터 갯수: {}", volunteers.size());
+
+        model.addAttribute("volunteers", volunteerService.getList(pagination));
         return "volunteer/volunteer-list";
     }
 
+
     @GetMapping("volunteer-info")
     @ResponseBody
-    public List<VolunteerDTO> getListInfo(
+    public ResponseEntity<Map<String, Object>> getListInfo(
             @RequestParam(value = "order", defaultValue = "recent") String order,
             @RequestParam(value = "page", defaultValue = "1") int page) {
-
-        log.info("받은 page 파라미터: {}", page); // 요청된 페이지 번호 확인
+        log.info("받은 page 파라미터: {}", page);
+        log.info("받은 order 파라미터: {}", order);
 
         Pagination pagination = new Pagination();
         pagination.setOrder(order);
         pagination.setPostType("VOLUNTEER");
         pagination.setPage(page); // 페이지 번호 설정
         pagination.setTotal(postService.getTotal("VOLUNTEER"));
-        pagination.vtProgress();
-
-
+        pagination.progress();
         log.info("Pagination 객체: {}", pagination); // Pagination 설정 확인
+        log.info("요청된 order 객체 : {}", order);
 
         List<VolunteerDTO> volunteerList = volunteerService.getList(pagination);
-
         for (VolunteerDTO volunteer : volunteerList) {
             volunteer.calculateDaysLeft();
             volunteer.setPostType(volunteer.getPostType());
         }
-        return volunteerList;
+
+        // 응답으로 보낼 데이터 구성
+        Map<String, Object> response = new HashMap<>();
+        response.put("lists", volunteerList);
+        response.put("pagination", pagination);
+
+        return ResponseEntity.ok(response);
     }
-
-
-
-
 
 
 //    @GetMapping("donation-inquiry")

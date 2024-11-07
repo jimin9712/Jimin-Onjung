@@ -45,7 +45,7 @@ public class VolunteerMapperTests {
     @Test
     public void testSelectAll(){
         Pagination pagination = new Pagination();
-        pagination.setTotal(volunteerMapper.selectCount());
+        pagination.setTotal(volunteerMapper.selectTotal());
         pagination.progress();
         log.info("{}, {}", pagination.getStartRow(), pagination.getRowCount());
         volunteerMapper.selectAll(pagination).stream()
