@@ -12,17 +12,17 @@
 
     <insert id="insertDonationAlarm">
         insert into tbl_donation_alarm (member_id, donation_id, alarm_content, created_date)
-        values (#{memberId}, #{donationid}, #{content}, current_timestamp)
+        values (#{memberId}, #{donationId}, #{content}, current_timestamp)
     </insert>
 
     <insert id="insertSupportAlarm">
         insert into tbl_support_alarm (member_id, support_id, alarm_content, created_date)
-        values (#{memberId}, #{supportid}, #{content}, current_timestamp)
+        values (#{memberId}, #{supportId}, #{content}, current_timestamp)
     </insert>
 
     <insert id="insertReplyAlarm">
         insert into tbl_reply_alarm (member_id, reply_id, alarm_content, created_date)
-        values (#{memberId}, #{replyid}, #{content}, current_timestamp)
+        values (#{memberId}, #{replyId}, #{content}, current_timestamp)
     </insert>
 
     <select id="selectAlarmsByMemberId" resultType="alarmDTO">
@@ -76,7 +76,7 @@
         where member_id = #{memberId}
 
         order by created_date desc
-        limit 7
+        limit 8
     </select>
 
 
