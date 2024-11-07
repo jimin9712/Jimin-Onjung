@@ -551,7 +551,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const shouldShowNext = pagination.page < pagination.realEnd;
 
         // 다음 페이지 버튼 추가: endPage가 realEnd보다 작거나, 더 로드할 데이터가 있을 경우
-        if (shouldShowNext) {
+        if (pagination.page < pagination.realEnd) {
             const nextPage = (pagination.page || 1) + 1;
             pagingText += `
         <a href="/volunteer/volunteer-list?page=${nextPage}" 
@@ -570,38 +570,39 @@ document.addEventListener("DOMContentLoaded", () => {
                 </a>
     `;
         }
-        // const shouldShowNext = pagination.endPage < pagination.realEnd || (pagination.endRow < pagination.total);
-        //
-        // // 다음 페이지 버튼 추가: endPage가 realEnd보다 작거나, 더 로드할 데이터가 있을 경우
-        // if (shouldShowNext) {
-        //     pagingText += `<a
-        //             href="/volunteer/volunteer-list?page=${pagination.page + 1}"
-        //             class="page-btn next"
-        //             ><svg
-        //                 viewBox="0 0 12 12"
-        //                 class="icon-default"
-        //             >
-        //                 <path
-        //                     fill-rule="evenodd"
-        //                     clip-rule="evenodd"
-        //                     d="M3.68888 11.0004C3.85188 11.0004 4.01388 10.9424 4.13688 10.8264L8.81688 6.43738C9.06088 6.20738 9.06088 5.83638 8.81588 5.60738L4.07988 1.17438C3.83288 0.942377 3.43288 0.942377 3.18588 1.17138C2.93888 1.40038 2.93788 1.77238 3.18388 2.00338L7.47788 6.02238L3.24088 9.99738C2.99588 10.2294 2.99688 10.6014 3.24488 10.8294C3.36788 10.9434 3.52888 11.0004 3.68888 11.0004Z"
-        //                 ></path>
-        //                 <defs></defs>
-        //             </svg>
-        //         </a>`;
-        // }
 
         pageContainer.innerHTML = pagingText;
         addPageButtonEventListeners();
         console.log("현재 페이지:", pagination.page);
         console.log("실제 마지막 페이지:", pagination.realEnd);
-        console.log("shouldShowNext:", shouldShowNext);
 
     };
 
     showPaging();
 });
 
+
+
+// const shouldShowNext = pagination.endPage < pagination.realEnd || (pagination.endRow < pagination.total);
+//
+// // 다음 페이지 버튼 추가: endPage가 realEnd보다 작거나, 더 로드할 데이터가 있을 경우
+// if (shouldShowNext) {
+//     pagingText += `<a
+//             href="/volunteer/volunteer-list?page=${pagination.page + 1}"
+//             class="page-btn next"
+//             ><svg
+//                 viewBox="0 0 12 12"
+//                 class="icon-default"
+//             >
+//                 <path
+//                     fill-rule="evenodd"
+//                     clip-rule="evenodd"
+//                     d="M3.68888 11.0004C3.85188 11.0004 4.01388 10.9424 4.13688 10.8264L8.81688 6.43738C9.06088 6.20738 9.06088 5.83638 8.81588 5.60738L4.07988 1.17438C3.83288 0.942377 3.43288 0.942377 3.18588 1.17138C2.93888 1.40038 2.93788 1.77238 3.18388 2.00338L7.47788 6.02238L3.24088 9.99738C2.99588 10.2294 2.99688 10.6014 3.24488 10.8294C3.36788 10.9434 3.52888 11.0004 3.68888 11.0004Z"
+//                 ></path>
+//                 <defs></defs>
+//             </svg>
+//         </a>`;
+// }
 
 
 
