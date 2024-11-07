@@ -1,128 +1,130 @@
-// 칭찬 후기 데이터
-const praiseRankings = [
-    {
-        rank: 1,
-        username: "CORKSTUDIO",
-        avatarUrl:
-            "https://cdn-dantats.stunning.kr/prod/users/fa970db0-abdd-4b41-a512-de0e18e3d27c/avatar/ZswD8qqqrARGSgFX.11.jpg.small?q=60&t=crop&s=60x60&f=webp",
-        profileUrl: "/m/chldbrhks",
-    },
-    {
-        rank: 1,
-        username: "TOT DESIGN",
-        avatarUrl:
-            "https://cdn-dantats.stunning.kr/prod/users/b3a2e74d-5c60-40e4-b927-47fe6181b32c/avatar/9yJS4JUeSWJJfqof.TOT%20DESIGN.png.small?q=60&t=crop&s=60x60&f=webp",
-        profileUrl: "/m/yeendh",
-    },
-    {
-        rank: 3,
-        username: "amh_design",
-        avatarUrl:
-            "https://cdn-dantats.stunning.kr/prod/users/d9df8a2e-a4e7-49fb-897f-e856ff2534a6/avatar/FMmojjUhq9uznLLx.%E1%84%86%E1%85%AE%E1%84%8C%E1%85%A6-1.png.small?q=60&t=crop&s=60x60&f=webp",
-        profileUrl: "/m/amh_design",
-    },
-    {
-        rank: 4,
-        username: "flatlee Design",
-        avatarUrl:
-            "https://cdn-dantats.stunning.kr/prod/users/d7fdcd38-73be-43ce-b074-29c0d5cb7287/avatar/myJqLNnZ7JnNMAsg.%ED%94%84%EB%A1%9C%ED%95%84.png.small?q=60&t=crop&s=60x60&f=webp",
-        profileUrl: "/m/algml7958",
-    },
-    {
-        rank: 5,
-        username: "CW_Design",
-        avatarUrl:
-            "https://cdn-dantats.stunning.kr/prod/users/48a8eab5-0e2d-4152-8da4-781097f3fbbf/avatar/KGMk2XNBvyv9pBs9.%E1%84%85%E1%85%A1%E1%84%8B%E1%85%AE%E1%84%83%E1%85%B3%E1%84%86%E1%85%A1%E1%84%8F%E1%85%A6%E1%86%BA.jpg.small?q=60&t=crop&s=60x60&f=webp",
-        profileUrl: "/m/cw_design",
-    },
-];
-
-// 콘테스트 우승 데이터
-const contestRankings = [
-    {
-        rank: 1,
-        username: "미쁨",
-        avatarUrl:
-            "https://cdn-dantats.stunning.kr/prod/users/2d26a1b8-804b-4ffd-a112-9a2157abbca4/avatar/member_110055_1_211204022454.png.small?q=60&t=crop&s=60x60&f=webp",
-        profileUrl: "/m/mibbem",
-    },
-    {
-        rank: 2,
-        username: "CORKSTUDIO",
-        avatarUrl:
-            "https://cdn-dantats.stunning.kr/prod/users/fa970db0-abdd-4b41-a512-de0e18e3d27c/avatar/ZswD8qqqrARGSgFX.11.jpg.small?q=60&t=crop&s=60x60&f=webp",
-        profileUrl: "/m/chldbrhks",
-    },
-    {
-        rank: 3,
-        username: "B_M_K",
-        avatarUrl:
-            "https://cdn-dantats.stunning.kr/prod/users/50d38a26-704f-4597-9ce8-dd1a3aac28e0/avatar/p2VbzVLjPuYGWjhW.dfdfhdfg.JPG.small?q=60&t=crop&s=60x60&f=webp",
-        profileUrl: "/m/bmk",
-    },
-    {
-        rank: 4,
-        username: "su_m",
-        avatarUrl:
-            "https://cdn-dantats.stunning.kr/prod/users/5201808f-3350-49c1-8da5-01235749fe61/avatar/iMF764CYZAHTVDJE.20240121_183001.jpg.small?q=60&t=crop&s=60x60&f=webp",
-        profileUrl: "/m/sum",
-    },
-    {
-        rank: 5,
-        username: "M_j_d",
-        avatarUrl:
-            "https://cdn-dantats.stunning.kr/prod/users/2c088efa-2498-4b4d-8fc1-e6a7ea445fe5/avatar/member_84394_1_201130225428.jpg.small?q=60&t=crop&s=60x60&f=webp",
-        profileUrl: "/m/mjd",
-    },
-];
-
-// 상품 판매 데이터
-const salesRankings = [
-    {
-        rank: 1,
-        username: "TOT DESIGN",
-        avatarUrl:
-            "https://cdn-dantats.stunning.kr/prod/users/b3a2e74d-5c60-40e4-b927-47fe6181b32c/avatar/9yJS4JUeSWJJfqof.TOT%20DESIGN.png.small?q=60&t=crop&s=60x60&f=webp",
-        profileUrl: "/m/yeendh",
-    },
-    {
-        rank: 2,
-        username: "flatlee Design",
-        avatarUrl:
-            "https://cdn-dantats.stunning.kr/prod/users/d7fdcd38-73be-43ce-b074-29c0d5cb7287/avatar/myJqLNnZ7JnNMAsg.%ED%94%84%EB%A1%9C%ED%95%84.png.small?q=60&t=crop&s=60x60&f=webp",
-        profileUrl: "/m/algml7958",
-    },
-    {
-        rank: 3,
-        username: "waylog",
-        avatarUrl:
-            "https://cdn-dantats.stunning.kr/prod/users/32c093e6-3c5a-4bd1-801e-50c44f69b36b/avatar/PSQvNng2iFNbBDta.%E1%84%8B%E1%85%B0%E1%84%8B%E1%85%B5%E1%84%85%E1%85%A9%E1%84%80%E1%85%B3%E1%84%87%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%8C%E1%85%B5.jpg.small?q=60&t=crop&s=60x60&f=webp",
-        profileUrl: "/m/waylog",
-    },
-    {
-        rank: 4,
-        username: "루나작명소",
-        avatarUrl:
-            "https://cdn-dantats.stunning.kr/prod/users/c993b21e-b558-4499-a5fd-4a55428da0e2/avatar/member_204238_1_220506043005.jpg.small?q=60&t=crop&s=60x60&f=webp",
-        profileUrl: "/m/luna",
-    },
-    {
-        rank: 5,
-        username: "happyrecipe",
-        avatarUrl:
-            "https://cdn-dantats.stunning.kr/prod/users/4e475da7-e017-426e-82d2-ef8f8f3f11a9/avatar/hoc2MRNFP7YcZxAe.%E1%84%92%E1%85%A2%E1%84%91%E1%85%B5%E1%84%85%E1%85%A6%E1%84%89%E1%85%B5%E1%84%91%E1%85%B5%20%E1%84%85%E1%85%A9%E1%84%80%E1%85%A9_new-05.jpg.small?q=60&t=crop&s=60x60&f=webp",
-        profileUrl: "/m/happyrecipe",
-    },
-];
+// // 칭찬 후기 데이터
+// const praiseRankings = [
+//     {
+//         rank: 1,
+//         username: "CORKSTUDIO",
+//         avatarUrl:
+//             "https://cdn-dantats.stunning.kr/prod/users/fa970db0-abdd-4b41-a512-de0e18e3d27c/avatar/ZswD8qqqrARGSgFX.11.jpg.small?q=60&t=crop&s=60x60&f=webp",
+//         profileUrl: "/m/chldbrhks",
+//     },
+//     {
+//         rank: 1,
+//         username: "TOT DESIGN",
+//         avatarUrl:
+//             "https://cdn-dantats.stunning.kr/prod/users/b3a2e74d-5c60-40e4-b927-47fe6181b32c/avatar/9yJS4JUeSWJJfqof.TOT%20DESIGN.png.small?q=60&t=crop&s=60x60&f=webp",
+//         profileUrl: "/m/yeendh",
+//     },
+//     {
+//         rank: 3,
+//         username: "amh_design",
+//         avatarUrl:
+//             "https://cdn-dantats.stunning.kr/prod/users/d9df8a2e-a4e7-49fb-897f-e856ff2534a6/avatar/FMmojjUhq9uznLLx.%E1%84%86%E1%85%AE%E1%84%8C%E1%85%A6-1.png.small?q=60&t=crop&s=60x60&f=webp",
+//         profileUrl: "/m/amh_design",
+//     },
+//     {
+//         rank: 4,
+//         username: "flatlee Design",
+//         avatarUrl:
+//             "https://cdn-dantats.stunning.kr/prod/users/d7fdcd38-73be-43ce-b074-29c0d5cb7287/avatar/myJqLNnZ7JnNMAsg.%ED%94%84%EB%A1%9C%ED%95%84.png.small?q=60&t=crop&s=60x60&f=webp",
+//         profileUrl: "/m/algml7958",
+//     },
+//     {
+//         rank: 5,
+//         username: "CW_Design",
+//         avatarUrl:
+//             "https://cdn-dantats.stunning.kr/prod/users/48a8eab5-0e2d-4152-8da4-781097f3fbbf/avatar/KGMk2XNBvyv9pBs9.%E1%84%85%E1%85%A1%E1%84%8B%E1%85%AE%E1%84%83%E1%85%B3%E1%84%86%E1%85%A1%E1%84%8F%E1%85%A6%E1%86%BA.jpg.small?q=60&t=crop&s=60x60&f=webp",
+//         profileUrl: "/m/cw_design",
+//     },
+// ];
+//
+// // 콘테스트 우승 데이터
+// const contestRankings = [
+//     {
+//         rank: 1,
+//         username: "미쁨",
+//         avatarUrl:
+//             "https://cdn-dantats.stunning.kr/prod/users/2d26a1b8-804b-4ffd-a112-9a2157abbca4/avatar/member_110055_1_211204022454.png.small?q=60&t=crop&s=60x60&f=webp",
+//         profileUrl: "/m/mibbem",
+//     },
+//     {
+//         rank: 2,
+//         username: "CORKSTUDIO",
+//         avatarUrl:
+//             "https://cdn-dantats.stunning.kr/prod/users/fa970db0-abdd-4b41-a512-de0e18e3d27c/avatar/ZswD8qqqrARGSgFX.11.jpg.small?q=60&t=crop&s=60x60&f=webp",
+//         profileUrl: "/m/chldbrhks",
+//     },
+//     {
+//         rank: 3,
+//         username: "B_M_K",
+//         avatarUrl:
+//             "https://cdn-dantats.stunning.kr/prod/users/50d38a26-704f-4597-9ce8-dd1a3aac28e0/avatar/p2VbzVLjPuYGWjhW.dfdfhdfg.JPG.small?q=60&t=crop&s=60x60&f=webp",
+//         profileUrl: "/m/bmk",
+//     },
+//     {
+//         rank: 4,
+//         username: "su_m",
+//         avatarUrl:
+//             "https://cdn-dantats.stunning.kr/prod/users/5201808f-3350-49c1-8da5-01235749fe61/avatar/iMF764CYZAHTVDJE.20240121_183001.jpg.small?q=60&t=crop&s=60x60&f=webp",
+//         profileUrl: "/m/sum",
+//     },
+//     {
+//         rank: 5,
+//         username: "M_j_d",
+//         avatarUrl:
+//             "https://cdn-dantats.stunning.kr/prod/users/2c088efa-2498-4b4d-8fc1-e6a7ea445fe5/avatar/member_84394_1_201130225428.jpg.small?q=60&t=crop&s=60x60&f=webp",
+//         profileUrl: "/m/mjd",
+//     },
+// ];
+//
+// // 상품 판매 데이터
+// const salesRankings = [
+//     {
+//         rank: 1,
+//         username: "TOT DESIGN",
+//         avatarUrl:
+//             "https://cdn-dantats.stunning.kr/prod/users/b3a2e74d-5c60-40e4-b927-47fe6181b32c/avatar/9yJS4JUeSWJJfqof.TOT%20DESIGN.png.small?q=60&t=crop&s=60x60&f=webp",
+//         profileUrl: "/m/yeendh",
+//     },
+//     {
+//         rank: 2,
+//         username: "flatlee Design",
+//         avatarUrl:
+//             "https://cdn-dantats.stunning.kr/prod/users/d7fdcd38-73be-43ce-b074-29c0d5cb7287/avatar/myJqLNnZ7JnNMAsg.%ED%94%84%EB%A1%9C%ED%95%84.png.small?q=60&t=crop&s=60x60&f=webp",
+//         profileUrl: "/m/algml7958",
+//     },
+//     {
+//         rank: 3,
+//         username: "waylog",
+//         avatarUrl:
+//             "https://cdn-dantats.stunning.kr/prod/users/32c093e6-3c5a-4bd1-801e-50c44f69b36b/avatar/PSQvNng2iFNbBDta.%E1%84%8B%E1%85%B0%E1%84%8B%E1%85%B5%E1%84%85%E1%85%A9%E1%84%80%E1%85%B3%E1%84%87%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%8C%E1%85%B5.jpg.small?q=60&t=crop&s=60x60&f=webp",
+//         profileUrl: "/m/waylog",
+//     },
+//     {
+//         rank: 4,
+//         username: "루나작명소",
+//         avatarUrl:
+//             "https://cdn-dantats.stunning.kr/prod/users/c993b21e-b558-4499-a5fd-4a55428da0e2/avatar/member_204238_1_220506043005.jpg.small?q=60&t=crop&s=60x60&f=webp",
+//         profileUrl: "/m/luna",
+//     },
+//     {
+//         rank: 5,
+//         username: "happyrecipe",
+//         avatarUrl:
+//             "https://cdn-dantats.stunning.kr/prod/users/4e475da7-e017-426e-82d2-ef8f8f3f11a9/avatar/hoc2MRNFP7YcZxAe.%E1%84%92%E1%85%A2%E1%84%91%E1%85%B5%E1%84%85%E1%85%A6%E1%84%89%E1%85%B5%E1%84%91%E1%85%B5%20%E1%84%85%E1%85%A9%E1%84%80%E1%85%A9_new-05.jpg.small?q=60&t=crop&s=60x60&f=webp",
+//         profileUrl: "/m/happyrecipe",
+//     },
+// ];
 
 const renderRankings = (rankings, containerClass) => {
     const listContainer = document.querySelector(containerClass);
+    let i = 0;
 
     rankings.forEach((user) => {
         let svgColor = null;
-        if (user.rank === 1) {
+        // if (user.rank === 0) {
+        if (i === 0) {
             svgColor = "rgb(255, 225, 133);";
-        } else if (user.rank === 2 || user.rank === 3) {
+        } else if (i === 1 || i === 2) {
             svgColor = "rgb(219, 222, 226);";
         }
 
@@ -140,27 +142,35 @@ const renderRankings = (rankings, containerClass) => {
             <article class="user-rank-article rank-user">
                 <div class="avatar-wrap">
                     ${svgElement}
-                    <a class="user-img avatar" href="${user.profileUrl}">
+<!--                    <a class="user-img avatar" href="${user.profileUrl}">
                         <img src="${user.avatarUrl}" />
+                    </a> -->
+                    <a class="user-img avatar" href="">
+                        <img src="" />
                     </a>
                 </div>
-                <p class="user-rank rank-number">${user.rank}</p>
+<!--                <p class="user-rank rank-number">${user.rank}</p>-->
+                <p class="user-rank rank-number">${i++}</p>
                 <div class="nick-wrap">
                     <div class="user-nick-default user-nick-wrapper">
-                        <p title="${user.username}">
+<!--                        <p title="${user.username}">
                             <a class="nick" href="${user.profileUrl}">${user.username}</a>
+                        </p> -->
+                        <p title="${user.member_nickname}">
+                            <a class="nick" href="/mypage/mypage?id=${user.id}">${user.member_nickname}</a>
                         </p>
                     </div>
                 </div>
             </article>
         `;
         listContainer.appendChild(listItem);
+        i++;
     });
 };
 
-renderRankings(praiseRankings, ".praise-rank-list");
-renderRankings(contestRankings, ".contest-rank-list");
-renderRankings(salesRankings, ".sales-rank-list");
+renderRankings(vtRankMembers, ".praise-rank-list");
+renderRankings(supportRankMembers, ".contest-rank-list");
+renderRankings(donationRankMembers, ".sales-rank-list");
 
 const tooltipTrigger = document.querySelector("#tooltip-trigger");
 const tooltipContent = document.querySelector(".tooltip-content");

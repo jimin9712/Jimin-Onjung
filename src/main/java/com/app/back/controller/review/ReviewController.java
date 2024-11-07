@@ -70,6 +70,7 @@ public class ReviewController {
         pagination.progressReview();
         model.addAttribute("reviews", reviewService.getList(pagination));
         log.info("{}", reviewService.getList(pagination));
+        log.info("{}", reviewService.getList(pagination).size());
 
         return "review/review-list";
     }

@@ -23,7 +23,6 @@ public class RankController {
     private final RankService rankService;
 
     @GetMapping("/rank")
-
     public String goToList(Pagination pagination, Model model, @RequestParam(value = "month", required = false) String month, @RequestParam(value = "filterType", required = false) String filterType) {
         if(month == null) {
             log.info("month 미 입력 : 첫 로딩");
@@ -46,8 +45,10 @@ public class RankController {
         pagination.setOrder(filterType);
         if (pagination.getOrder() == null || pagination.getOrder().equals("별점순")) {
             pagination.setOrder("별점순"); // 기본 정렬 기준
+            log.info("별점순");
         } else if (pagination.getOrder().equals("리뷰순")) {
             pagination.setOrder("리뷰순");
+            log.info("리뷰순");
         } else {
             log.info("오류 : filterType 미 입력");
         }
@@ -55,6 +56,8 @@ public class RankController {
         pagination.progressReview();
         model.addAttribute("volunteerGroups", rankService.getTop100VolunteerGroup(pagination));
         log.info("봉사활동 단체 회원 랭킹 목록 : {}", model.getAttribute("volunteerGroups"));
+        log.info("봉사활동 단체 회원 명수 : {}", rankService.getTop100VolunteerGroup(pagination).size());
+        log.info("페이지 : {}", pagination.getPage().toString());
 
         return "rank/rank";
     }

@@ -1,7 +1,7 @@
 create table tbl_vt(
     id bigint unsigned primary key ,
     recruitment_count smallint not null ,
-    now
+    now_recruitment_count smallint default 0,
     vt_s_date date not null,
     vt_e_date date not null,
     constraint fk_vt_post foreign key(id)
@@ -11,6 +11,7 @@ create table tbl_vt(
 select *from tbl_post order by post_view_count desc;
 
 select *from tbl_member;
+select * from tbl_vt;
 
 select v.id, p.id, m.id, p.post_title
 from tbl_vt v
@@ -35,7 +36,7 @@ from tbl_vt v
 order by p.id desc;
 #
 alter table tbl_vt add now_recruitment_count smallint after recruitment_count;
-alter table tbl_vt modify recruitment_count smallint default 0;
+alter table tbl_vt modify now_recruitment_count smallint default 0;
 #
 SELECT v.id, v.recruitment_count, p.post_title, m.member_nickname, p.post_status,
        at.attachment_file_name, at.attachment_file_path, at.attachment_file_size, at.attachment_file_type,

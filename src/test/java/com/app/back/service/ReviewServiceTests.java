@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.io.IOException;
+
 @SpringBootTest
 @Slf4j
 public class ReviewServiceTests {
@@ -14,15 +16,15 @@ public class ReviewServiceTests {
     private ReviewService reviewService;
 
     @Test
-    public void testWrite() {
+    public void testWrite() throws IOException {
         ReviewDTO reviewDTO = new ReviewDTO();
         reviewDTO.setPostTitle("dsfsdf3");
         reviewDTO.setPostContent("s3dsfsd");
-        reviewDTO.setMemberId(1L);
+        reviewDTO.setMemberId(13L);
         reviewDTO.setPostType("REVIEW");
-        reviewDTO.setVtGroupName("group");
+        reviewDTO.setVtGroupName("봉사단체7");
         reviewDTO.setReviewStarRate(5.00);
-//        reviewService.write(reviewDTO);
+        reviewService.write(reviewDTO, null, null, null, null, null);
     }
 
     @Test
