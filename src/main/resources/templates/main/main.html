@@ -20,7 +20,6 @@
     </div>
 
     <div id="root">
-        <h1 th:text="${alarm}"></h1>
             <div id="app" class="bfedap app">
                 <div class="wrap">
                     <div class="eucbbu content">
@@ -439,6 +438,9 @@
         </div>
         <div th:replace="~{main/footer :: footer}"></div>
     </body>
+    <script th:if="${member != null}">
+        let memberId = [[${member.id}]];
+    </script>
         <script src="/js/main/main.js"></script>
         <script src="/js/rank/rank.js"></script>
         <script src="/js/main/login-header.js"></script>

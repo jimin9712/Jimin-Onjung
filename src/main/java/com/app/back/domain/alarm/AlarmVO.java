@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 public class AlarmVO {
     private Long id;
     private String alarmContent;
-    private String memberId;
+    private Long memberId;
     private String createdDate;
 
     public AlarmDTO toDTO() {

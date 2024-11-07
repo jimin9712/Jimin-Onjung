@@ -4,7 +4,7 @@
 
     <insert id="insertVtApplicationAlarm" parameterType="map">
         INSERT INTO tbl_vt_alarm (member_id, vt_application_id, vt_id, alarm_content, created_date)
-        SELECT #{memberId}, a.id, a.vt_id, #{content}, current_timestamp
+        SELECT a.member_id, a.id, a.vt_id, #{content}, current_timestamp
         FROM tbl_vt_application a
         WHERE a.id = #{vtApplicationId}
     </insert>
@@ -26,14 +26,59 @@
     </insert>
 
     <select id="selectAlarmsByMemberId" resultType="alarmDTO">
-        select id, alarm_content, created_date, 'vt' as alarmtype from tbl_vt_alarm where member_id = #{memberId}
+        select id, alarm_content, member_id, created_date, 'vt' as alarmtype
+        from tbl_vt_alarm
+        where member_id = #{memberId}
+
         union all
-        select id, alarm_content, created_date, 'donation' as alarmtype from tbl_donation_alarm where member_id = #{memberId}
+
+        select id, alarm_content, member_id, created_date, 'donation' as alarmtype
+        from tbl_donation_alarm
+        where member_id = #{memberId}
+
         union all
-        select id, alarm_content, created_date, 'support' as alarmtype from tbl_support_alarm where member_id = #{memberId}
+
+        select id, alarm_content, member_id, created_date, 'support' as alarmtype
+        from tbl_support_alarm
+        where member_id = #{memberId}
+
         union all
-        select id, alarm_content, created_date, 'reply' as alarmtype from tbl_reply_alarm where member_id = #{memberId}
+
+        select id, alarm_content, member_id, created_date, 'reply' as alarmtype
+        from tbl_reply_alarm
+        where member_id = #{memberId}
+
         order by created_date desc
+        limit 10
     </select>
+
+    <select id="selectAlarmsByMemberId7" resultType="alarmDTO">
+        select id, alarm_content, member_id, created_date, 'vt' as alarmtype
+        from tbl_vt_alarm
+        where member_id = #{memberId}
+
+        union all
+
+        select id, alarm_content, member_id, created_date, 'donation' as alarmtype
+        from tbl_donation_alarm
+        where member_id = #{memberId}
+
+        union all
+
+        select id, alarm_content, member_id, created_date, 'support' as alarmtype
+        from tbl_support_alarm
+        where member_id = #{memberId}
+
+        union all
+
+        select id, alarm_content, member_id, created_date, 'reply' as alarmtype
+        from tbl_reply_alarm
+        where member_id = #{memberId}
+
+        order by created_date desc
+        limit 7
+    </select>
+
+
 
 </mapper>

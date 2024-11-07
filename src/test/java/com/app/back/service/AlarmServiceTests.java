@@ -24,12 +24,12 @@ public class AlarmServiceTests {
 
     @Test
     public void testDonationGoalReached() {
-        alarmService.createDonationAlarm(23L, 200L, "기부 목표가 달성되었습니다!");
+        alarmService.createDonationAlarm(23L, 22L, "기부 목표가 달성되었습니다!");
     }
 
     @Test
     public void testSupportGoalReached() {
-        alarmService.createSupportAlarm(23L, 300L, "후원 목표가 달성되었습니다.");
+        alarmService.createSupportAlarm(23L, 300L, "후원 목표가 달성되었습니다!");
     }
 
     @Test

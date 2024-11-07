@@ -1,5 +1,6 @@
 package com.app.back.interceptor;
 
+import com.app.back.domain.member.MemberDTO;
 import com.app.back.service.alarm.AlarmService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -17,15 +18,27 @@ public class AlarmInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-//        Long memberId = (Long) request.getSession().getAttribute("loginMember");
+        MemberDTO loginMember = (MemberDTO) request.getSession().getAttribute("loginMember");
 
-        request.setAttribute("alarm", "이제 여기에 뭐가 들어가야 하지");
+        if (loginMember != null) {
+            Long memberId = loginMember.getId();
+            var latestAlarms = alarmService.getAlarmsByMemberId7(memberId);
+            request.setAttribute("latestAlarms", latestAlarms);
+
+            var allAlarms = alarmService.getAlarmsByMemberId(memberId);
+            request.setAttribute("allAlarms", allAlarms);
+
+        } else {
+            log.info("로그인되지 않은 사용자입니다. 알람을 가져오지 않습니다.");
+        }
+
         return true;
     }
 
-    @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        log.info("AlarmInterceptor 종료");
-    }
+
+//    @Override
+//    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+//        log.info("AlarmInterceptor 종료");
+//    }
 
 }

@@ -15,6 +15,8 @@ create table tbl_vt_alarm(
 
 select * from tbl_vt_alarm;
 
+
+
 use test2;
 
 ALTER TABLE tbl_vt_alarm
@@ -22,3 +24,6 @@ ALTER TABLE tbl_vt_alarm
     ADD CONSTRAINT fk_vt_alarm_vt_application
         FOREIGN KEY (vt_application_id) REFERENCES tbl_vt_application(id);
 
+
+delete from tbl_vt_alarm
+where id = 4

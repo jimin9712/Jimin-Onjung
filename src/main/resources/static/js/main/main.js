@@ -217,3 +217,4 @@ function initializeMarquee() {
     clone.classList.add("clone"); // clone 클래스 추가
     document.querySelector(".rfm-marquee").appendChild(clone); // rfm-marquee에 복제본 추가
 }
+
