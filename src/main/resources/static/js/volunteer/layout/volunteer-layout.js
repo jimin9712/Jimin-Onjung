@@ -541,13 +541,14 @@ document.addEventListener("DOMContentLoaded", () => {
         let pagingText = ``;
 
         // 페이지 번호 버튼 생성
-        for (let i = pagination.startPage; i <= pagination.endPage; i++) {
+        for (let i = pagination.startPage; i <= Math.min(pagination.endPage, pagination.realEnd); i++) {
             pagingText += `<a class="page-btn ${pagination.page === i ? 'active' : ''}" data-page="${i}" href="">${i}</a>`;
             console.log(`현재 페이지 번호: ${i}`);
         }
 
+
         // 다음 페이지 버튼 추가: endPage가 realEnd보다 작거나, 더 로드할 데이터가 있을 경우
-        const shouldShowNext = pagination.endPage < pagination.realEnd || (pagination.endRow < pagination.total);
+        const shouldShowNext = pagination.page < pagination.realEnd;
 
         // 다음 페이지 버튼 추가: endPage가 realEnd보다 작거나, 더 로드할 데이터가 있을 경우
         if (shouldShowNext) {
@@ -592,6 +593,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         pageContainer.innerHTML = pagingText;
         addPageButtonEventListeners();
+        console.log("현재 페이지:", pagination.page);
+        console.log("실제 마지막 페이지:", pagination.realEnd);
+        console.log("shouldShowNext:", shouldShowNext);
+
     };
 
     showPaging();
