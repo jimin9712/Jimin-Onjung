@@ -28,7 +28,7 @@ public class VolunteerDAO {
 
 //    게시글 전체 개수 조회
 public int findCount(){
-    return volunteerMapper.selectCount();
+    return volunteerMapper.selectTotal();
 }
 
     //    게시글 조회

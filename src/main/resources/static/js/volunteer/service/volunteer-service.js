@@ -33,9 +33,6 @@
 // }
 
 
-
-
-
 // document.addEventListener("DOMContentLoaded", () => {
 //     const vtPaging = document.querySelector("#paging");
 //     console.log(vtPaging); // 여기서 null이 아닌지 확인
@@ -43,8 +40,14 @@
 
 // 봉사 지원 모집 게시글 가져오기
 const fetchVolunteers = async (order = "recent", page = 1) => {
+    console.log("주어진 order:", order); // order 값 확인
+    console.log("주어진 page:", page);   // page 값 확인
+
+    const url = `/volunteer/volunteer-info?order=${order}&page=${page}`;
+    console.log("요청 URL:", url);
+
     try {
-        const response = await fetch(`/volunteer/volunteer-info?order=${order}&page=${page}`);
+        const response = await fetch(url);
         console.log("서버 응답 상태 코드:", response.status);
 
         if (!response.ok) throw new Error("서버로부터 데이터를 가져오는데 실패했습니다.");
@@ -74,12 +77,3 @@ document.addEventListener("DOMContentLoaded", () => {
 function setOrder(order) {
     if (order) fetchVolunteers(order); // 정렬 기준을 설정했을 때만 호출
 }
-
-
-
-
-
-
-
-
-
