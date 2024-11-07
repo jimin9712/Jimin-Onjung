@@ -28,7 +28,6 @@ public class MemberMapperTests {
         memberDTO.setMemberJung(10000);
         memberDTO.setMemberPoint(10000);
         memberDTO.setMemberPassword("123123");
-
         memberDTO.setMemberLoginType("NORMAL");
 
 
