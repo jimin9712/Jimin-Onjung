@@ -6,9 +6,12 @@
     </settings>
 
     <typeAliases>
+        <typeAlias type="com.app.back.domain.alarm.AlarmVO" alias="alarmVO"/>
+        <typeAlias type="com.app.back.domain.alarm.AlarmDTO" alias="alarmDTO"/>
         <typeAlias type="com.app.back.domain.member.MemberVO" alias="memberVO"/>
         <typeAlias type="com.app.back.domain.member.MemberDTO" alias="memberDTO"/>
         <typeAlias type="com.app.back.domain.post.PostVO" alias="postVO"/>
+        <typeAlias type="com.app.back.domain.post.PostDTO" alias="postDTO"/>
         <typeAlias type="com.app.back.domain.review.ReviewVO" alias="reviewVO"/>
         <typeAlias type="com.app.back.domain.review.ReviewDTO" alias="reviewDTO"/>
         <typeAlias type="com.app.back.domain.volunteer.VolunteerVO" alias="volunteerVO"/>
@@ -37,6 +40,8 @@
         <typeAlias type="com.app.back.domain.payment.PaymentDTO" alias="paymentDTO"/>
         <typeAlias type="com.app.back.domain.support.SupportVO" alias="supportVO"/>
         <typeAlias type="com.app.back.domain.support.SupportDTO" alias="supportDTO"/>
+        <typeAlias type="com.app.back.domain.reply.ReplyVO" alias="replyVO"/>
+        <typeAlias type="com.app.back.domain.reply.ReplyDTO" alias="replyDTO"/>
 
 
 

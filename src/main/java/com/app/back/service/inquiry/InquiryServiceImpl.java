@@ -2,9 +2,7 @@ package com.app.back.service.inquiry;
 
 import com.app.back.domain.attachment.AttachmentVO;
 import com.app.back.domain.inquiry.InquiryDTO;
-import com.app.back.domain.inquiry.InquiryVO;
 import com.app.back.domain.post.Pagination;
-import com.app.back.domain.post.PostVO;
 import com.app.back.domain.post.Search;
 import com.app.back.repository.attachment.AttachmentDAO;
 import com.app.back.repository.inquiry.InquiryDAO;

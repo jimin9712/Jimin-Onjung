@@ -1,31 +1,3 @@
-const searchInput = document.querySelector(".Filter_searchInput");
-const inquiryFilters = document.querySelectorAll(".sort-filter-option.inquiry-list");
-
-// 전역 변수로 현재 검색어와 필터를 저장
-let inquiryKeyword = '';
-let inquiryFilterType = '최신순';
-
-// 검색어 입력 시 엔터키로 검색
-searchInput.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
-        event.preventDefault();  // 폼 제출 방지
-        inquiryKeyword = searchInput.value.trim();  // 검색어를 전역 변수에 저장
-        fetchFilteredInquiries(1, inquiryKeyword, inquiryFilterType);  // 검색어로 데이터 불러오기
-    }
-});
-
-// 필터 버튼 클릭 시 필터에 맞는 데이터 불러오기
-inquiryFilters.forEach((option) => {
-    option.addEventListener("click", () => {
-        // classList : 동적으로 클래스를 추가하고 제거하여 필터가 선택되었음을 시각적 표시. 다른 필터는 비활성화 상태로 보이게하기위함
-        inquiryFilters.forEach((opt) => opt.classList.remove("selected")); // 모든 필터 초기화
-        option.classList.add("selected"); // 선택된 필터만 활성화
-
-        inquiryFilterType = option.textContent.trim();
-        fetchFilteredInquiries(1, inquiryKeyword, inquiryFilterType); // 필터 조건으로 데이터 불러오기
-    });
-});
-
 // 필터링된 문의 데이터를 가져오는 함수
 const fetchFilteredInquiries = async (page = 1, keyword = inquiryKeyword, filterType = inquiryFilterType) => {
     try {
@@ -33,7 +5,8 @@ const fetchFilteredInquiries = async (page = 1, keyword = inquiryKeyword, filter
         const data = await response.json();
 
         renderInquiries(data.inquiries);
-        renderPagination(data.pagination, keyword, filterType);
+        renderPagination(data.pagination, inquiryKeyword, filterType);
+        resetSelectAllInquiriesCheckbox();
     } catch (error) {
         // 오류 처리
     }
@@ -46,6 +19,7 @@ const fetchInquiries = async (page = 1) => {
         const data = await response.json();
         renderInquiries(data.inquiries);
         renderPagination(data.pagination);
+        resetSelectAllInquiriesCheckbox();
     } catch (error) {
         // 오류 처리
         console.error("데이터 가져오는 중 오류 발생:", error);
@@ -131,19 +105,31 @@ const handleAnswerSubmit = async (event) => {
 
 // ======================================================================================= 여기서부터 공지사항
 // 공지사항 데이터를 가져오는 함수
-const fetchNotices = async (page = 1, keyword = '') => {
+const fetchNotices = async (page = 1) => {
     try {
-        const response = await fetch(`/admin/notice-list?page=${page}&query=${keyword}`);
+        const response = await fetch(`/admin/notice-list?page=${page}`);
         // JSON 데이터를 HTML로 렌더링
         const data = await response.json();
         renderNotice(data.notis);
-        renderNoticePagination(data.pagination, keyword); // 페이지네이션 렌더링
+        renderNoticePagination(data.pagination); // 페이지네이션 렌더링
     } catch (error) {
         console.error("공지사항 데이터를 불러오는 중 오류 발생:", error);
     }
 };
 // 공지사항 목록 초기 로드
 fetchNotices(); // 초기 공지사항 데이터 로드
+
+//  공지사항 검색
+const fetchFilteredNotices = async (page, keyword) => {
+    try {
+        const response = await fetch(`/admin/notice-list?page=${page}&query=${keyword}`);
+        const data = await response.json();
+        renderNotice(data.notis); // 공지사항 목록 렌더링
+        renderNoticePagination(data.pagination, keyword); // 페이지네이션 렌더링
+    } catch (error) {
+        console.error("공지사항 데이터를 불러오는 중 오류 발생:", error);
+    }
+};
 
 // 공지사항 조회
 document.querySelector(".notification-list-wrap").addEventListener("click", async (event) => {
@@ -178,3 +164,111 @@ document.querySelector(".notification-list-wrap").addEventListener("click", asyn
         }
     }
 });
+
+// 공지사항 상세 정보 가져오기
+const fetchNoticeDetail = async (noticeId) => {
+    try {
+        const response = await fetch(`/admin/notice-detail?id=${noticeId}`);
+        const data = await response.json();
+        if (data.success) {
+            renderNoticeDetail(data.inquiry); // 상세 정보 렌더링
+        } else {
+            console.error(data.message);
+        }
+    } catch (error) {
+        console.error("공지사항 상세 정보 불러오기 오류:", error);
+    }
+};
+
+// 사이드바에 최신 공지사항 10개 가져오기
+const fetchRecentNotices = async () => {
+    try {
+        const response = await fetch('/admin/notice-list?limit=10'); // 최신 10개 공지사항 가져오기
+        const data = await response.json();
+        renderSidebarNotices(data.notis); // 가져온 공지사항을 사이드바에 렌더링
+    } catch (error) {
+        console.error("사이드바 공지사항 불러오기 오류:", error);
+    }
+};
+
+// 페이지 로드 시 최신 공지사항 10개를 사이드바에 표시
+fetchRecentNotices();
+//===============================게시글 목록======================================================================
+// 필터링된 게시글 데이터를 가져오는 함수
+const fetchFilteredPosts = async (page = 1, keyword = postKeyword, filterType = postFilterType) => {
+    try {
+        const response = await fetch(`/admin/post-list?page=${page}&query=${keyword}&filterType=${filterType}`);
+        const data = await response.json();
+        renderPosts(data.posts);
+        postPagination(data.pagination, keyword, filterType);
+        resetSelectAllPostsCheckbox();  // 전체 선택 체크박스 해제
+    } catch (error) {
+        // 오류 처리
+    }
+};
+
+// 게시글 목록을 가져오는 함수
+const fetchPosts = async (page = 1) => {
+    try {
+        const response = await fetch(`/admin/post-list?page=${page}`);
+        const data = await response.json();
+        renderPosts(data.posts); // 게시글 목록 렌더링
+        postPagination(data.pagination); // 페이지네이션 렌더링
+        resetSelectAllPostsCheckbox();  // 전체 선택 체크박스 해제
+    } catch (error) {
+        console.error("게시글 데이터를 불러오는 중 오류 발생:", error);
+    }
+};
+// 페이지 로드 시 첫 페이지 데이터 로드
+fetchPosts();
+
+const deleteSelectedPosts = async (selectedIds) => {
+    try {
+        const response = await fetch("/admin/delete-posts", {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(selectedIds), // 배열을 JSON 형식으로 전송
+        });
+
+        if (response.ok) {
+            alert("선택한 게시글이 삭제되었습니다.");
+            fetchPosts(); // 게시글 목록 새로고침
+        } else {
+            console.error("삭제 실패");
+        }
+    } catch (error) {
+        console.error("삭제 요청 중 오류 발생:", error);
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

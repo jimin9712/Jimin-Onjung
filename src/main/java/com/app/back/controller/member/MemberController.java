@@ -77,7 +77,7 @@ public class MemberController {
         session.invalidate();
 
         log.info("로그아웃 성공: 세션이 무효화되었습니다.");
-        return new RedirectView("/member/login"); // 로그인 페이지로 리다이렉트
+        return new RedirectView("/member/login");
     }
 
     @GetMapping("/main/main")
@@ -86,6 +86,9 @@ public class MemberController {
         boolean isLoggedIn = (loginMember != null);
 
         model.addAttribute("isLogin", isLoggedIn);
+        if (isLoggedIn) {
+            model.addAttribute("member", loginMember);
+        }
         log.info("Navigating to main page. isLogin: {}", isLoggedIn);
         return "main/main";
     }

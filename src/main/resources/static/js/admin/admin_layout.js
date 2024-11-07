@@ -1,8 +1,62 @@
+// ========================== 문의 내역 렌더링 함수 ==========================
 const inquiryContainer = document.querySelector(".inquiryTable_container");
 
 // 문의 내역 렌더링
 const renderInquiries = (inquiries) => {
     let content = '';
+    content+=` <div
+                    class="inquiryTable_row inquiryTable_header"
+            >
+                <div
+                        class="inquiryTable_cell inquiry-headerCell selectAllCell"
+                >
+                    <input
+                            type="checkbox"
+                            id="selectAllInquiries"
+                    />
+                </div>
+                <div
+                        class="inquiryTable_cell inquiry-headerCell"
+                >
+                    문의 분류
+                </div>
+                <div
+                        class="inquiryTable_cell inquiry-headerCell"
+                >
+                    작성일
+                </div>
+                <div
+                        class="inquiryTable_cell inquiry-headerCell"
+                >
+                    문의 제목
+                </div>
+    
+                <div
+                        class="inquiryTable_cell inquiry-headerCell"
+                >
+                    문의 내용
+                </div>
+                <div
+                        class="inquiryTable_cell inquiry-headerCell"
+                >
+                    작성자
+                </div>
+                <div
+                        class="inquiryTable_cell inquiry-headerCell"
+                >
+                    이메일
+                </div>
+                <div
+                        class="inquiryTable_cell inquiry-headerCell"
+                >
+                    상태
+                </div>
+                <div
+                        class="inquiryTable_cell inquiry-headerCell"
+                >
+                    Action
+                </div>
+            </div>`
     inquiries.forEach((inquiry) => {
         content +=
             `<div class="inquiryTable_row data_row" data-id="${inquiry.id}">
@@ -20,12 +74,12 @@ const renderInquiries = (inquiries) => {
 
     if (inquiryContainer) {
         inquiryContainer.innerHTML = content;
+        selectAllInquiries();
     } else {
         console.error("inquiryContainer 요소를 찾을 수 없습니다.");
     }
 };
-
-//========================================================================================
+// ========================== 답변 렌더링 함수 ==========================
 // 답변 렌더링 함수
 const answerContainer = document.getElementById("inquiry_answer");
 
@@ -138,7 +192,7 @@ const renderAnswer = (inquiryAnswer) => {
         console.error("answerContainer 요소를 찾을 수 없습니다.");
     }
 };
-// ==================================================================================================문의 목록 페이지네이션
+// ========================== 페이지네이션 렌더링 함수 (문의 목록) =========================================
 const paginationContainer = document.querySelector(".pagination-list.inquiry-page");
 
 // 페이지네이션을 렌더링하는 함수
@@ -180,11 +234,12 @@ const renderPagination = (pagination, keyword = '', filterType = '') => {
             e.preventDefault(); // 기본 링크 클릭 동작 방지
             const page = e.target.getAttribute("data-page"); // 클릭한 링크의 페이지 번호 가져오기
             fetchFilteredInquiries(page, inquiryKeyword, inquiryFilterType); // 해당 페이지의 데이터를 가져오는 함수 호출
+            resetSelectAllInquiriesCheckbox();// 페이지 변경 시 전체 선택 체크박스 해제
         });
     });
 };
 
-// =============================================================여기서부터 공지사항 목록
+// ========================== 공지사항 목록 렌더링 함수 ==========================
 const noticeContainer = document.querySelector(".notification-list-wrap");
 const pagingNotice = document.querySelector(".pagination-wrap.notification-table");
 
@@ -203,7 +258,7 @@ const renderNotice = (notis) => {
     });
     noticeContainer.innerHTML = content;
 };
-
+// =====================================공지사항 페이지네이션 ======================================================
 // 페이징을 렌더링하는 함수
 const renderNoticePagination = (pagination, keyword = '') => {
     let notiPagination = ''; // HTML 내용을 저장할 변수 초기화
@@ -220,35 +275,34 @@ const renderNoticePagination = (pagination, keyword = '') => {
         </div>`;
     }
 
-    // 페이지 번호 생성
-    for (let i = pagination.startPage; i <= pagination.endPage; i++) {
-        if (pagination.page === i) {
-            // 현재 페이지인 경우
-            notiPagination += `
-                <div class="pagination-num-container">
-                    <a class="pagination-num active">${i}</a>
-                </div>`;
-        } else {
-            // 다른 페이지인 경우
-            notiPagination += `
-                <div class="pagination-num-container">
-                    <a data-page="${i}" class="pagination-num">${i}</a>
-                </div>`;
-        }
-    }
-
-    // 다음 페이지 버튼 추가
-    const notiNextShow = pagination.endPage < pagination.realEnd || (pagination.endRow < pagination.total);
-    if (notiNextShow) {
+// 페이지 번호 생성
+for (let i = pagination.startPage; i <= pagination.endPage; i++) {
+    if (pagination.page === i) {
+        // 현재 페이지인 경우
         notiPagination += `
-        <div class="pagination-num-container" id="page-next-button">
-            <a data-page="${pagination.endPage + 1}" class="pagination-num" id="next" style="padding: 12px">
-                <svg viewBox="0 0 12 12" class="iFpvod">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M3.68888 11.0004C3.85188 11.0004 4.01388 10.9424 4.13688 10.8264L8.81688 6.43738C9.06088 6.20738 9.06088 5.83638 8.81588 5.60738L4.07988 1.17438C3.83288 0.942377 3.43288 0.942377 3.18588 1.17138C2.93888 1.40038 2.93788 1.77238 3.18388 2.00338L7.47788 6.02238L3.24088 9.99738C2.99588 10.2294 2.99688 10.6014 3.24488 10.8294C3.36788 10.9434 3.52888 11.0004 3.68888 11.0004Z"></path>
-                </svg>
-            </a>
-        </div>`;
+            <div class="pagination-num-container">
+                <a class="pagination-num active">${i}</a>
+            </div>`;
+    } else {
+        // 다른 페이지인 경우
+        notiPagination += `
+            <div class="pagination-num-container">
+                <a data-page="${i}" class="pagination-num">${i}</a>
+            </div>`;
     }
+}
+
+// 다음 페이지 버튼 추가 (마지막 페이지가 아닌 경우에만)
+if (pagination.next && pagination.page < pagination.realEnd) {
+    notiPagination += `
+    <div class="pagination-num-container" id="page-next-button">
+        <a data-page="${pagination.endPage + 1}" class="pagination-num" style="padding: 12px">
+            <svg viewBox="0 0 12 12" class="iFpvod">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M3.68888 11.0004C3.85188 11.0004 4.01388 10.9424 4.13688 10.8264L8.81688 6.43738C9.06088 6.20738 9.06088 5.83638 8.81588 5.60738L4.07988 1.17438C3.83288 0.942377 3.43288 0.942377 3.18588 1.17138C2.93888 1.40038 2.93788 1.77238 3.18388 2.00338L7.47788 6.02238L3.24088 9.99738C2.99588 10.2294 2.99688 10.6014 3.24488 10.8294C3.36788 10.9434 3.52888 11.0004 3.68888 11.0004Z"></path>
+            </svg>
+        </a>
+    </div>`;
+}
 
     // 생성된 HTML을 페이지네이션 컨테이너에 삽입
     pagingNotice.innerHTML = notiPagination;
@@ -260,25 +314,14 @@ const renderNoticePagination = (pagination, keyword = '') => {
             fetchNotices(page, keyword); // 해당 페이지의 데이터를 가져오는 함수 호출
         });
     });
-
-    const fetchFilteredNotices = async (page, keyword) => {
-        try {
-            const response = await fetch(`/admin/notice-list?page=${page}&query=${keyword}`);
-            const data = await response.json();
-            renderNotice(data.notis); // 공지사항 목록 렌더링
-            renderNoticePagination(data.pagination, keyword); // 페이지네이션 렌더링
-        } catch (error) {
-            console.error("공지사항 데이터를 불러오는 중 오류 발생:", error);
-        }
-    };
 };
-
+// ========================== 공지사항 조회 =======================================
 const notificationContainer = document.querySelector(".notification-container"); // 공지사항 세부 내용 컨테이너
-const sidebarContainer = document.querySelector(".sidebar-container"); // 사이드바 컨테이너
+const sidebarContainer = document.querySelector(".sidebar-container .sidebar-content"); // 사이드바 컨테이너
 
 // 공지사항 세부 내용을 렌더링하는 함수
 const renderNoticeDetail = (notice) => {
-    if (notificationContainer && sidebarContainer) {
+    if (notificationContainer) {
         // 공지사항 세부 내용 렌더링
         notificationContainer.innerHTML = `
             <header class="notification-header">
@@ -297,19 +340,150 @@ const renderNoticeDetail = (notice) => {
                 </div>
             </section>
         `;
-
-        // 사이드바 목록 렌더링
-        let sidebarContentHTML = '';
-        notice.otherNotices.forEach(item => {
-            sidebarContentHTML += `
-                <li>
-                    <a href="#" data-id="${item.id}" class="sidebar-item">${item.title}</a>
-                </li>`;
-        });
-        sidebarContentHTML += `<li><a class="more-button">+ 더보기</a></li>`;
-
-        sidebarContainer.querySelector(".sidebar-content").innerHTML = sidebarContentHTML;
     } else {
         console.error("notificationContainer 요소를 찾을 수 없습니다.");
     }
 };
+
+const renderSidebarNotices = (notices) => {
+    let content = '';
+
+    notices.forEach((notice) => {
+        content += `
+            <li>
+                <a href="#" data-id="${notice.id}" class="sidebar-item">${notice.postTitle}</a>
+            </li>`;
+    });
+    content += `<li><a href="#" class="more-button">+ 더보기</a></li>`;
+
+    sidebarContainer.innerHTML = content;
+
+    // "더보기" 버튼 클릭 이벤트
+    sidebarContainer.querySelector(".more-button").addEventListener("click", (e) => {
+        e.preventDefault();
+
+        // 더보기 클릭 시 전체 목록을 불러오기
+        fetchNotices(1, ''); // 페이지 1로 초기화하여 전체 공지사항 목록 불러오기
+
+        // `조회`에서 `목록`으로 `selected` 클래스 전환
+        sections.forEach((section) => section.classList.remove("selected")); // 모든 섹션의 `selected` 클래스 제거
+        const listSection = Array.from(sections).find(
+            (section) => section.dataset.value === "공지사항 목록"
+        );
+        if (listSection) {
+            listSection.classList.add("selected"); // `목록` 섹션에 `selected` 클래스 추가
+        } else {
+            console.error("목록 섹션을 찾을 수 없습니다.");
+        }
+    });
+
+    // 각 공지사항 제목 클릭 시 상세 조회 이벤트 추가
+    sidebarContainer.querySelectorAll(".sidebar-item").forEach((item) => {
+        item.addEventListener("click", (e) => {
+            e.preventDefault();
+            const noticeId = item.getAttribute("data-id");
+            fetchNoticeDetail(noticeId); // 공지사항 상세 조회
+        });
+    });
+};
+// ==================================게시글 목록==========================================================================
+const postContainer = document.querySelector(".ServiceTable_row_wrapper");
+
+// 게시글 목록 렌더링 함수
+const renderPosts = (posts) => {
+    let content = '';
+    posts.forEach((post) => {
+        content += `
+            <div class="ServiceTable_row">
+                <div class="ServiceTable_cell"><input type="checkbox" class="postCheckbox"/></div>
+                <div class="ServiceTable_cell post_ID">${post.id}</div>
+                <div class="ServiceTable_cell user_name">${post.memberNickName}</div>
+                <div class="ServiceTable_cell Join_date">${post.createdDate}</div>
+                <div class="ServiceTable_cell post_title">${post.postTitle}</div>
+                <div class="ServiceTable_cell hit_ctn">${post.postViewCount}</div>
+                <div class="ServiceTable_cell reply_ctn">${post.replyCount}</div>
+                <div class="ServiceTable_cell post_kind">${post.postType}</div>
+                <div class="ServiceTable_cell"><button class="inquiry-button">조회</button></div>
+            </div>`;
+    });
+    postContainer.innerHTML = content;
+};
+
+const postPagingContainer = document.querySelector(".pagination-list.post-page");
+
+// 페이지네이션 렌더링 함수
+const postPagination = (pagination,keyword,filterType='') => {
+    let paginationHTML = '';
+
+    // 첫 페이지로 이동 버튼
+    paginationHTML += `<li class="pagination-first">
+        <a href="#" data-page="1" class="pagination-first-link">«</a></li>`;
+
+    // 이전 페이지 버튼
+    if (pagination.prev) {
+        paginationHTML += `<li class="pagination-prev">
+            <a href="#" data-page="${pagination.startPage - 1}" class="pagination-prev-link">‹</a></li>`;
+    }
+
+    // 페이지 번호 버튼
+    for (let i = pagination.startPage; i <= pagination.endPage; i++) {
+        paginationHTML += `<li class="pagination-page ${pagination.page === i ? 'active' : ''}">
+            <a href="#" data-page="${i}" class="pagination-page-link">${i}</a></li>`;
+    }
+
+    // 다음 페이지 버튼
+    if (pagination.next) {
+        paginationHTML += `<li class="pagination-next">
+            <a href="#" data-page="${pagination.endPage + 1}" class="pagination-next-link">›</a></li>`;
+    }
+
+    // 마지막 페이지로 이동 버튼
+    paginationHTML += `<li class="pagination-last">
+        <a href="#" data-page="${pagination.realEnd}" class="pagination-last-link">»</a></li>`;
+
+    // 생성된 HTML을 페이지네이션 컨테이너에 삽입
+    postPagingContainer.innerHTML = paginationHTML;
+
+// 페이지네이션 링크 클릭 이벤트 리스너 추가
+    document.querySelectorAll(".pagination-page-link, .pagination-prev-link, .pagination-next-link, .pagination-first-link, .pagination-last-link").forEach(link => {
+        link.addEventListener("click", (e) => {
+            e.preventDefault();
+            const page = e.target.getAttribute("data-page");
+            fetchPosts(page); // 해당 페이지의 게시글 데이터를 가져오기
+            resetSelectAllPostsCheckbox();// 페이지 변경 시 전체 선택 체크박스 해제
+        });
+    });
+
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

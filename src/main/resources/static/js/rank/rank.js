@@ -211,8 +211,10 @@ document.addEventListener("click", (event) => {
     }
 });
 
-const container = document.querySelector(".expert-list-container");
-let cardHTML = `
+const showVolunteerGroups = (volunteerGroups) => {
+    const container = document.querySelector(".expert-list-container");
+    volunteerGroups.forEach((volunteerGroup) => {
+        let cardHTML = `
     <div class="expert-card-container expert-card">
         <a href="/m/chldbrhks">
             <div class="expert-card-left">
@@ -240,8 +242,7 @@ let cardHTML = `
                                 </div>
                                 
                                 <p title="CORKSTUDIO">
-                                    <span class="nick">CORKSTUDIO</span>
-                                    
+                                    <span class="nick">${volunteerGroup.memberNickName}</span>
                                 </p>
                             
                                     <div></div>
@@ -253,7 +254,7 @@ let cardHTML = `
                         </div>
                         <div class="expert-card-info-user-profile-introduction">
                             <p title="이유있는 디자인으로 성공적인 브랜딩을 실현합니다.">
-                                이유있는 디자인으로 성공적인 브랜딩을 실현합니다.
+                                ${volunteerGroup.memberIntroduction}
                             </p>
                         </div>
                         <div class="expert-card-info-user-profile-description">
@@ -270,7 +271,7 @@ let cardHTML = `
                             <div class="expert-card-info-meta-item-value">
                                 <p class="info-meta-default" title="00">
                                     <span class="number-text-number-container">
-                                        <span class="number number-text-number">500</span>
+                                        <span class="number number-text-number">${volunteerGroup.countVt}</span>
                                         
                                     </span>
                                     <span class="number-text-suffix">회+</span>
@@ -285,7 +286,7 @@ let cardHTML = `
                             <div class="expert-card-info-meta-item-value">
                                 <p class="info-meta-default" title="00">
                                     <span class="number-text-number-container">
-                                        <span class="number number-text-number">100</span>
+                                        <span class="number number-text-number">${volunteerGroup.countReview}</span>
                                        
                                     </span>
                                     <span class="number-text-suffix">개+</span>
@@ -294,7 +295,7 @@ let cardHTML = `
                                     <svg class="icon-default icon" viewBox="0 0 12 12">
                                         <path fill-rule="evenodd" clip-rule="evenodd" d="M10.9643 4.74338C10.8835 4.50089 10.6777 4.32673 10.4285 4.2884L7.79006 3.88509L6.60669 1.35936C6.38168 0.880213 5.61832 0.880213 5.39331 1.35936L4.20994 3.88509L1.57152 4.2884C1.32235 4.32673 1.11651 4.50089 1.03567 4.74338C0.954003 4.99004 1.01484 5.25836 1.19484 5.44252L3.11741 7.41577L2.66156 10.2073C2.61989 10.469 2.72656 10.7256 2.9424 10.8773C3.0574 10.9589 3.19074 10.9998 3.32408 10.9998C3.43492 10.9998 3.54492 10.9723 3.64576 10.9165L6 9.61401L8.35424 10.9165C8.57675 11.0398 8.84759 11.0264 9.0576 10.8773C9.27344 10.7256 9.38011 10.469 9.33761 10.2065L8.88259 7.41577L10.8052 5.44252C10.9852 5.25836 11.046 4.99004 10.9643 4.74338Z"></path>
                                     </svg>
-                                    4.8
+                                    ${volunteerGroup.memberStarRate}
                                 </div>
                             </div>
                         </div>
@@ -360,7 +361,9 @@ let cardHTML = `
     </div>
 `;
 
-container.innerHTML = cardHTML.repeat(10);
+        container.innerHTML += cardHTML;
+    })
+};
 
 const inputContainer = document.querySelector(
     ".react-datepicker-input-container"
@@ -370,6 +373,7 @@ const dateDisplay = document.querySelector(
     ".react-datepicker-input-container input"
 );
 const monthElements = document.querySelectorAll(".react-datepicker-month-text");
+const monthInput = document.querySelector("input#month");
 const currentYear = 2024;
 
 // inputContainer를 클릭했을 때 tabLoop의 가시성을 토글
@@ -391,6 +395,8 @@ monthElements.forEach((monthElement, index) => {
         const selectedMonth = index + 1;
         dateDisplay.value = `${currentYear}년 ${selectedMonth}월`;
 
+        monthInput.value = dateDisplay.value.trim().substring(6,1);
+
         // 모든 월에서 active 클래스 제거 후, 클릭한 월에 추가
         monthElements.forEach((el) =>
             el.classList.remove("react-datepicker-month-text-keyboard-selected")
@@ -400,3 +406,125 @@ monthElements.forEach((monthElement, index) => {
         tabLoop.classList.remove("active");
     });
 });
+
+// ================================================================================================================================================================
+
+// 필터 버튼 클릭 시 필터에 맞는 데이터 불러오기
+// inquiryFilters.forEach((option) => {
+//     option.addEventListener("click", () => {
+//         // classList : 동적으로 클래스를 추가하고 제거하여 필터가 선택되었음을 시각적 표시. 다른 필터는 비활성화 상태로 보이게하기위함
+//         inquiryFilters.forEach((opt) => opt.classList.remove("selected")); // 모든 필터 초기화
+//         option.classList.add("selected"); // 선택된 필터만 활성화
+//
+//         inquiryFilterType = option.textContent.trim();
+//         fetchFilteredInquiries(1, inquiryKeyword, inquiryFilterType); // 필터 조건으로 데이터 불러오기
+//     });
+// });
+
+// 필터링된 문의 데이터를 가져오는 함수
+const fetchFilteredInquiries = async (page = 1, filterType = inquiryFilterType) => {
+    try {
+        const response = await fetch(`/admin/inquiry-page?page=${page}&query=${keyword}&filterType=${filterType}`);
+        const data = await response.json();
+
+        renderInquiries(data.inquiries);
+        renderPagination(data.pagination, keyword, filterType);
+    } catch (error) {
+        // 오류 처리
+    }
+};
+
+// // 전체 문의 데이터를 가져오는 함수
+// const fetchInquiries = async (page = 1) => {
+//     try {
+//         const response = await fetch(`/admin/inquiry-page?page=${page}`);
+//         const data = await response.json();
+//         renderInquiries(data.inquiries);
+//         renderPagination(data.pagination);
+//     } catch (error) {
+//         // 오류 처리
+//         console.error("데이터 가져오는 중 오류 발생:", error);
+//     }
+// };
+
+// 초기 데이터 로드
+// fetchInquiries(); // 첫 페이지의 데이터를 로드합니다.
+
+// 필터링된 문의 데이터를 가져오는 함수
+// const fetchFilteredVolunteerGroups = async (page = 1, filterType = inquiryFilterType) => {
+//     console.log("js에 있는 요청하는 페이지:", page); // 페이지 번호가 전달되는지 확인
+//     try {
+//         const response = await fetch(`/rank?page=${page}&filterType=${filterType}`);
+//         const data = await response.json();
+//         console.log("js 서버 응답 데이터:", data);
+//
+//         showVolunteerGroups(data.volunteerGroups);
+//         showPaging();
+//     } catch (error) {
+//         console.error("js 기부 목록 불러오기 오류:", error);
+//     }
+// };
+
+// 페이지 네비게이션을 표시하는 함수
+const showPaging = () => {
+    const pagingDiv = document.querySelector("nav.page-container.paginator");
+    let text = ``; // HTML 내용을 저장할 변수 초기화
+
+    // 이전 페이지 버튼 추가
+    if (pagination.page > 1) {
+        text += `<a 
+                    href="/rank?page=${pagination.page - 1}" 
+                    class="page-btn prev"
+                    ><svg
+                        viewBox="0 0 12 12"
+                        class="icon-default"
+                    >
+                        <path
+                            fill-rule="evenodd"
+                            clip-rule="evenodd"
+                            d="M3.68888 11.0004C3.85188 11.0004 4.01388 10.9424 4.13688 10.8264L8.81688 6.43738C9.06088 6.20738 9.06088 5.83638 8.81588 5.60738L4.07988 1.17438C3.83288 0.942377 3.43288 0.942377 3.18588 1.17138C2.93888 1.40038 2.93788 1.77238 3.18388 2.00338L7.47788 6.02238L3.24088 9.99738C2.99588 10.2294 2.99688 10.6014 3.24488 10.8294C3.36788 10.9434 3.52888 11.0004 3.68888 11.0004Z"
+                        ></path>
+                        <defs></defs>
+                    </svg>
+                </a>`;
+    }
+
+    // 페이지 번호 생성
+    for (let i = pagination.startPage; i <= pagination.endPage; i++) {
+        if (pagination.page === i) {
+            // 현재 페이지인 경우
+            text += `<a class="page-btn active">${i}</a>`;
+        } else {
+            // 다른 페이지인 경우
+            text += `<a href="/rank?page=${i}" class="page-btn">${i}</a>`;
+        }
+    }
+
+    // 다음 페이지 버튼 추가: endPage가 realEnd보다 작거나, 더 로드할 데이터가 있을 경우
+    const shouldShowNext = pagination.endPage < pagination.realEnd || (pagination.endRow < pagination.total);
+
+    // 다음 페이지 버튼 추가: endPage가 realEnd보다 작거나, 더 로드할 데이터가 있을 경우
+    if (shouldShowNext) {
+        text += `<a 
+                    href="/rank?page=${pagination.page + 1}" 
+                    class="page-btn next"
+                    ><svg
+                        viewBox="0 0 12 12"
+                        class="icon-default"
+                    >
+                        <path
+                            fill-rule="evenodd"
+                            clip-rule="evenodd"
+                            d="M3.68888 11.0004C3.85188 11.0004 4.01388 10.9424 4.13688 10.8264L8.81688 6.43738C9.06088 6.20738 9.06088 5.83638 8.81588 5.60738L4.07988 1.17438C3.83288 0.942377 3.43288 0.942377 3.18588 1.17138C2.93888 1.40038 2.93788 1.77238 3.18388 2.00338L7.47788 6.02238L3.24088 9.99738C2.99588 10.2294 2.99688 10.6014 3.24488 10.8294C3.36788 10.9434 3.52888 11.0004 3.68888 11.0004Z"
+                        ></path>
+                        <defs></defs>
+                    </svg>
+                </a>`;
+    }
+
+    // 페이지 네비게이션을 HTML 요소에 삽입
+    pagingDiv.innerHTML = text;
+}
+
+showVolunteerGroups(volunteerGroups);
+showPaging();

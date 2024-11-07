@@ -3,10 +3,12 @@ import com.app.back.domain.inquiry.InquiryDTO;
 import com.app.back.domain.inquiry_answer.InquiryAnswerDTO;
 import com.app.back.domain.notice.NoticeDTO;
 import com.app.back.domain.post.Pagination;
+import com.app.back.domain.post.PostDTO;
 import com.app.back.domain.post.Search;
 import com.app.back.service.inquiry.InquiryService;
 import com.app.back.service.inquiryAnswer.InquiryAnswerService;
 import com.app.back.service.notice.NoticeService;
+import com.app.back.service.post.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -34,11 +36,12 @@ public class InquiryController {
     private final InquiryService inquiryService;
     private final InquiryAnswerService inquiryAnswerService;
     private final NoticeService noticeService;
+    private final PostService postService;
 
-@GetMapping("/admin")   // 관리자 페이지
-public List<InquiryDTO> admin(Pagination pagination, Search search) {
-    return inquiryService.getList(pagination, search);
-}
+    @GetMapping("/admin")   // 관리자 페이지
+    public List<InquiryDTO> admin(Pagination pagination, Search search) {
+        return inquiryService.getList(pagination, search);
+    }
 
 @GetMapping("/admin/inquiry-page")  // 문의 목록
 @ResponseBody
@@ -107,7 +110,6 @@ public Map<String, Object> submitAnswer(@RequestBody InquiryAnswerDTO inquiryAns
 @GetMapping("/admin/notice-list")
 @ResponseBody
 public Map<String, Object> getNoticeList(Pagination pagination, Search search, @RequestParam(required = false) String query) {
-    log.info("공지사항 목록 요청이 수신되었습니다."); // 요청 확인 로그
     // 검색어 설정
     search.setKeyword(query);
     pagination.setOrder("created_date desc"); // 기본 정렬 기준 설정
@@ -147,6 +149,43 @@ public Map<String, Object> getNoticeRead(@RequestParam Long id) {
     }
     return result;
 }
+//  게시글 목록
+@GetMapping("/admin/post-list")
+@ResponseBody
+public Map<String, Object> getPostList(Pagination pagination, Search search,@RequestParam(required = false) String query, @RequestParam(required = false) String filterType) {
+    search.setKeyword(query);
+    pagination.setOrder(filterType); // 기본 정렬 기준
+
+    // 총 게시글 수 설정
+    if (search.getKeyword() != null) {
+        pagination.setTotal(postService.getTotalWithSearch(search)); // 검색어가 있는 경우
+    } else {
+        pagination.setTotal(postService.getPostTotal());
+    }
+    pagination.progress(); // 페이지네이션 계산
+
+    // 게시글 목록 조회
+    List<PostDTO> posts;
+
+    if (filterType == null) {
+        posts = postService.getList(pagination, search);
+    } else if (filterType.equals("작성일 순")) {
+        posts = postService.getList(pagination, search);
+    } else {
+        posts = postService.getFilterList(pagination, search);
+    }
+    // 결과를 Map에 담아 반환
+    Map<String, Object> result = new HashMap<>();
+    result.put("posts", posts);
+    result.put("pagination", pagination);
+    return result;
+}
+
+@DeleteMapping("/admin/delete-posts")
+public ResponseEntity<Void> deletePosts(@RequestBody List<Long> postIds) {
+    postIds.forEach(postService::delete); // 각 postId를 이용해 게시글 삭제
+    return ResponseEntity.noContent().build(); // 삭제 후 204 No Content 반환
+}
 
 @GetMapping("/my-inquirys/{memberId}")
 @ResponseBody
@@ -164,5 +203,6 @@ public List<InquiryDTO> getMyInquirys(
         return inquiryService.findByMemberId(memberId);
     }
 }
+
 
 }

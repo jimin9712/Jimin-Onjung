@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 public class SupportVO {
     private Long id;
     private int goal_point;
+    private int current_point;
     private String support_s_date;
     private String support_e_date;
 
