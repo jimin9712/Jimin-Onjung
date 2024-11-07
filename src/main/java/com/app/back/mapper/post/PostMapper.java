@@ -50,6 +50,8 @@ public interface PostMapper {
     //    검색 결과 개수 조회
     public int selectTotalWithSearch(@Param("search") Search search);
 
+    public int selectTotalByPostType(String postType);
+
 
 
 }

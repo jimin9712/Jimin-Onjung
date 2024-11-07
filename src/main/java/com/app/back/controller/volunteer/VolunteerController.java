@@ -55,22 +55,25 @@ public class VolunteerController {
 //    }
 
 //        봉사 모집 게시글 목록
+    // VolunteerController.java
+
     @GetMapping("volunteer-list")
-    public String getList(Pagination pagination, Model model,@RequestParam(value = "order", defaultValue = "recent") String order) {
-        pagination.setTotal(postService.getTotal("VOLUNTEER"));
-        pagination.setTotal(volunteerMapper.selectTotal());
+    public String getList(Pagination pagination, Model model,
+                          @RequestParam(value = "order", defaultValue = "recent") String order) {
+        pagination.setOrder(order);
+        pagination.setPostType("VOLUNTEER");
+        pagination.setTotal(postService.getTotal(pagination.getPostType()));
         pagination.progress();
 
-        // Pagination 객체의 시작 및 끝 행을 확인하는 로그 추가
-        log.info("페이지네이션 설정 - page: {}, startRow: {}, rowCount: {}", pagination.getPage(), pagination.getStartRow(), pagination.getRowCount());
+        log.info("페이지네이션 설정 - page: {}, startRow: {}, rowCount: {}",
+                pagination.getPage(), pagination.getStartRow(), pagination.getRowCount());
 
         List<VolunteerDTO> volunteers = volunteerService.getList(pagination);
         log.info("현재 받은 데이터 갯수: {}", volunteers.size());
 
-        model.addAttribute("volunteers", volunteerService.getList(pagination));
+        model.addAttribute("volunteers", volunteers);
         return "volunteer/volunteer-list";
     }
-
 
     @GetMapping("volunteer-info")
     @ResponseBody
@@ -83,11 +86,10 @@ public class VolunteerController {
         Pagination pagination = new Pagination();
         pagination.setOrder(order);
         pagination.setPostType("VOLUNTEER");
-        pagination.setPage(page); // 페이지 번호 설정
-        pagination.setTotal(postService.getTotal("VOLUNTEER"));
+        pagination.setPage(page);
+        pagination.setTotal(postService.getTotal(pagination.getPostType()));
         pagination.progress();
-        log.info("Pagination 객체: {}", pagination); // Pagination 설정 확인
-        log.info("요청된 order 객체 : {}", order);
+        log.info("Pagination 객체: {}", pagination);
 
         List<VolunteerDTO> volunteerList = volunteerService.getList(pagination);
         for (VolunteerDTO volunteer : volunteerList) {
@@ -95,13 +97,13 @@ public class VolunteerController {
             volunteer.setPostType(volunteer.getPostType());
         }
 
-        // 응답으로 보낼 데이터 구성
         Map<String, Object> response = new HashMap<>();
         response.put("lists", volunteerList);
         response.put("pagination", pagination);
 
         return ResponseEntity.ok(response);
     }
+
 
 
 //    @GetMapping("donation-inquiry")
