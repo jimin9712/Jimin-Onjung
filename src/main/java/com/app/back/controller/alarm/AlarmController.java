@@ -16,10 +16,16 @@ public class AlarmController {
         this.alarmService = alarmService;
     }
 
-    @GetMapping("/member/{memberId}")
+    @GetMapping("/mypage-member/{memberId}")
     public ResponseEntity<List<AlarmDTO>> getAlarmsByMemberId(@PathVariable Long memberId) {
         List<AlarmDTO> alarms = alarmService.getAlarmsByMemberId(memberId);
         return ResponseEntity.ok(alarms);
+    }
+
+    @GetMapping("/member/{memberId}")
+    public ResponseEntity<List<AlarmDTO>> getAlarmsByMemberId7(@PathVariable Long memberId) {
+        List<AlarmDTO> latestAlarms  = alarmService.getAlarmsByMemberId7(memberId);
+        return ResponseEntity.ok(latestAlarms);
     }
 
 }
