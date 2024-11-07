@@ -193,48 +193,48 @@
         }
     };
     // ========================== 페이지네이션 렌더링 함수 (문의 목록) =========================================
-    const paginationContainer = document.querySelector(".pagination-list.inquiry-page");
+const paginationContainer = document.querySelector(".pagination-list.inquiry-page");
 
     // 페이지네이션을 렌더링하는 함수
-    const renderPagination = (pagination) => {
+    const renderPagination = (pagination, keyword = '', filterType = '') => {
         let paginationHTML = ''; // 페이지네이션 HTML 내용을 저장할 변수
 
         // 첫 페이지 링크 추가
         paginationHTML += `<li class="pagination-first">
-            <a href="#" data-page="1" class="pagination-first-link">«</a></li>`;
+    <a href="#" data-page="1" class="pagination-first-link">«</a></li>`;
 
         // 이전 페이지 링크가 있을 경우 추가
         if (pagination.prev) {
             paginationHTML += `<li class="pagination-prev">
-                <a href="#" data-page="${pagination.startPage - 1}" class="pagination-prev-link">‹</a></li>`;
+        <a href="#" data-page="${pagination.startPage - 1}" class="pagination-prev-link">‹</a></li>`;
         }
 
         // 현재 페이지 범위 내의 페이지 번호를 추가
         for (let i = pagination.startPage; i <= pagination.endPage; i++) {
             paginationHTML += `<li class="pagination-page ${pagination.page === i ? 'active' : ''}">
-                <a href="#" data-page="${i}" class="pagination-page-link">${i}</a></li>`;
+        <a href="#" data-page="${i}" class="pagination-page-link">${i}</a></li>`;
         }
 
         // 다음 페이지 링크가 있을 경우 추가
         if (pagination.next) {
             paginationHTML += `<li class="pagination-next">
-                <a href="#" data-page="${pagination.endPage + 1}" class="pagination-next-link">›</a></li>`;
+        <a href="#" data-page="${pagination.endPage + 1}" class="pagination-next-link">›</a></li>`;
         }
 
         // 마지막 페이지 링크 추가
         paginationHTML += `<li class="pagination-last">
-            <a href="#" data-page="${pagination.realEnd}" class="pagination-last-link">»</a></li>`;
+    <a href="#" data-page="${pagination.realEnd}" class="pagination-last-link">»</a></li>`;
 
         // 생성된 HTML을 페이지네이션 컨테이너에 삽입
         paginationContainer.innerHTML = paginationHTML;
 
-        // 모든 페이지 링크에 클릭 이벤트 리스너 추가
+        // 페이지네이션 클릭 이벤트 리스너 추가
         document.querySelectorAll(".pagination-page-link, .pagination-prev-link, .pagination-next-link, .pagination-first-link, .pagination-last-link").forEach(link => {
             link.addEventListener("click", (e) => {
                 e.preventDefault(); // 기본 링크 클릭 동작 방지
                 const page = e.target.getAttribute("data-page"); // 클릭한 링크의 페이지 번호 가져오기
-                fetchFilteredInquiries(page, inquiryKeyword, inquiryFilterType); // 해당 페이지의 데이터를 가져오는 함수 호출
-                resetSelectAllInquiriesCheckbox();// 페이지 변경 시 전체 선택 체크박스 해제
+                fetchFilteredInquiries(page, keyword, filterType); // 해당 페이지의 데이터를 가져오는 함수 호출
+                resetSelectAllInquiriesCheckbox(); // 페이지 변경 시 전체 선택 체크박스 해제
             });
         });
     };
@@ -388,10 +388,18 @@
     };
     // ==================================게시글 목록==========================================================================
     const postContainer = document.querySelector(".ServiceTable_row_wrapper");
-
+    if (!postContainer) {
+        console.error("게시글을 렌더링할 컨테이너 요소를 찾을 수 없습니다.");
+    }
+    console.log("렌더링할 게시글 데이터:", posts); // posts 배열 확인
     // 게시글 목록 렌더링 함수
     const renderPosts = (posts) => {
+        console.log("렌더링할 게시글 데이터:", posts); // posts 배열 확인
         let content = '';
+        if (posts.length === 0) {
+            console.warn("게시글 데이터가 비어 있습니다.");
+        }
+
         posts.forEach((post) => {
             content += `
                 <div class="ServiceTable_row">
@@ -406,8 +414,13 @@
                     <div class="ServiceTable_cell"><button class="inquiry-button">조회</button></div>
                 </div>`;
         });
-        postContainer.innerHTML = content;
-        selectAllPosts();
+        if (postContainer) {
+            postContainer.innerHTML = content;
+            console.log("게시글 목록이 렌더링되었습니다.");
+        } else {
+            console.error("postContainer 요소를 찾을 수 없습니다.");
+        }
+            selectAllPosts();
     };
 
     const postPagingContainer = document.querySelector(".pagination-list.post-page");
@@ -450,7 +463,7 @@
             link.addEventListener("click", (e) => {
                 e.preventDefault();
                 const page = e.target.getAttribute("data-page");
-                fetchPosts(page); // 해당 페이지의 게시글 데이터를 가져오기
+                fetchFilteredPosts(page,keyword, filterType); // 해당 페이지의 게시글 데이터를 가져오기
                 resetSelectAllPostsCheckbox();// 페이지 변경 시 전체 선택 체크박스 해제
             });
         });

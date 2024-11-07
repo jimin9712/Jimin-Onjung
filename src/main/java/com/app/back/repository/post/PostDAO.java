@@ -52,11 +52,15 @@ public class PostDAO {
         return postMapper.selectAll(pagination, search);
     }
     //    필터된 게시글 전체 조회
-    public List<PostDTO> findFilterAll(Pagination pagination, Search search){
-        return postMapper.selectFilterAll(pagination, search);
+    public List<PostDTO> findFilterAll(Pagination pagination, Search search, String filterType){
+        return postMapper.selectFilterAll(pagination, search,filterType);
     }
     //    게시글 조회
     public Optional<PostDTO> findById(Long id){
         return postMapper.selectById(id);
+    }
+
+    public int getTotalWithFilter(Search search, String filterType) {
+        return postMapper.selectTotalWithFilter(search, filterType);
     }
 }

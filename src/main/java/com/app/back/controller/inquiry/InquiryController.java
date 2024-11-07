@@ -5,6 +5,7 @@ import com.app.back.domain.notice.NoticeDTO;
 import com.app.back.domain.post.Pagination;
 import com.app.back.domain.post.PostDTO;
 import com.app.back.domain.post.Search;
+import com.app.back.enums.PostType;
 import com.app.back.service.inquiry.InquiryService;
 import com.app.back.service.inquiryAnswer.InquiryAnswerService;
 import com.app.back.service.notice.NoticeService;
@@ -45,35 +46,42 @@ public class InquiryController {
 
 @GetMapping("/admin/inquiry-page")  // 문의 목록
 @ResponseBody
-//  MAP : 여러 종류의 데이터를 한번에 담을 수 있는 구조이다.
 public Map<String, Object> getInquiryList(Pagination pagination, Search search, @RequestParam(required = false) String query, @RequestParam(required = false) String filterType) {
+    // 검색어 설정
     search.setKeyword(query);
-    pagination.setOrder(filterType); // 기본 정렬 기준
 
-    if (search.getKeyword() != null) {
-        pagination.setTotal(inquiryService.getTotalWithSearch(search));
+    int total;
+    if (filterType == null || filterType.equals("최신순")) {
+        // 최신순 필터인 경우 모든 데이터를 기준으로 총 개수를 가져옴
+        total = inquiryService.getTotalWithSearch(search);
     } else {
-        pagination.setTotal(inquiryService.getTotal());
+        // 필터 타입이 있는 경우 필터 조건에 맞는 데이터의 총 개수 가져옴
+        total = inquiryService.getTotalWithFilter(search, filterType);
     }
-    pagination.progress();
+
+    pagination.setTotal(total); // 필터 또는 검색어에 따른 총 개수 설정
+    pagination.progress(); // 페이지네이션 계산
 
     List<InquiryDTO> inquiries;
 
-    if (filterType == null) {
-        inquiries = inquiryService.getList(pagination, search);
-    } else if (filterType.equals("최신순")) {
+    // 필터 타입에 따라 필터링된 목록 가져오기
+    if (filterType == null || filterType.equals("최신순")) {
         inquiries = inquiryService.getList(pagination, search);
     } else {
-        inquiries = inquiryService.getFilterList(pagination, search);
+        inquiries = inquiryService.getFilterList(pagination, search, filterType);
     }
 
-//    result를 사용하면 응답 데이터 구조화, 확장성, 상태와 데이터를 함께 전닿할 수 있다.
+    // 결과를 담아 반환
     Map<String, Object> result = new HashMap<>();
     result.put("inquiries", inquiries);
     result.put("pagination", pagination);
     return result;
 }
-//  문의 조회
+
+
+
+
+    //  문의 조회
 @GetMapping("/admin/inquiry-answer")
 @ResponseBody
 public Map<String, Object> getInquiryAnswer(@RequestParam Long id) {
@@ -150,37 +158,43 @@ public Map<String, Object> getNoticeRead(@RequestParam Long id) {
     }
     return result;
 }
-//  게시글 목록
-@GetMapping("/admin/post-list")
-@ResponseBody
-public Map<String, Object> getPostList(Pagination pagination, Search search,@RequestParam(required = false) String query, @RequestParam(required = false) String filterType) {
-    search.setKeyword(query);
-    pagination.setOrder("created_date desc"); // 기본 정렬 기준
 
-    // 총 게시글 수 설정
-    if (search.getKeyword() != null) {
-        pagination.setTotal(postService.getTotalWithSearch(search)); // 검색어가 있는 경우
-    } else {
-        pagination.setTotal(postService.getPostTotal());
+
+    @GetMapping("/admin/post-list")  // 게시글 목록
+    @ResponseBody
+    public Map<String, Object> getPostList(Pagination pagination, Search search, @RequestParam(required = false) String query, @RequestParam(required = false) String filterType) {
+        // 검색어 설정
+        search.setKeyword(query);
+
+        int total;
+        if (filterType == null || filterType.equals("작성일 순")) {
+            // 작성일 순 필터인 경우 모든 데이터를 기준으로 총 개수를 가져옴
+            total = postService.getTotalWithSearch(search);
+        } else {
+            // 필터 타입이 있는 경우 필터 조건에 맞는 데이터의 총 개수 가져옴
+            total = postService.getTotalWithFilter(search, filterType);
+        }
+
+        pagination.setTotal(total); // 필터 또는 검색어에 따른 총 개수 설정
+        pagination.progress(); // 페이지네이션 계산
+
+        List<PostDTO> posts;
+
+        // 필터 타입에 따라 필터링된 목록 가져오기
+        if (filterType == null || filterType.equals("작성일 순")) {
+            posts = postService.getList(pagination, search);
+        } else {
+            posts = postService.getFilterList(pagination, search, filterType);
+        }
+
+        // 결과를 담아 반환
+        Map<String, Object> result = new HashMap<>();
+        result.put("posts", posts);
+        result.put("pagination", pagination);
+        return result;
     }
-    pagination.progress(); // 페이지네이션 계산
 
-    // 게시글 목록 조회
-    List<PostDTO> posts;
 
-    if (filterType == null) {
-        posts = postService.getList(pagination, search);
-    } else if (filterType.equals("작성일 순")) {
-        posts = postService.getList(pagination, search);
-    } else {
-        posts = postService.getFilterList(pagination, search);
-    }
-    // 결과를 Map에 담아 반환
-    Map<String, Object> result = new HashMap<>();
-    result.put("posts", posts);
-    result.put("pagination", pagination);
-    return result;
-}
 
 @DeleteMapping("/admin/delete-posts")
 public ResponseEntity<Void> deletePosts(@RequestBody List<Long> postIds) {

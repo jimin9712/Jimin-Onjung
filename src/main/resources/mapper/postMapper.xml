@@ -42,28 +42,43 @@
     limit #{pagination.startRow}, #{pagination.rowCount};
 </select>
 
-<select id="selectFilterAll" resultType="postDTO">
-    select
-    p.id,
-    p.post_title,
-    p.post_type,
-    p.created_date,
-    p.updated_date,
-    p.post_view_count,
-    m.member_nickname,
-    p.post_type,
-    (select count(*) from tbl_reply r where r.post_id = p.id) as reply_count
-    from tbl_post p
-    join tbl_member m on p.member_id = m.id
-    <include refid="search"/>
-    where p.post_type = #{pagination.order}
-    order by
-    <choose>
-        <when test="pagination.order == 'recent'.toString()">p.created_date</when>
-        <otherwise>p.post_type</otherwise>
-    </choose>
-    limit #{pagination.startRow}, #{pagination.rowCount};
-</select>
+    <select id="selectFilterAll" resultType="postDTO">
+        select
+        p.id,
+        p.post_title,
+        p.post_type,
+        p.created_date,
+        p.updated_date,
+        p.post_view_count,
+        m.member_nickname,
+        p.post_type,
+        (select count(*) from tbl_reply r where r.post_id = p.id) as reply_count
+        from tbl_post p
+        join tbl_member m on p.member_id = m.id
+        <include refid="search"/>
+        <where>
+            <if test="pagination.order != null">
+                and p.post_type = #{pagination.order}
+            </if>
+        </where>
+        order by
+        <choose>
+            <when test="pagination.order == '작성일 순'.toString()">
+                p.created_date desc
+            </when>
+            <when test="pagination.order == '조회수 순'.toString()">
+                p.post_view_count desc
+            </when>
+            <when test="pagination.order == '댓글수 순'.toString()">
+                reply_count desc
+            </when>
+            <otherwise>
+                p.created_date desc
+            </otherwise>
+        </choose>
+        limit #{pagination.startRow}, #{pagination.rowCount};
+    </select>
+
 
 <select id="selectById" resultType="postVO">
     select *
@@ -80,6 +95,17 @@
     from tbl_post p
     <where>
         <include refid="search"/>
+    </where>
+</select>
+
+<select id="selectTotalWithFilter" resultType="int">
+    select count(*)
+    from tbl_post p
+    <where>
+        <include refid="search"/>
+        <if test="filterType != null">
+            AND p.post_type = #{filterType}
+        </if>
     </where>
 </select>
 

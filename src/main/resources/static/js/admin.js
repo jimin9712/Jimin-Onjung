@@ -116,33 +116,32 @@ inquiryOptions.forEach((inquiryOption) => {
 
 // 게시글 정렬 함수
 function sortPosts(order) {
+    console.log(`정렬 함수 호출됨. 현재 정렬 기준: ${order}`);
     const posts = Array.from(postListContainer.querySelectorAll(".ServiceTable_row")); // 게시글 데이터 가져오기
+    console.log(`총 게시글 개수: ${posts.length}`);
 
     posts.forEach((post) => (post.style.display = "flex")); // 모든 게시글 표시
 
     // 정렬 기준에 따른 정렬 수행
     if (order === "작성일 순") {
+        console.log("작성일 순 정렬 수행 중...");
         // 작성일 순 정렬
         posts.sort((a, b) => {
             const dateA = new Date(a.querySelector(".ServiceTable_cell.Join_date").textContent);
             const dateB = new Date(b.querySelector(".ServiceTable_cell.Join_date").textContent);
             return sortOrder[order] === "asc" ? dateA - dateB : dateB - dateA;
         });
-    } else if (order === "최신순") {
-        // 최신순 정렬 (조회수 기준)
-        posts.sort((a, b) => {
-            const countA = a.querySelector(".ServiceTable_cell.hit_ctn").textContent.trim();
-            const countB = b.querySelector(".ServiceTable_cell.hit_ctn").textContent.trim();
-            return sortOrder[order] === "asc" ? countA - countB : countB - countA;
-        });
+
     } else if (order === "조회수 순") {
+        console.log("조회수 순 정렬 수행 중...");
         // 조회수 순 정렬
         posts.sort((a, b) => {
-            const countA = a.querySelector(".ServiceTable_cell.hit_ctn").textContent.trim();
-            const countB = b.querySelector(".ServiceTable_cell.hit_ctn").textContent.trim();
+            const countA = (a.querySelector(".ServiceTable_cell.hit_ctn").textContent.trim(), 10);
+            const countB = (b.querySelector(".ServiceTable_cell.hit_ctn").textContent.trim(),10);
             return sortOrder[order] === "asc" ? countA - countB : countB - countA;
         });
     } else if (order === "댓글수 순") {
+        console.log("댓글수 순 정렬 수행 중...");
         // 댓글수 순 정렬
         posts.sort((a, b) => {
             const replyA = a.querySelector(".ServiceTable_cell.reply_ctn").textContent.trim();
@@ -150,24 +149,28 @@ function sortPosts(order) {
             return sortOrder[order] === "asc" ? replyA - replyB : replyB - replyA;
         });
     } else if (order === "기부 게시글") {
+        console.log("기부 게시글 필터링 중...");
         // '기부 게시글' 항목만 표시
         posts.forEach((post) => {
             const type = post.querySelector(".ServiceTable_cell.post_kind").textContent;
             if (!type.includes("기부 게시글")) post.style.display = "none";
         });
     } else if (order === "봉사활동 모집글") {
+        console.log("봉사활동 모집글 필터링 중...");
         // '봉사활동 모집글' 항목만 표시
         posts.forEach((post) => {
             const type = post.querySelector(".ServiceTable_cell.post_kind").textContent;
             if (!type.includes("봉사활동 모집글")) post.style.display = "none";
         });
     } else if (order === "후원 게시글") {
+        console.log("후원 게시글 필터링 중...");
         // '후원 게시글' 항목만 표시
         posts.forEach((post) => {
             const type = post.querySelector(".ServiceTable_cell.post_kind").textContent;
             if (!type.includes("후원 게시글")) post.style.display = "none";
         });
     } else if (order === "이용 후기") {
+        console.log("이용 후기 필터링 중...");
         // '이용 후기' 항목만 표시
         posts.forEach((post) => {
             const type = post.querySelector(".ServiceTable_cell.post_kind").textContent;
@@ -176,25 +179,22 @@ function sortPosts(order) {
     }
 
     // 정렬된 게시글로 DOM 갱신
+    console.log("정렬된 게시글 목록 DOM 갱신 중...");
     postListContainer.innerHTML = "";
     posts.forEach((post) => postListContainer.appendChild(post));
-}
+}   console.log("게시글 목록 갱신 완료.");
 
-    // 기본 정렬 순서를 설정
-    sortOrder["가입일 순"] = "desc";
-    sortOrder["최신순"] = "desc";
-    sortOrder["이름 순"] = "desc";
-    sortOrder["작성일 순"] = "desc";
 
-    sortPosts("가입일 순"); // 기본 정렬 수행
 
     // 게시글 필터 옵션 클릭 시 정렬 수행
     options.forEach((option) => {
         option.addEventListener("click", function () {
             const order = option.textContent.trim(); // 클릭된 옵션의 텍스트 가져오기
+            console.log(`필터 옵션 클릭됨. 선택된 정렬 기준: ${order}`);
 
             // 정렬 순서를 토글 (asc <-> desc)
             sortOrder[order] = sortOrder[order] === "asc" ? "desc" : "asc";
+            console.log(`현재 정렬 순서: ${sortOrder[order]}`);
 
             // 모든 필터 옵션 선택 해제 후 클릭된 옵션만 선택
             options.forEach((opt) => opt.classList.remove("selected"));
@@ -343,13 +343,15 @@ postFilters.forEach((option) => {
     option.addEventListener("click", () => {
         // classList : 동적으로 클래스를 추가하고 제거하여 필터가 선택되었음을 시각적 표시. 다른 필터는 비활성화 상태로 보이게하기위함
         postFilters.forEach((opt) => opt.classList.remove("selected")); // 모든 필터 초기화
-        console.log("선택된 필터:", postFilterType); // 필터 유형 확인
         option.classList.add("selected"); // 선택된 필터만 활성화
 
         postFilterType = option.textContent.trim();
+        console.log("선택된 필터:", postFilterType); // 필터 유형 확인
         fetchFilteredPosts(1, postKeyword, postFilterType); // 필터 조건으로 데이터 불러오기
     });
 });
+// 초기 데이터 로드
+fetchFilteredPosts();
 
 // 게시글 목록의 전체 선택 및 개별 선택 체크박스 관리
 const selectAllPosts = () => {
