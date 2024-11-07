@@ -15,6 +15,7 @@ public class SupportDTO {
 
     private Long id;
     private int goal_point;
+    private int current_point;
     private String support_s_date;
     private String support_e_date;
 
@@ -53,7 +54,7 @@ public class SupportDTO {
     }
 
     public SupportVO toVO() {
-        return new SupportVO(id,goal_point,support_e_date,support_s_date);
+        return new SupportVO(id,goal_point,current_point,support_e_date,support_s_date);
     }
 
 
