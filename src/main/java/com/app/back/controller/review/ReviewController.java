@@ -40,7 +40,7 @@ public class ReviewController {
 
     @PostMapping("review-write")
     public RedirectView reviewWrite(ReviewDTO reviewDTO, @RequestParam("uuid") List<String> uuids, @RequestParam("realName") List<String> realNames, @RequestParam("path") List<String> paths, @RequestParam("size") List<String>sizes, @RequestParam("file") List<MultipartFile> files) throws IOException {
-        reviewDTO.setMemberId(22L);
+        reviewDTO.setMemberId(23L);
         reviewDTO.setPostType("REVIEW");
         reviewDTO.setPostTitle(reviewDTO.getVtGroupName());
 
@@ -62,13 +62,14 @@ public class ReviewController {
     }
 
     @GetMapping("review-list")
-    public String goToList(Pagination pagination, Model model) {
+    public String goToList(Pagination pagination, Model model, @RequestParam(required = false) String filterType) {
         if (pagination.getOrder() == null) {
             pagination.setOrder("created_date desc, n.id desc"); // 기본 정렬 기준
         }
         pagination.setTotal(postService.getTotal("REVIEW"));
         pagination.progressReview();
         model.addAttribute("reviews", reviewService.getList(pagination));
+        log.info("{}", reviewService.getList(pagination));
 
         return "review/review-list";
     }

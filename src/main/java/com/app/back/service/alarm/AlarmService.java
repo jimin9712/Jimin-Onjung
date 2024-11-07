@@ -1,4 +1,20 @@
 package com.app.back.service.alarm;
 
+import com.app.back.domain.alarm.AlarmDTO;
+
+import java.util.List;
+
 public interface AlarmService {
+
+
+    public void createVtApplicationAlarm(Long memberId, Long vtApplicationId, String content);
+
+    public void createDonationAlarm(Long memberId, Long donationId, String content);
+
+    public void createSupportAlarm(Long memberId, Long supportId, String content);
+
+    public void createReplyAlarm(Long memberId, Long replyId, String content);
+
+    public List<AlarmDTO> getAlarmsByMemberId(Long memberId);
+
 }
