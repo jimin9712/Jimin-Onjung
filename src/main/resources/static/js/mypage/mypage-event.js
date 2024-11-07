@@ -1483,6 +1483,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
 
+
     } catch (error) {
         console.error("초기화 중 오류:", error);
         alert("페이지를 불러오는 중 오류가 발생했습니다.");

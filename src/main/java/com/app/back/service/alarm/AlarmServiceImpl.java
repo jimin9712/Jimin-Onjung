@@ -39,4 +39,8 @@ public class AlarmServiceImpl implements AlarmService {
     public List<AlarmDTO> getAlarmsByMemberId(Long memberId) {
         return alarmDAO.findAlarmsByMemberId(memberId);
     }
+    @Override
+    public List<AlarmDTO> getAlarmsByMemberId7(Long memberId) {
+        return alarmDAO.findAlarmsByMemberId7(memberId);
+    }
 }

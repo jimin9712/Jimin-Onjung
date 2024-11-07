@@ -30,4 +30,7 @@ public class AlarmDAO {
     public List<AlarmDTO> findAlarmsByMemberId(Long memberId) {
         return alarmMapper.selectAlarmsByMemberId(memberId);
     }
+    public List<AlarmDTO> findAlarmsByMemberId7(Long memberId) {
+        return alarmMapper.selectAlarmsByMemberId7(memberId);
+    }
 }
