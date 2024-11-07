@@ -1,7 +1,6 @@
 package com.app.back.mapper;
 
 import com.app.back.domain.inquiry.InquiryDTO;
-import com.app.back.domain.notice.NoticeDTO;
 import com.app.back.domain.post.Pagination;
 import com.app.back.domain.post.Search;
 import com.app.back.mapper.inquiry.InquiryMapper;
@@ -33,7 +32,7 @@ public class InquiryMapperTests {
     }
     @Test
     public void testWriteMultiple() {
-        for (long i = 5; i <= 101; i++) {
+        for (long i =11; i <= 150; i++) {
             InquiryDTO inquiryDTO = new InquiryDTO();
             inquiryDTO.setId(i);
             inquiryDTO.setPostStatus("");

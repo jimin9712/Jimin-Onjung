@@ -22,7 +22,7 @@ public class NoticeMapperTests {
     @Test
     public void testwrite() {
         NoticeDTO noticeDTO = new NoticeDTO();
-        noticeDTO.setId(102L);
+        noticeDTO.setId(1L);
         noticeDTO.setPostTitle("제목51");
         noticeDTO.setPostContent("내용51");
         noticeDTO.setPostSummary("요약51");
@@ -33,13 +33,14 @@ public class NoticeMapperTests {
     }
     @Test
     public void testWriteMultiple() {
-        for (long i = 52; i <= 101; i++) {
+        for (long i = 11; i <= 100; i++) {
             NoticeDTO noticeDTO = new NoticeDTO();
             noticeDTO.setId(i);
             noticeDTO.setPostTitle("제목" + i);
             noticeDTO.setPostContent("내용" + i);
             noticeDTO.setPostSummary("요약" + i);
-            noticeDTO.setPostType("0");
+            noticeDTO.setPostType("SUPPORT");
+            noticeDTO.setPostViewCount(i);
             noticeDTO.setPostStatus("VISIBLE");
             noticeDTO.setMemberId(1L);
 

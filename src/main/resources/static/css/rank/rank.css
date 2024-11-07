@@ -999,6 +999,11 @@ button .expert-card-right {
     color: rgb(142, 148, 160);
     transition: 0.3s;
 }
+
+.page-container .page-btn.prev svg{
+    transform: rotate(180deg);
+}
+
 .iFpvod {
     user-select: none;
     display: inline-block;

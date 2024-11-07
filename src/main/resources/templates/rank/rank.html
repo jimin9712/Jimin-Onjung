@@ -4,7 +4,7 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>봉사 랭킹</title>
-        <link rel="stylesheet" href="../../static/css/rank/rank.css" />
+        <link rel="stylesheet" href="/css/rank/rank.css" />
         <link
             rel="icon"
             href="https://cdn-dantats.stunning.kr/static/feature/loudFavicon/loud-favicon-32-new.png"
@@ -17,7 +17,7 @@
                     <div class="top-rank-filter">
                         <section class="filter-display expert-filter">
                             <div class="filters">
-                                <label class="date-input date-range" for="input"
+                                <label class="date-input date-range" for=""
                                     ><div class="react-datepicker-wrapper">
                                         <div class="react-datepicker-tab-loop">
                                             <div
@@ -266,6 +266,7 @@
                                         <defs></defs>
                                     </svg>
                                 </label>
+                                <input type="hidden" id="month">
                             </div>
                         </section>
                         <h2>TOP 랭킹</h2>
@@ -377,31 +378,32 @@
                         class="expert-list-container expert-list"
                     ></section>
                     <nav class="page-container paginator">
-                        <a class="page-btn active">1</a><a class="page-btn">2</a
-                        ><a class="page-btn">3</a><a class="page-btn">4</a
-                        ><a class="page-btn">5</a><a class="page-btn">6</a
-                        ><a class="page-btn">7</a><a class="page-btn">8</a
-                        ><a class="page-btn">9</a><a class="page-btn">10</a
-                        ><a class="page-btn next"
-                            ><svg viewBox="0 0 12 12" class="icon-default">
-                                <path
-                                    fill-rule="evenodd"
-                                    clip-rule="evenodd"
-                                    d="M3.68888 11.0004C3.85188 11.0004 4.01388 10.9424 4.13688 10.8264L8.81688 6.43738C9.06088 6.20738 9.06088 5.83638 8.81588 5.60738L4.07988 1.17438C3.83288 0.942377 3.43288 0.942377 3.18588 1.17138C2.93888 1.40038 2.93788 1.77238 3.18388 2.00338L7.47788 6.02238L3.24088 9.99738C2.99588 10.2294 2.99688 10.6014 3.24488 10.8294C3.36788 10.9434 3.52888 11.0004 3.68888 11.0004Z"
-                                ></path>
-                                <defs></defs>
-                            </svg>
-                        </a>
+<!--                        <a class="page-btn active">1</a><a class="page-btn">2</a-->
+<!--                        ><a class="page-btn">3</a><a class="page-btn">4</a-->
+<!--                        ><a class="page-btn">5</a><a class="page-btn">6</a-->
+<!--                        ><a class="page-btn">7</a><a class="page-btn">8</a-->
+<!--                        ><a class="page-btn">9</a><a class="page-btn">10</a-->
+<!--                        ><a class="page-btn next"-->
+<!--                            ><svg viewBox="0 0 12 12" class="icon-default">-->
+<!--                                <path-->
+<!--                                    fill-rule="evenodd"-->
+<!--                                    clip-rule="evenodd"-->
+<!--                                    d="M3.68888 11.0004C3.85188 11.0004 4.01388 10.9424 4.13688 10.8264L8.81688 6.43738C9.06088 6.20738 9.06088 5.83638 8.81588 5.60738L4.07988 1.17438C3.83288 0.942377 3.43288 0.942377 3.18588 1.17138C2.93888 1.40038 2.93788 1.77238 3.18388 2.00338L7.47788 6.02238L3.24088 9.99738C2.99588 10.2294 2.99688 10.6014 3.24488 10.8294C3.36788 10.9434 3.52888 11.0004 3.68888 11.0004Z"-->
+<!--                                ></path>-->
+<!--                                <defs></defs>-->
+<!--                            </svg>-->
+<!--                        </a>-->
                     </nav>
                 </section>
             </main>
         </div>
     </body>
     <script th:inline="javascript">
+        const pagination = [[${pagination}]];
         const volunteerGroups = [[${volunteerGroups}]];
         const vtRankMembers = [[${vtRankMembers}]];
         const supportRankMembers = [[${supportRankMembers}]];
         const donationRankMembers = [[${donationRankMembers}]];
     </script>
-    <script src="../../static/js/rank/rank.js"></script>
+    <script src="/js/rank/rank.js"></script>
 </html>
