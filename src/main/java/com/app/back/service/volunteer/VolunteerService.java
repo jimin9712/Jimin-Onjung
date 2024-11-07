@@ -20,7 +20,7 @@ public interface VolunteerService {
     public int getTotal();
 
     //    개시글 조회
-    public Optional<VolunteerDTO> getPost(Long id);
+    public Optional<VolunteerDTO> getById(Long id);
 
     //    개시글 수정
     public void update(ReviewDTO reviewDTO);
