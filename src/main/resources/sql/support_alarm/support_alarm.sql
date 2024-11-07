@@ -10,9 +10,7 @@ create table tbl_support_alarm(
     references tbl_support(id)
 );
 
-select * from tbl_alarm;
 
 use test2;
 
-drop table tbl_alarm;
-
+select * from tbl_support_alarm;

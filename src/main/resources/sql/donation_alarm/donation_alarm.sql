@@ -13,4 +13,6 @@ create table tbl_donation_alarm(
 
 use test2;
 
+select * from tbl_donation_alarm;
+
 

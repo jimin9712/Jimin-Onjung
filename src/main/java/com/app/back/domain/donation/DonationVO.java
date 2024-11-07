@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 public class DonationVO {
     private Long id;
     private int goalPoint;
+    private int currentPoint;
     private String donationSDate;
     private String donationEDate;
 }

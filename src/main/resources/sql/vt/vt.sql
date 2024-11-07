@@ -1,6 +1,7 @@
 create table tbl_vt(
     id bigint unsigned primary key ,
     recruitment_count smallint not null ,
+    now
     vt_s_date date not null,
     vt_e_date date not null,
     constraint fk_vt_post foreign key(id)
@@ -33,8 +34,8 @@ from tbl_vt v
          left join tbl_profile pf on p.member_id = pf.id
 order by p.id desc;
 #
-# # alter table tbl_vt add now_recruitment_count smallint after recruitment_count;
-# alter table tbl_vt modify recruitment_count smallint default 0;
+alter table tbl_vt add now_recruitment_count smallint after recruitment_count;
+alter table tbl_vt modify recruitment_count smallint default 0;
 #
 SELECT v.id, v.recruitment_count, p.post_title, m.member_nickname, p.post_status,
        at.attachment_file_name, at.attachment_file_path, at.attachment_file_size, at.attachment_file_type,
@@ -58,10 +59,9 @@ from tbl_vt v
          left join tbl_member m on p.member_id = m.id
          left join tbl_profile pf on p.member_id = pf.id
 where v.vt_e_date >= curdate() AND v.vt_e_date
-order by v.vt_e_date asc, p.created_date desc
+order by v.vt_e_date asc, p.created_date desc;
 
-
-
+select * from tbl_vt;
 
 
 
