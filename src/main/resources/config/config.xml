@@ -38,6 +38,8 @@
         <typeAlias type="com.app.back.domain.payment.PaymentDTO" alias="paymentDTO"/>
         <typeAlias type="com.app.back.domain.support.SupportVO" alias="supportVO"/>
         <typeAlias type="com.app.back.domain.support.SupportDTO" alias="supportDTO"/>
+        <typeAlias type="com.app.back.domain.reply.ReplyVO" alias="replyVO"/>
+        <typeAlias type="com.app.back.domain.reply.ReplyDTO" alias="replyDTO"/>
 
 
 

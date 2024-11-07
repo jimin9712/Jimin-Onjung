@@ -444,7 +444,7 @@ selectAllPosts();
 
 // 삭제 버튼 클릭 시 이벤트
 document.getElementById("deleteSelectedBtn").addEventListener("click", () => {
-    const selectedCheckboxes = document.querySelectorAll(".userCheckbox:checked");
+    const selectedCheckboxes = document.querySelectorAll(".postCheckbox:checked");
     const selectedIds = Array.from(selectedCheckboxes).map(checkbox => checkbox.closest(".ServiceTable_row").querySelector(".post_ID").textContent.trim());
 
     if (selectedIds.length === 0) {

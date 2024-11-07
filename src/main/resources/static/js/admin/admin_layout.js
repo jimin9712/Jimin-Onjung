@@ -275,35 +275,34 @@ const renderNoticePagination = (pagination, keyword = '') => {
         </div>`;
     }
 
-    // 페이지 번호 생성
-    for (let i = pagination.startPage; i <= pagination.endPage; i++) {
-        if (pagination.page === i) {
-            // 현재 페이지인 경우
-            notiPagination += `
-                <div class="pagination-num-container">
-                    <a class="pagination-num active">${i}</a>
-                </div>`;
-        } else {
-            // 다른 페이지인 경우
-            notiPagination += `
-                <div class="pagination-num-container">
-                    <a data-page="${i}" class="pagination-num">${i}</a>
-                </div>`;
-        }
-    }
-
-    // 다음 페이지 버튼 추가
-    const notiNextShow = pagination.endPage < pagination.realEnd || (pagination.endRow < pagination.total);
-    if (notiNextShow) {
+// 페이지 번호 생성
+for (let i = pagination.startPage; i <= pagination.endPage; i++) {
+    if (pagination.page === i) {
+        // 현재 페이지인 경우
         notiPagination += `
-        <div class="pagination-num-container" id="page-next-button">
-            <a data-page="${pagination.endPage + 1}" class="pagination-num" id="next" style="padding: 12px">
-                <svg viewBox="0 0 12 12" class="iFpvod">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M3.68888 11.0004C3.85188 11.0004 4.01388 10.9424 4.13688 10.8264L8.81688 6.43738C9.06088 6.20738 9.06088 5.83638 8.81588 5.60738L4.07988 1.17438C3.83288 0.942377 3.43288 0.942377 3.18588 1.17138C2.93888 1.40038 2.93788 1.77238 3.18388 2.00338L7.47788 6.02238L3.24088 9.99738C2.99588 10.2294 2.99688 10.6014 3.24488 10.8294C3.36788 10.9434 3.52888 11.0004 3.68888 11.0004Z"></path>
-                </svg>
-            </a>
-        </div>`;
+            <div class="pagination-num-container">
+                <a class="pagination-num active">${i}</a>
+            </div>`;
+    } else {
+        // 다른 페이지인 경우
+        notiPagination += `
+            <div class="pagination-num-container">
+                <a data-page="${i}" class="pagination-num">${i}</a>
+            </div>`;
     }
+}
+
+// 다음 페이지 버튼 추가 (마지막 페이지가 아닌 경우에만)
+if (pagination.next && pagination.page < pagination.realEnd) {
+    notiPagination += `
+    <div class="pagination-num-container" id="page-next-button">
+        <a data-page="${pagination.endPage + 1}" class="pagination-num" style="padding: 12px">
+            <svg viewBox="0 0 12 12" class="iFpvod">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M3.68888 11.0004C3.85188 11.0004 4.01388 10.9424 4.13688 10.8264L8.81688 6.43738C9.06088 6.20738 9.06088 5.83638 8.81588 5.60738L4.07988 1.17438C3.83288 0.942377 3.43288 0.942377 3.18588 1.17138C2.93888 1.40038 2.93788 1.77238 3.18388 2.00338L7.47788 6.02238L3.24088 9.99738C2.99588 10.2294 2.99688 10.6014 3.24488 10.8294C3.36788 10.9434 3.52888 11.0004 3.68888 11.0004Z"></path>
+            </svg>
+        </a>
+    </div>`;
+}
 
     // 생성된 HTML을 페이지네이션 컨테이너에 삽입
     pagingNotice.innerHTML = notiPagination;

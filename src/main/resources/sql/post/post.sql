@@ -22,13 +22,12 @@ create table tbl_post (
 select * from tbl_post;
 
 insert into tbl_post(id, post_title, post_summary, post_content,post_view_count, post_type, post_status, member_id)
-values(602,'후원 게시글 제목','후원 요약','후원 내용',1,'SUPPORT','VISIBLE',22);
+values(10,'제목입니다 10','후원 요약10','후원 내용10',10,'VOLUNTEER','VISIBLE',2);
 
 insert into tbl_post(id, post_title, post_summary, post_content,post_view_count, post_type, post_status, member_id)
 values(77,'봉사 게시글 제목','봉사 요약','봉사 내용',1,'SUPPORT','VISIBLE',22);
 
 SELECT * FROM tbl_post WHERE id = 1;
-
 
 
 SHOW CREATE TABLE tbl_notice;
@@ -41,10 +40,22 @@ insert into tbl_post(id, post_title, post_summary, post_content,post_view_count,
 values(40,'봉사활동구인테스트제목37','봉사활동테스트요약231','봉사활동테스트내용5231',35,'VOLUNTEER',0,2);
 
 
-ALTER TABLE tbl_inquiry
-    DROP FOREIGN KEY fk_inquiry_post;
+DELIMITER $$
 
-# 이거 해야 해 하면 지워
-ALTER TABLE tbl_inquiry
-    ADD CONSTRAINT fk_inquiry_post FOREIGN KEY (id)
-        REFERENCES tbl_post(id);
+CREATE PROCEDURE insert_multiple_posts()
+BEGIN
+    DECLARE i INT DEFAULT 201;
+    WHILE i <= 220 DO
+            INSERT INTO tbl_post(id, post_title, post_summary, post_content, post_view_count, post_type, post_status, member_id)
+            VALUES (i, CONCAT('제목입니다 ', i), CONCAT('후원 요약', i), CONCAT('후원 내용', i), i, 'INQUIRY', 'VISIBLE', 2);
+            SET i = i + 1;
+        END WHILE;
+END$$
+
+DELIMITER ;
+
+CALL insert_multiple_posts();
+DROP PROCEDURE insert_multiple_posts;
+
+
+SELECT MAX(id) FROM tbl_post;
