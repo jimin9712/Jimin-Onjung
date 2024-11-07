@@ -51,10 +51,12 @@
     p.updated_date,
     p.post_view_count,
     m.member_nickname,
+    p.post_type,
     (select count(*) from tbl_reply r where r.post_id = p.id) as reply_count
     from tbl_post p
     join tbl_member m on p.member_id = m.id
     <include refid="search"/>
+    where p.post_type = #{pagination.order}
     order by
     <choose>
         <when test="pagination.order == 'recent'.toString()">p.created_date</when>

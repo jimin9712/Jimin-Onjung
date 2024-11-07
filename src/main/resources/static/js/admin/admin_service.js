@@ -5,7 +5,7 @@ const fetchFilteredInquiries = async (page = 1, keyword = inquiryKeyword, filter
         const data = await response.json();
 
         renderInquiries(data.inquiries);
-        renderPagination(data.pagination, inquiryKeyword, filterType);
+        renderPagination(data.pagination, inquiryKeyword, inquiryKeyword);
         resetSelectAllInquiriesCheckbox();
     } catch (error) {
         // 오류 처리
@@ -200,7 +200,7 @@ const fetchFilteredPosts = async (page = 1, keyword = postKeyword, filterType = 
         const response = await fetch(`/admin/post-list?page=${page}&query=${keyword}&filterType=${filterType}`);
         const data = await response.json();
         renderPosts(data.posts);
-        postPagination(data.pagination, keyword, filterType);
+        postPagination(data.pagination, postKeyword, postFilterType);
         resetSelectAllPostsCheckbox();  // 전체 선택 체크박스 해제
     } catch (error) {
         // 오류 처리
@@ -219,7 +219,6 @@ const fetchPosts = async (page = 1) => {
         console.error("게시글 데이터를 불러오는 중 오류 발생:", error);
     }
 };
-// 페이지 로드 시 첫 페이지 데이터 로드
 fetchPosts();
 
 const deleteSelectedPosts = async (selectedIds) => {

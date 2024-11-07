@@ -58,6 +58,7 @@ public Map<String, Object> getInquiryList(Pagination pagination, Search search, 
     pagination.progress();
 
     List<InquiryDTO> inquiries;
+
     if (filterType == null) {
         inquiries = inquiryService.getList(pagination, search);
     } else if (filterType.equals("최신순")) {
@@ -154,7 +155,7 @@ public Map<String, Object> getNoticeRead(@RequestParam Long id) {
 @ResponseBody
 public Map<String, Object> getPostList(Pagination pagination, Search search,@RequestParam(required = false) String query, @RequestParam(required = false) String filterType) {
     search.setKeyword(query);
-    pagination.setOrder(filterType); // 기본 정렬 기준
+    pagination.setOrder("created_date desc"); // 기본 정렬 기준
 
     // 총 게시글 수 설정
     if (search.getKeyword() != null) {
