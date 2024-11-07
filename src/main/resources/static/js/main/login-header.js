@@ -47,30 +47,5 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-document.addEventListener("DOMContentLoaded", function () {
-    const noticeElement = document.querySelector(".notice");
-    const notiPopup = document.querySelector(".noti-popup");
-
-    noticeElement.addEventListener("click", function (event) {
-        event.stopPropagation(); // 이벤트 버블링 방지
-
-        if (noticeElement.classList.contains("new-notification")) {
-            noticeElement.classList.remove("new-notification");
-        }
-
-        if (notiPopup.style.display === "block") {
-            notiPopup.style.display = "none";
-        } else {
-            notiPopup.style.display = "block";
-        }
-    });
-
-    // 페이지의 다른 곳을 클릭하면 알림 팝업 닫기
-    document.addEventListener("click", function (event) {
-        if (!noticeElement.contains(event.target) && !notiPopup.contains(event.target)) {
-            notiPopup.style.display = "none";
-        }
-    });
-});
 
 

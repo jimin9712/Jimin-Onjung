@@ -17,6 +17,7 @@ public class AlarmVO {
     private String alarmContent;
     private Long memberId;
     private String createdDate;
+    private boolean isRead;
 
     public AlarmDTO toDTO() {
         AlarmDTO alarmDTO = new AlarmDTO();
@@ -24,6 +25,7 @@ public class AlarmVO {
         alarmDTO.setAlarmContent(alarmContent);
         alarmDTO.setMemberId(memberId);
         alarmDTO.setCreatedDate(createdDate);
+        alarmDTO.setRead(isRead);
         return alarmDTO;
     }
 }

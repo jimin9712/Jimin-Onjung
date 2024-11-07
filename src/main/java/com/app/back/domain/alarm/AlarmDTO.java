@@ -14,9 +14,11 @@ public class AlarmDTO {
     private String alarmContent;
     private Long memberId;
     private String createdDate;
+    private boolean isRead;
+
 
     public AlarmVO toVO(){
-        return new AlarmVO(id, alarmContent, memberId, createdDate);
+        return new AlarmVO(id, alarmContent, memberId, createdDate,isRead);
     }
 
 }
