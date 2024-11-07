@@ -8,8 +8,10 @@ import com.app.back.domain.volunteer.VolunteerDTO;
 import com.app.back.mapper.attachment.AttachmentMapper;
 import com.app.back.mapper.post.PostMapper;
 import com.app.back.mapper.volunteer.VolunteerMapper;
+import com.app.back.repository.post.PostDAO;
 import com.app.back.repository.volunteer.VolunteerDAO;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,26 +21,30 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Transactional(rollbackFor = Exception.class)
+@Slf4j
 public class VolunteerServiceImpl implements VolunteerService {
     private final PostMapper postMapper;
     private final VolunteerMapper volunteerMapper;
     private final AttachmentMapper attachmentMapper;
     private final VolunteerDAO volunteerDAO;
+    private final PostDAO postDAO;
 
 
     @Override
     public void write(VolunteerDTO volunteerDTO) {
         PostVO postVO = volunteerDTO.toPostVO();
         AttachmentVO attachmentVO = volunteerDTO.toAttachmentVO();
+        log.info("{첨부파일:}", attachmentVO);
 
         // 2. PostVO 객체 삽입 (게시물 정보 저장)
-        postMapper.insert(postVO);
+        postDAO.save(postVO);
+        Long id = postDAO.selectCurrentId();
         // 3. AttachmentVO가 null이 아닐 때만 삽입
-        if (attachmentVO != null) {
+        if (attachmentVO != null && attachmentVO.getAttachmentFileName() != null && attachmentVO.getAttachmentFilePath() != null && attachmentVO.getAttachmentFileSize() != null && attachmentVO.getAttachmentFileType() != null && attachmentVO.getAttachmentFileRealName() != null) {
             attachmentMapper.insert(attachmentVO);
         }
         // 4. 삽입 후 생성된 postVO의 ID를 VolunteerDTO에 설정
-        volunteerDTO.setId(postVO.getId());
+        volunteerDTO.setId(id);
         // 5. VolunteerVO 객체로 변환 후 삽입
         volunteerMapper.insert(volunteerDTO.toVO());
     }

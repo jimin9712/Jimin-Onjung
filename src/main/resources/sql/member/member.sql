@@ -25,6 +25,9 @@ create table tbl_member (
 );
 select * from tbl_member;
 
+# UPDATE tbl_member
+# SET member_star_rate = 1.00
+# WHERE id = 6;
 
 insert into tbl_member(id,member_nickname)
 values(3,"닉네임3");
