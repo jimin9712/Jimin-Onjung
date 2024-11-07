@@ -46,7 +46,7 @@ public interface MemberMapper {
     public void updateProfile(MemberVO memberVO);  // 프로필 업데이트 메서드 선언
 
     // 랭킹에 따른 봉사활동 단체 회원 목록
-    public List<MemberDTO> selectTop100VolunteerGroup(Pagination pagination);
+    public List<MemberDTO> selectTop100VolunteerGroup(@Param("pagination") Pagination pagination);
     
     // 해당 월에 봉사활동을 한 시간이 가장 많은 5명의 회원 목록
     public List<MemberDTO> selectTop5ByVt(int month);
