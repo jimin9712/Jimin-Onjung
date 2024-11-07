@@ -84,7 +84,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // 추가적으로 페이지 번호에 맞는 데이터 불러오는 부분 추가 가능
             const selectedPage = parseInt(e.target.getAttribute("data-page"), 10);
-            console.log("선택된 페이지:", selectedPage);
 
             fetchVolunteers("recent", selectedPage);
             window.history.pushState(null, "", `/volunteer/volunteer-list?page=${selectedPage}`);
@@ -100,23 +99,24 @@ const addPageButtonEventListeners = () => {
             console.log("선택된 페이지:", selectedPage);
 
             // URL 변경 없이 페이지 데이터 불러오기
-            fetchVolunteers("recent", selectedPage);
+            fetchVolunteers(order, selectedPage);
 
             // URL을 업데이트하여 브라우저 주소 표시줄에 현재 페이지 반영
             window.history.pushState(null, "", `/volunteer/volunteer-list?page=${selectedPage}`);
         });
     });
 };
-
+// 이벤트 리스너 추가
 document.querySelectorAll('.page-btn').forEach(button => {
-    button.removeEventListener('click', handlePageChange); // 기존 리스너 제거
-    button.addEventListener('click', handlePageChange); // 새로운 리스너 등록
+    button.addEventListener('click', (event) => {
+        event.preventDefault();
+        const page = parseInt(event.target.getAttribute('data-page')) || 1;  // 페이지 번호 가져오기
+        fetchVolunteers("recent", page);
+    });
 });
 
-function handlePageChange(event) {
-    const page = event.target.getAttribute('data-page');
-    fetchVolunteers(page);
-}
+
+
 
 
 

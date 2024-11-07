@@ -105,13 +105,13 @@ const handleAnswerSubmit = async (event) => {
 
 // ======================================================================================= 여기서부터 공지사항
 // 공지사항 데이터를 가져오는 함수
-const fetchNotices = async (page = 1, keyword = '') => {
+const fetchNotices = async (page = 1) => {
     try {
-        const response = await fetch(`/admin/notice-list?page=${page}&query=${keyword}`);
+        const response = await fetch(`/admin/notice-list?page=${page}`);
         // JSON 데이터를 HTML로 렌더링
         const data = await response.json();
         renderNotice(data.notis);
-        renderNoticePagination(data.pagination, keyword); // 페이지네이션 렌더링
+        renderNoticePagination(data.pagination); // 페이지네이션 렌더링
     } catch (error) {
         console.error("공지사항 데이터를 불러오는 중 오류 발생:", error);
     }
