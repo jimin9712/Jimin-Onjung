@@ -182,7 +182,7 @@ async function loadReviews() {
                                     <label class="gqdbhp contest">${review.vtGroupName}</label>
                                     <p>${review.postType || '기타'}</p>
                                     <div color="#E9EBED" class="czkero"></div>
-                                    <span class="product-type">구매등급 : ${review.grade || '일반'}</span>
+                                    <span class="product-type">봉사 내용 : ${review.postSummary}</span>
                                 </div>
                             </div>
                         </a>

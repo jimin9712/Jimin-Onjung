@@ -4,6 +4,7 @@ import com.app.back.domain.alarm.AlarmDTO;
 import com.app.back.domain.donation.DonationDTO;
 import com.app.back.domain.post.Pagination;
 import com.app.back.domain.post.PostVO;
+import com.app.back.domain.support.SupportDTO;
 import com.app.back.mapper.donation.DonationMapper;
 import com.app.back.mapper.post.PostMapper;
 import com.app.back.repository.alarm.AlarmDAO;
@@ -74,11 +75,6 @@ public class DonationServiceImpl implements DonationService {
         postDAO.update(donationDTO.toPostVO());
         donationDAO.update(donationDTO.toVO());
 
-        if (donationDTO.getGoalPoint() >= donationDTO.getGoalPoint()) {
-            String alarmContent = "기부 목표 금액이 100% 달성되었습니다!";
-            alarmDAO.saveDonationAlarm(donationDTO.getMemberId(), donationDTO.getId(), alarmContent);
-        }
-
         if(files != null && uuids.size() > 0) {
             for(int i=0; i<files.size(); i++){
                 donationDTO.setAttachmentFileName(uuids.get(i+1) + "_" + files.get(i).getOriginalFilename());
@@ -109,5 +105,15 @@ public class DonationServiceImpl implements DonationService {
     @Override
     public List<DonationDTO> findByMemberIdAndDateRange(Long memberId, String startDate, String endDate) {
         return donationDAO.findByMemberIdAndDateRange(memberId, startDate, endDate);
+    }
+
+    @Override
+    public void updateCurrentPointAndCheckGoal(DonationDTO donationDTO) {
+        donationDAO.updateCurrentPoint(donationDTO);
+
+        if (donationDTO.getCurrentPoint() >= donationDTO.getGoalPoint()) {
+            String alarmContent = "기부한 게시글의 기부 목표 금액이 100% 달성되었습니다!";
+            alarmDAO.saveDonationAlarm(donationDTO.getMemberId(), donationDTO.getId(), alarmContent);
+        }
     }
 }

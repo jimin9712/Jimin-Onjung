@@ -16,4 +16,10 @@ public class SupportDAO {
     public List<SupportDTO> findTop10() {
         return supportMapper.selectTop10Supports();
     }
+
+    public void updateCurrentPoint(SupportDTO supportDTO) {
+        supportMapper.updateCurrentPoint(supportDTO);
+    }
+
+
 }
