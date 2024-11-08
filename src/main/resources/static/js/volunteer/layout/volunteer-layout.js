@@ -23,8 +23,7 @@ const showList = ({ lists, pagination }) => {
 
             // 리스트 항목 HTML 생성
             layText += `
-                <a href="/volunteer/volunteer-inquiry?postId=${list.id}"
-                 class="donation-list-a">
+                <a href="/volunteer/volunteer-inquiry/${list.id}" class="donation-list-a">
                     <div class="contest-info">
                         <div class="contest-info-top">
                             <div class="outline-info">

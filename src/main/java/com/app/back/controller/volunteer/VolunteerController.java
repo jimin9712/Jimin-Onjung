@@ -89,7 +89,7 @@ public class VolunteerController {
     }
 
 // 봉사모집 게시판 json형태
-    @GetMapping("volunteer-info")
+    @GetMapping("/volunteer-info")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> getListInfo(
             @RequestParam(value = "order", defaultValue = "recent") String order,
@@ -120,18 +120,20 @@ public class VolunteerController {
 
 
 
-    @GetMapping("volunteer-inquiry")
-    public String goToVolunteer( @RequestParam("postId") Long postId, Model model) {
+    // 경로 변수를 사용하는 방식 (유일한 매핑으로 유지)
+    @GetMapping("/volunteer-inquiry/{postId}")
+    public String goToVolunteerPath(@PathVariable("postId") Long postId, Model model) {
         Optional<VolunteerDTO> volunteerDTO = volunteerService.getById(postId);
         log.info("{}", volunteerDTO);
         if (volunteerDTO.isPresent()) {
             model.addAttribute("volunteer", volunteerDTO.get());
             model.addAttribute("attachments", attachmentService.getList(postId));
         } else {
-            return "redirect:/volunteer/volunteer-list";
+            return "volunteer/volunteer-inquiry";
         }
-        return "volunteer/volunteer-inquiry";
+        return "redirect:/volunteer/volunteer-list";
     }
+
 
     @PostMapping("/volunteer-update")
     public RedirectView volunteerUpdate(ReviewDTO reviewDTO) {
