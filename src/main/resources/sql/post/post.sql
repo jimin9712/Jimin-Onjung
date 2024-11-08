@@ -22,7 +22,7 @@ create table tbl_post (
 select * from tbl_post;
 
 insert into tbl_post(id, post_title, post_summary, post_content,post_view_count, post_type, post_status, member_id)
-values(10,'제목입니다 10','후원 요약10','후원 내용10',10,'VOLUNTEER','VISIBLE',2);
+values(221,'제목입니다zz','후원 요약zz1','후원 내용z1z',10,'VOLUNTEER','VISIBLE',2);
 
 insert into tbl_post(id, post_title, post_summary, post_content,post_view_count, post_type, post_status, member_id)
 values(77,'봉사 게시글 제목','봉사 요약','봉사 내용',1,'SUPPORT','VISIBLE',22);

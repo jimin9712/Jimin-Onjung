@@ -40,7 +40,7 @@ public interface PostMapper {
     //  전체조회
     public List<PostDTO> selectAll(@Param("pagination") Pagination pagination, @Param("search") Search search);
 
-    public List<PostDTO> selectFilterAll(@Param("pagination") Pagination pagination, @Param("search")Search search);
+    public List<PostDTO> selectFilterAll(@Param("pagination") Pagination pagination, @Param("search")Search search ,@Param("filterType") String filterType);
 
     //    조회
     public Optional<PostDTO> selectById(Long id);
@@ -49,6 +49,8 @@ public interface PostMapper {
     public int selectTotal();
     //    검색 결과 개수 조회
     public int selectTotalWithSearch(@Param("search") Search search);
+
+    int selectTotalWithFilter(@Param("search") Search search, @Param("filterType") String filterType);
 
 
 
