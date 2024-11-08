@@ -6,13 +6,13 @@
         <title>봉사 모집 조회</title>
         <link
             rel="stylesheet"
-            href="../../static/css/support/support-inquiry.css"
+            href="/css/support/support-inquiry.css"
         />
         <link
             rel="icon"
             href="https://cdn-dantats.stunning.kr/static/feature/loudFavicon/loud-favicon-32-new.png"
         />
-        <link rel="stylesheet" href="../../static/css/main/basic-header.css" />
+        <link rel="stylesheet" href="/css/main/basic-header.css" />
     </head>
     <body style="overflow-x: hidden">
         <div class="content-container-maincontent">
@@ -49,7 +49,7 @@
                                         <div class="active tab">내용</div>
                                         <div class="tab">
                                             댓글<label class="tab-sticker"
-                                                >2</label
+                                                >${volunteer.}</label
                                             >
                                         </div>
                                     </div>
@@ -388,7 +388,8 @@
         </div>
     </body>
     <script th:inline="javascript">
-        const inquirys = [[${inquirys}]]
+        const volunteer = [[${volunteer}]]
+        const attachments = [[${attachments}]]
     </script>
-    <script src="../../static/js/volunteer/volunteer-inquiry.js"></script>
+    <script src="/js/volunteer/volunteer-inquiry.js"></script>
 </html>

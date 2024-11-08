@@ -1,12 +1,15 @@
 package com.app.back.controller.volunteer;
 
-import com.app.back.domain.donation.DonationDTO;
+
+import com.app.back.domain.member.MemberDTO;
 import com.app.back.domain.review.ReviewDTO;
 import com.app.back.domain.volunteer.Pagination;
 import com.app.back.domain.volunteer.VolunteerDTO;
 import com.app.back.mapper.volunteer.VolunteerMapper;
+import com.app.back.service.attachment.AttachmentService;
 import com.app.back.service.post.PostService;
 import com.app.back.service.volunteer.VolunteerService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -29,37 +32,47 @@ public class VolunteerController {
     private final PostService postService;
     private final VolunteerService volunteerService;
     private final VolunteerMapper volunteerMapper;
+    private final AttachmentService attachmentService;
 
     @GetMapping("volunteer-write")
     public String goToWriteForm(VolunteerDTO volunteerDTO) {
         return "volunteer/volunteer-write";
     }
 
-//    @PostMapping("volunteer-write")
-//    public RedirectView volunteerWrite(VolunteerDTO volunteerDTO) throws IOException {
-//        volunteerDTO.setMemberId(1L);
-//        volunteerDTO.setPostType("VOLUNTEER");
-////        volunteerDTO.setPostTitle(volunteerDTO.getVtGroupName());
-//        log.info("{}", volunteerDTO);
-//        if (volunteerDTO.getPostTitle() == null || volunteerDTO.getPostContent() == null) {
-//            log.error("필수 데이터가 없습니다.");
-//            return new RedirectView("/review/review-write");
-//        }
-////        // 데이터가 문제없으면 세션에 저장
-////        session.setAttribute("review", reviewDTO);
-//
-//        // 데이터베이스에 게시글 저장
-//        volunteerService.write(volunteerDTO);
-//
-//        return new RedirectView("/review/review-list");
-//    }
+    @PostMapping("volunteer-write")
+    public RedirectView volunteerWrite(HttpSession session, VolunteerDTO volunteerDTO) throws IOException {
+        volunteerDTO.setMemberId(1L);
+        volunteerDTO.setPostType("VOLUNTEER");
+        log.info("{}", volunteerDTO);
+        if (volunteerDTO.getPostTitle() == null || volunteerDTO.getPostContent() == null) {
+            log.error("필수 데이터가 없습니다.");
+            return new RedirectView("/volunteer/volunteer-write");
+        }
+        // 데이터가 문제없으면 세션에 저장
+        session.setAttribute("volunteer", volunteerDTO);
+
+//         데이터베이스에 게시글 저장
+        volunteerService.write(volunteerDTO);
+
+        return new RedirectView("/volunteer/volunteer-list");
+    }
+
 
 //        봉사 모집 게시글 목록
-    // VolunteerController.java
-
     @GetMapping("volunteer-list")
-    public String getList(Pagination pagination, Model model,
+    public String getList(HttpSession session, Pagination pagination, Model model,
                           @RequestParam(value = "order", defaultValue = "recent") String order) {
+        MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
+
+        // loginMember가 null인지 확인하고 memberType을 가져옵니다.
+        if (loginMember != null) {
+            String memberType = loginMember.getMemberType();
+            model.addAttribute("memberType", memberType);
+        } else {
+            // 로그인되지 않은 경우 또는 loginMember가 null인 경우
+            model.addAttribute("memberType", "GUEST");
+        }
+
         pagination.setOrder(order);
         pagination.setPostType("VOLUNTEER");
         pagination.setTotal(postService.getTotal(pagination.getPostType()));
@@ -75,7 +88,8 @@ public class VolunteerController {
         return "volunteer/volunteer-list";
     }
 
-    @GetMapping("volunteer-info")
+// 봉사모집 게시판 json형태
+    @GetMapping("/volunteer-info")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> getListInfo(
             @RequestParam(value = "order", defaultValue = "recent") String order,
@@ -106,17 +120,20 @@ public class VolunteerController {
 
 
 
-//    @GetMapping("donation-inquiry")
-//    public String goToInquiry( @RequestParam("postId") Long postId, Model model) {
-//        Optional<DonationDTO> donationDTO = donationService.getById(postId);
-//        log.info("{}", donationDTO);
-//        if (donationDTO.isPresent()) {
-//            model.addAttribute("donation", donationDTO.get());
-//        } else {
-//            return "redirect:/donation/donation-list";
-//        }
-//        return "donation/donation-inquiry";
-//    }
+    // 경로 변수를 사용하는 방식 (유일한 매핑으로 유지)
+    @GetMapping("/volunteer-inquiry/{postId}")
+    public String goToVolunteerPath(@PathVariable("postId") Long postId, Model model) {
+        Optional<VolunteerDTO> volunteerDTO = volunteerService.getById(postId);
+        log.info("{}", volunteerDTO);
+        if (volunteerDTO.isPresent()) {
+            model.addAttribute("volunteer", volunteerDTO.get());
+            model.addAttribute("attachments", attachmentService.getList(postId));
+        } else {
+            return "volunteer/volunteer-inquiry";
+        }
+        return "redirect:/volunteer/volunteer-list";
+    }
+
 
     @PostMapping("/volunteer-update")
     public RedirectView volunteerUpdate(ReviewDTO reviewDTO) {

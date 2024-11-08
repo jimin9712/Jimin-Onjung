@@ -34,23 +34,23 @@ public class MemberMapperTests {
         memberMapper.insert(memberDTO.toVO());
         log.info("회원 정보 삽입 성공: {}", memberDTO.toVO());
 
-        MemberDTO memberDTO2 = new MemberDTO();
-        memberDTO2.setMemberNickName("봉사단체24");
-        memberDTO2.setMemberType("ORGANIZATION");
-
-        memberDTO2.setMemberEmail("ljm21000@naver.com");
-        memberDTO2.setMemberName("봉사단체 유저24");
-        memberDTO2.setMemberPhone("01012345678");
-        memberDTO2.setMemberJung(10000);
-        memberDTO2.setMemberPoint(10000);
-        memberDTO2.setMemberPassword("123123");
-
-        memberDTO2.setMemberLoginType("NORMAL");
-
-
-        // 회원 삽입 테스트
-        memberMapper.insert(memberDTO2.toVO());
-        log.info("회원2 정보 삽입 성공: {}", memberDTO2.toVO());
+//        MemberDTO memberDTO2 = new MemberDTO();
+//        memberDTO2.setMemberNickName("봉사단체24");
+//        memberDTO2.setMemberType("ORGANIZATION");
+//
+//        memberDTO2.setMemberEmail("ljm21000@naver.com");
+//        memberDTO2.setMemberName("봉사단체 유저24");
+//        memberDTO2.setMemberPhone("01012345678");
+//        memberDTO2.setMemberJung(10000);
+//        memberDTO2.setMemberPoint(10000);
+//        memberDTO2.setMemberPassword("123123");
+//
+//        memberDTO2.setMemberLoginType("NORMAL");
+//
+//
+//        // 회원 삽입 테스트
+//        memberMapper.insert(memberDTO2.toVO());
+//        log.info("회원2 정보 삽입 성공: {}", memberDTO2.toVO());
     }
 
     @Test
