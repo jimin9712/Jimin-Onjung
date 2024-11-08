@@ -314,6 +314,10 @@ p {
     width: 24px;
     height: 24px;
 }
+.noti-icon{
+    width: 24px;
+    margin-top: 4px;
+}
 .cgvbnx > ul > li + li {
     margin-left: 24px;
 }
@@ -892,12 +896,22 @@ p {
 .profile-popup {
     display: none; /* 처음에 숨겨진 상태로 설정 */
 }
-.hkjhsp {
-    display: inline-block;
-    margin-top: 5px;
-    margin-right: -7px;
-    margin-left: -3px;
+
+.notice {
+    position: relative;
 }
+
+.notice.new-notification::after {
+    content: "";
+    width: 8px;
+    height: 8px;
+    background-color: #f00;
+    border-radius: 50%;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+
 
 .hvowwg .gnb-profile-box-content .gnb-profile-box-user {
     display: flex;
@@ -939,7 +953,11 @@ p {
     vertical-align: top;
 }
 .noti-box{
-    border-bottom: 1px solid rgb(219, 222, 226)
+    border-bottom: 1px solid rgb(219, 222, 226);
+    display: flex;
+    justify-content: center;
+    width: 273px;
+    margin-top:3px;
 }
 .bpfqva .toolbar-area .toolbar-row .util .util-btns > li.member div.opener:hover {
     opacity: 0.7;

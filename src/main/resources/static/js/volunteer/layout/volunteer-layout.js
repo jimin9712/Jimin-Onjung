@@ -360,10 +360,11 @@
 // };
 
 
+
 const vtLayout = document.getElementById("contest-list");
 
 // 메인 리스트 렌더링 함수
-const showList = ({ lists}) => {
+const showList = ({ lists, pagination }) => {
     let layText = ``;
 
     // 서버로부터 받은 lists가 비어있는지 확인
@@ -435,12 +436,12 @@ const showList = ({ lists}) => {
                                 ${list.postViewCount || '뷰카운트없음'}
                             </div>
                             <svg type="calendar12" color="#8E94A0" viewBox="0 0 12 12" class="calendar-svg" style="margin-left: 20px">
-                                    <rect x="0.6" y="2.6" width="10.8" height="8.8" rx="1.4" stroke-width="1.2"></rect>
-                                    <path d="M3 2V1" stroke-width="1.2" stroke-linecap="round"></path>
-                                    <path d="M9 2V1" stroke-width="1.2" stroke-linecap="round"></path>
-                                    <path d="M1 5H12" stroke-width="1.2"></path>
-                                    <rect x="3" y="7" width="2" height="2" rx="0.5"></rect>
-                                </svg>
+                                <rect x="0.6" y="2.6" width="10.8" height="8.8" rx="1.4" stroke-width="1.2"></rect>
+                                <path d="M3 2V1" stroke-width="1.2" stroke-linecap="round"></path>
+                                <path d="M9 2V1" stroke-width="1.2" stroke-linecap="round"></path>
+                                <path d="M1 5H12" stroke-width="1.2"></path>
+                                <rect x="3" y="7" width="2" height="2" rx="0.5"></rect>
+                            </svg>
                             <div class="contest-info-bottom-created-date">
                                 작성일 : ${list.createdDate || '작성일 없음'}
                             </div>
@@ -520,48 +521,111 @@ const showList = ({ lists}) => {
         });
     }
     vtLayout.innerHTML = layText;
-}
 
+    // 리스트 렌더링 후 페이징 버튼 생성 함수 호출
+    showPaging(pagination);
+};
 
-// 페이징처리 부분
-document.addEventListener("DOMContentLoaded", () => {
+// 페이징 버튼 생성 함수
+const showPaging = (pagination) => {
     const pageContainer = document.querySelector(".page-container");
     if (!pageContainer) {
         console.error("The page-container element is missing in the DOM.");
         return;
     }
 
-    const totalPages = Math.ceil(pagination.total / pagination.rowCount);
-    console.log("총 페이지 수:", totalPages);
+    let pagingText = ``;
 
-    const showPaging = () => {
-        let pagingText = ``;
+    // 이전 페이지 버튼
+    if (pagination.page > 1) {
+        const prevPage = pagination.page - 1;
+        pagingText += `
+            <a href="#" class="page-btn" data-page="${prevPage}">
+                <svg viewBox="0 0 12 12" class="icon-default">
+                    <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M8.31112 11.0004C8.14812 11.0004 7.98612 10.9424 7.86312 10.8264L3.18312 6.43738C2.93912 6.20738 2.93912 5.83638 3.18412 5.60738L7.92012 1.17438C8.16712 0.942377 8.56712 0.942377 8.81412 1.17138C9.06112 1.40038 9.06212 1.77238 8.81612 2.00338L4.52212 6.02238L8.75912 9.99738C9.00412 10.2294 9.00312 10.6014 8.75512 10.8294C8.63212 10.9434 8.47112 11.0004 8.31112 11.0004Z"
+                    ></path>
+                </svg>
+            </a>
+        `;
+    }
 
-        // 페이지 번호 버튼 생성
-        for (let i = pagination.startPage; i <= pagination.endPage; i++) {
-            pagingText += `<a class="page-btn ${pagination.page === i ? 'active' : ''}" data-page="${i}" href="#">${i}</a>`;
-            console.log(`현재 페이지 번호: ${i}`);
-        }
+    // 페이지 번호 버튼 생성
+    for (let i = pagination.startPage; i <= Math.min(pagination.endPage, pagination.realEnd); i++) {
+        pagingText += `
+            <a class="page-btn ${pagination.page === i ? 'active' : ''}" data-page="${i}" href="#">
+                ${i}
+            </a>
+        `;
+    }
 
-        // 다음 페이지 버튼 추가
-        if (pagination.next) {
-            const nextPage = (pagination.page || 1) + 1;
-            pagingText += `
-        <a href="/volunteer/volunteer-list?page=${nextPage}" 
-           class="next-page-btn" style="padding: 12px;">
-            <svg viewBox="0 0 12 12" class="iFpvod">
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M3.68888 11.0004C3.85188 11.0004 4.01388 10.9424 4.13688 10.8264L8.81688 6.43738C9.06088 6.20738 9.06088 5.83638 8.81588 5.60738L4.07988 1.17438C3.83288 0.942377 3.43288 0.942377 3.18588 1.17138C2.93888 1.40038 2.93788 1.77238 3.18388 2.00338L7.47788 6.02238L3.24088 9.99738C2.99588 10.2294 2.99688 10.6014 3.24488 10.8294C3.36788 10.9434 3.52888 11.0004 3.68888 11.0004Z"></path>
-            </svg>
-        </a>
-    `;
-        }
+    // 다음 페이지 버튼
+    if (pagination.page < pagination.realEnd) {
+        const nextPage = pagination.page + 1;
+        pagingText += `
+            <a href="#" class="page-btn" data-page="${nextPage}">
+                <svg viewBox="0 0 12 12" class="icon-default">
+                    <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M3.68888 11.0004C3.85188 11.0004 4.01388 10.9424 4.13688 10.8264L8.81688 6.43738C9.06088 6.20738 9.06088 5.83638 8.81588 5.60738L4.07988 1.17438C3.83288 0.942377 3.43288 0.942377 3.18588 1.17138C2.93888 1.40038 2.93788 1.77238 3.18388 2.00338L7.47788 6.02238L3.24088 9.99738C2.99588 10.2294 2.99688 10.6014 3.24488 10.8294C3.36788 10.9434 3.52888 11.0004 3.68888 11.0004Z"
+                    ></path>
+                </svg>
+            </a>
+        `;
+    }
 
-        pageContainer.innerHTML = pagingText;
-        addPageButtonEventListeners();
-    };
+    pageContainer.innerHTML = pagingText;
 
-    showPaging();
-});
+    // 페이지 버튼에 이벤트 리스너 추가
+    addPageButtonEventListeners();
+};
+
+// 페이지 버튼에 이벤트 리스너 추가 함수
+const addPageButtonEventListeners = () => {
+    document.querySelectorAll(".page-btn").forEach(button => {
+        button.addEventListener("click", (e) => {
+            e.preventDefault();
+            const selectedPage = parseInt(button.getAttribute("data-page"), 10);
+            console.log("선택된 페이지:", selectedPage);
+
+            // 전역 변수 업데이트
+            currentPage = selectedPage;
+
+            // 데이터 재로드
+            fetchVolunteers(currentOrder, currentPage);
+
+            // URL 업데이트
+            const url = new URL(window.location);
+            url.searchParams.set('page', currentPage);
+            window.history.pushState({}, '', url);
+        });
+    });
+};
+
+
+// const shouldShowNext = pagination.endPage < pagination.realEnd || (pagination.endRow < pagination.total);
+//
+// // 다음 페이지 버튼 추가: endPage가 realEnd보다 작거나, 더 로드할 데이터가 있을 경우
+// if (shouldShowNext) {
+//     pagingText += `<a
+//             href="/volunteer/volunteer-list?page=${pagination.page + 1}"
+//             class="page-btn next"
+//             ><svg
+//                 viewBox="0 0 12 12"
+//                 class="icon-default"
+//             >
+//                 <path
+//                     fill-rule="evenodd"
+//                     clip-rule="evenodd"
+//                     d="M3.68888 11.0004C3.85188 11.0004 4.01388 10.9424 4.13688 10.8264L8.81688 6.43738C9.06088 6.20738 9.06088 5.83638 8.81588 5.60738L4.07988 1.17438C3.83288 0.942377 3.43288 0.942377 3.18588 1.17138C2.93888 1.40038 2.93788 1.77238 3.18388 2.00338L7.47788 6.02238L3.24088 9.99738C2.99588 10.2294 2.99688 10.6014 3.24488 10.8294C3.36788 10.9434 3.52888 11.0004 3.68888 11.0004Z"
+//                 ></path>
+//                 <defs></defs>
+//             </svg>
+//         </a>`;
+// }
 
 
 

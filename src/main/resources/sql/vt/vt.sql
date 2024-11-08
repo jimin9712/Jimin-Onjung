@@ -60,10 +60,9 @@ from tbl_vt v
          left join tbl_member m on p.member_id = m.id
          left join tbl_profile pf on p.member_id = pf.id
 where v.vt_e_date >= curdate() AND v.vt_e_date
-order by v.vt_e_date asc, p.created_date desc
+order by v.vt_e_date asc, p.created_date desc;
 
-
-
+select * from tbl_vt;
 
 
 

@@ -34,13 +34,12 @@
             <when test="pagination.order == 'endingSoon'">v.vt_e_date asc, p.created_date desc, v.id</when>
             <otherwise>p.created_date desc, v.id</otherwise>
         </choose>
-
         limit #{pagination.startRow}, #{pagination.rowCount}
     </select>
 
 
     <select id="selectTotal">
-        select count(*) from tbl_post
+        select count(*) from tbl_vt
     </select>
 
     <select id="selectById" resultType="VolunteerDTO">
