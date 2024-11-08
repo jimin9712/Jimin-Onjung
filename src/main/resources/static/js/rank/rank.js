@@ -385,6 +385,10 @@ const dateDisplay = document.querySelector(
 const monthElements = document.querySelectorAll(".react-datepicker-month-text");
 const monthInput = document.querySelector("input#month");
 const currentYear = 2024;
+const today = new Date();
+
+inputContainer.value = today.getFullYear() + "년 " + (today.getMonth() + 1) + "월";
+dateDisplay.value = inputContainer.value;
 
 // inputContainer를 클릭했을 때 tabLoop의 가시성을 토글
 inputContainer.addEventListener("click", (e) => {
