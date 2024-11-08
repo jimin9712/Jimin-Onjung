@@ -4,6 +4,7 @@ import com.app.back.domain.donation.DonationDTO;
 import com.app.back.domain.donation.DonationVO;
 import com.app.back.domain.donation_record.DonationRecordDTO;
 import com.app.back.domain.post.Pagination;
+import com.app.back.domain.support.SupportDTO;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -17,6 +18,8 @@ public interface DonationService {
     public List<DonationDTO> getFilterList(Pagination pagination);
     public int getTotal();
     public void update(DonationDTO donationDTO, List<String> uuids, List<String> realNames, List<String> paths, List<String> sizes, List<MultipartFile> files, List<Long> ids) throws IOException;
+    public void updateCurrentPointAndCheckGoal(DonationDTO donationDTO);
+
     public void delete(Long id);
 
     public List<DonationDTO> findByMemberId(Long memberId); // 반환 타입 수정

@@ -24,6 +24,7 @@ public class DonationDTO {
     private String createdDate;
     private String updatedDate;
     private int goalPoint;
+    private int currentPoint;
     private String donationSDate;
     private String donationEDate;
     private String attachmentFileName;
@@ -38,7 +39,7 @@ public class DonationDTO {
     }
 
     public DonationVO toVO() {
-        return new DonationVO(id, goalPoint, donationSDate, donationEDate);
+        return new DonationVO(id, goalPoint,currentPoint,donationSDate, donationEDate);
     }
 
     public AttachmentVO toAttachmentVO(){

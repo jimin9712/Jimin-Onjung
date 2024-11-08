@@ -62,6 +62,8 @@
                r.review_star_rate,
                r.vt_group_name,
                p.post_title,
+               p.post_summary,
+               p.post_type,
                p.post_content,
                p.created_date,
                p.member_id,

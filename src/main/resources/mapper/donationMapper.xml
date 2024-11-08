@@ -84,4 +84,10 @@
         order by
             p.created_date desc
     </select>
+
+    <update id="updateCurrentPoint" parameterType="donationDTO">
+        update tbl_donation
+        set current_point = #{currentPoint}
+        where id = #{id}
+    </update>
 </mapper>
