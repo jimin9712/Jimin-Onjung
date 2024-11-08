@@ -16,6 +16,7 @@ public int getTotalWithSearch(Search search);
 
 //    목록
 public List<PostDTO> getList(Pagination pagination, Search search);
+
 //    필터 목록
 public List<PostDTO> getFilterList(Pagination pagination, Search search,String filterType);
 //    조회

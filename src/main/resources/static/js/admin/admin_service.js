@@ -205,6 +205,7 @@ const fetchFilteredPosts = async (page = 1, keyword = postKeyword, filterType = 
             console.log("서버로부터 받은 데이터:", data); // 받은 데이터 확인
             renderPosts(data.posts); // 필터링된 데이터를 렌더링
             postPagination(data.pagination, keyword, filterType);
+            console.log("필터링 조건:", { page, keyword, filterType });
             resetSelectAllPostsCheckbox(); // 전체 선택 체크박스 해제
         } else {
             console.error("서버 응답 실패:", response.status);

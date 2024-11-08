@@ -56,7 +56,7 @@ inquiryButtons.forEach((inquiryButton) => {
 document.addEventListener("DOMContentLoaded", function () {
     const options = document.querySelectorAll(".post-filter-option"); // 게시글 필터 옵션
     const inquiryOptions = document.querySelectorAll(".sort-filter-option.inquiry-list"); // 문의 정렬 옵션
-    const postListContainer = document.querySelector(".ServiceTable_row_wrapper"); // 게시글 리스트 컨테이너
+    const postListContainer = document.querySelector(".post-filter-wrapper"); // 게시글 리스트 컨테이너
     const inquiryTableContainer = document.querySelector(".inquiryTable_container"); // 문의 리스트 컨테이너
     const inquiryTableHeader = document.querySelector(".inquiryTable_row.inquiryTable_header"); // 문의 리스트 헤더
     let sortOrder = {}; // 정렬 순서를 저장하는 객체
@@ -178,13 +178,9 @@ function sortPosts(order) {
         });
     }
 
-    // 정렬된 게시글로 DOM 갱신
-    console.log("정렬된 게시글 목록 DOM 갱신 중...");
     postListContainer.innerHTML = "";
     posts.forEach((post) => postListContainer.appendChild(post));
-}   console.log("게시글 목록 갱신 완료.");
-
-
+}
 
     // 게시글 필터 옵션 클릭 시 정렬 수행
     options.forEach((option) => {
@@ -311,12 +307,7 @@ const selectAllInquiries = () => {
 
 function resetSelectAllInquiriesCheckbox() {
     const selectAllCheckbox = document.getElementById("selectAllInquiries");
-    if (selectAllCheckbox) {
         selectAllCheckbox.checked = false;
-        console.log("고객센터 문의 목록 전체 선택 체크박스 해제 성공");
-    } else {
-        console.error("selectAllInquiries 체크박스를 찾을 수 없습니다.");
-    }
 }
 
 selectAllInquiries();
@@ -327,7 +318,7 @@ const postFilters = document.querySelectorAll(".post-filter-option");
 
 
 let postKeyword = ''; // 검색어 저장
-let postFilterType = '작업일 순';
+let postFilterType = '작성일 순';
 
 //  게시글 검색
 postSearchInput.addEventListener("keydown", (event) => {
@@ -337,7 +328,7 @@ postSearchInput.addEventListener("keydown", (event) => {
         fetchFilteredPosts(1, postKeyword, postFilterType); // 검색어를 이용해 첫 페이지 불러오기
     }
 });
-
+const options = document.querySelectorAll(".post-filter-option"); // 게시글 필터 옵션
 // 게시글 필터 버튼 클릭 시 필터에 맞는 데이터 불러오기
 postFilters.forEach((option) => {
     option.addEventListener("click", () => {
@@ -376,12 +367,7 @@ const selectAllPosts = () => {
 
 function resetSelectAllPostsCheckbox() {
     const selectAllCheckbox = document.getElementById("selectAllPosts");
-    if (selectAllCheckbox) {
         selectAllCheckbox.checked = false;
-        console.log("게시글 목록 전체 선택 체크박스 해제 성공");
-    } else {
-        console.error("selectAllPosts 체크박스를 찾을 수 없습니다.");
-    }
 }
 
 // 각 목록 초기화 시 호출

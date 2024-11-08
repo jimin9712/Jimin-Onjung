@@ -39,10 +39,10 @@ public class InquiryController {
     private final NoticeService noticeService;
     private final PostService postService;
 
-    @GetMapping("/admin")   // 관리자 페이지
-    public List<InquiryDTO> admin(Pagination pagination, Search search) {
-        return inquiryService.getList(pagination, search);
-    }
+@GetMapping("/admin")   // 관리자 페이지
+public List<InquiryDTO> admin(Pagination pagination, Search search) {
+    return inquiryService.getList(pagination, search);
+}
 
 @GetMapping("/admin/inquiry-page")  // 문의 목록
 @ResponseBody
@@ -160,39 +160,39 @@ public Map<String, Object> getNoticeRead(@RequestParam Long id) {
 }
 
 
-    @GetMapping("/admin/post-list")  // 게시글 목록
-    @ResponseBody
-    public Map<String, Object> getPostList(Pagination pagination, Search search, @RequestParam(required = false) String query, @RequestParam(required = false) String filterType) {
-        // 검색어 설정
-        search.setKeyword(query);
+@GetMapping("/admin/post-list")  // 게시글 목록
+@ResponseBody
+public Map<String, Object> getPostList(Pagination pagination, Search search, @RequestParam(required = false) String query, @RequestParam(required = false) String filterType) {
+    // 검색어 설정
+    search.setKeyword(query);
 
-        int total;
-        if (filterType == null || filterType.equals("작성일 순")) {
-            // 작성일 순 필터인 경우 모든 데이터를 기준으로 총 개수를 가져옴
-            total = postService.getTotalWithSearch(search);
-        } else {
-            // 필터 타입이 있는 경우 필터 조건에 맞는 데이터의 총 개수 가져옴
-            total = postService.getTotalWithFilter(search, filterType);
-        }
-
-        pagination.setTotal(total); // 필터 또는 검색어에 따른 총 개수 설정
-        pagination.progress(); // 페이지네이션 계산
-
-        List<PostDTO> posts;
-
-        // 필터 타입에 따라 필터링된 목록 가져오기
-        if (filterType == null || filterType.equals("작성일 순")) {
-            posts = postService.getList(pagination, search);
-        } else {
-            posts = postService.getFilterList(pagination, search, filterType);
-        }
-
-        // 결과를 담아 반환
-        Map<String, Object> result = new HashMap<>();
-        result.put("posts", posts);
-        result.put("pagination", pagination);
-        return result;
+    int total;
+    if (filterType == null || filterType.equals("작성일 순")) {
+        // 작성일 순 필터인 경우 모든 데이터를 기준으로 총 개수를 가져옴
+        total = postService.getTotalWithSearch(search);
+    } else {
+        // 필터 타입이 있는 경우 필터 조건에 맞는 데이터의 총 개수 가져옴
+        total = postService.getTotalWithFilter(search, filterType);
     }
+
+    pagination.setTotal(total); // 필터 또는 검색어에 따른 총 개수 설정
+    pagination.progress(); // 페이지네이션 계산
+
+    List<PostDTO> posts;
+
+    // 필터 타입에 따라 필터링된 목록 가져오기
+    if (filterType == null || filterType.equals("작성일 순")) {
+        posts = postService.getList(pagination, search);
+    } else {
+        posts = postService.getFilterList(pagination, search, filterType);
+    }
+
+    // 결과를 담아 반환
+    Map<String, Object> result = new HashMap<>();
+    result.put("posts", posts);
+    result.put("pagination", pagination);
+    return result;
+}
 
 
 
