@@ -4,6 +4,7 @@ create table tbl_donation_alarm(
     member_id bigint unsigned not null,
     donation_id bigint unsigned not null,
     created_date datetime default current_timestamp,
+    is_read boolean default false,
     constraint fk_donation_alarm_member foreign key (member_id)
     references tbl_member(id),
     constraint fk_donation_alarm_donation foreign key (donation_id)
@@ -14,5 +15,8 @@ create table tbl_donation_alarm(
 use test2;
 
 select * from tbl_donation_alarm;
+
+alter table tbl_donation_alarm add column is_read boolean default false;
+
 
 

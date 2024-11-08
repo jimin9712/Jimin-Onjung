@@ -3,82 +3,158 @@
 <mapper namespace="com.app.back.mapper.alarm.AlarmMapper">
 
     <insert id="insertVtApplicationAlarm" parameterType="map">
-        INSERT INTO tbl_vt_alarm (member_id, vt_application_id, vt_id, alarm_content, created_date)
-        SELECT a.member_id, a.id, a.vt_id, #{content}, current_timestamp
+        INSERT INTO tbl_vt_alarm (member_id, vt_application_id, vt_id, alarm_content, created_date, is_read)
+        SELECT a.member_id, a.id, a.vt_id, #{content}, current_timestamp, FALSE
         FROM tbl_vt_application a
         WHERE a.id = #{vtApplicationId}
     </insert>
 
-
     <insert id="insertDonationAlarm">
-        insert into tbl_donation_alarm (member_id, donation_id, alarm_content, created_date)
-        values (#{memberId}, #{donationId}, #{content}, current_timestamp)
+        INSERT INTO tbl_donation_alarm (member_id, donation_id, alarm_content, created_date, is_read)
+        VALUES (#{memberId}, #{donationId}, #{content}, current_timestamp, FALSE)
     </insert>
 
     <insert id="insertSupportAlarm">
-        insert into tbl_support_alarm (member_id, support_id, alarm_content, created_date)
-        values (#{memberId}, #{supportId}, #{content}, current_timestamp)
+        INSERT INTO tbl_support_alarm (member_id, support_id, alarm_content, created_date, is_read)
+        VALUES (#{memberId}, #{supportId}, #{content}, current_timestamp, FALSE)
     </insert>
 
     <insert id="insertReplyAlarm">
-        insert into tbl_reply_alarm (member_id, reply_id, alarm_content, created_date)
-        values (#{memberId}, #{replyId}, #{content}, current_timestamp)
+        INSERT INTO tbl_reply_alarm (member_id, reply_id, alarm_content, created_date, is_read)
+        VALUES (#{memberId}, #{replyId}, #{content}, current_timestamp, FALSE)
     </insert>
 
     <select id="selectAlarmsByMemberId" resultType="alarmDTO">
-        select id, alarm_content, member_id, created_date, 'vt' as alarmtype
-        from tbl_vt_alarm
-        where member_id = #{memberId}
+        SELECT id, alarm_content, member_id, created_date, is_read, 'vt' AS alarmType
+        FROM tbl_vt_alarm
+        WHERE member_id = #{memberId}
 
-        union all
+        UNION ALL
 
-        select id, alarm_content, member_id, created_date, 'donation' as alarmtype
-        from tbl_donation_alarm
-        where member_id = #{memberId}
+        SELECT id, alarm_content, member_id, created_date, is_read, 'donation' AS alarmType
+        FROM tbl_donation_alarm
+        WHERE member_id = #{memberId}
 
-        union all
+        UNION ALL
 
-        select id, alarm_content, member_id, created_date, 'support' as alarmtype
-        from tbl_support_alarm
-        where member_id = #{memberId}
+        SELECT id, alarm_content, member_id, created_date, is_read, 'support' AS alarmType
+        FROM tbl_support_alarm
+        WHERE member_id = #{memberId}
 
-        union all
+        UNION ALL
 
-        select id, alarm_content, member_id, created_date, 'reply' as alarmtype
-        from tbl_reply_alarm
-        where member_id = #{memberId}
+        SELECT id, alarm_content, member_id, created_date, is_read, 'reply' AS alarmType
+        FROM tbl_reply_alarm
+        WHERE member_id = #{memberId}
 
-        order by created_date desc
-        limit 10
+        ORDER BY created_date DESC
+            LIMIT 10
     </select>
+
 
     <select id="selectAlarmsByMemberId7" resultType="alarmDTO">
-        select id, alarm_content, member_id, created_date, 'vt' as alarmtype
-        from tbl_vt_alarm
-        where member_id = #{memberId}
+        SELECT id, alarm_content, member_id, created_date, is_read, 'vt' AS alarmType
+        FROM tbl_vt_alarm
+        WHERE member_id = #{memberId}
 
-        union all
+        UNION ALL
 
-        select id, alarm_content, member_id, created_date, 'donation' as alarmtype
-        from tbl_donation_alarm
-        where member_id = #{memberId}
+        SELECT id, alarm_content, member_id, created_date, is_read, 'donation' AS alarmType
+        FROM tbl_donation_alarm
+        WHERE member_id = #{memberId}
 
-        union all
+        UNION ALL
 
-        select id, alarm_content, member_id, created_date, 'support' as alarmtype
-        from tbl_support_alarm
-        where member_id = #{memberId}
+        SELECT id, alarm_content, member_id, created_date, is_read, 'support' AS alarmType
+        FROM tbl_support_alarm
+        WHERE member_id = #{memberId}
 
-        union all
+        UNION ALL
 
-        select id, alarm_content, member_id, created_date, 'reply' as alarmtype
-        from tbl_reply_alarm
-        where member_id = #{memberId}
+        SELECT id, alarm_content, member_id, created_date, is_read, 'reply' AS alarmType
+        FROM tbl_reply_alarm
+        WHERE member_id = #{memberId}
 
-        order by created_date desc
-        limit 8
+        ORDER BY created_date DESC
+            LIMIT 7
     </select>
 
+    <select id="selectUnreadAlarmsByMemberId" resultType="alarmDTO">
+        SELECT id,
+               alarm_content AS alarmContent,
+               member_id AS memberId,
+               created_date AS createdDate,
+               is_read AS isRead,
+               'vt' AS alarmType
+        FROM tbl_vt_alarm
+        WHERE member_id = #{memberId} AND is_read = FALSE
+
+        UNION ALL
+
+        SELECT id,
+               alarm_content AS alarmContent,
+               member_id AS memberId,
+               created_date AS createdDate,
+               is_read AS isRead,
+               'donation' AS alarmType
+        FROM tbl_donation_alarm
+        WHERE member_id = #{memberId} AND is_read = FALSE
+
+        UNION ALL
+
+        SELECT id,
+               alarm_content AS alarmContent,
+               member_id AS memberId,
+               created_date AS createdDate,
+               is_read AS isRead,
+               'support' AS alarmType
+        FROM tbl_support_alarm
+        WHERE member_id = #{memberId} AND is_read = FALSE
+
+        UNION ALL
+
+        SELECT id,
+               alarm_content AS alarmContent,
+               member_id AS memberId,
+               created_date AS createdDate,
+               is_read AS isRead,
+               'reply' AS alarmType
+        FROM tbl_reply_alarm
+        WHERE member_id = #{memberId} AND is_read = FALSE
+
+        ORDER BY createdDate DESC
+            LIMIT 7
+    </select>
+
+
+
+    <update id="updateAlarmIsRead">
+        <choose>
+            <when test="alarmType == 'vt'">
+                UPDATE tbl_vt_alarm
+                SET is_read = TRUE
+                WHERE id = #{id} AND member_id = #{memberId}
+            </when>
+            <when test="alarmType == 'donation'">
+                UPDATE tbl_donation_alarm
+                SET is_read = TRUE
+                WHERE id = #{id} AND member_id = #{memberId}
+            </when>
+            <when test="alarmType == 'support'">
+                UPDATE tbl_support_alarm
+                SET is_read = TRUE
+                WHERE id = #{id} AND member_id = #{memberId}
+            </when>
+            <when test="alarmType == 'reply'">
+                UPDATE tbl_reply_alarm
+                SET is_read = TRUE
+                WHERE id = #{id} AND member_id = #{memberId}
+            </when>
+            <otherwise>
+                SELECT 1 FROM DUAL WHERE 1 = 0
+            </otherwise>
+        </choose>
+    </update>
 
 
 </mapper>

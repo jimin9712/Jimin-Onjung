@@ -34,7 +34,7 @@ public class SupportServiceImpl implements SupportService {
 
         // 목표 금액이 100% 달성되었는지 확인
         if (supportDTO.getCurrentPoint() >= supportDTO.getGoalPoint()) {
-            String alarmContent = "후원한 게시글의 후원 목표 금액이 100% 달성되었습니다!";
+            String alarmContent = "후원 목표 금액이 100% 달성되었습니다!";
             alarmDAO.saveSupportAlarm(supportDTO.getMemberId(), supportDTO.getId(), alarmContent);
         }
     }

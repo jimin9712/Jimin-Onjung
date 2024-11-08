@@ -3,12 +3,14 @@ package com.app.back.repository.alarm;
 import com.app.back.domain.alarm.AlarmDTO;
 import com.app.back.mapper.alarm.AlarmMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
+@Slf4j
 public class AlarmDAO {
     private final AlarmMapper alarmMapper;
 
@@ -33,4 +35,14 @@ public class AlarmDAO {
     public List<AlarmDTO> findAlarmsByMemberId7(Long memberId) {
         return alarmMapper.selectAlarmsByMemberId7(memberId);
     }
+    public List<AlarmDTO>findUnreadAlarmsByMemberId(Long memberId) {
+        return alarmMapper.selectUnreadAlarmsByMemberId(memberId);
+    }
+    public void updateAlarmIsRead(Long id, Long memberId, String alarmType) {
+        alarmMapper.updateAlarmIsRead(id, memberId, alarmType);
+        log.info("Updating alarm as read. ID: {}, Member ID: {}, Alarm Type: {}", id, memberId, alarmType);
+
+    }
+
+
 }

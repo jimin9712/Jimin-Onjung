@@ -22,4 +22,14 @@ public interface AlarmMapper {
 
     public List<AlarmDTO> selectAlarmsByMemberId7(@Param("memberId") Long memberId);
 
+    public List<AlarmDTO> selectUnreadAlarmsByMemberId(@Param("memberId") Long memberId);
+
+    public    void updateAlarmIsRead(
+            @Param("id") Long id,
+            @Param("memberId") Long memberId,
+            @Param("alarmType") String alarmType
+    );
+
+
+
 }
