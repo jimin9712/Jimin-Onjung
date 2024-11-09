@@ -85,6 +85,18 @@
     <include refid="search"/>
 </select>
 
+<select id="selectTotalWithFilter" resultType="int">
+    select count(*)
+    from tbl_inquiry i
+    join tbl_post p on i.id = p.id
+    join tbl_member m on p.member_id = m.id
+    <include refid="search"/>
+    <if test="filterType != null">
+        and i.inquiry_type = #{filterType}
+    </if>
+</select>
+
+
 <update id="updateById">
     update tbl_post
     set post_title = #{postTitle},
