@@ -5,6 +5,7 @@ import com.app.back.domain.member.MemberDTO;
 import com.app.back.service.alarm.AlarmService;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +36,7 @@ public class AlarmController {
         List<AlarmDTO> latestAlarms = alarmService.getUnreadAlarmsByMemberId(memberId);
         return ResponseEntity.ok(latestAlarms);
     }
-
+    
     @GetMapping("/read/{id}")
     public RedirectView readAlarm(
             @PathVariable Long id,
