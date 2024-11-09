@@ -5,6 +5,8 @@ create table tbl_vt_alarm(
     vt_id bigint unsigned not null,
     vt_application_id BIGINT UNSIGNED NOT NULL,
     created_date datetime default current_timestamp,
+    is_read boolean default false,
+
     constraint fk_vt_alarm_member foreign key (member_id)
     references tbl_member(id),
     constraint fk_vt_alarm_vt foreign key (vt_id)
@@ -15,6 +17,11 @@ create table tbl_vt_alarm(
 
 select * from tbl_vt_alarm;
 
+alter table tbl_vt_alarm add column is_read boolean default false;
+
+
+
+
 use test2;
 
 ALTER TABLE tbl_vt_alarm
@@ -22,3 +29,6 @@ ALTER TABLE tbl_vt_alarm
     ADD CONSTRAINT fk_vt_alarm_vt_application
         FOREIGN KEY (vt_application_id) REFERENCES tbl_vt_application(id);
 
+
+delete from tbl_vt_alarm
+where id = 4

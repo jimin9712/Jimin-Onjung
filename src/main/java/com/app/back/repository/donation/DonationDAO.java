@@ -4,6 +4,7 @@ import com.app.back.domain.donation.DonationDTO;
 import com.app.back.domain.donation.DonationVO;
 import com.app.back.domain.donation_record.DonationRecordDTO;
 import com.app.back.domain.post.Pagination;
+import com.app.back.domain.support.SupportDTO;
 import com.app.back.mapper.donation.DonationMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -36,6 +37,10 @@ public class DonationDAO {
     // ID로 프로젝트 포스트 수정
     public void update(DonationVO donationVO) {
         donationMapper.update(donationVO);
+    }
+
+    public void updateCurrentPoint(DonationDTO donationDTO) {
+        donationMapper.updateCurrentPoint(donationDTO);
     }
 
     // ID로 프로젝트 포스트 삭제

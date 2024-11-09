@@ -14,9 +14,10 @@ import org.springframework.stereotype.Component;
 public class SupportDTO {
 
     private Long id;
-    private int goal_point;
-    private String support_s_date;
-    private String support_e_date;
+    private int goalPoint;
+    private int currentPoint;
+    private String supportSdate;
+    private String supportEdate;
 
 
     private Long postId;
@@ -33,13 +34,6 @@ public class SupportDTO {
     private String updatedDate;
 
     private String attachmentFileName;
-//    private String createdDate;
-//    private String updatedDate;
-
-//    private Long memberId;
-//    private String memberNickName;
-//
-//    private String attachmentFileName;
     private String attachmentFileRealName;
     private String profileFileName;
     private String profileFilePath;
@@ -53,7 +47,7 @@ public class SupportDTO {
     }
 
     public SupportVO toVO() {
-        return new SupportVO(id,goal_point,support_e_date,support_s_date);
+        return new SupportVO(id,goalPoint,currentPoint,supportEdate,supportSdate);
     }
 
 

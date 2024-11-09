@@ -25,7 +25,7 @@ insert into tbl_post(id, post_title, post_summary, post_content,post_view_count,
 values(221,'제목입니다zz','후원 요약zz1','후원 내용z1z',10,'VOLUNTEER','VISIBLE',2);
 
 insert into tbl_post(id, post_title, post_summary, post_content,post_view_count, post_type, post_status, member_id)
-values(77,'봉사 게시글 제목','봉사 요약','봉사 내용',1,'SUPPORT','VISIBLE',22);
+values(78,'봉사 게시글 제목','봉사 요약','봉사 내용',1,'SUPPORT','VISIBLE',22);
 
 SELECT * FROM tbl_post WHERE id = 1;
 
@@ -37,7 +37,7 @@ SHOW CREATE TABLE tbl_post;
 drop table tbl_post;
 
 insert into tbl_post(id, post_title, post_summary, post_content,post_view_count, post_type, post_status, member_id)
-values(40,'봉사활동구인테스트제목37','봉사활동테스트요약231','봉사활동테스트내용5231',35,'VOLUNTEER',0,2);
+values(40,'뭐 어쩌구 도와주세요','기부요약','기부 내용1323',35,'DONATION',0,23);
 
 
 DELIMITER $$

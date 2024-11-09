@@ -19,4 +19,17 @@ public interface AlarmMapper {
     public void insertReplyAlarm(@Param("memberId") Long memberId, @Param("replyId") Long replyId, @Param("content") String content);
 
     public List<AlarmDTO> selectAlarmsByMemberId(@Param("memberId") Long memberId);
+
+    public List<AlarmDTO> selectAlarmsByMemberId7(@Param("memberId") Long memberId);
+
+    public List<AlarmDTO> selectUnreadAlarmsByMemberId(@Param("memberId") Long memberId);
+
+    public    void updateAlarmIsRead(
+            @Param("id") Long id,
+            @Param("memberId") Long memberId,
+            @Param("alarmType") String alarmType
+    );
+
+
+
 }

@@ -73,7 +73,6 @@ html body #root #app .wrap {
 }
 
 .mypage-whole .mypage-whole-wrap {
-    overflow-x: hidden;
     margin-bottom: 200px;
 }
 
@@ -1672,4 +1671,12 @@ p {
     font-weight: 700;
     margin-left: 650px;
     margin: 5px;
+}
+.cAfwXx{
+    user-select: none;
+    display: inline-block;
+    fill: currentcolor;
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
 }

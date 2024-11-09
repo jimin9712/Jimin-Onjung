@@ -4,15 +4,17 @@ create table tbl_support_alarm(
     member_id bigint unsigned not null,
     support_id bigint unsigned not null,
     created_date datetime default current_timestamp,
+    is_read boolean default false,
     constraint fk_support_alarm_member foreign key (member_id)
     references tbl_member(id),
     constraint fk_support_alarm_support foreign key (support_id)
     references tbl_support(id)
 );
 
-select * from tbl_alarm;
 
 use test2;
 
-drop table tbl_alarm;
+select * from tbl_support_alarm;
+
+alter table tbl_support_alarm add column is_read boolean default false;
 

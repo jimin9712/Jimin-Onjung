@@ -28,7 +28,7 @@ public class VolunteerDAO {
 
 //    게시글 전체 개수 조회
 public int findCount(){
-    return volunteerMapper.selectCount();
+    return volunteerMapper.selectTotal();
 }
 
     //    게시글 조회
@@ -37,9 +37,9 @@ public int findCount(){
     }
 
     //    게시글 조회수 증가
-    public void updatePostReadCount(Long id){
-        volunteerMapper.updatePostReadCount(id);
-    }
+//    public void updatePostReadCount(Long id){
+//        volunteerMapper.updatePostReadCount(id);
+//    }
 
     // ID로 프로젝트 포스트 수정
     public void update(ReviewDTO reviewDTO) {

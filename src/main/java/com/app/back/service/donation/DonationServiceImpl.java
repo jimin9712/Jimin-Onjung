@@ -1,10 +1,13 @@
 package com.app.back.service.donation;
 
+import com.app.back.domain.alarm.AlarmDTO;
 import com.app.back.domain.donation.DonationDTO;
 import com.app.back.domain.post.Pagination;
 import com.app.back.domain.post.PostVO;
+import com.app.back.domain.support.SupportDTO;
 import com.app.back.mapper.donation.DonationMapper;
 import com.app.back.mapper.post.PostMapper;
+import com.app.back.repository.alarm.AlarmDAO;
 import com.app.back.repository.attachment.AttachmentDAO;
 import com.app.back.repository.donation.DonationDAO;
 import com.app.back.repository.post.PostDAO;
@@ -26,6 +29,8 @@ public class DonationServiceImpl implements DonationService {
     private final DonationDAO donationDAO;
     private final PostDAO postDAO; // 게시글 DAO
     private final AttachmentDAO attachmentDAO;
+    private final AlarmDAO alarmDAO;
+    private final AlarmDTO alarmDTO;
 
     @Override
     public void write(DonationDTO donationDTO, List<String> uuids, List<String> realNames, List<String> paths, List<String> sizes, List<MultipartFile> files) throws IOException {
@@ -34,6 +39,7 @@ public class DonationServiceImpl implements DonationService {
         donationDTO.setId(id);
         donationDTO.setPostId(id);
         donationDAO.save(donationDTO.toVO());
+
         if(files != null) {
             for(int i=0; i<files.size(); i++){
                 donationDTO.setAttachmentFileName(uuids.get(i) + "_" + files.get(i).getOriginalFilename());
@@ -68,6 +74,7 @@ public class DonationServiceImpl implements DonationService {
     public void update(DonationDTO donationDTO, List<String> uuids, List<String> realNames, List<String> paths, List<String> sizes, List<MultipartFile> files, List<Long> ids) throws IOException {
         postDAO.update(donationDTO.toPostVO());
         donationDAO.update(donationDTO.toVO());
+
         if(files != null && uuids.size() > 0) {
             for(int i=0; i<files.size(); i++){
                 donationDTO.setAttachmentFileName(uuids.get(i+1) + "_" + files.get(i).getOriginalFilename());
@@ -98,5 +105,15 @@ public class DonationServiceImpl implements DonationService {
     @Override
     public List<DonationDTO> findByMemberIdAndDateRange(Long memberId, String startDate, String endDate) {
         return donationDAO.findByMemberIdAndDateRange(memberId, startDate, endDate);
+    }
+
+    @Override
+    public void updateCurrentPointAndCheckGoal(DonationDTO donationDTO) {
+        donationDAO.updateCurrentPoint(donationDTO);
+
+        if (donationDTO.getCurrentPoint() >= donationDTO.getGoalPoint()) {
+            String alarmContent = "기부한 게시글의 기부 목표 금액이 100% 달성되었습니다!";
+            alarmDAO.saveDonationAlarm(donationDTO.getMemberId(), donationDTO.getId(), alarmContent);
+        }
     }
 }
