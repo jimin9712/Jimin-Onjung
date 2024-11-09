@@ -20,13 +20,15 @@ public interface VolunteerService {
     public int getTotal();
     //    개시글 조회
     public Optional<VolunteerDTO> getById(Long id);
-    //    개시글 수정
-    public void update(VolunteerDTO volunteerDTO, List<String> uuids, List<String> realNames, List<String> paths, List<String> sizes, List<MultipartFile> files, List<Long> ids) throws IOException;
-    //    개시글 삭제
+    //    게시글 수정
+    void update(VolunteerDTO volunteerDTO, List<String> uuids, List<String> realNames, List<String> paths, List<String> sizes, List<MultipartFile> files, List<Long> ids) throws IOException;
+    //    게시글 삭제
     public void delete(Long id);
 
     public List<VolunteerDTO> findByMemberId(Long memberId); // 반환 타입 수정
     public List<VolunteerDTO> findByMemberIdAndDateRange(Long memberId, String startDate, String endDate);
+
+
 }
 
 

@@ -28,12 +28,12 @@ public interface VolunteerMapper {
     //  봉사활동 게시글 삭제
     public void deleteById(Long id);
 
-//    public List<VolunteerDTO> selectByMemberId(@Param("memberId") Long memberId); // 반환 타입 수정
-//    public List<VolunteerDTO> selectByMemberIdAndDateRange(
-//            @Param("memberId") Long memberId,
-//            @Param("startDate") String startDate,
-//            @Param("endDate") String endDate
-//    );
+    public List<VolunteerDTO> selectByMemberId(@Param("memberId") Long memberId); // 반환 타입 수정
+    public List<VolunteerDTO> selectByMemberIdAndDateRange(
+            @Param("memberId") Long memberId,
+            @Param("startDate") String startDate,
+            @Param("endDate") String endDate
+    );
 
 //    // 봉사활동 지원자 증가
 //    public void updateNowRecruitment(@Param("id") int id);

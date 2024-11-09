@@ -1,15 +1,14 @@
 package com.app.back.service.volunteer;
 
+import com.app.back.domain.donation.DonationDTO;
 import com.app.back.domain.volunteer.Pagination;
 import com.app.back.domain.volunteer.VolunteerDTO;
-import com.app.back.mapper.attachment.AttachmentMapper;
-import com.app.back.mapper.post.PostMapper;
-import com.app.back.mapper.volunteer.VolunteerMapper;
 import com.app.back.repository.attachment.AttachmentDAO;
 import com.app.back.repository.post.PostDAO;
 import com.app.back.repository.volunteer.VolunteerDAO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,14 +17,11 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-@Service
-@RequiredArgsConstructor
-@Transactional(rollbackFor = Exception.class)
-@Slf4j
+@Service // 이 클래스가 서비스임을 나타냄
+@Primary // 우선 순위가 높은 서비스
+@RequiredArgsConstructor // 생성자 자동 생성
+@Transactional(rollbackFor = Exception.class) // 예외 발생 시 롤백 처리
 public class VolunteerServiceImpl implements VolunteerService {
-    private final PostMapper postMapper;
-    private final VolunteerMapper volunteerMapper;
-    private final AttachmentMapper attachmentMapper;
     private final VolunteerDAO volunteerDAO;
     private final PostDAO postDAO;
     private final AttachmentDAO attachmentDAO;
@@ -95,6 +91,15 @@ public class VolunteerServiceImpl implements VolunteerService {
         volunteerDAO.delete(id);
         volunteerDAO.delete(id);
         // ID로 Q&A 게시글 삭제
+    }
+
+    @Override
+    public List<VolunteerDTO> findByMemberId(Long memberId) {
+        return volunteerDAO.findByMemberId(memberId);
+    }
+    @Override
+    public List<VolunteerDTO> findByMemberIdAndDateRange(Long memberId, String startDate, String endDate) {
+        return volunteerDAO.findByMemberIdAndDateRange(memberId, startDate, endDate);
     }
 
 }

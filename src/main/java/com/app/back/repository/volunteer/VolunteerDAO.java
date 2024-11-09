@@ -1,6 +1,7 @@
 package com.app.back.repository.volunteer;
 
 
+import com.app.back.domain.donation.DonationDTO;
 import com.app.back.domain.review.ReviewDTO;
 import com.app.back.domain.volunteer.Pagination;
 import com.app.back.domain.volunteer.VolunteerDTO;
@@ -16,6 +17,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class VolunteerDAO {
     private final VolunteerMapper volunteerMapper;
+    private final VolunteerVO volunteerVO;
 
     //    봉사활동모집 작성
     public void save(VolunteerVO volunteerVO) {volunteerMapper.insert(volunteerVO);}
@@ -30,7 +32,7 @@ public class VolunteerDAO {
         return volunteerMapper.selectById(id);
     }
     // ID로 프로젝트 포스트 수정
-    public void update(VolunteerDTO volunteerDTO) {volunteerMapper.update(volunteerDTO);}
+    public void update(VolunteerVO volunteerVO) {volunteerMapper.update(volunteerVO);}
     // ID로 프로젝트 포스트 삭제
     public void delete(Long id) {
         volunteerMapper.deleteById(id);
@@ -40,4 +42,10 @@ public class VolunteerDAO {
 //    public void updatePostReadCount(Long id){
 //        volunteerMapper.updatePostReadCount(id);
 //    }
+    public List<VolunteerDTO> findByMemberId(Long memberId) { // 반환 타입 수정
+        return volunteerMapper.selectByMemberId(memberId);
+    }
+    public List<VolunteerDTO> findByMemberIdAndDateRange(Long memberId, String startDate, String endDate) {
+        return volunteerMapper.selectByMemberIdAndDateRange(memberId, startDate, endDate);
+    }
 }

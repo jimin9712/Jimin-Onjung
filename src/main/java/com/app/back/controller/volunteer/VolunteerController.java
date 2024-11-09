@@ -35,6 +35,7 @@ public class VolunteerController {
     private final VolunteerService volunteerService;
     private final VolunteerMapper volunteerMapper;
     private final AttachmentService attachmentService;
+    private final VolunteerDTO volunteerDTO;
 
     @GetMapping("volunteer-write")
     public String goToWriteForm(VolunteerDTO volunteerDTO) {
@@ -54,13 +55,13 @@ public class VolunteerController {
 //        session.setAttribute("volunteer", volunteerDTO);
 
 //         데이터베이스에 게시글 저장
-        volunteerService.write(volunteerDTO,uuids, realNames, paths, sizes, files);
+        volunteerService.write(volunteerDTO, uuids, realNames, paths, sizes, files);
 
         return new RedirectView("/volunteer/volunteer-list");
     }
 
 
-//        봉사 모집 게시글 목록
+    //        봉사 모집 게시글 목록
     @GetMapping("/volunteer-list")
     public String getList(HttpSession session, Pagination pagination, Model model,
                           @RequestParam(value = "order", defaultValue = "recent") String order) {
@@ -90,7 +91,7 @@ public class VolunteerController {
         return "volunteer/volunteer-list";
     }
 
-// 봉사모집 게시판 json형태
+    // 봉사모집 게시판 json형태
     @GetMapping("/volunteer-info")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> getListInfo(
@@ -121,7 +122,6 @@ public class VolunteerController {
     }
 
 
-
     // 경로 변수를 사용하는 방식 (유일한 매핑으로 유지)
     @GetMapping("/volunteer-inquiry/{postId}")
     public String goToVolunteerPath(@PathVariable("postId") Long postId, Model model) {
@@ -137,20 +137,32 @@ public class VolunteerController {
     }
 
 
-    @PostMapping("/volunteer-update")
-    public RedirectView volunteerUpdate(ReviewDTO reviewDTO) {
-        volunteerService.update(volunteerDTO);
-        return new RedirectView("/volunteer/volunteer-list"); // 게시물 리스트로 리턴
+    @GetMapping("volunteer-update")
+    public String goToUpdateForm(@RequestParam("postId") Long postId, Model model) {
+        Optional<VolunteerDTO> volunteerDTO = volunteerService.getById(postId);
+
+        if (volunteerDTO.isPresent()) {
+            model.addAttribute("donation", volunteerDTO.get());
+            model.addAttribute("attachments", attachmentService.getList(postId));
+        } else {
+            return "redirect:/volunteer/volunteer-inquiry?postId=" + postId;
+        }
+        return "volunteer/volunteer-update";
     }
 
-    @GetMapping("/volunteer-delete")
-    public RedirectView volunteerDelete(@RequestParam("postId") Long postId) {
-        volunteerService.delete(postId);
-        return new RedirectView("/volunteer/volunteer-list"); } // 게시물 리스트로 리턴
+    @PostMapping("donation-update")
+    public RedirectView donationUpdate(DonationDTO donationDTO, @RequestParam("postId") Long postId, @RequestParam("uuid") List<String> uuids, @RequestParam("realName") List<String> realNames, @RequestParam("path") List<String> paths, @RequestParam("size") List<String> sizes, @RequestParam("file") List<MultipartFile> files, @RequestParam("id") List<Long> ids) throws IOException {
+        donationDTO.setId(postId);
+        donationDTO.setPostId(postId);
+
+        volunteerService.update(volunteerDTO, uuids, realNames, paths, sizes, files, ids);
+
+        return new RedirectView("/donation/donation-inquiry?postId=" + postId);
+    }
+
 
 
 }
-
 
 
 
