@@ -40,11 +40,14 @@ public class InquiryServiceImpl implements InquiryService {
         return inquiryDAO.findAll(pagination, search);
     }
     @Override
-    public List<InquiryDTO> getFilterList(Pagination pagination, Search search) {
-        return inquiryDAO.findFilterAll(pagination, search);
+    public List<InquiryDTO> getFilterList(Pagination pagination, Search search, String filterType) {
+        pagination.setOrder(filterType); // 필터 타입을 정렬 기준으로 설정
+        return inquiryDAO.findFilterAll(pagination, search, filterType);
+
     }
 
-    @Override
+
+        @Override
     public Optional<InquiryDTO> getPost(Long id) {
         return inquiryDAO.findById(id);
     }
@@ -67,6 +70,12 @@ public class InquiryServiceImpl implements InquiryService {
     public int getTotal() {
         return inquiryDAO.getTotal();
     }
+
+    @Override
+    public int getTotalWithFilter(Search search, String filterType) {
+        return inquiryDAO.getTotalWithFilter(search, filterType);
+    }
+
 
     @Override
     public int getTotalWithSearch(Search search) {

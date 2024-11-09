@@ -16,14 +16,13 @@ public class ReplyMapperTests {
 
     @Test
     public void testwrite() {
-        for (long i = 2; i <= 10; i++) {
-            ReplyDTO replyDTO = new ReplyDTO();
-            replyDTO.setId(i);
-            replyDTO.setReplyContent("야호"+i);
-            replyDTO.setReplyStatus(i+"@gmail.com");
-            replyDTO.setMemberId(2L);
-            replyDTO.setPostId(i);
-            replyMapper.insert(replyDTO.toReplyVO());
-        }
+        ReplyDTO replyDTO = new ReplyDTO();
+        replyDTO.setId(5L);
+        replyDTO.setReplyContent("야호");
+        replyDTO.setReplyStatus("@gmail.com");
+        replyDTO.setMemberId(2L);
+        replyDTO.setPostId(208l);
+        replyMapper.insert(replyDTO.toReplyVO());
+
     }
 }

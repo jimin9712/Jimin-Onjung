@@ -26,7 +26,7 @@ public Optional<InquiryDTO> selectById(Long id);
 //    public List<InquiryDTO> selectAll(@Param("pagination") Pagination pagination);
 public List<InquiryDTO> selectAll(@Param("pagination") Pagination pagination, @Param("search")Search search);
 
-public List<InquiryDTO> selectFilterAll(@Param("pagination") Pagination pagination, @Param("search")Search search);
+public List<InquiryDTO> selectFilterAll(@Param("pagination") Pagination pagination, @Param("search")Search search,@Param("filterType") String filterType);
 
 //    수정
 void updateById(InquiryDTO inquiryDTO);
@@ -42,7 +42,10 @@ public int selectTotal();
 //    검색 결과 개수 조회
 public int selectTotalWithSearch(@Param("search") Search search);
 
+//  필터 개수 조회
+public int selectTotalWithFilter(@Param("search") Search search, @Param("filterType") String filterType);
 
+// 필터된 문의 목록 가져오기
 
 public List<InquiryDTO> selectByMemberId(@Param("memberId") Long memberId); // 반환 타입 수정
 
