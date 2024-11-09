@@ -40,8 +40,9 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDTO> getFilterList(Pagination pagination, Search search) {
-        return postDAO.findFilterAll(pagination, search);
+    public List<PostDTO> getFilterList(Pagination pagination, Search search, String filterType) {
+        pagination.setOrder(filterType); // 필터 타입 설정
+        return postDAO.findFilterAll(pagination, search, filterType);
     }
 
     @Override
@@ -52,5 +53,9 @@ public class PostServiceImpl implements PostService {
     @Override
     public void delete(Long id) {
         postDAO.delete(id);
+    }
+    @Override
+    public int getTotalWithFilter(Search search, String filterType) {
+        return postDAO.getTotalWithFilter(search, filterType);
     }
 }
