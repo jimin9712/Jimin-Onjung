@@ -181,10 +181,12 @@ public Map<String, Object> getPostList(Pagination pagination, Search search, @Re
     List<PostDTO> posts;
 
     // 필터 타입에 따라 필터링된 목록 가져오기
-    if (filterType == null || filterType.equals("작성일 순")) {
+    if (filterType == null || filterType.equals("작성일 순") || filterType.equals("조회수 순") || filterType.equals("댓글수 순")) {
         posts = postService.getList(pagination, search);
     } else {
         posts = postService.getFilterList(pagination, search, filterType);
+        log.info("{}", posts);
+        log.info("{}", filterType);
     }
 
     // 결과를 담아 반환

@@ -328,7 +328,6 @@ postSearchInput.addEventListener("keydown", (event) => {
         fetchFilteredPosts(1, postKeyword, postFilterType); // 검색어를 이용해 첫 페이지 불러오기
     }
 });
-const options = document.querySelectorAll(".post-filter-option"); // 게시글 필터 옵션
 // 게시글 필터 버튼 클릭 시 필터에 맞는 데이터 불러오기
 postFilters.forEach((option) => {
     option.addEventListener("click", () => {
