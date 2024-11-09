@@ -390,7 +390,7 @@ const renderSidebarNotices = (notices) => {
 // 게시글 목록 렌더링 함수
 const renderPosts = (posts) => {
     console.log("렌더링할 게시글:", posts); // 게시글 데이터 확인
-    const postContainer = document.querySelector(".ServiceTable_row_wrapper");
+    const postContainer = document.querySelector(".ServiceTable_row_wrapper.post-filter-wrapper");
     if (!postContainer) {
         console.error("postContainer 요소를 찾을 수 없습니다.");
         return;
