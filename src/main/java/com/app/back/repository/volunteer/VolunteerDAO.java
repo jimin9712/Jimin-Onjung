@@ -17,42 +17,27 @@ import java.util.Optional;
 public class VolunteerDAO {
     private final VolunteerMapper volunteerMapper;
 
-//    봉사활동모집 작성
+    //    봉사활동모집 작성
     public void save(VolunteerVO volunteerVO) {volunteerMapper.insert(volunteerVO);}
-
-
-//    게시글 전체 개수 조회(목록 가져오기<최신순, 조회수 순, 마감 임박 순>)
+    //    게시글 전체 개수 조회(목록 가져오기<최신순, 조회수 순, 마감 임박 순>)
     public List<VolunteerDTO> findAll(Pagination pagination) {
     return volunteerMapper.selectAll(pagination);
 }
-
-//    게시글 전체 개수 조회
-public int findCount(){
-    return volunteerMapper.selectTotal();
-}
-
+    //    게시글 전체 개수 조회
+    public int findCount(){return volunteerMapper.selectTotal();}
     //    게시글 조회
     public Optional<VolunteerDTO> findById(Long id){
         return volunteerMapper.selectById(id);
+    }
+    // ID로 프로젝트 포스트 수정
+    public void update(VolunteerDTO volunteerDTO) {volunteerMapper.update(volunteerDTO);}
+    // ID로 프로젝트 포스트 삭제
+    public void delete(Long id) {
+        volunteerMapper.deleteById(id);
     }
 
     //    게시글 조회수 증가
 //    public void updatePostReadCount(Long id){
 //        volunteerMapper.updatePostReadCount(id);
 //    }
-
-    // ID로 프로젝트 포스트 수정
-    public void update(ReviewDTO reviewDTO) {
-        volunteerMapper.update(reviewDTO);
-    }
-
-    // ID로 프로젝트 포스트 삭제
-    public void delete(Long id) {
-        volunteerMapper.deleteById(id);
-    }
-
-
-
-
-
 }
