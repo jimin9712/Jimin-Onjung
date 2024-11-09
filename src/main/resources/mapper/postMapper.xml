@@ -127,4 +127,10 @@
     where id = #{id}
 </update>
 
+    <select id="selectTotalByPostType" resultType="int">
+        SELECT COUNT(*)
+        FROM tbl_post
+        WHERE post_type = #{postType}
+    </select>
+
 </mapper>

@@ -11,8 +11,9 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class SupportVO {
     private Long id;
-    private int goal_point;
-    private String support_s_date;
-    private String support_e_date;
+    private int goalPoint;
+    private int currentPoint;
+    private String supportSdate;
+    private String supportEdate;
 
 }

@@ -51,6 +51,8 @@ public interface PostMapper {
     public int selectTotalWithSearch(@Param("search") Search search);
 
     int selectTotalWithFilter(@Param("search") Search search, @Param("filterType") String filterType);
+  
+    public int selectTotalByPostType(String postType);
 
 
 

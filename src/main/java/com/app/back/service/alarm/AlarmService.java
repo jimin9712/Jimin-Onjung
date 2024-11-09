@@ -17,4 +17,14 @@ public interface AlarmService {
 
     public List<AlarmDTO> getAlarmsByMemberId(Long memberId);
 
+    public List<AlarmDTO> getAlarmsByMemberId7(Long memberId);
+
+    public List<AlarmDTO> getUnreadAlarmsByMemberId(Long memberId);
+
+    public void markAlarmAsRead(Long id, Long memberId, String alarmType);
+
+
+
+
+
 }

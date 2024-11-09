@@ -17,4 +17,11 @@
                 join tbl_post p on s.id = p.id
                 left join tbl_attachment a on p.id = a.post_id
     </select>
+
+    <update id="updateCurrentPoint" parameterType="supportDTO">
+        update tbl_support
+        set current_point = #{currentPoint}
+        where id = #{id}
+    </update>
+
 </mapper>

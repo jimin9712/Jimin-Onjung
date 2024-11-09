@@ -21,7 +21,7 @@ public interface VolunteerMapper {
     public List<VolunteerDTO> selectAll(@Param("pagination") Pagination pagination);
 
     // 전체 개수
-    public int selectCount();
+    public int selectTotal();
 
     //  봉사활동 게시글 조회
     public Optional<VolunteerDTO> selectById(@Param("id") Long id);
@@ -36,7 +36,7 @@ public interface VolunteerMapper {
     public void updateNowRecruitment(@Param("id") int id);
 
     //    조회수 증가
-    public void updatePostReadCount(Long id);
+//    public void updatePostReadCount(Long id);
 
 
 

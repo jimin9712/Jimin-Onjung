@@ -3,6 +3,7 @@ package com.app.back.service.alarm;
 import com.app.back.domain.alarm.AlarmDTO;
 import com.app.back.repository.alarm.AlarmDAO;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +14,7 @@ import java.util.List;
 @Primary
 @RequiredArgsConstructor
 @Transactional(rollbackFor = Exception.class)
+@Slf4j
 public class AlarmServiceImpl implements AlarmService {
     private final AlarmDAO alarmDAO;
 
@@ -38,5 +40,20 @@ public class AlarmServiceImpl implements AlarmService {
     @Override
     public List<AlarmDTO> getAlarmsByMemberId(Long memberId) {
         return alarmDAO.findAlarmsByMemberId(memberId);
+    }
+    @Override
+    public List<AlarmDTO> getAlarmsByMemberId7(Long memberId) {
+        return alarmDAO.findAlarmsByMemberId7(memberId);
+    }
+
+    @Override
+    public List<AlarmDTO> getUnreadAlarmsByMemberId(Long memberId) {
+        return alarmDAO.findUnreadAlarmsByMemberId(memberId);
+    }
+
+    @Override
+    public void markAlarmAsRead(Long id, Long memberId, String alarmType) {
+        log.info("Marking alarm as read. ID: {}, Member ID: {}, Alarm Type: {}", id, memberId, alarmType);
+        alarmDAO.updateAlarmIsRead(id, memberId, alarmType);
     }
 }

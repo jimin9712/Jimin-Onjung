@@ -8,6 +8,7 @@ import com.app.back.domain.post.Pagination;
 import com.app.back.domain.post.Search;
 import com.app.back.domain.review.ReviewDTO;
 import com.app.back.domain.review.ReviewVO;
+import com.app.back.domain.support.SupportDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -28,6 +29,9 @@ public interface DonationMapper {
     public int selectCount();
     // 수정
     public void update(DonationVO donationVO);
+
+    public void updateCurrentPoint(DonationDTO donationDTO);
+
     // 삭제
     public void deleteById(Long id);
 
