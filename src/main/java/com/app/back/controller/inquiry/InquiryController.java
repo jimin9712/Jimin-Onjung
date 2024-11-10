@@ -5,12 +5,14 @@ import com.app.back.domain.notice.NoticeDTO;
 import com.app.back.domain.post.Pagination;
 import com.app.back.domain.post.PostDTO;
 import com.app.back.domain.post.Search;
+import com.app.back.domain.report.ReportDTO;
 import com.app.back.enums.AdminPostType;
 import com.app.back.enums.PostType;
 import com.app.back.service.inquiry.InquiryService;
 import com.app.back.service.inquiryAnswer.InquiryAnswerService;
 import com.app.back.service.notice.NoticeService;
 import com.app.back.service.post.PostService;
+import com.app.back.service.report.ReportService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -39,6 +41,7 @@ public class InquiryController {
     private final InquiryAnswerService inquiryAnswerService;
     private final NoticeService noticeService;
     private final PostService postService;
+    private final ReportService reportService;
 
 @GetMapping("/admin")   // 관리자 페이지
 public List<InquiryDTO> admin(Pagination pagination, Search search) {
@@ -78,9 +81,6 @@ public Map<String, Object> getInquiryList(Pagination pagination, Search search, 
     result.put("pagination", pagination);
     return result;
 }
-
-
-
 
     //  문의 조회
 @GetMapping("/admin/inquiry-answer")
@@ -163,9 +163,7 @@ public Map<String, Object> getNoticeRead(@RequestParam Long id) {
 
 @GetMapping("/admin/post-list")
 @ResponseBody
-public Map<String, Object> getPostList(Pagination pagination, Search search,
-                                       @RequestParam(required = false) String query,
-                                       @RequestParam(required = false) String filterType) {
+public Map<String, Object> getPostList(Pagination pagination, Search search, @RequestParam(required = false) String query, @RequestParam(required = false) String filterType) {
     search.setKeyword(query);
     int total;
 
@@ -229,6 +227,42 @@ public Map<String, Object> getPostDetail(@RequestParam Long id) {
     return result;
 }
 
+// 전체 신고 목록 조회
+@GetMapping("admin/report-list")
+@ResponseBody
+public Map<String, Object> getReportList(Pagination pagination, Search search, @RequestParam(required = false) String query, @RequestParam(required = false) String filterType) {
+    search.setKeyword(query);
+
+    int total;
+    if (filterType == null || filterType.equals("신고일 순")) {
+        total = reportService.getTotalReportsWithSearch(search);
+    } else {
+        total = reportService.getTotalReportsWithFilter(search, filterType);
+    }
+
+    pagination.setTotal(total);
+    pagination.progress();
+
+    List<ReportDTO> reports;
+    if (filterType == null || filterType.equals("신고일 순")) {
+        reports = reportService.getAllReports(pagination, search);
+    } else {
+        reports = reportService.getFilteredReports(pagination, search, filterType);
+    }
+
+    Map<String, Object> result = new HashMap<>();
+    result.put("reports", reports);
+    result.put("pagination", pagination);
+    return result;
+}
+
+// 신고 삭제
+@DeleteMapping("/delete-reports")
+public ResponseEntity<Void> deleteReports(@RequestBody List<Long> reportIds) {
+    reportIds.forEach(reportService::deleteReport);
+    return ResponseEntity.noContent().build();
+}
+
 
 @GetMapping("/my-inquirys/{memberId}")
 @ResponseBody
@@ -246,6 +280,7 @@ public List<InquiryDTO> getMyInquirys(
         return inquiryService.findByMemberId(memberId);
     }
 }
+
 
 
 }

@@ -414,12 +414,6 @@ const renderPosts = (posts) => {
                 <div class="ServiceTable_cell editBtn"><button class="inquiry-button">조회</button></div>
             </div>`;
     });
-    if (postContainer) {
-        postContainer.innerHTML = content;
-        console.log("게시글 목록이 렌더링되었습니다.");
-    } else {
-        console.error("postContainer 요소를 찾을 수 없습니다.");
-    }
         selectAllPosts();
 };
 
@@ -470,25 +464,248 @@ const postPagination = (pagination,keyword ='',filterType='') => {
 
 };
 
-const renderPostDetail = (post) => {
-    const postDetailContainer = document.getElementById("post-detail-container");
+const renderPostDetail = (post, attachments) => {
+    const postDetailContainer = document.querySelector(".container-main-body");
 
     if (!postDetailContainer) {
-        console.error("post-detail-container 요소를 찾을 수 없습니다.");
+        console.error("container-main-body 요소를 찾을 수 없습니다.");
         return;
     }
 
     postDetailContainer.innerHTML = `
-        <h1>${post.postTitle}</h1>
-        <p>작성자: ${post.memberNickName}</p>
-        <p>조회수: ${post.postViewCount}</p>
-        <p>댓글수: ${post.replyCount}</p>
-        <p>유형: ${post.postType}</p>
-        <p>${post.postContent}</p>
+        <section class="main-info-wrap">
+            <section class="main-info">
+                <section class="left">
+                    <div class="content-wrapper">
+                        <div class="main-thumbnail-container">
+                            <div class="main-thumbnail" width="100%">
+                                <div>
+                                    <img src="${post.thumbnailUrl || 'https://via.placeholder.com/570'}" 
+                                         alt="${post.postTitle} 이미지" 
+                                         style="width: 570px; height: 570px;" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tabs-navigation-wrapper tab-wrapper">
+                        <div class="tab-style tabs">
+                            <div class="active tab">내용</div>
+                            <div class="tab">댓글<label class="tab-sticker">2</label></div>
+                        </div>
+                    </div>
+                    <div class="content-wrap">
+                        <section class="content-container">
+                            <section class="content-introduce">
+                                <div class="content-title row-title">한 줄 요약</div>
+                                <div class="content-content row-content">${post.postSummary}</div>
+                            </section>
+                        </section>
+                        <section class="content-title-container">
+                            <div class="content-title row-title">목표 포인트</div>
+                            <div class="content-content row-content">50000</div>
+                        </section>
+                        <section class="content-title-container">
+                            <div class="content-title row-title">내용</div>
+                            <div class="content-content row-content">${post.postContent}</div>
+                        </section>
+                        <section class="attach-title-container">
+                            <div class="content-title row-title">첨부파일</div>
+                            <div class="content-content row-content">
+                                <ul class="attach-list attachments">
+                                    ${attachments.map(file => `
+                                        <li>
+                                            <p class="file-name">${file.attachmentFileRealName}</p>
+                                            <span class="file-download">
+                                                <a href="${file.attachmentFilePath}/${file.attachmentFileName}" download="${file.attachmentFileRealName}" class="attach-save">저장</a>
+                                            </span>
+                                        </li>
+                                    `).join('')}
+                                </ul>
+                            </div>
+                        </section>
+                    </div>
+                </section>
+                <section class="right">
+                    <div class="sticky-box">
+                        <div class="right-title-wrap end">
+                            <div class="right-title-container">
+                                <h2 class="title">${post.postTitle}</h2>
+                                <div class="user-info">
+                                    <a href="/m/${post.userId}" class="avatar-container avatar">
+                                        <img src="${post.userAvatar || 'https://via.placeholder.com/256'}" />
+                                    </a>
+                                    <div class="user-info-text-wrapper">
+                                        <p class="user-nick-container company" title="${post.memberNickName}">
+                                            <a class="user-nick nick" href="/m/${post.userId}">${post.memberNickName}</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <section class="prize-wrap prize">
+                                <div class="help">
+                                    <p>목표 포인트</p>
+                                </div>
+                                <div class="total-prize"></div>
+                                <ul class="prizes">
+                                    <div class="graph-wrap">
+                                        <div class="graph-status">
+                                            <span><strong class="num"></strong>%</span>
+                                        </div>
+                                        <div class="graph-bar"><span></span></div>
+                                    </div>
+                                </ul>
+                            </section>
+                            <div class="row-line"></div>
+                            <section class="info-box-container meta">
+                                <div class="right-info-style info-box">
+                                    <div class="title">모금 기간</div>
+                                    <div class="content">6일</div>
+                                    <div class="sub-content"><span>24.10.05 ~ 24.10.11</span></div>
+                                </div>
+                                <div class="right-info-style info-box">
+                                    <div class="title">참여 인원 수</div>
+                                    <div class="content">3명</div>
+                                </div>
+                                <div class="right-info-style info-box">
+                                    <div class="title">조회수</div>
+                                    <div class="content">${post.viewCount}</div>
+                                </div>
+                            </section>
+                            <div class="donation-btn-wrap">
+                                <div class="donation-btn-container tooltip">
+                                    <a class="donation-btn-style"><span class="visual-correction">기부하기</span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </section>
+        </section>
     `;
 };
+// =============================== 신고 목록 =====================================
 
+// 신고 데이터 렌더링 함수
+const renderReports = (reports) => {
+    const reportContainer = document.querySelector(".ServiceTable_container.report-page");
+    let content = '';
+    content +=`<div class="header_wrapper">
+                    <div
+                        class="ServiceTable_row ServiceTable_header"
+                    >
+                        <div
+                            class="ServiceTable_cell headerCell selectAllCell"
+                        >
+                            <input
+                                type="checkbox"
+                                id="selectAllReports"
+                            />
+                        </div>
+                        <div class="ServiceTable_cell
+                        headerCell reportTable"> 신고 번호
+                        </div>
+                        <div
+                            class="ServiceTable_cell headerCell reportTable"
+                        >
+                            신고 날짜
+                        </div>
+                        <div
+                            class="ServiceTable_cell headerCell reportTable"
+                        >
+                            신고한 사용자
+                        </div>
+                        <div
+                            class="ServiceTable_cell headerCell reportTable"
+                        >
+                            신고된 사용자
+                        </div>
+                        <div
+                            class="ServiceTable_cell headerCell reportTable"
+                        >
+                            신고된 게시글 제목
+                        </div>
+                        <div
+                            class="ServiceTable_cell headerCell reportTable"
+                            style="width: 300px"
+                        >
+                            신고 사유
+                        </div>
+                        <div
+                            class="ServiceTable_cell headerCell reportTable"
+                            id="report_status"
+                        >
+                            처리 상태
+                        </div>
+                    </div>
+                </div>`
+    reports.forEach((report) => {
+        content += `
+        <div class="ServiceTable_row_wrapper">
+            <div class="ServiceTable_row">
+                <div class="ServiceTable_cell">
+                    <input type="checkbox" class="reportCheckbox" data-id="${report.id}" />
+                </div>
+                <div class="ServiceTable_cell post_ID reportTable">${report.id}</div>
+                <div class="ServiceTable_cell Join_date reportTable">${report.createdDate}</div>
+                <div class="ServiceTable_cell user_name reportTable">${report.memberNickName}</div>
+                <div class="ServiceTable_cell user_name reportTable">${report.memberNickName}</div>
+                <div class="ServiceTable_cell post_title reportTable">${report.postTitle}</div>
+                <div class="ServiceTable_cell report_Cause reportTable">${report.reportReason}</div>
+                <div class="ServiceTable_cell editBtn reportTable">
+                    <button class="status-btn">${report.reportStatus}</button>
+                </div>
+            </div>
+        </div>`;
+    });
 
+    reportContainer.innerHTML = content;
+    selectAllReports();
+};
+const reportPagePagination = document.querySelector(".pagination-list.report-page");
+
+// 페이지네이션을 렌더링하는 함수
+const reportPagination = (pagination, keyword = '', filterType = '') => {
+    let paginationHTML = ''; // 페이지네이션 HTML 내용을 저장할 변수
+
+    // 첫 페이지 링크 추가
+    paginationHTML += `<li class="pagination-first">
+<a href="#" data-page="1" class="pagination-first-link">«</a></li>`;
+
+    // 이전 페이지 링크가 있을 경우 추가
+    if (pagination.prev) {
+        paginationHTML += `<li class="pagination-prev">
+    <a href="#" data-page="${pagination.startPage - 1}" class="pagination-prev-link">‹</a></li>`;
+    }
+
+    // 현재 페이지 범위 내의 페이지 번호를 추가
+    for (let i = pagination.startPage; i <= pagination.endPage; i++) {
+        paginationHTML += `<li class="pagination-page ${pagination.page === i ? 'active' : ''}">
+    <a href="#" data-page="${i}" class="pagination-page-link">${i}</a></li>`;
+    }
+
+    // 다음 페이지 링크가 있을 경우 추가
+    if (pagination.next) {
+        paginationHTML += `<li class="pagination-next">
+    <a href="#" data-page="${pagination.endPage + 1}" class="pagination-next-link">›</a></li>`;
+    }
+
+    // 마지막 페이지 링크 추가
+    paginationHTML += `<li class="pagination-last">
+<a href="#" data-page="${pagination.realEnd}" class="pagination-last-link">»</a></li>`;
+
+    // 생성된 HTML을 페이지네이션 컨테이너에 삽입
+    reportPagePagination.innerHTML = paginationHTML;
+
+    // 페이지네이션 클릭 이벤트 리스너 추가
+    document.querySelectorAll(".pagination-page-link, .pagination-prev-link, .pagination-next-link, .pagination-first-link, .pagination-last-link").forEach(link => {
+        link.addEventListener("click", (e) => {
+            e.preventDefault(); // 기본 링크 클릭 동작 방지
+            const page = e.target.getAttribute("data-page"); // 클릭한 링크의 페이지 번호 가져오기
+            fetchFilteredReports(page, keyword, filterType); // 해당 페이지의 데이터를 가져오는 함수 호출
+            resetSelectAllReportsCheckbox(); // 페이지 변경 시 전체 선택 체크박스 해제
+        });
+});
+};
 
 
 

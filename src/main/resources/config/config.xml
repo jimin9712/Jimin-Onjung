@@ -42,6 +42,8 @@
         <typeAlias type="com.app.back.domain.support.SupportDTO" alias="supportDTO"/>
         <typeAlias type="com.app.back.domain.reply.ReplyVO" alias="replyVO"/>
         <typeAlias type="com.app.back.domain.reply.ReplyDTO" alias="replyDTO"/>
+        <typeAlias type="com.app.back.domain.report.ReportVO" alias="reportVO"/>
+        <typeAlias type="com.app.back.domain.report.ReportDTO" alias="reportDTO"/>
 
 
 

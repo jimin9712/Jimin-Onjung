@@ -1,5 +1,5 @@
 // ========================== 문의 내역 렌더링 함수 ==========================
-const inquiryContainer = document.querySelector(".ServiceLayout_container.inquiryTable_container");
+const inquiryContainer = document.querySelector(".inquiryTable_container");
 
 // 문의 내역 렌더링
 const renderInquiries = (inquiries) => {
