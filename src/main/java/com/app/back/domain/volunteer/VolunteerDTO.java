@@ -12,7 +12,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
 
 @Component
 @Getter @Setter @ToString
@@ -55,7 +54,7 @@ public class VolunteerDTO {
     }
 
     //    첨부파일 정보 가져오기
-    public AttachmentVO toAttachmentVO() {
+    public AttachmentVO toAttachmentVO(){
         return new AttachmentVO(id, attachmentFileName, attachmentFileRealName, attachmentFilePath, attachmentFileSize, attachmentFileType, postId, createdDate);
     }
 
@@ -103,13 +102,6 @@ public class VolunteerDTO {
         } catch (IllegalArgumentException e) {
             this.postTypeDisplayName = "알 수 없는 타입"; // Enum에 없는 값인 경우 기본값 설정
         }
-    }
-
-    @Data
-    @AllArgsConstructor
-    public class VolunteerResponseDTO {
-        private List<VolunteerDTO> lists;
-        private Pagination pagination;
     }
 
 }
