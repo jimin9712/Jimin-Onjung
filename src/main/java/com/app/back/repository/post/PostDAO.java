@@ -52,8 +52,8 @@ public class PostDAO {
         return postMapper.selectAll(pagination, search);
     }
     //    필터된 게시글 전체 조회
-    public List<PostDTO> findFilterAll(Pagination pagination, Search search, String filterType){
-        return postMapper.selectFilterAll(pagination, search,filterType);
+    public List<PostDTO> findFilterAll(Pagination pagination, Search search, String filterType) {
+        return postMapper.selectFilterAll(pagination, search, filterType); // Enum 이름을 그대로 전달
     }
     //    게시글 조회
     public Optional<PostDTO> findById(Long id){
@@ -61,6 +61,6 @@ public class PostDAO {
     }
 
     public int getTotalWithFilter(Search search, String filterType) {
-        return postMapper.selectTotalWithFilter(search, filterType);
+        return postMapper.selectTotalWithFilter(search, filterType); // Enum 이름을 그대로 전달
     }
 }

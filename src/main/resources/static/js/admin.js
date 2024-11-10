@@ -38,19 +38,7 @@ submenus.forEach((submenu) => {
     });
 });
 
-// 문의 버튼 클릭 시 게시글 조회 섹션 표시
-inquiryButtons.forEach((inquiryButton) => {
-    inquiryButton.addEventListener("click", (e) => {
-        sections.forEach((section) => {
-            section.classList.remove("selected"); // 모든 섹션 선택 해제
-        });
-        const postInquirySection = sections.filter(
-            (section) => section.dataset.value === "게시글 조회" // 게시글 조회 섹션 찾기
-        );
-        postInquirySection[0].classList.add("selected"); // 해당 섹션 선택
-        resetSelectAllCheckbox(); // 전체 선택 체크박스 해제
-    });
-});
+
 
 // DOM이 로드된 후 실행되는 코드
 document.addEventListener("DOMContentLoaded", function () {
@@ -385,6 +373,13 @@ document.getElementById("deleteSelectedBtn").addEventListener("click", () => {
     deleteSelectedPosts(selectedIds); // 삭제 요청 함수 호출
 });
 
+// 조회 버튼 클릭 이벤트 리스너
+document.querySelector(".post-filter-wrapper").addEventListener("click", (event) => {
+    if (event.target.classList.contains("inquiry-button")) {
+        const postId = event.target.closest(".ServiceTable_row").querySelector(".post_ID").textContent.trim();
+        fetchPostDetail(postId); // 조회 함수 호출
+    }
+});
 
 
 

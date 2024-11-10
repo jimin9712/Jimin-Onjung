@@ -251,7 +251,20 @@ const deleteSelectedPosts = async (selectedIds) => {
     }
 };
 
-
+// 게시글 조회 함수
+const fetchPostDetail = async (postId) => {
+    try {
+        const response = await fetch(`/admin/post-detail?id=${postId}`);
+        const data = await response.json();
+        if (data.success) {
+            renderPostDetail(data.post); // 받은 데이터를 표시
+        } else {
+            console.error(data.message);
+        }
+    } catch (error) {
+        console.error("게시글 상세 조회 오류:", error);
+    }
+};
 
 
 

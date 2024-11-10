@@ -319,10 +319,10 @@ if (pagination.next && pagination.page < pagination.realEnd) {
 const notificationContainer = document.querySelector(".notification-container"); // 공지사항 세부 내용 컨테이너
 const sidebarContainer = document.querySelector(".sidebar-container .sidebar-content"); // 사이드바 컨테이너
 
-// 공지사항 세부 내용을 렌더링하는 함수
+// 공지사항 조회 렌더링하는 함수
 const renderNoticeDetail = (notice) => {
     if (notificationContainer) {
-        // 공지사항 세부 내용 렌더링
+        // 공지사항 조회 렌더링
         notificationContainer.innerHTML = `
             <header class="notification-header">
                 <h1 style="font-size: 20px">
@@ -470,10 +470,23 @@ const postPagination = (pagination,keyword ='',filterType='') => {
 
 };
 
+const renderPostDetail = (post) => {
+    const postDetailContainer = document.getElementById("post-detail-container");
 
+    if (!postDetailContainer) {
+        console.error("post-detail-container 요소를 찾을 수 없습니다.");
+        return;
+    }
 
-
-
+    postDetailContainer.innerHTML = `
+        <h1>${post.postTitle}</h1>
+        <p>작성자: ${post.memberNickName}</p>
+        <p>조회수: ${post.postViewCount}</p>
+        <p>댓글수: ${post.replyCount}</p>
+        <p>유형: ${post.postType}</p>
+        <p>${post.postContent}</p>
+    `;
+};
 
 
 

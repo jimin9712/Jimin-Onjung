@@ -5,6 +5,7 @@ import com.app.back.domain.notice.NoticeDTO;
 import com.app.back.domain.post.Pagination;
 import com.app.back.domain.post.PostDTO;
 import com.app.back.domain.post.Search;
+import com.app.back.enums.AdminPostType;
 import com.app.back.enums.PostType;
 import com.app.back.service.inquiry.InquiryService;
 import com.app.back.service.inquiryAnswer.InquiryAnswerService;
@@ -160,49 +161,74 @@ public Map<String, Object> getNoticeRead(@RequestParam Long id) {
 }
 
 
-@GetMapping("/admin/post-list")  // 게시글 목록
+@GetMapping("/admin/post-list")
 @ResponseBody
-public Map<String, Object> getPostList(Pagination pagination, Search search, @RequestParam(required = false) String query, @RequestParam(required = false) String filterType) {
-    // 검색어 설정
+public Map<String, Object> getPostList(Pagination pagination, Search search,
+                                       @RequestParam(required = false) String query,
+                                       @RequestParam(required = false) String filterType) {
     search.setKeyword(query);
-
     int total;
+
     if (filterType == null || filterType.equals("작성일 순")) {
-        // 작성일 순 필터인 경우 모든 데이터를 기준으로 총 개수를 가져옴
+        pagination.setOrder("작성일 순");
+        total = postService.getTotalWithSearch(search);
+    } else if (filterType.equals("조회수 순") || filterType.equals("댓글수 순")) {
+        pagination.setOrder(filterType);
         total = postService.getTotalWithSearch(search);
     } else {
-        // 필터 타입이 있는 경우 필터 조건에 맞는 데이터의 총 개수 가져옴
-        total = postService.getTotalWithFilter(search, filterType);
+        try {
+            AdminPostType postTypeEnum = AdminPostType.fromDisplayName(filterType); // displayName으로 변환
+            total = postService.getTotalWithFilter(search, postTypeEnum);
+        } catch (IllegalArgumentException e) {
+            log.error("Invalid filterType: {}", filterType);
+            total = 0;
+        }
     }
 
-    pagination.setTotal(total); // 필터 또는 검색어에 따른 총 개수 설정
-    pagination.progress(); // 페이지네이션 계산
+    pagination.setTotal(total);
+    pagination.progress();
 
     List<PostDTO> posts;
-
-    // 필터 타입에 따라 필터링된 목록 가져오기
-    if (filterType == null || filterType.equals("작성일 순") || filterType.equals("조회수 순") || filterType.equals("댓글수 순")) {
+    if (pagination.getOrder() != null && (pagination.getOrder().equals("작성일 순") || pagination.getOrder().equals("조회수 순") || pagination.getOrder().equals("댓글수 순"))) {
         posts = postService.getList(pagination, search);
     } else {
-        posts = postService.getFilterList(pagination, search, filterType);
-        log.info("{}", posts);
-        log.info("{}", filterType);
+        try {
+            AdminPostType postTypeEnum = AdminPostType.fromDisplayName(filterType); // displayName으로 변환
+            posts = postService.getFilterList(pagination, search, postTypeEnum);
+        } catch (IllegalArgumentException e) {
+            log.error("Invalid filterType for posts: {}", filterType);
+            posts = List.of();
+        }
     }
 
-    // 결과를 담아 반환
     Map<String, Object> result = new HashMap<>();
     result.put("posts", posts);
     result.put("pagination", pagination);
     return result;
 }
 
-
-
 @DeleteMapping("/admin/delete-posts")
 public ResponseEntity<Void> deletePosts(@RequestBody List<Long> postIds) {
     postIds.forEach(postService::delete); // 각 postId를 이용해 게시글 삭제
     return ResponseEntity.noContent().build(); // 삭제 후 204 No Content 반환
 }
+
+@GetMapping("/admin/post-detail")
+@ResponseBody
+public Map<String, Object> getPostDetail(@RequestParam Long id) {
+    Optional<PostDTO> post = postService.getPost(id);
+    Map<String, Object> result = new HashMap<>();
+
+    if (post.isPresent()) {
+        result.put("success", true);
+        result.put("post", post.get());
+    } else {
+        result.put("success", false);
+        result.put("message", "Post not found");
+    }
+    return result;
+}
+
 
 @GetMapping("/my-inquirys/{memberId}")
 @ResponseBody
