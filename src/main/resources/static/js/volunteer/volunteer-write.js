@@ -6,10 +6,11 @@ const maxFiles = 10;
 const maxTotalSize = 20 * 1024 * 1024; // 20MB
 
 let uploadedFiles = new Set(); // 업로드된 파일을 저장하는 Set
+let i = 0;
 
 // 파일 선택 시 호출되는 함수
-fileInput.addEventListener("change", (event) => {
-    handleFiles(event.target.files);
+fileInput.addEventListener("change", async (event) => {
+    await handleFiles(event.target.files);
     fileInput.value = "";
 });
 
@@ -31,7 +32,7 @@ dropZone.addEventListener("drop", (event) => {
 });
 
 // 파일 처리 함수
-const handleFiles = (files) => {
+const handleFiles = async (files) => {
     let totalSize = Array.from(uploadedFiles).reduce(
         (acc, file) => acc + file.size,
         0
@@ -54,19 +55,63 @@ const handleFiles = (files) => {
             addFileToList(file);
         }
     }
+
+    const form = document["donation-write-form"];
+    const formData = new FormData();
+    formData.append("file", files[0]);
+    const attachmentFile = await donationWriteService.upload(formData);
+    const uuid = attachmentFile.attachmentFileName.substring(0, attachmentFile.attachmentFileName.indexOf("_"));
+    const attachmentFileName = document.createElement("input");
+    attachmentFileName.type = "hidden";
+    attachmentFileName.name = "uuid";
+    attachmentFileName.value = `${uuid}`;
+    const attachmentFileRealName = document.createElement("input");
+    attachmentFileRealName.type = "hidden";
+    attachmentFileRealName.name = "realName";
+    attachmentFileRealName.value = `${attachmentFile.attachmentFileName.substring(attachmentFile.attachmentFileName.indexOf("_") + 1)}`;
+    const attachmentFilePath = document.createElement("input");
+    attachmentFilePath.type = "hidden";
+    attachmentFilePath.name = "path";
+    attachmentFilePath.value = `${attachmentFile.attachmentFilePath}`;
+    const attachmentFileSize = document.createElement("input");
+    attachmentFileSize.type = "hidden";
+    attachmentFileSize.name = "size";
+    attachmentFileSize.value = `${attachmentFile.attachmentFileSize}`;
+    form.append(attachmentFileName);
+    form.append(attachmentFileRealName);
+    form.append(attachmentFilePath);
+    form.append(attachmentFileSize);
+    const receivedThumbnail = document.querySelector(`img.thumbnail-img-${i}`);
+    if(files[0].type.includes("image")) {
+        receivedThumbnail.src = `/attachment/display?attachmentFileName=${attachmentFile.attachmentFilePath + "/t_" + attachmentFile.attachmentFileName}`;
+    } else {
+        receivedThumbnail.parentElement.removeChild(receivedThumbnail);
+    }
 };
 
 // 파일 목록에 파일 추가
 const addFileToList = (file) => {
+    const thumbnailImg = document.createElement("img");
+    const thumbnailWrap = document.createElement("div");
+    const textWrap = document.createElement("div");
     const listItem = document.createElement("li");
-    listItem.textContent = `${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
+
+    thumbnailImg.classList.add(`thumbnail-img-${++i}`);
+    thumbnailImg.style = "width: 100%; height: 100%; border: none;";
+    thumbnailWrap.style = "width: 20px; height: 20px; margin-top: 16px; margin-right: 10px; border: none;";
+    thumbnailWrap.appendChild(thumbnailImg);
+    textWrap.textContent = `${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
+    textWrap.style = "margin-top: 16px";
+    listItem.prepend(thumbnailWrap);
+    listItem.appendChild(textWrap);
 
     const deleteButton = document.createElement("button");
     deleteButton.textContent = "삭제";
     deleteButton.classList.add("delete-button");
-    deleteButton.onclick = () => removeFile(file, listItem);
 
+    deleteButton.onclick = () => removeFile(file, listItem);
     listItem.appendChild(deleteButton);
+    listItem.style.display = "flex";
     fileList.appendChild(listItem);
 };
 
@@ -85,7 +130,6 @@ document.getElementById("submit-review").addEventListener("click", (e) => {
         .querySelector(".service-contents textarea")
         .value.trim();
     const reviewContent = document.getElementById("briefing").value.trim();
-    const rating = document.querySelector('input[name="rating"]:checked');
 
     // 필수 항목 검증
     if (!companyName) {
@@ -113,9 +157,6 @@ const updateCharCount = (input) => {
 
 const validateAndDisplayNumber = (input) => {
     input.value = input.value.replace(/[^0-9]/, ""); // 숫자 이외 제거
-    const number = input.value;
-    const formatted = number ? formatNumberToKorean(number) : "0";
-    document.getElementById("formattedNumber").textContent = formatted;
 };
 
 //날짜 설정

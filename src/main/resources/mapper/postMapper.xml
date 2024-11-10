@@ -36,9 +36,16 @@
     m.member_nickname,
     (select count(*) from tbl_reply r where r.post_id = p.id) as reply_count
     from tbl_post p
-            join tbl_member m on p.member_id = m.id
+    join tbl_member m on p.member_id = m.id
     <include refid="search"/>
-    order by p.created_date desc
+    order by
+    <choose>
+        <when test="pagination.order == '작성일 순'">p.created_date</when>
+        <when test="pagination.order == '조회수 순'">p.post_view_count</when>
+        <when test="pagination.order == '댓글수 순'">reply_count</when>
+        <otherwise>p.created_date</otherwise>
+    </choose>
+    desc
     limit #{pagination.startRow}, #{pagination.rowCount};
 </select>
 
@@ -52,16 +59,12 @@
     p.post_view_count,
     m.member_nickname,
     p.post_type,
-    (select count(*) from tbl_reply r where r.post_id = p.id) as reply_count
+    (select count(id) from tbl_reply r where r.post_id = p.id) as reply_count
     from tbl_post p
     join tbl_member m on p.member_id = m.id
     <include refid="search"/>
-    where p.post_type = #{pagination.order}
-    order by
-    <choose>
-        <when test="pagination.order == '작성일 순'.toString()">p.created_date</when>
-        <otherwise>p.post_type</otherwise>
-    </choose>
+    where p.post_type = #{filterType}
+    order by p.created_date desc
     limit #{pagination.startRow}, #{pagination.rowCount};
 </select>
 

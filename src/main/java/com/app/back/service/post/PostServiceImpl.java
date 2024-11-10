@@ -3,6 +3,7 @@ package com.app.back.service.post;
 import com.app.back.domain.post.Pagination;
 import com.app.back.domain.post.PostDTO;
 import com.app.back.domain.post.Search;
+import com.app.back.enums.AdminPostType;
 import com.app.back.repository.post.PostDAO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,13 +37,20 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<PostDTO> getList(Pagination pagination, Search search) {
-        return postDAO.findAll(pagination, search);
+        // 작성일 순, 조회수 순, 댓글수 순은 일반 정렬로 처리
+        if (pagination.getOrder().equals("작성일 순") || pagination.getOrder().equals("조회수 순") || pagination.getOrder().equals("댓글수 순")) {
+            return postDAO.findAll(pagination, search);
+        } else {
+            // displayName으로 AdminPostType을 찾고, enum을 기반으로 필터링
+            AdminPostType postTypeEnum = AdminPostType.fromDisplayName(pagination.getOrder());
+            return postDAO.findFilterAll(pagination, search, postTypeEnum.getDisplayName());
+        }
     }
 
     @Override
-    public List<PostDTO> getFilterList(Pagination pagination, Search search, String filterType) {
-        pagination.setOrder(filterType); // 필터 타입 설정
-        return postDAO.findFilterAll(pagination, search, filterType);
+    public List<PostDTO> getFilterList(Pagination pagination, Search search, AdminPostType filterType) {
+        pagination.setOrder(filterType.name());  // Enum의 이름을 그대로 사용
+        return postDAO.findFilterAll(pagination, search, filterType.name());
     }
 
     @Override
@@ -54,8 +62,10 @@ public class PostServiceImpl implements PostService {
     public void delete(Long id) {
         postDAO.delete(id);
     }
+
     @Override
-    public int getTotalWithFilter(Search search, String filterType) {
-        return postDAO.getTotalWithFilter(search, filterType);
+    public int getTotalWithFilter(Search search, AdminPostType filterType) {
+        return postDAO.getTotalWithFilter(search, filterType.name()); // Enum 이름을 직접 사용
     }
+
 }
