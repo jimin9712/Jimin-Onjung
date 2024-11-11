@@ -506,6 +506,9 @@ const fetchFilteredRanking = async (page, month, filterType) => {
         const data = await response.json();
         console.log("발룬티어그룹스: " + data.volunteerGroups);
         console.log("페이지네이션 " + data.pagination);
+        renderRankings(data.vtRankMembers, ".praise-rank-list");
+        renderRankings(data.supportRankMembers, ".contest-rank-list");
+        renderRankings(data.donationRankMembers, ".sales-rank-list");
         showVolunteerGroups(data.volunteerGroups);
         showPaging(data.pagination);
     } catch (error) {

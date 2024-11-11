@@ -1,6 +1,8 @@
 package com.app.back.controller.rank;
 
+import com.app.back.domain.member.MemberDTO;
 import com.app.back.domain.post.Pagination;
+import com.app.back.domain.rank.RankDTO;
 import com.app.back.service.member.MemberService;
 import com.app.back.service.rank.RankService;
 import lombok.RequiredArgsConstructor;
@@ -13,10 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -51,8 +50,10 @@ public class RankController {
 
     @GetMapping("/rank/rank-list")
     @ResponseBody
-    public Map<String, Object> getList(Pagination pagination, Model model, @RequestParam("month") String month, @RequestParam("filterType") String filterType) {
-        Map<String, Object> result = new HashMap<>();
+    public RankDTO getList(Pagination pagination, Model model, @RequestParam("month") String month, @RequestParam("filterType") String filterType) {
+
+        RankDTO rankDTO = new RankDTO();
+
         if(month == null) {
             log.info("month 미 입력 : 첫 로딩");
             month = new Date().getMonth() + 1 + "";
@@ -60,14 +61,14 @@ public class RankController {
         }
 
         if(Integer.parseInt(month) > 0 && Integer.parseInt(month) <= 12) {
-            result.put("vtRankMembers", rankService.selectTop5ByVt(Integer.parseInt(month)));
-            result.put("supportRankMembers", rankService.selectTop5BySupport(Integer.parseInt(month)));
-            result.put("donationRankMembers", rankService.selectTop5ByDonation(Integer.parseInt(month)));
-            result.put("pagination", pagination);
+            rankDTO.setVtRankMembers(rankService.selectTop5ByVt(Integer.parseInt(month)));
+            rankDTO.setSupportRankMembers(rankService.selectTop5BySupport(Integer.parseInt(month)));
+            rankDTO.setDonationRankMembers(rankService.selectTop5ByDonation(Integer.parseInt(month)));
+            rankDTO.setPagination(pagination);
 
-            log.info("회원 봉사 랭킹 : {}", result.get("vtRankMembers"));
-            log.info("회원 후원 랭킹 : {}", result.get("supportRankMembers"));
-            log.info("회원 기부 랭킹 : {}", result.get("donationRankMembers"));
+            log.info("회원 봉사 랭킹 : {}", rankDTO.getVtRankMembers());
+            log.info("회원 후원 랭킹 : {}", rankDTO.getSupportRankMembers());
+            log.info("회원 기부 랭킹 : {}", rankDTO.getDonationRankMembers());
         } else {
             log.info("오류 : month 범위 오류");
         }
@@ -84,14 +85,14 @@ public class RankController {
         }
         pagination.setTotal(rankService.getAllVolunteerGroup());
         pagination.progressReview();
-        result.put("volunteerGroups", rankService.getTop100VolunteerGroup(pagination));
-        log.info("봉사활동 단체 회원 랭킹 목록 : {}", model.getAttribute("volunteerGroups"));
+        rankDTO.setVolunteerGroups(rankService.getTop100VolunteerGroup(pagination));
+        log.info("봉사활동 단체 회원 랭킹 목록 : {}", rankDTO.getVolunteerGroups());
         log.info("봉사활동 단체 회원 명수 : {}", rankService.getTop100VolunteerGroup(pagination).size());
         log.info("페이지 : {}", pagination.getPage().toString());
         log.info("페이지네이션 시작 : {}", pagination.getStartRow());
         log.info("페이지네이션 끝 : {}", pagination.getEndRow());
         log.info("들어옴dddd");
 
-        return result;
+        return rankDTO;
     }
 }
