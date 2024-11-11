@@ -5,6 +5,7 @@ import com.app.back.domain.member.MemberDTO;
 import com.app.back.domain.member.MemberVO;
 import com.app.back.enums.MemberLoginType;
 import com.app.back.service.member.MemberService;
+import com.app.back.service.rank.RankService;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -17,10 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -28,6 +26,7 @@ import java.util.UUID;
 public class MemberController {
     private final MemberService memberService;
     private final EmailUtil emailUtil;
+    private final RankService rankService;
 
     @GetMapping("/member/signup")
     public String goToSignup() {
@@ -268,5 +267,38 @@ public class MemberController {
     @GetMapping("/introduction/introduction")
     public String goTOIntroduction() {
         return "introduction/introduction";
+    }
+
+    @GetMapping("/simple-rank")
+    @ResponseBody
+    public Map<String, Object> getSimpleRank(@RequestParam(value = "month", required = false) String month) {
+        if (month == null) {
+            log.info("month 미 입력 : 첫 로딩");
+            month = String.valueOf(new Date().getMonth() + 1);
+            log.info("month : " + month);
+        }
+
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            int monthInt = Integer.parseInt(month);
+            if (monthInt > 0 && monthInt <= 12) {
+                response.put("vtRankMembers", rankService.selectTop5ByVt(monthInt));
+                response.put("supportRankMembers", rankService.selectTop5BySupport(monthInt));
+                response.put("donationRankMembers", rankService.selectTop5ByDonation(monthInt));
+
+                log.info("회원 봉사 랭킹 : {}", response.get("vtRankMembers"));
+                log.info("회원 후원 랭킹 : {}", response.get("supportRankMembers"));
+                log.info("회원 기부 랭킹 : {}", response.get("donationRankMembers"));
+            } else {
+                log.info("오류 : month 범위 오류");
+                response.put("error", "Invalid month range");
+            }
+        } catch (NumberFormatException e) {
+            log.error("Invalid month format: {}", month, e);
+            response.put("error", "Invalid month format");
+        }
+
+        return response;
     }
 }
