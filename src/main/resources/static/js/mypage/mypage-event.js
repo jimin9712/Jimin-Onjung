@@ -1325,14 +1325,10 @@ const renderAlarms = (alarms) => {
     const alarmsEmpty = document.getElementById("alarms-empty");
     const totalCountLabel = document.getElementById("notice-totalCount");
 
-    // 기존 알림 내용 초기화
     alarmsList.innerHTML = '';
-
-    // 총 알림 수 업데이트
     totalCountLabel.textContent = alarms.length;
 
     if (alarms.length === 0) {
-        // 알림이 없을 경우, empty 메시지 표시
         alarmsEmpty.style.display = 'block';
         alarmsList.style.display = 'none';
         return;
@@ -1342,153 +1338,107 @@ const renderAlarms = (alarms) => {
     }
 
     alarms.forEach(alarm => {
-        console.log("알림 객체:", alarm);
-        console.log(`Alarm ID: ${alarm.id}, Type: ${alarm.alarmType}, Post ID: ${alarm.postId}`);
-
-
-        // alarmType이 비어있는지 확인
-        if (!alarm.alarmType) {
-            console.warn(`Alarm ID ${alarm.id}의 alarmType이 비어 있습니다.`);
-        }
-
-        // alarm-card div 생성
         const alarmCard = document.createElement('div');
         alarmCard.classList.add('alarm-card');
+        alarmCard.style.cursor = 'pointer';
 
-        // noti-content div 생성
         const notiContentDiv = document.createElement('div');
         notiContentDiv.classList.add('noti-content');
 
-        // kzXcJa div 생성
         const kzXcJaDiv = document.createElement('div');
         kzXcJaDiv.classList.add('kzXcJa');
 
-        // SVG 아이콘 추가
         const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
         svg.setAttribute("color", "#101C33");
         svg.setAttribute("viewBox", "0 0 24 24");
         svg.setAttribute("class", "cAfwXx");
         svg.innerHTML = `
             <path fill-rule="evenodd" clip-rule="evenodd" d="M15.0389 18.359H17.3334L18.8572 18.359C19.4884 18.359 20 17.8793 20 17.2876C20 16.6958 19.4884 16.2157 18.8572 16.2157H18.4762V9.42955C18.4762 6.00442 15.4496 3 11.9999 3C8.5502 3 5.52366 6.00442 5.52366 9.42955V16.2157H5.14276C4.51119 16.2157 4 16.6958 4 17.2876C4 17.8793 4.51119 18.359 5.14276 18.359L6.66642 18.359H8.96114C9.07945 19.8339 10.3972 21 12 21C13.6028 21 14.9205 19.8339 15.0389 18.359ZM12.7263 18.359H11.2737C11.3718 18.6474 11.6604 18.8571 12 18.8571C12.3396 18.8571 12.6282 18.6474 12.7263 18.359ZM16.1906 16.2157H7.80964V9.42955C7.80964 7.14599 9.76774 5.1429 11.9999 5.1429C14.2321 5.1429 16.1906 7.14599 16.1906 9.42955V16.2157Z"></path>
-            <path d="M17.3334 18.359V17.759V18.359ZM15.0389 18.359V17.759H14.4851L14.4408 18.311L15.0389 18.359ZM18.8572 18.359V18.959V18.359ZM18.4762 16.2157H17.8762V16.8157H18.4762V16.2157ZM5.52366 16.2157V16.8157H6.12366V16.2157H5.52366ZM5.14276 18.359V18.959H5.14276L5.14276 18.359ZM6.66642 18.359V17.759H6.66642L6.66642 18.359ZM8.96114 18.359L9.55921 18.311L9.51493 17.759H8.96114V18.359ZM12.7263 18.359L13.2943 18.5521L13.5639 17.759H12.7263V18.359ZM11.2737 18.359V17.759H10.4361L10.7057 18.5521L11.2737 18.359ZM7.80964 16.2157H7.20964V16.8157H7.80964V16.2157ZM16.1906 16.2157V16.8157H16.7906V16.2157H16.1906ZM17.3334 17.759H15.0389V18.959H17.3334V17.759ZM18.8572 17.759L17.3334 17.759V18.959L18.8572 18.959V17.759ZM19.4 17.2876C19.4 17.5121 19.194 17.759 18.8572 17.759V18.959C19.7827 18.959 20.6 18.2465 20.6 17.2876H19.4ZM18.8572 16.8157C19.1937 16.8157 19.4 17.0627 19.4 17.2876H20.6C20.6 16.3289 19.783 15.6157 18.8572 15.6157V16.8157ZM18.4762 16.8157H18.8572V15.6157H18.4762V16.8157ZM17.8762 9.42955V16.2157H19.0762V9.42955H17.8762ZM11.9999 3.6C15.1224 3.6 17.8762 6.33989 17.8762 9.42955H19.0762C19.0762 5.66894 15.7769 2.4 11.9999 2.4V3.6ZM6.12366 9.42955C6.12366 6.33989 8.87745 3.6 11.9999 3.6V2.4C8.22295 2.4 4.92366 5.66894 4.92366 9.42955H6.12366ZM6.12366 16.2157V9.42955H4.92366V16.2157H6.12366ZM5.14276 16.8157H5.52366V15.6157H5.14276V16.8157ZM4.6 17.2876C4.6 17.0626 4.80603 16.8157 5.14276 16.8157V15.6157C4.21634 15.6157 3.4 16.3291 3.4 17.2876H4.6ZM5.14276 17.759C4.80571 17.759 4.6 17.5122 4.6 17.2876H3.4C3.4 18.2463 4.21666 18.959 5.14276 18.959V17.759ZM6.66642 17.759L5.14276 17.759L5.14276 18.959L6.66642 18.959L6.66642 17.759ZM8.96114 17.759H6.66642V18.959H8.96114V17.759ZM12 20.4C10.68 20.4 9.65019 19.4451 9.55921 18.311L8.36306 18.407C8.50871 20.2227 10.1145 21.6 12 21.6V20.4ZM14.4408 18.311C14.3498 19.4451 13.32 20.4 12 20.4V21.6C13.888 21.6 15.5906 19.8339 15.6369 18.407L14.4408 18.311ZM12.7263 17.759H11.2737V18.959H12.7263V17.759ZM10.7057 18.5521C10.8904 19.0955 11.416 19.4571 12 19.4571V18.2571C11.9049 18.2571 11.8532 18.1994 11.8418 18.1659L10.7057 18.5521ZM12 19.4571C12.584 19.4571 13.1096 19.0955 13.2943 18.5521L12.1582 18.1659C12.1468 18.1994 12.0951 18.2571 12 18.2571V19.4571ZM7.80964 16.8157H16.1906V15.6157H7.80964V16.8157ZM7.20964 9.42955V16.2157H8.40964V9.42955H7.20964ZM11.9999 4.5429C9.42359 4.5429 7.20964 6.82755 7.20964 9.42955H8.40964C8.40964 7.46443 10.1119 5.7429 11.9999 5.7429V4.5429ZM16.7906 9.42955C16.7906 6.82746 14.5761 4.5429 11.9999 4.5429V5.7429C13.888 5.7429 15.5906 7.46451 15.5906 9.42955H16.7906ZM16.7906 16.2157V9.42955H15.5906V16.2157H16.7906Z" fill="white"></path>
-            <defs></defs>
         `;
         kzXcJaDiv.appendChild(svg);
 
-        // data-forloop div 생성
         const dataDiv = document.createElement('div');
         dataDiv.setAttribute('data-forloop', alarm.id);
 
         const innerDiv = document.createElement('div');
-
-        // 알림 내용 div
         const contentDiv = document.createElement('div');
         contentDiv.classList.add('noti-card-desc');
         contentDiv.textContent = alarm.alarmContent;
 
-        // 읽지 않은 경우에만 star div 추가
         let starDiv = null;
-        if (!alarm.read) { // 아직 읽지 않은 경우
+        if (!alarm.read) {
             starDiv = document.createElement('div');
             starDiv.classList.add('star');
             starDiv.textContent = '*';
             contentDiv.appendChild(starDiv);
         }
 
-        // 알림 타입과 postId 확인
-        console.log(`Alarm ID: ${alarm.id}, Type: ${alarm.alarmType}, Post ID: ${alarm.postId}`);
-
-        // 알림 날짜 div
         const dateDiv = document.createElement('div');
         dateDiv.classList.add('noti-card-desc');
         dateDiv.textContent = new Date(alarm.createdDate).toLocaleDateString('ko-KR');
 
-        // innerDiv에 내용 추가
         innerDiv.appendChild(contentDiv);
         innerDiv.appendChild(dateDiv);
-
-        // dataDiv에 innerDiv 추가
         dataDiv.appendChild(innerDiv);
-
-        // kzXcJaDiv에 dataDiv 추가
         kzXcJaDiv.appendChild(dataDiv);
-
-        // noti-content div에 kzXcJaDiv 추가
         notiContentDiv.appendChild(kzXcJaDiv);
-
-        // alarmCard에 noti-content div 추가
         alarmCard.appendChild(notiContentDiv);
 
-        // 클릭 시 읽음으로 표시하고, alarmType에 따라 다른 페이지로 이동
-        if (!alarm.read && starDiv) {
-            alarmCard.style.cursor = 'pointer'; // 클릭 가능함을 시각적으로 표시
-            alarmCard.addEventListener('click', async () => {
-                try {
-                    await markAlarmAsRead(alarm.id, alarm.alarmType, starDiv);
-                    // markAlarmAsRead가 성공적으로 완료된 후 페이지 이동
-                    if (alarm.postId) {
-                        let url = '';
-                        switch (alarm.alarmType) {
-                            case 'vt':
-                                url = `/volunteer/volunteer-inquiry/${alarm.postId}`;
-                                break;
-                            case 'donation':
-                                url = `/donation/donation-inquiry/${alarm.postId}`;
-                                break;
-                            case 'support':
-                                url = `/support/support-inquiry/${alarm.postId}`;
-                                break;
-                            case 'reply':
-                                url = `/reply/reply-inquiry/${alarm.postId}`;
-                                break;
-                            default:
-                                console.warn(`알 수 없는 alarmType: ${alarm.alarmType}`);
-                        }
-                        if (url) {
-                            window.location.href = url;
-                        }
-                    }
-                } catch (error) {
-                    console.error("알림을 읽음으로 표시하고 이동하는 중 오류 발생:", error);
-                    // 필요한 경우 추가적인 오류 처리 로직을 여기에 작성
-                }
-            });
-        }
+        // 클릭 이벤트
+        const postId = typeof alarm.postId === 'number' ? alarm.postId : null;
+        alarmCard.addEventListener('click', async () => {
+            if (postId) {
+                navigateToAlarmPage(alarm.alarmType, postId); // 페이지 이동
+            }
+            if (!alarm.read && starDiv) {
+                await markAlarmAsRead(alarm.id, alarm.alarmType, postId, starDiv); // 읽음 처리
+            }
+        });
 
         alarmsList.appendChild(alarmCard);
     });
-
 };
 
-// 특정 알림을 읽음으로 표시하는 함수
-const markAlarmAsRead = async (alarmId, alarmType, starDiv) => {
-    console.log(`markAlarmAsRead 호출됨: alarmId=${alarmId}, alarmType=${alarmType}`);
+const navigateToAlarmPage = (alarmType, postId) => {
+    let url = '';
+    switch (alarmType) {
+        case 'vt':
+            url = `/volunteer/volunteer-inquiry/${postId}`;
+            break;
+        case 'donation':
+            url = `/donation/donation-inquiry/${postId}`;
+            break;
+        case 'support':
+            url = `/support/support-inquiry/${postId}`;
+            break;
+        case 'reply':
+            url = `/reply/reply-inquiry/${postId}`;
+            break;
+        default:
+            console.warn(`alarmType 못 받아옴: ${alarmType}`);
+            return;
+    }
+    if (url) {
+        window.location.href = url;
+    }
+};
+
+// 알림을 읽음으로 표시하는 함수
+const markAlarmAsRead = async (alarmId, alarmType, postId, starDiv) => {
     try {
         const response = await fetch(`/alarm/${alarmId}/read`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ alarmType }) // 서버에서 기대하는 형식인지 확인
+            body: JSON.stringify({ alarmType, postId })
         });
 
-        console.log(`서버 응답 상태: ${response.status}`);
-        if (response.ok) {
-            // 읽음 처리 UI 업데이트
-            if (starDiv) {
-                starDiv.remove(); // star div 제거
-            }
-            console.log(`Alarm ID ${alarmId} marked as read.`);
-        } else {
-            const errorText = await response.text();
-            console.error('Failed to mark alarm as read', errorText);
-            alert('알림을 읽음으로 표시하는 데 실패했습니다.');
-            throw new Error('알림 읽음 표시 실패');
+        if (response.ok && starDiv) {
+            starDiv.remove();
         }
     } catch (error) {
         console.error('Error marking alarm as read:', error);
-        alert('알림을 읽음으로 표시하는 중 오류가 발생했습니다.');
-        throw error; // 호출자에게 에러를 전달
     }
 };
 
@@ -1499,11 +1449,9 @@ const fetchAlarms = async (memberId) => {
         if (!response.ok) throw new Error('서버로부터 알림 데이터를 가져오는 데 실패했습니다.');
 
         const data = await response.json();
-        console.log("알림 데이터:", data);
         renderAlarms(data);
     } catch (error) {
         console.error("알림 데이터 불러오기 오류:", error);
-        alert("알림을 불러오는 중 문제가 발생했습니다.");
     }
 };
 
