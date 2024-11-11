@@ -68,6 +68,33 @@ const comments = [
     },
 ];
 
+// let daysLeftText;
+// if (list.daysLeft > 0) {
+//     daysLeftText = `${list.daysLeft}일 남음`;
+// } else if (list.vtEDate === today) {
+//     daysLeftText = "오늘까지";
+// } else {
+//     daysLeftText = "종료됨";
+// }
+
+const list = {
+    daysLeft: 5, // 예: 5일 남음
+    vtEDate: '2024-04-27' // 오늘 날짜와 비교
+};
+const today = '2024-04-27'; // 오늘 날짜 (예시)
+
+let daysLeftText;
+if (list.daysLeft > 0) {
+    daysLeftText = `${list.daysLeft}일 남음`;
+} else if (list.vtEDate === today) {
+    daysLeftText = "오늘까지";
+} else {
+    daysLeftText = "종료됨";
+}
+
+// HTML 요소에 값 삽입
+document.getElementById('daysLeftText').textContent = daysLeftText;
+
 // 댓글 렌더링 함수
 const renderComments = () => {
     const commentSection = document.getElementById("comment-section");
