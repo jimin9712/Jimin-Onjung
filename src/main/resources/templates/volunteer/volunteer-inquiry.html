@@ -13,9 +13,10 @@
             href="https://cdn-dantats.stunning.kr/static/feature/loudFavicon/loud-favicon-32-new.png"
         />
         <link rel="stylesheet" href="/css/main/basic-header.css" />
+        <link rel="stylesheet" href="/css/main/basic-header.css" />
     </head>
     <body style="overflow-x: hidden">
-        <div class="content-container-maincontent">
+        <div class="content-container-maincontent" th:object="${post}">
             <div class="thumbnail-background" style="position: relative">
                 <main class="container-main-body">
                     <section class="main-info-wrap">
@@ -48,8 +49,9 @@
                                     <div class="tab-style tabs">
                                         <div class="active tab">내용</div>
                                         <div class="tab">
-                                            댓글<label class="tab-sticker"
-                                                >${volunteer.}</label
+                                            댓글<label class="tab-sticker" th:text="*{replyCount}">
+                                            0
+                                        </label
                                             >
                                         </div>
                                     </div>
@@ -240,7 +242,7 @@
                                                     id="report-btn"
                                                     ><img
                                                         class="img-report"
-                                                        src="../../static/images/report.png"
+                                                        src="/images/report.png"
                                                     />신고하기</span
                                                 >
                                             </div>
@@ -299,13 +301,12 @@
                                                 class="right-info-style info-box"
                                             >
                                                 <div class="title">
-                                                    모금 기간
+                                                    지원 기간
                                                 </div>
-                                                <div class="content">6일</div>
+                                                <div class="content">${daysLeftText}</div>
                                                 <div class="sub-content">
                                                     <span
-                                                        >24.10.05 ~
-                                                        24.10.11</span
+                                                        >${volunteer.vtSDate || '시작시간없음'} ~ ${volunteer.vtEDate || '끝나는시간없음'} (24시까지)</span
                                                     >
                                                 </div>
                                             </div>
@@ -390,6 +391,15 @@
     <script th:inline="javascript">
         const volunteer = [[${volunteer}]]
         const attachments = [[${attachments}]]
+        const lists = [[${lists}]]
     </script>
-    <script src="/js/volunteer/volunteer-inquiry.js"></script>
+    <script src="/js/volunteer/event/volunteer-inquiry-event.js"></script>
+    <script>let daysLeftText;
+    if (list.daysLeft > 0) {
+        daysLeftText = `${list.daysLeft}일 남음`;
+    } else if (list.vtEDate === today) {
+        daysLeftText = "오늘까지";
+    } else {
+        daysLeftText = "종료됨";
+    }</script>
 </html>

@@ -87,10 +87,7 @@ public class VolunteerServiceImpl implements VolunteerService {
 
     @Override
     public void delete(Long id) {
-
         volunteerDAO.delete(id);
-        volunteerDAO.delete(id);
-        // ID로 Q&A 게시글 삭제
     }
 
     @Override

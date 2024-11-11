@@ -70,7 +70,7 @@ const showList = ({ lists, pagination }) => {
                                 </svg>
                             </div>
                             <div class="contest-info-bottom-view-count">
-                                ${list.postViewCount || '뷰카운트없음'}
+                                ${list.postViewCount || '0'}
                             </div>
                             <svg type="calendar12" color="#8E94A0" viewBox="0 0 12 12" class="calendar-svg" style="margin-left: 20px">
                                 <rect x="0.6" y="2.6" width="10.8" height="8.8" rx="1.4" stroke-width="1.2"></rect>
