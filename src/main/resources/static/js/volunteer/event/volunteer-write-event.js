@@ -5,6 +5,7 @@ const fileList = document.querySelector(".file-section-list ul");
 const maxFiles = 10;
 const maxTotalSize = 20 * 1024 * 1024; // 20MB
 
+
 let uploadedFiles = new Set(); // 업로드된 파일을 저장하는 Set
 let i = 0;
 
@@ -121,7 +122,7 @@ const removeFile = (file, listItem) => {
     fileList.removeChild(listItem); // 목록에서 해당 항목 제거
 };
 
-document.getElementById("submit-review").addEventListener("click", (e) => {
+document.getElementById("submit-volunteer").addEventListener("click", (e) => {
     // 필수 항목 선택
     const companyName = document
         .querySelector(".company-name input")

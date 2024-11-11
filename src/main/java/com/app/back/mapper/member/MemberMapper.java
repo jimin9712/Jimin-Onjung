@@ -36,7 +36,6 @@ public interface MemberMapper {
 
     public Optional<MemberVO> selectByMemberEmail(String email);
 
-
     public void updatePassword(MemberVO memberVO);
 
     public int getTotalVtTimeByMemberId(@Param("memberId") Long memberId);

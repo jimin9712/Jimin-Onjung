@@ -3,7 +3,9 @@ package com.app.back.repository.member;
 import com.app.back.domain.member.MemberDTO;
 import com.app.back.domain.member.MemberVO;
 import com.app.back.domain.post.Pagination;
+import com.app.back.domain.volunteer.VolunteerDTO;
 import com.app.back.mapper.member.MemberMapper;
+import com.app.back.mapper.volunteer.VolunteerMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -15,6 +17,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MemberDAO {
     private final MemberMapper memberMapper;
+    private final VolunteerMapper volunteerMapper;
 
     //    회원가입
     public void save(MemberVO memberVO){

@@ -1,9 +1,12 @@
 package com.app.back.repository.post;
 
+import com.app.back.domain.member.MemberDTO;
 import com.app.back.domain.post.Pagination;
 import com.app.back.domain.post.PostDTO;
 import com.app.back.domain.post.PostVO;
 import com.app.back.domain.post.Search;
+import com.app.back.domain.volunteer.VolunteerDTO;
+import com.app.back.mapper.member.MemberMapper;
 import com.app.back.mapper.post.PostMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -15,6 +18,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class PostDAO {
     private final PostMapper postMapper;
+    private final MemberMapper memberMapper;
 
     public void save(PostVO postVO) {
         postMapper.insert(postVO);
@@ -34,10 +38,6 @@ public class PostDAO {
     }
 
     public Long selectCurrentId() { return postMapper.selectCurrentId(); };
-
-//    public PostVO findById(Long id) {
-//        return postMapper.selectById(id);
-//    }
 
     public void update(PostVO postVO) {
         postMapper.updateById(postVO);

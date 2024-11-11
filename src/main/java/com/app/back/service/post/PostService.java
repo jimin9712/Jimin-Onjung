@@ -27,6 +27,4 @@ public void delete(Long id);
 
 // 필터 조건에 맞는 게시글 수 조회
 public int getTotalWithFilter(Search search, AdminPostType filterType);
-
-
 }

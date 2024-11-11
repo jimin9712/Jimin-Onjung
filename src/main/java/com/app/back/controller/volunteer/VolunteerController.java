@@ -2,6 +2,7 @@ package com.app.back.controller.volunteer;
 
 import com.app.back.domain.member.MemberDTO;
 
+import com.app.back.domain.member.MemberVO;
 import com.app.back.domain.volunteer.Pagination;
 import com.app.back.domain.volunteer.VolunteerDTO;
 import com.app.back.mapper.volunteer.VolunteerMapper;
@@ -35,13 +36,13 @@ public class VolunteerController {
     private final AttachmentService attachmentService;
     private final VolunteerDTO volunteerDTO;
 
-    @GetMapping("volunteer-write")
-    public String goToWriteForm(VolunteerDTO volunteerDTO) {
-        return "volunteer/volunteer-write";
-    }
+    @GetMapping("/volunteer-write")
+    public String goToWriteForm(VolunteerDTO volunteerDTO)
+    { return "/volunteer/volunteer-write";}
 
-    @PostMapping("volunteer-write")
+    @PostMapping("/volunteer-write")
     public RedirectView volunteerWrite(
+            HttpSession session,
             @ModelAttribute VolunteerDTO volunteerDTO,
             @RequestParam("uuid") List<String> uuids,
             @RequestParam("realName") List<String> realNames,
@@ -49,11 +50,17 @@ public class VolunteerController {
             @RequestParam("size") List<String> sizes,
             @RequestParam("file") List<MultipartFile> files
     ) throws IOException {
+        String memberId = (String) session.getAttribute("member_id");
 
+        if (memberId == null) {
+            // member_id가 세션에 없을 경우 처리 (예: 로그인 페이지로 리다이렉트)
+            return new RedirectView("/member/login");
+        }
+        // VolunteerDTO에 member_id 설정
+        volunteerDTO.setMemberId(Long.valueOf(memberId));
         volunteerDTO.setPostType("VOLUNTEER");
         log.info("VolunteerDTO: {}", volunteerDTO);
         log.info("Files: {}", files);
-
         if (volunteerDTO.getPostTitle() == null || volunteerDTO.getPostContent() == null) {
             log.error("필수 데이터가 없습니다.");
             return new RedirectView("/volunteer/volunteer-write");

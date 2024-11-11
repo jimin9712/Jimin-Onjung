@@ -1,10 +1,12 @@
 package com.app.back.mapper.post;
 
 import com.app.back.domain.inquiry.InquiryDTO;
+import com.app.back.domain.member.MemberDTO;
 import com.app.back.domain.post.Pagination;
 import com.app.back.domain.post.PostDTO;
 import com.app.back.domain.post.PostVO;
 import com.app.back.domain.post.Search;
+import com.app.back.domain.volunteer.VolunteerDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -53,6 +55,7 @@ public interface PostMapper {
     int selectTotalWithFilter(@Param("search") Search search, @Param("filterType") String filterType);
   
     public int selectTotalByPostType(String postType);
+
 
 
 
