@@ -9,11 +9,17 @@ NodeList.prototype.filter = Array.prototype.filter;
 const resetSearchAndPage = () => {
     inquiryKeyword = ''; // 고객센터 문의 검색어 초기화
     if (inquirySearchInput) inquirySearchInput.value = ''; // 검색 입력 필드 초기화
+    // inquiryFilterType = '최신순'; // 또는 기본값으로 설정
     postKeyword='';
+    // postFilterType = '작성일 순';
     if(postSearchInput) postSearchInput.value='';
     reportKeyword='';
+    // reportFilterType = '신고일 순';
     if(reportSearchInput) reportSearchInput.value='';
+
 };
+
+
 
 // 서브메뉴 클릭 시 해당 섹션 표시 및 검색어와 페이지 초기화
 submenus.forEach((submenu) => {
@@ -315,8 +321,6 @@ postFilters.forEach((option) => {
         fetchFilteredPosts(1, postKeyword, postFilterType); // 필터 조건으로 데이터 불러오기
     });
 });
-// 초기 데이터 로드
-fetchFilteredPosts();
 
 // 게시글 목록의 전체 선택 및 개별 선택 체크박스 관리
 const selectAllPosts = () => {
@@ -359,7 +363,7 @@ document.getElementById("deleteSelectedBtn").addEventListener("click", () => {
         return;
     }
 
-    updateSelectedPostStatus(selectedIds, "0"); // 선택한 게시글의 상태를 0(삭제)로 변경
+    deleteSelectedPosts(selectedIds); // 선택한 게시글의 상태를 0(삭제)로 변경
 });
 
 // 조회 버튼 클릭 이벤트 리스너
@@ -438,7 +442,7 @@ document.querySelector(".deleteSelectedBtn.report-delete").addEventListener("cli
         return;
     }
 
-    deleteSelectedPosts(selectedIds); // 삭제 요청 함수 호출
+    deleteSelectedReports(selectedIds); // 삭제 요청 함수 호출
 });
 
 
