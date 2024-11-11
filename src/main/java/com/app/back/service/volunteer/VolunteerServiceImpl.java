@@ -1,52 +1,50 @@
 package com.app.back.service.volunteer;
 
-import com.app.back.domain.attachment.AttachmentVO;
-import com.app.back.domain.post.PostVO;
-import com.app.back.domain.review.ReviewDTO;
+import com.app.back.domain.donation.DonationDTO;
 import com.app.back.domain.volunteer.Pagination;
 import com.app.back.domain.volunteer.VolunteerDTO;
-import com.app.back.mapper.attachment.AttachmentMapper;
-import com.app.back.mapper.post.PostMapper;
-import com.app.back.mapper.volunteer.VolunteerMapper;
+import com.app.back.repository.attachment.AttachmentDAO;
 import com.app.back.repository.post.PostDAO;
 import com.app.back.repository.volunteer.VolunteerDAO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-@Service
-@RequiredArgsConstructor
-@Transactional(rollbackFor = Exception.class)
-@Slf4j
+@Service // 이 클래스가 서비스임을 나타냄
+@Primary // 우선 순위가 높은 서비스
+@RequiredArgsConstructor // 생성자 자동 생성
+@Transactional(rollbackFor = Exception.class) // 예외 발생 시 롤백 처리
 public class VolunteerServiceImpl implements VolunteerService {
-    private final PostMapper postMapper;
-    private final VolunteerMapper volunteerMapper;
-    private final AttachmentMapper attachmentMapper;
     private final VolunteerDAO volunteerDAO;
     private final PostDAO postDAO;
+    private final AttachmentDAO attachmentDAO;
 
 
     @Override
-    public void write(VolunteerDTO volunteerDTO) {
-        PostVO postVO = volunteerDTO.toPostVO();
-        AttachmentVO attachmentVO = volunteerDTO.toAttachmentVO();
-        log.info("{첨부파일:}", attachmentVO);
-
-        // 2. PostVO 객체 삽입 (게시물 정보 저장)
-        postDAO.save(postVO);
+    public void write(VolunteerDTO volunteerDTO, List<String> uuids, List<String> realNames, List<String> paths, List<String> sizes, List<MultipartFile> files) throws IOException {
+        postDAO.save(volunteerDTO.toPostVO());
         Long id = postDAO.selectCurrentId();
-        // 3. AttachmentVO가 null이 아닐 때만 삽입
-        if (attachmentVO != null && attachmentVO.getAttachmentFileName() != null && attachmentVO.getAttachmentFilePath() != null && attachmentVO.getAttachmentFileSize() != null && attachmentVO.getAttachmentFileType() != null && attachmentVO.getAttachmentFileRealName() != null) {
-            attachmentMapper.insert(attachmentVO);
-        }
-        // 4. 삽입 후 생성된 postVO의 ID를 VolunteerDTO에 설정
         volunteerDTO.setId(id);
-        // 5. VolunteerVO 객체로 변환 후 삽입
-        volunteerMapper.insert(volunteerDTO.toVO());
+        volunteerDTO.setPostId(id);
+        volunteerDAO.save(volunteerDTO.toVO());
+
+        if(files != null) {
+            for(int i=0; i<files.size(); i++){
+                volunteerDTO.setAttachmentFileName(uuids.get(i) + "_" + files.get(i).getOriginalFilename());
+                volunteerDTO.setAttachmentFileRealName(realNames.get(i));
+                volunteerDTO.setAttachmentFilePath(paths.get(i));
+                volunteerDTO.setAttachmentFileSize(String.valueOf(sizes.get(i)));
+                volunteerDTO.setAttachmentFileType(files.get(i).getContentType());
+                attachmentDAO.save(volunteerDTO.toAttachmentVO());
+            }
+        }
     }
 
     @Override
@@ -66,8 +64,25 @@ public class VolunteerServiceImpl implements VolunteerService {
     }
 
     @Override
-    public void update(ReviewDTO reviewDTO) {
-        volunteerDAO.update(reviewDTO); // Q&A 게시글 수정
+    public void update(VolunteerDTO volunteerDTO, List<String> uuids, List<String> realNames, List<String> paths, List<String> sizes, List<MultipartFile> files, List<Long> ids) throws IOException {
+        postDAO.update(volunteerDTO.toPostVO());
+        volunteerDAO.update(volunteerDTO.toVO());
+
+        if(files != null && uuids.size() > 0) {
+            for(int i=0; i<files.size(); i++){
+                volunteerDTO.setAttachmentFileName(uuids.get(i+1) + "_" + files.get(i).getOriginalFilename());
+                volunteerDTO.setAttachmentFileRealName(realNames.get(i+1));
+                volunteerDTO.setAttachmentFilePath(paths.get(i+1));
+                volunteerDTO.setAttachmentFileSize(String.valueOf(sizes.get(i+1)));
+                volunteerDTO.setAttachmentFileType(files.get(i).getContentType());
+                attachmentDAO.save(volunteerDTO.toAttachmentVO());
+            }
+        }
+        if(ids != null) {
+            for(int i=0; i<ids.size(); i++){
+                attachmentDAO.delete(ids.get(i));
+            }
+        }
     }
 
     @Override
@@ -76,6 +91,15 @@ public class VolunteerServiceImpl implements VolunteerService {
         volunteerDAO.delete(id);
         volunteerDAO.delete(id);
         // ID로 Q&A 게시글 삭제
+    }
+
+    @Override
+    public List<VolunteerDTO> findByMemberId(Long memberId) {
+        return volunteerDAO.findByMemberId(memberId);
+    }
+    @Override
+    public List<VolunteerDTO> findByMemberIdAndDateRange(Long memberId, String startDate, String endDate) {
+        return volunteerDAO.findByMemberIdAndDateRange(memberId, startDate, endDate);
     }
 
 }

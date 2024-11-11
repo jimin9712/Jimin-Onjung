@@ -17,11 +17,11 @@ public class ReplyMapperTests {
     @Test
     public void testwrite() {
         ReplyDTO replyDTO = new ReplyDTO();
-        replyDTO.setId(5L);
+        replyDTO.setId(6L);
         replyDTO.setReplyContent("야호");
         replyDTO.setReplyStatus("@gmail.com");
         replyDTO.setMemberId(2L);
-        replyDTO.setPostId(208l);
+        replyDTO.setPostId(1l);
         replyMapper.insert(replyDTO.toReplyVO());
 
     }

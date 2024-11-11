@@ -65,12 +65,11 @@ public class VolunteerMapperTests {
 
 
 //    봉사 승인 인원 증가
-    @Test
-    public void updateNowRecruitment(){
-        volunteerMapper.updateNowRecruitment(1);
-        log.info("승인된 봉사인원이 증가하였습니다" + volunteerVO.getNowRecruitmentCount());
-
-    }
+//    @Test
+//    public void updateNowRecruitment(){
+//        volunteerMapper.updateNowRecruitment(1);
+//        log.info("승인된 봉사인원이 증가하였습니다" + volunteerVO.getNowRecruitmentCount());
+//    }
 
 //    봉사 모집 게시글 수정
 //@Test

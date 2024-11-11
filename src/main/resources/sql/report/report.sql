@@ -10,6 +10,7 @@ create table tbl_report(
     references tbl_member(id)
 );
 
+select * from tbl_report;
 
 
 

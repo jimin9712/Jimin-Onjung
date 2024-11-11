@@ -1109,8 +1109,8 @@
                                     <h2 class="CommonHeader_title">
                                         고객센터 문의 목록
                                     </h2>
-                                    <p class="CommonHeader_description">
-                                        사용자의 문의 내역을 조회합니다.
+                                   <p class="CommonHeader_description">
+                                    사용자의 문의 내역을 조회합니다.
                                     </p>
                                 </div>
 
@@ -2114,17 +2114,17 @@
                                 class="Divider_divider Divider_horizontal Divider_lightBG Divider_spacing3 Divider_caption2 FriendsList_divider"
                             />
                             <!-- body_layout -->
-                            <div class="ServiceLayout_container">
+                            <div class="ServiceLayout_container ">
                                 <div class="filter_wrap">
                                     <div class="SortFilterOptions">
                                         <span
-                                            class="sort-filter-option selected"
+                                            class="sort-filter-option report-list selected"
                                             >신고일 순</span
                                         >/
-                                        <span class="sort-filter-option"
+                                        <span class="sort-filter-option report-list"
                                             >신고 처리 완료</span
                                         >/
-                                        <span class="sort-filter-option"
+                                        <span class="sort-filter-option report-list"
                                             >신고 처리 대기중</span
                                         >
                                     </div>
@@ -2132,7 +2132,7 @@
                                     <div class="action-buttons">
                                         <input
                                             type="text"
-                                            class="Filter_searchInput"
+                                            class="Filter_searchInput report-page-search"
                                             placeholder="검색어 입력"
                                         />
                                         <button
@@ -2143,7 +2143,7 @@
                                         </button>
                                         <button
                                             id="deleteSelectedBtn"
-                                            class="deleteSelectedBtn"
+                                            class="deleteSelectedBtn report-delete"
                                         >
                                             게시글 삭제
                                         </button>
@@ -2152,7 +2152,7 @@
                                 <hr
                                     class="Divider_divider Divider_horizontal Divider_lightBG Divider_spacing3 Divider_caption2 FriendsList_divider"
                                 />
-                                <div class="ServiceTable_container">
+                                <div class="ServiceTable_container report-page">
                                     <div class="header_wrapper">
                                         <div
                                             class="ServiceTable_row ServiceTable_header"
@@ -2162,7 +2162,7 @@
                                             >
                                                 <input
                                                     type="checkbox"
-                                                    id="selectAll"
+                                                    id="selectAllReports"
                                                 />
                                             </div>
                                             <div class="ServiceTable_cell
@@ -2209,7 +2209,7 @@
                                         <div class="ServiceTable_cell">
                                             <input
                                                 type="checkbox"
-                                                class="userCheckbox"
+                                                class="reportCheckbox"
                                             />
                                         </div>
                                         <div
@@ -2471,7 +2471,7 @@
                             </div>
                         </div>
                         <nav class="pagination">
-                            <ul class="pagination-list">
+                            <ul class="pagination-list report-page">
                                 <!-- 처음 페이지로 이동하는 버튼 -->
                                 <li class="pagination-first">
                                     <a
@@ -2914,7 +2914,10 @@
     <!-- 관리자 홈 -->
     <script src="/js/admin/admin_service.js"></script>
     <script src="/js/admin/admin_layout.js"></script>
+    <script src="/js/admin/admin_new.js"></script>
     <script src="/js/admin.js"></script>
+
+
     <script src="/js/adminPage/admin_page/admin.js"></script>
     <!-- 회원 목록 -->
     <script src="/js/adminPage/admin_user/admin_user.js"></script>

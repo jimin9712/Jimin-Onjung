@@ -6,26 +6,23 @@ public enum AdminPostType {
     SUPPORT("후원 게시글"),
     REVIEW("이용 후기");
 
-    private final String displayPostName;
+    private final String displayName;
 
-    // 생성자에서 한글 이름을 매핑
     AdminPostType(String displayName) {
-        this.displayPostName = displayName;
+        this.displayName = displayName;
     }
 
-    // 한글 이름을 반환하는 메서드
     public String getDisplayName() {
-        return displayPostName;
+        return displayName;
     }
 
-    //  displayName을 PostType으로 변환하는 메서드
-    public static PostType fromDisplayName(String displayName) {
-        for (PostType type : PostType.values()) {
+    // displayName을 통해 AdminPostType을 가져오는 정적 메서드 추가
+    public static AdminPostType fromDisplayName(String displayName) {
+        for (AdminPostType type : AdminPostType.values()) {
             if (type.getDisplayName().equals(displayName)) {
                 return type;
             }
         }
-        return null; // No match found
+        throw new IllegalArgumentException("Unknown display name: " + displayName);
     }
-
-    }
+}
