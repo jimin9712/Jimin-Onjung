@@ -92,5 +92,4 @@ public class InquiryServiceImpl implements InquiryService {
         return inquiryDAO.findByMemberIdAndDateRange(memberId, startDate, endDate);
     }
 
-
 }

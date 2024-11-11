@@ -21,8 +21,8 @@
 </sql>
 
 <insert id="insert">
-    insert into tbl_report (id, report_reason, report_status, post_id, member_id)
-    values (#{id}, #{reportReason}, #{reportStatus}, #{postId}, #{memberId});
+    insert into tbl_report (id, report_reason, report_status, post_id, member_id,reported_member_id)
+    values (#{id}, #{reportReason}, #{reportStatus}, #{postId}, #{memberId},#{reportedMemberId});
 </insert>
 
 <select id="selectAll" resultType="reportDTO">
@@ -32,10 +32,13 @@
     r.report_status,
     p.post_title,
     p.created_date,
-    m.member_nickname
+    m.member_nickname as reporter_nickname,
+    m1.member_nickname as reported_nickname,
+    r.reported_member_id
     from tbl_report r
         join tbl_post p on r.post_id = p.id
         join tbl_member m on r.member_id = m.id
+        join tbl_member m1 on r.reported_member_id = m1.id
     <include refid="search"/>
     order by r.id desc
     limit #{pagination.startRow}, #{pagination.rowCount};
@@ -48,7 +51,9 @@
     r.report_status,
     p.post_title,
     p.created_date,
-    m.member_nickname
+    m.member_nickname as reporter_nickname,
+    m1.member_nickname as reported_nickname,
+    r.reported_member_id
     from tbl_report r
     join tbl_post p on r.post_id = p.id
     join tbl_member m on r.member_id = m.id

@@ -21,22 +21,24 @@ public class ReportMapperTests {
     @Test
     public void testWrite() {
         ReportDTO reportDTO = new ReportDTO();
-        reportDTO.setId(1L);
-        reportDTO.setReportReason("신고합니다");
+        reportDTO.setReportReason("신고 준비 중");
         reportDTO.setReportStatus("WAITING");
-        reportDTO.setPostId(1L);
+        reportDTO.setPostId(151L);
         reportDTO.setMemberId(2L);
+        reportDTO.setReportedMemberId(1L);
         reportMapper.insert(reportDTO.toVO());
     }
 
+
     @Test
     public void testWriteMultiple() {
-        for (long i = 1; i <= 150; i++) {
+        for (long i = 5; i <= 150; i++) {
             ReportDTO reportDTO = new ReportDTO();
             reportDTO.setReportReason("신고사유 " + i);
             reportDTO.setReportStatus("WAITING");
             reportDTO.setPostId(i);
-            reportDTO.setMemberId(2L);
+            reportDTO.setMemberId(1L);
+            reportDTO.setReportedMemberId(2L);
             reportMapper.insert(reportDTO.toVO());
         }
     }
