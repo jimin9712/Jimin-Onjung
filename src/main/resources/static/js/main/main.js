@@ -219,65 +219,162 @@ function initializeMarquee() {
 }
 
 
-// 드롭다운 필터 설정
-const filterContainer = document.querySelector(".filter-default");
-const headerWrap = filterContainer.querySelector(".header-wrap");
-const bottomWrap = filterContainer.querySelector(".bottom-wrap");
-const arrow = filterContainer.querySelector(".arrow");
-const items = filterContainer.querySelectorAll(".item");
-const inputField = headerWrap.querySelector("input");
+document.addEventListener("DOMContentLoaded", () => {
+    // 드롭다운 필터 설정
+    const filterContainer = document.querySelector(".filter-default");
+    const headerWrap = filterContainer?.querySelector(".header-wrap");
+    const bottomWrap = filterContainer?.querySelector(".bottom-wrap");
+    const arrow = filterContainer?.querySelector(".arrow");
+    const items = filterContainer?.querySelectorAll(".item");
+    const inputField = headerWrap?.querySelector("input");
 
-// 드롭다운 열고 닫기
-headerWrap.addEventListener("click", () => {
-    const isVisible = bottomWrap.style.visibility === "visible";
-    bottomWrap.style.visibility = isVisible ? "hidden" : "visible";
-    arrow.style.transform = isVisible ? "rotate(90deg)" : "rotate(-90deg)";
-});
+    if (headerWrap && bottomWrap && arrow && items && inputField) {
+        headerWrap.addEventListener("click", () => {
+            const isVisible = bottomWrap.style.display === "block";
+            bottomWrap.style.display = isVisible ? "none" : "block";
+            arrow.style.transform = isVisible ? "rotate(90deg)" : "rotate(-90deg)";
+        });
 
-// 항목 클릭 시 필터 업데이트 및 드롭다운 닫기
-items.forEach((item) => {
-    item.addEventListener("click", () => {
-        // 모든 항목의 활성화 클래스 제거
-        items.forEach((i) => i.classList.remove("active"));
-        // 선택된 항목에 활성화 클래스 추가
-        item.classList.add("active");
-        // 선택된 항목의 텍스트를 input에 반영
-        inputField.value = item.textContent;
-        // 드롭다운 닫기
-        bottomWrap.style.visibility = "hidden";
-        arrow.style.transform = "rotate(90deg)";
-        const page = new URLSearchParams(window.location.search).get('page') == null ? 1 : new URLSearchParams(window.location.search).get('page');
-        const month = document.querySelector("input#selected-month").value.trim().substring(6,7);
-        fetchFilteredRanking(page, month, item.textContent);
+        items.forEach((item) => {
+            item.addEventListener("click", () => {
+                items.forEach((i) => i.classList.remove("active"));
+                item.classList.add("active");
+                inputField.value = item.textContent;
+                bottomWrap.style.display = "none";
+                arrow.style.transform = "rotate(90deg)";
+
+                const page = new URLSearchParams(window.location.search).get('page') || 1;
+                const month = document.querySelector("input#selected-month")?.value.trim().substring(6, 7);
+
+                if (month) fetchFilteredRanking(page, month, item.textContent);
+            });
+        });
+
+        document.addEventListener("click", (event) => {
+            if (!filterContainer.contains(event.target)) {
+                bottomWrap.style.display = "none";
+                arrow.style.transform = "rotate(90deg)";
+            }
+        });
+    }
+
+    fetchRankData(11);
+
+    function fetchRankData(month) {
+        fetch(`/simple-rank?month=${month}`)
+            .then(response => response.json())
+            .then(data => {
+                renderRankList(data.vtRankMembers, '.praise-rank-list');
+                renderRankList(data.supportRankMembers, '.contest-rank-list');
+                renderRankList(data.donationRankMembers, '.sales-rank-list');
+            })
+            .catch(error => console.error("Error loading rank data:", error));
+    }
+
+    function renderRankList(rankings, containerClass) {
+        const listContainer = document.querySelector(containerClass);
+        listContainer.innerHTML = ''; // 기존 목록 초기화
+
+        rankings.forEach((user, i) => {
+            let svgColor = null;
+
+            if (i === 0) {
+                svgColor = "rgb(255, 225, 133)";
+            } else if (i === 1 || i === 2) {
+                svgColor = "rgb(219, 222, 226)";
+            }
+
+            const svgElement = svgColor
+                ? `<svg class="rank-crown" style="fill: ${svgColor};" viewBox="0 0 52 38">
+               <path fill-rule="evenodd" clip-rule="evenodd" d="..."></path>
+            </svg>`
+                : "";
+
+            // 프로필 이미지 URL 설정
+            const profileImageSrc = `/profile/display?memberId=${user.id}`;
+
+            const listItem = document.createElement("li");
+            listItem.classList.add("user-rank-article");
+            listItem.innerHTML = `
+            <article class="user-rank-article rank-user">
+                <div class="avatar-wrap">
+                    ${svgElement}
+                    <a class="user-img avatar" href="/mypage/mypage?id=${user.id}">
+                        <img class="profile"
+                             src="${profileImageSrc}"
+                             alt="${user.memberNickName || '익명'}의 프로필 이미지"
+                             onerror="this.onerror=null; this.src='/images/default-avatar.jpg';" />
+                    </a>
+                </div>
+                <p class="user-rank rank-number">${i + 1}</p>
+                <div class="nick-wrap">
+                    <div class="user-nick-default user-nick-wrapper">
+                        <p title="${user.memberNickName || '익명'}">
+                            <a class="nick" href="/mypage/mypage?id=${user.id}">${user.memberNickName || '익명'}</a>
+                        </p>
+                    </div>
+                </div>
+            </article>
+        `;
+            listContainer.appendChild(listItem);
+        });
+    }
+
+
+    document.querySelectorAll(".react-datepicker-month-text").forEach((monthElement, index) => {
+        monthElement.addEventListener("click", () => {
+            const selectedMonth = index + 1;
+            fetchRankData(selectedMonth);
+        });
     });
 });
 
-// 드롭다운 외부 클릭 시 닫기
-document.addEventListener("click", (event) => {
-    if (!filterContainer.contains(event.target)) {
-        bottomWrap.style.visibility = "hidden";
-        arrow.style.transform = "rotate(90deg)";
+const inputContainer = document.querySelector(
+    ".react-datepicker-input-container"
+);
+const tabLoop = document.querySelector(".react-datepicker-tab-loop");
+const dateDisplay = document.querySelector(
+    ".react-datepicker-input-container input"
+);
+const monthElements = document.querySelectorAll(".react-datepicker-month-text");
+const monthInput = document.querySelector("input#month");
+const currentYear = 2024;
+const today = new Date();
+
+inputContainer.value = today.getFullYear() + "년 " + (today.getMonth() + 1) + "월";
+dateDisplay.value = inputContainer.value;
+
+// inputContainer를 클릭했을 때 tabLoop의 가시성을 토글
+inputContainer.addEventListener("click", (e) => {
+    tabLoop.classList.toggle("active");
+});
+
+// 문서의 다른 부분을 클릭했을 때 tabLoop를 숨김
+document.addEventListener("click", (e) => {
+    if (!inputContainer.contains(e.target) && !tabLoop.contains(e.target)) {
+        tabLoop.classList.remove("active"); // 클릭한 요소가 inputContainer와 tabLoop 외부일 때 숨김
     }
 });
 
+// 각 월 요소에 클릭 이벤트 추가
+monthElements.forEach((monthElement, index) => {
+    monthElement.addEventListener("click", () => {
+        // 선택한 월로 상단 날짜 업데이트
+        const selectedMonth = index + 1;
+        dateDisplay.value = `${currentYear}년 ${selectedMonth}월`;
 
-document.addEventListener("DOMContentLoaded", () => {
-    fetch("/simple-rank?month=9")
-        .then(response => response.json())
-        .then(data => {
-            renderRankList(data.vtRankMembers, 'praise-rank-list');
-            renderRankList(data.supportRankMembers, 'contest-rank-list');
-            renderRankList(data.donationRankMembers, 'sales-rank-list');
-        })
-        .catch(error => console.error("Error:", error));
-});
+        monthInput.value = dateDisplay.value.trim().substring(6,7);
 
-function renderRankList(rankData, listClassName) {
-    const rankList = document.querySelector(`.${listClassName}`);
-    rankData.forEach(member => {
-        const listItem = document.createElement("li");
-        // memberNickName과 createdDate를 사용하여 리스트에 추가
-        listItem.textContent = `${member.memberNickName} - 가입일: ${member.createdDate}`;
-        rankList.appendChild(listItem);
+        // 모든 월에서 active 클래스 제거 후, 클릭한 월에 추가
+        monthElements.forEach((el) =>
+            el.classList.remove("react-datepicker-month-text-keyboard-selected")
+        );
+        monthElement.classList.add("datepicker-month-text-keyboard-selected");
+
+        tabLoop.classList.remove("active");
+        console.log("month hi" + selectedMonth + "월");
+        const page = new URLSearchParams(window.location.search).get('page') == null ? 1 : new URLSearchParams(window.location.search).get('page');
+        const filterType = document.querySelector('div.item.active').textContent;
+        fetchFilteredRanking(page, selectedMonth, filterType);
     });
-}
+});
