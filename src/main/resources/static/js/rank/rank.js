@@ -150,14 +150,14 @@ const renderRankings = (rankings, containerClass) => {
                     </a>
                 </div>
 <!--                <p class="user-rank rank-number">${user.rank}</p>-->
-                <p class="user-rank rank-number">${i++}</p>
+                <p class="user-rank rank-number">${i}</p>
                 <div class="nick-wrap">
                     <div class="user-nick-default user-nick-wrapper">
 <!--                        <p title="${user.username}">
                             <a class="nick" href="${user.profileUrl}">${user.username}</a>
                         </p> -->
-                        <p title="${user.member_nickname}">
-                            <a class="nick" href="/mypage/mypage?id=${user.id}">${user.member_nickname}</a>
+                        <p title="${user.memberNickName}">
+                            <a class="nick" href="/mypage/mypage?id=${user.id}">${user.memberNickName}</a>
                         </p>
                     </div>
                 </div>
@@ -210,6 +210,9 @@ items.forEach((item) => {
         // 드롭다운 닫기
         bottomWrap.style.visibility = "hidden";
         arrow.style.transform = "rotate(90deg)";
+        const page = new URLSearchParams(window.location.search).get('page') == null ? 1 : new URLSearchParams(window.location.search).get('page');
+        const month = document.querySelector("input#selected-month").value.trim().substring(6,7);
+        fetchFilteredRanking(page, month, item.textContent);
     });
 });
 
@@ -409,7 +412,7 @@ monthElements.forEach((monthElement, index) => {
         const selectedMonth = index + 1;
         dateDisplay.value = `${currentYear}년 ${selectedMonth}월`;
 
-        monthInput.value = dateDisplay.value.trim().substring(6,1);
+        monthInput.value = dateDisplay.value.trim().substring(6,7);
 
         // 모든 월에서 active 클래스 제거 후, 클릭한 월에 추가
         monthElements.forEach((el) =>
@@ -418,72 +421,35 @@ monthElements.forEach((monthElement, index) => {
         monthElement.classList.add("datepicker-month-text-keyboard-selected");
 
         tabLoop.classList.remove("active");
+        console.log("month hi" + selectedMonth + "월");
+        const page = new URLSearchParams(window.location.search).get('page') == null ? 1 : new URLSearchParams(window.location.search).get('page');
+        const filterType = document.querySelector('div.item.active').textContent;
+        fetchFilteredRanking(page, selectedMonth, filterType);
     });
 });
 
 // ================================================================================================================================================================
 
-// 필터 버튼 클릭 시 필터에 맞는 데이터 불러오기
-// inquiryFilters.forEach((option) => {
-//     option.addEventListener("click", () => {
-//         // classList : 동적으로 클래스를 추가하고 제거하여 필터가 선택되었음을 시각적 표시. 다른 필터는 비활성화 상태로 보이게하기위함
-//         inquiryFilters.forEach((opt) => opt.classList.remove("selected")); // 모든 필터 초기화
-//         option.classList.add("selected"); // 선택된 필터만 활성화
-//
-//         inquiryFilterType = option.textContent.trim();
-//         fetchFilteredInquiries(1, inquiryKeyword, inquiryFilterType); // 필터 조건으로 데이터 불러오기
-//     });
-// });
-
-// 필터링된 문의 데이터를 가져오는 함수
-const fetchFilteredInquiries = async (page = 1, filterType = inquiryFilterType) => {
+// 필터링된 랭킹 목록 가져오는 함수
+const fetchFilteredRanking = async (page, month, filterType) => {
     try {
-        const response = await fetch(`/admin/inquiry-page?page=${page}&query=${keyword}&filterType=${filterType}`);
+        const response = await fetch(`/rank/rank-list?page=${page}&month=${month}&filterType=${filterType}`);
         const data = await response.json();
 
-        renderInquiries(data.inquiries);
-        renderPagination(data.pagination, keyword, filterType);
+        showVolunteerGroups(data.volunteerGroups);
+        showPaging(data.pagination);
     } catch (error) {
         // 오류 처리
+        console.log("필터링된 랭킹 목록 가져오는 중 오류");
     }
 };
 
-// // 전체 문의 데이터를 가져오는 함수
-// const fetchInquiries = async (page = 1) => {
-//     try {
-//         const response = await fetch(`/admin/inquiry-page?page=${page}`);
-//         const data = await response.json();
-//         renderInquiries(data.inquiries);
-//         renderPagination(data.pagination);
-//     } catch (error) {
-//         // 오류 처리
-//         console.error("데이터 가져오는 중 오류 발생:", error);
-//     }
-// };
-
-// 초기 데이터 로드
-// fetchInquiries(); // 첫 페이지의 데이터를 로드합니다.
-
-// 필터링된 문의 데이터를 가져오는 함수
-// const fetchFilteredVolunteerGroups = async (page = 1, filterType = inquiryFilterType) => {
-//     console.log("js에 있는 요청하는 페이지:", page); // 페이지 번호가 전달되는지 확인
-//     try {
-//         const response = await fetch(`/rank?page=${page}&filterType=${filterType}`);
-//         const data = await response.json();
-//         console.log("js 서버 응답 데이터:", data);
-//
-//         showVolunteerGroups(data.volunteerGroups);
-//         showPaging();
-//     } catch (error) {
-//         console.error("js 기부 목록 불러오기 오류:", error);
-//     }
-// };
 
 // 페이지 네비게이션을 표시하는 함수
-const showPaging = () => {
+const showPaging = (pagination) => {
     const pagingDiv = document.querySelector("nav.page-container.paginator");
     let text = ``; // HTML 내용을 저장할 변수 초기화
-
+    console.log(pagination);
     // 이전 페이지 버튼 추가
     if (pagination.page > 1) {
         text += `<a 
@@ -541,4 +507,4 @@ const showPaging = () => {
 }
 
 showVolunteerGroups(volunteerGroups);
-showPaging();
+showPaging(pagination);
