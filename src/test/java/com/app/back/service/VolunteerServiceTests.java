@@ -22,7 +22,7 @@ public class VolunteerServiceTests {
         volunteerDTO.setPostSummary("요약본인데?");
         volunteerDTO.setPostContent("어떤거 같아?");
         volunteerDTO.setPostViewCount(2L);
-        volunteerDTO.setMemberId(4L);
+        volunteerDTO.setMemberId(21L);
         volunteerDTO.setPostType("VOLUNTEER");
         volunteerDTO.setRecruitmentCount(5);
         volunteerDTO.setVtSDate("2024-11-17");
