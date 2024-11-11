@@ -33,7 +33,6 @@ public interface InquiryService {
 //    필터 개수 수
     public int getTotalWithFilter(Search search,String filterType);
 
-
     public List<InquiryDTO> findByMemberId(Long memberId);
     public List<InquiryDTO> findByMemberIdAndDateRange(Long memberId, String startDate, String endDate);
 
