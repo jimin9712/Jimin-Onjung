@@ -142,7 +142,7 @@ public class VolunteerController {
         Optional<VolunteerDTO> volunteerDTO = volunteerService.getById(postId);
 
         if (volunteerDTO.isPresent()) {
-            model.addAttribute("donation", volunteerDTO.get());
+            model.addAttribute("volunteer", volunteerDTO.get());
             model.addAttribute("attachments", attachmentService.getList(postId));
         } else {
             return "redirect:/volunteer/volunteer-inquiry?postId=" + postId;
