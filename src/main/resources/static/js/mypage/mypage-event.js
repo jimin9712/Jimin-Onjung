@@ -1319,17 +1319,20 @@ const fetchFilteredPayments = async (memberId, startDate, endDate) => {
     }
 };
 /********************* 알림 섹션 **********************/
-
+// 알림 렌더링 함수
 const renderAlarms = (alarms) => {
     const alarmsList = document.getElementById("notice-list");
     const alarmsEmpty = document.getElementById("alarms-empty");
     const totalCountLabel = document.getElementById("notice-totalCount");
 
+    // 기존 알림 내용 초기화
     alarmsList.innerHTML = '';
 
+    // 총 알림 수 업데이트
     totalCountLabel.textContent = alarms.length;
 
     if (alarms.length === 0) {
+        // 알림이 없을 경우, empty 메시지 표시
         alarmsEmpty.style.display = 'block';
         alarmsList.style.display = 'none';
         return;
@@ -1340,16 +1343,27 @@ const renderAlarms = (alarms) => {
 
     alarms.forEach(alarm => {
         console.log("알림 객체:", alarm);
+        console.log(`Alarm ID: ${alarm.id}, Type: ${alarm.alarmType}, Post ID: ${alarm.postId}`);
 
+
+        // alarmType이 비어있는지 확인
+        if (!alarm.alarmType) {
+            console.warn(`Alarm ID ${alarm.id}의 alarmType이 비어 있습니다.`);
+        }
+
+        // alarm-card div 생성
         const alarmCard = document.createElement('div');
         alarmCard.classList.add('alarm-card');
 
+        // noti-content div 생성
         const notiContentDiv = document.createElement('div');
         notiContentDiv.classList.add('noti-content');
 
+        // kzXcJa div 생성
         const kzXcJaDiv = document.createElement('div');
         kzXcJaDiv.classList.add('kzXcJa');
 
+        // SVG 아이콘 추가
         const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
         svg.setAttribute("color", "#101C33");
         svg.setAttribute("viewBox", "0 0 24 24");
@@ -1361,42 +1375,83 @@ const renderAlarms = (alarms) => {
         `;
         kzXcJaDiv.appendChild(svg);
 
+        // data-forloop div 생성
         const dataDiv = document.createElement('div');
         dataDiv.setAttribute('data-forloop', alarm.id);
 
         const innerDiv = document.createElement('div');
 
+        // 알림 내용 div
         const contentDiv = document.createElement('div');
         contentDiv.classList.add('noti-card-desc');
         contentDiv.textContent = alarm.alarmContent;
 
+        // 읽지 않은 경우에만 star div 추가
         let starDiv = null;
-        if (alarm.read === false) { // 아직 읽지 않은 경우
+        if (!alarm.read) { // 아직 읽지 않은 경우
             starDiv = document.createElement('div');
             starDiv.classList.add('star');
             starDiv.textContent = '*';
             contentDiv.appendChild(starDiv);
         }
 
+        // 알림 타입과 postId 확인
+        console.log(`Alarm ID: ${alarm.id}, Type: ${alarm.alarmType}, Post ID: ${alarm.postId}`);
+
+        // 알림 날짜 div
         const dateDiv = document.createElement('div');
         dateDiv.classList.add('noti-card-desc');
         dateDiv.textContent = new Date(alarm.createdDate).toLocaleDateString('ko-KR');
 
+        // innerDiv에 내용 추가
         innerDiv.appendChild(contentDiv);
         innerDiv.appendChild(dateDiv);
 
+        // dataDiv에 innerDiv 추가
         dataDiv.appendChild(innerDiv);
 
+        // kzXcJaDiv에 dataDiv 추가
         kzXcJaDiv.appendChild(dataDiv);
 
+        // noti-content div에 kzXcJaDiv 추가
         notiContentDiv.appendChild(kzXcJaDiv);
 
+        // alarmCard에 noti-content div 추가
         alarmCard.appendChild(notiContentDiv);
 
-        // 클릭 시 읽음으로 표시
-        if (alarm.read === false && starDiv) {
-            alarmCard.addEventListener('click', () => {
-                markAlarmAsRead(alarm.id, alarm.alarmType, starDiv);
+        // 클릭 시 읽음으로 표시하고, alarmType에 따라 다른 페이지로 이동
+        if (!alarm.read && starDiv) {
+            alarmCard.style.cursor = 'pointer'; // 클릭 가능함을 시각적으로 표시
+            alarmCard.addEventListener('click', async () => {
+                try {
+                    await markAlarmAsRead(alarm.id, alarm.alarmType, starDiv);
+                    // markAlarmAsRead가 성공적으로 완료된 후 페이지 이동
+                    if (alarm.postId) {
+                        let url = '';
+                        switch (alarm.alarmType) {
+                            case 'vt':
+                                url = `/volunteer/volunteer-inquiry/${alarm.postId}`;
+                                break;
+                            case 'donation':
+                                url = `/donation/donation-inquiry/${alarm.postId}`;
+                                break;
+                            case 'support':
+                                url = `/support/support-inquiry/${alarm.postId}`;
+                                break;
+                            case 'reply':
+                                url = `/reply/reply-inquiry/${alarm.postId}`;
+                                break;
+                            default:
+                                console.warn(`알 수 없는 alarmType: ${alarm.alarmType}`);
+                        }
+                        if (url) {
+                            window.location.href = url;
+                        }
+                    }
+                } catch (error) {
+                    console.error("알림을 읽음으로 표시하고 이동하는 중 오류 발생:", error);
+                    // 필요한 경우 추가적인 오류 처리 로직을 여기에 작성
+                }
             });
         }
 
@@ -1417,6 +1472,7 @@ const markAlarmAsRead = async (alarmId, alarmType, starDiv) => {
             body: JSON.stringify({ alarmType }) // 서버에서 기대하는 형식인지 확인
         });
 
+        console.log(`서버 응답 상태: ${response.status}`);
         if (response.ok) {
             // 읽음 처리 UI 업데이트
             if (starDiv) {
@@ -1424,12 +1480,15 @@ const markAlarmAsRead = async (alarmId, alarmType, starDiv) => {
             }
             console.log(`Alarm ID ${alarmId} marked as read.`);
         } else {
-            console.error('Failed to mark alarm as read');
+            const errorText = await response.text();
+            console.error('Failed to mark alarm as read', errorText);
             alert('알림을 읽음으로 표시하는 데 실패했습니다.');
+            throw new Error('알림 읽음 표시 실패');
         }
     } catch (error) {
         console.error('Error marking alarm as read:', error);
         alert('알림을 읽음으로 표시하는 중 오류가 발생했습니다.');
+        throw error; // 호출자에게 에러를 전달
     }
 };
 
