@@ -16,7 +16,7 @@
     <body>
         <div class="content-wrapper">
             <div class="content-container contents">
-                <form th:action="@{/volunteer/vlounteer-write}" method="post" enctype="multipart/form-data" name="volunteer-write-form">
+                <form action="/volunteer/volunteer-write" method="post" enctype="multipart/form-data" name="volunteer-write-form">
                     <main class="content-form contest-launch form">
                         <div class="section-divider"></div>
                         <h3 class="write-introduce">✍🏻봉사 모집 게시판 작성</h3>
@@ -51,6 +51,7 @@
                                     <label class="company-name">
                                         <input
                                                 type="text"
+                                                name="postTitle"
                                                 placeholder="제목"
                                                 maxlength="19"
                                                 value=""
@@ -89,6 +90,7 @@
                                 <div class="option">
                                     <label class="service-contents">
                                     <textarea
+                                            name="postSummary"
                                             placeholder="내용을 한 줄로 소개해주세요!"
                                             maxlength="300"
                                     ></textarea>
@@ -108,6 +110,7 @@
                                     <label class="company-name">
                                         <input
                                                 type="text"
+                                                name="recruitmentCount"
                                                 placeholder="숫자만 입력 가능합니다."
                                                 value=""
                                                 oninput="validateAndDisplayNumber(this)"
@@ -130,6 +133,7 @@
                                     <label class="company-name">
                                         <input
                                                 type="date"
+                                                name="vtSDate"
                                                 id="start-date"
                                                 onchange="updateDateRange()"
                                         />
@@ -138,6 +142,7 @@
                                     <label class="company-name">
                                         <input
                                                 type="date"
+                                                name="vtEDate"
                                                 id="end-date"
                                                 onchange="updateDateRange()"
                                         />
@@ -161,11 +166,11 @@
                             <div class="option">
                                 <div class="kpdMUe">
                                 <textarea
+                                        name="postContent"
                                         id="briefing"
                                         aria-hidden="true"
                                         placeholder="내용을 자세히 작성해주세요!"
                                 ></textarea>
-
                                     <input
                                             id="multipulfile-briefing"
                                             type="file"
@@ -192,6 +197,7 @@
                                                 type="file"
                                                 id="drop-zone-input"
                                                 class="attach-file-zone2"
+                                                name="file"
                                         /><svg
                                             viewBox="0 0 24 24"
                                             class="attach-file-img"
@@ -231,14 +237,13 @@
                             </div>
                         </div>
                         <div class="submit-button-container">
-                            <button id="submit-review" class="submit-button">
-                                작성 완료
-                            </button>
+                            <button id="submit-review" class="submit-button">작성완료</button>
                         </div>
                     </main>
                 </form>
             </div>
         </div>
     </body>
-    <script src="/js/volunteer/volunteer-write.js"></script>
+    <script src="/js/volunteer/event/volunteer-write-event.js"></script>
+    <script src="/js/volunteer/service/volunteer-write-service.js"></script>
 </html>
