@@ -36,7 +36,31 @@ public class AlarmController {
         List<AlarmDTO> latestAlarms = alarmService.getUnreadAlarmsByMemberId(memberId);
         return ResponseEntity.ok(latestAlarms);
     }
-    
+
+    @PutMapping("/{id}/read")
+    @ResponseBody
+    public ResponseEntity<Void> markAlarmAsRead(
+            @PathVariable Long id,
+            HttpSession session
+    ) {
+        MemberDTO member = (MemberDTO) session.getAttribute("loginMember");
+        if (member != null) {
+            Long memberId = member.getId();
+            boolean success = alarmService.markAlarmAsRead(id, memberId, ""); // alarmType 필요 시 수정
+            if (success) {
+                log.info("Alarm with ID {} marked as read by member {}", id, memberId);
+                return ResponseEntity.ok().build();
+            } else {
+                log.warn("Failed to mark alarm with ID {} as read by member {}", id, memberId);
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            }
+        } else {
+            log.warn("Attempt to mark alarm as read without a logged-in member");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
+
     @GetMapping("/read/{id}")
     public RedirectView readAlarm(
             @PathVariable Long id,

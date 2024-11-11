@@ -1680,3 +1680,37 @@ p {
     width: 24px;
     height: 24px;
 }
+
+.alarm-card {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    position: relative;
+    cursor: pointer;
+    background-color: #fff;
+    transition: background-color 0.3s;
+}
+
+.alarm-card:hover {
+    background-color: #f9f9f9;
+}
+
+.star {
+    padding-left: 2px;
+    color: red;
+    position: absolute;
+    top: 19px;
+    left: 16px;
+}
+
+.alarm-content p {
+    margin: 0 0 5px 0;
+    font-size: 14px;
+}
+
+.alarm-content small {
+    color: #888;
+    font-size: 12px;
+}
+
