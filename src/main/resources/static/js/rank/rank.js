@@ -124,6 +124,8 @@ const renderRankings = (rankings, containerClass) => {
     const listContainer = document.querySelector(containerClass);
     let i = 0;
 
+    listContainer.innerHTML = '';
+
     rankings.forEach((user) => {
         let svgColor = null;
         // if (user.rank === 0) {
@@ -213,6 +215,7 @@ document.addEventListener("click", (event) => {
 
 const showVolunteerGroups = (volunteerGroups) => {
     const container = document.querySelector(".expert-list-container");
+    container.innerHTML = '';
     volunteerGroups.forEach((volunteerGroup) => {
         let cardHTML = `
     <div class="expert-card-container expert-card">
@@ -497,6 +500,17 @@ const showPaging = (pagination) => {
 
     // 페이지 네비게이션을 HTML 요소에 삽입
     pagingDiv.innerHTML = text;
+
+    document.querySelectorAll("a.page-btn").forEach((link) => {
+        link.addEventListener("click", (e) => {
+            e.preventDefault();
+            const page = e.target.textContent;
+            const monthInput = document.querySelector("input#selected-month");
+            const month = monthInput.value.length === 8 ? monthInput.value.substring(6, 7) : monthInput.value.substring(6, 8);
+            const filterType = document.querySelector('div.item.active').textContent;
+            fetchFilteredRanking(page, month, filterType); // 해당 페이지의 게시글 데이터를 가져오기
+        });
+    });
 }
 
 // 필터링된 랭킹 목록 가져오는 함수
@@ -504,8 +518,6 @@ const fetchFilteredRanking = async (page, month, filterType) => {
     try {
         const response = await fetch(`/rank/rank-list?page=${page}&month=${month}&filterType=${filterType}`);
         const data = await response.json();
-        console.log("발룬티어그룹스: " + data.volunteerGroups);
-        console.log("페이지네이션 " + data.pagination);
         renderRankings(data.vtRankMembers, ".praise-rank-list");
         renderRankings(data.supportRankMembers, ".contest-rank-list");
         renderRankings(data.donationRankMembers, ".sales-rank-list");

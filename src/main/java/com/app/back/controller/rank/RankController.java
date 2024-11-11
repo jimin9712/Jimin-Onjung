@@ -91,6 +91,7 @@ public class RankController {
         log.info("페이지 : {}", pagination.getPage().toString());
         log.info("페이지네이션 시작 : {}", pagination.getStartRow());
         log.info("페이지네이션 끝 : {}", pagination.getEndRow());
+        log.info("토탈 : {}", pagination.getTotal());
         log.info("들어옴dddd");
 
         return rankDTO;

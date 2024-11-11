@@ -58,9 +58,7 @@
     join tbl_post p on r.post_id = p.id
     join tbl_member m on r.member_id = m.id
     <include refid="search"/>
-    <where>
     where r.report_status = #{pagination.order}
-    </where>
     order by
     <choose>
         <when test="pagination.order == 'recent'">p.created_date</when>
