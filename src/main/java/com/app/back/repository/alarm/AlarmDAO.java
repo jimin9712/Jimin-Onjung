@@ -38,8 +38,8 @@ public class AlarmDAO {
     public List<AlarmDTO>findUnreadAlarmsByMemberId(Long memberId) {
         return alarmMapper.selectUnreadAlarmsByMemberId(memberId);
     }
-    public int updateAlarmIsRead(Long id, Long memberId, String alarmType) {
-        int updatedRows = alarmMapper.updateAlarmIsRead(id, memberId, alarmType);
+    public int updateAlarmIsRead(Long id, Long memberId, String alarmType, Long postId) {
+        int updatedRows = alarmMapper.updateAlarmIsRead(id, memberId, alarmType,postId);
         log.info("Updating alarm as read. ID: {}, Member ID: {}, Alarm Type: {}, Updated Rows: {}", id, memberId, alarmType, updatedRows);
         return updatedRows;
     }

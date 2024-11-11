@@ -31,4 +31,4 @@ ALTER TABLE tbl_vt_alarm
 
 
 delete from tbl_vt_alarm
-where id = 4
+where is_read = 1;

@@ -21,7 +21,7 @@ public interface AlarmService {
 
     public List<AlarmDTO> getUnreadAlarmsByMemberId(Long memberId);
 
-    public boolean markAlarmAsRead(Long id, Long memberId, String alarmType);
+    public boolean markAlarmAsRead(Long id, Long memberId, String alarmType, Long postId);
 
 
 
