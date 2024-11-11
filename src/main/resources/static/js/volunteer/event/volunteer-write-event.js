@@ -56,10 +56,10 @@ const handleFiles = async (files) => {
         }
     }
 
-    const form = document["donation-write-form"];
+    const form = document["volunteer-write-form"];
     const formData = new FormData();
     formData.append("file", files[0]);
-    const attachmentFile = await donationWriteService.upload(formData);
+    const attachmentFile = await volunteerWriteService.upload(formData);
     const uuid = attachmentFile.attachmentFileName.substring(0, attachmentFile.attachmentFileName.indexOf("_"));
     const attachmentFileName = document.createElement("input");
     attachmentFileName.type = "hidden";
@@ -147,8 +147,10 @@ document.getElementById("submit-review").addEventListener("click", (e) => {
         return;
     }
 
-    alert("후기가 성공적으로 제출되었습니다!");
-    // 하고 여기서 목록 페이지로 이동
+    alert("게시글이 성공적으로 작성되었습니다!");
+    if (response.ok) {
+        window.location.href = "/volunteer/volunteer-list";
+    }
 });
 const updateCharCount = (input) => {
     const charCountSpan = document.getElementById("charCount");
@@ -160,7 +162,6 @@ const validateAndDisplayNumber = (input) => {
 };
 
 //날짜 설정
-
 const updateDateRange = () => {
     const startDateInput = document.getElementById("start-date").value;
     const endDateInput = document.getElementById("end-date").value;

@@ -52,9 +52,9 @@ public class AlarmServiceImpl implements AlarmService {
     }
 
     @Override
-    public boolean markAlarmAsRead(Long id, Long memberId, String alarmType) {
+    public boolean markAlarmAsRead(Long id, Long memberId, String alarmType, Long postId) {
         log.info("Marking alarm as read. ID: {}, Member ID: {}, Alarm Type: {}", id, memberId, alarmType);
-        int updatedRows = alarmDAO.updateAlarmIsRead(id, memberId, alarmType);
+        int updatedRows = alarmDAO.updateAlarmIsRead(id, memberId, alarmType,postId);
         return updatedRows > 0;
     }
 }

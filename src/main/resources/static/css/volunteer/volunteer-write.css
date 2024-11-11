@@ -15,6 +15,7 @@
     min-width: 760px;
     max-width: 824px;
     padding: 40px 32px;
+    margin: 0 auto;
 }
 .content-container > main,
 .content-container > menu.sub-tab {

@@ -5,11 +5,16 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Onjung - 마이페이지</title>
         <link rel="stylesheet" href="/css/mypage/mypage.css" />
+        <link rel="stylesheet" href="/css/main/footer.css"/>
+        <link rel="stylesheet" href="/css/main/login-header-no-noti.css">
         <style>
             @import url(https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap);
         </style>
     </head>
     <body>
+    <div>
+        <th:block th:replace="~{main/login-header-no-noti :: header}"></th:block>
+    </div>
         <div id="root">
             <div id="app" class="app">
                 <div class="wrap">
@@ -227,7 +232,7 @@
                                                                     href="#"
                                                                     class="side-baner-content"
                                                                     onclick="showTab('gratitude', this)"
-                                                                    >기부 감사ㄹ
+                                                                    >기부 감사
                                                                     인사</a
                                                                 >
                                                             </div>
@@ -1591,6 +1596,8 @@
             </div>
         </div>
         </div>
+    <div th:replace="~{main/footer :: footer}"></div>
+
     </body>
     <script src="/js/mypage/mypage.js"></script>
     <script src="/js/mypage/mypage-event.js"></script>

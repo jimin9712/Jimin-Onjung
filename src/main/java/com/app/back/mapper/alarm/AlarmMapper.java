@@ -27,7 +27,8 @@ public interface AlarmMapper {
     public int updateAlarmIsRead(
             @Param("id") Long id,
             @Param("memberId") Long memberId,
-            @Param("alarmType") String alarmType
+            @Param("alarmType") String alarmType,
+            @Param("postId") Long postId
     );
 
 

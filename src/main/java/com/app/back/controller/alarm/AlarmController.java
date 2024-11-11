@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/alarm")
@@ -41,17 +42,27 @@ public class AlarmController {
     @ResponseBody
     public ResponseEntity<Void> markAlarmAsRead(
             @PathVariable Long id,
+            @RequestBody Map<String, Object> alarmData,
             HttpSession session
     ) {
         MemberDTO member = (MemberDTO) session.getAttribute("loginMember");
         if (member != null) {
             Long memberId = member.getId();
-            boolean success = alarmService.markAlarmAsRead(id, memberId, ""); // alarmType 필요 시 수정
+            String alarmType = (String) alarmData.get("alarmType");
+
+            Long postId = alarmData.get("postId") instanceof Number ? ((Number) alarmData.get("postId")).longValue() : null;
+
+            if (alarmType == null || alarmType.isEmpty() || postId == null) {
+                log.warn("AlarmType or postId is missing for alarm ID {}", id);
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            }
+
+            boolean success = alarmService.markAlarmAsRead(id, memberId, alarmType, postId);
             if (success) {
-                log.info("Alarm with ID {} marked as read by member {}", id, memberId);
+                log.info("Alarm with ID {} marked as read by member {} alarmType: {}, postId: {}", id, memberId, alarmType, postId);
                 return ResponseEntity.ok().build();
             } else {
-                log.warn("Failed to mark alarm with ID {} as read by member {}", id, memberId);
+                log.warn("Failed to mark alarm with ID {} as read by member {} alarmType: {}, postId: {}", id, memberId, alarmType, postId);
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
             }
         } else {
@@ -60,25 +71,26 @@ public class AlarmController {
         }
     }
 
-
     @GetMapping("/read/{id}")
     public RedirectView readAlarm(
             @PathVariable Long id,
+            @RequestParam Long postId,
             @RequestParam String alarmType,
             HttpSession session
     ) {
         MemberDTO member = (MemberDTO) session.getAttribute("loginMember");
         if (member != null) {
             Long memberId = member.getId();
-            alarmService.markAlarmAsRead(id, memberId, alarmType);
+            alarmService.markAlarmAsRead(id, memberId, alarmType, postId);
             log.info("읽음 처리된 알림 아이디: {} 멤버 아이디: {}", id, memberId);
         } else {
             log.warn("로그인 오류");
         }
-        // 읽고 나서 => 마이페이지로 이동되게
-//        그리고 마이페이지에서 눌렀을 때 각 ALARM ID에 맞게 이동하게 하면된다.
+
+        // 알림을 읽은 후 무조건 마이페이지로 이동
         return new RedirectView("/mypage/mypage");
     }
+
 
 
 }

@@ -1,4 +1,4 @@
-// volunteer-service.js
+// volunteer-list-service.js
 
 // 전역 변수 선언 (한 번만 선언)
 let currentOrder = 'recent';
