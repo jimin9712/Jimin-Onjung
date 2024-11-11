@@ -50,7 +50,10 @@ public interface PostMapper {
     //    검색 결과 개수 조회
     public int selectTotalWithSearch(@Param("search") Search search);
 
-    int selectTotalWithFilter(@Param("search") Search search, @Param("filterType") String filterType);
+    public int selectTotalWithFilter(@Param("search") Search search, @Param("filterType") String filterType);
+
+    // 상태 업데이트 메서드
+    public void updateStatusById(@Param("id") Long id, @Param("postStatus") String postStatus);
   
     public int selectTotalByPostType(String postType);
 

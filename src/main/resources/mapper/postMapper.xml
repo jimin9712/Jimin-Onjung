@@ -120,7 +120,6 @@
     select last_insert_id();
 </select>
 
-
 <update id="updateById">
     update tbl_post
     set
@@ -130,10 +129,16 @@
     where id = #{id}
 </update>
 
-    <select id="selectTotalByPostType" resultType="int">
-        SELECT COUNT(*)
-        FROM tbl_post
-        WHERE post_type = #{postType}
-    </select>
+<update id="updateStatusById">
+    update tbl_post
+    set post_status = #{postStatus}
+    where id = #{id}
+</update>
+
+<select id="selectTotalByPostType" resultType="int">
+    SELECT COUNT(*)
+    FROM tbl_post
+    WHERE post_type = #{postType}
+</select>
 
 </mapper>

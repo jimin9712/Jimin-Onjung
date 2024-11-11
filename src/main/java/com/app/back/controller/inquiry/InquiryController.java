@@ -257,10 +257,10 @@ public Map<String, Object> getReportList(Pagination pagination, Search search, @
 }
 
 // 신고 삭제
-@DeleteMapping("/delete-reports")
+@PatchMapping("/delete-reports")
 public ResponseEntity<Void> deleteReports(@RequestBody List<Long> reportIds) {
-    reportIds.forEach(reportService::deleteReport);
-    return ResponseEntity.noContent().build();
+    reportIds.forEach(postService::delete); // 각 reportId를 논리 삭제로 처리
+    return ResponseEntity.noContent().build(); // 204 No Content 반환
 }
 
 

@@ -197,12 +197,22 @@ fetchRecentNotices();
 //===============================게시글 목록======================================================================
 // 필터링된 게시글 데이터를 가져오는 함수
 const fetchFilteredPosts = async (page = 1, keyword = postKeyword, filterType = postFilterType) => {
+    try {
         const response = await fetch(`/admin/post-list?page=${page}&query=${keyword}&filterType=${filterType}`);
         console.log("서버 응답 상태:", response.ok); // 서버 응답 상태를 확인
+        if (response.ok) {
             const data = await response.json();
+            console.log("서버로부터 받은 데이터:", data); // 받은 데이터 확인
             renderPosts(data.posts); // 필터링된 데이터를 렌더링
             postPagination(data.pagination, keyword, filterType);
+            console.log("필터링 조건:", { page, keyword, filterType });
             resetSelectAllPostsCheckbox(); // 전체 선택 체크박스 해제
+        } else {
+            console.error("서버 응답 실패:", response.status);
+        }
+    } catch (error) {
+        console.error("필터링 오류:", error); // 오류 처리
+    }
 };
 
 
@@ -222,24 +232,25 @@ fetchPosts();
 
 const deleteSelectedPosts = async (selectedIds) => {
     try {
-        const response = await fetch("/admin/delete-posts", {
-            method: "DELETE",
+        const response = await fetch("/delete-reports", {
+            method: "PATCH",  // PATCH 메서드를 사용하여 부분 업데이트 요청
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(selectedIds), // 배열을 JSON 형식으로 전송
+            body: JSON.stringify(selectedIds),  // 선택된 게시글 ID 배열을 전송
         });
 
         if (response.ok) {
-            alert("선택한 게시글이 삭제되었습니다.");
-            fetchPosts(); // 게시글 목록 새로고침
+            alert("선택한 게시글이 삭제되었습니다.");  // 삭제 성공 메시지
+            fetchReports();  // 신고 목록 새로고침
         } else {
-            console.error("삭제 실패");
+            console.error("삭제 실패:", response.status);
         }
     } catch (error) {
         console.error("삭제 요청 중 오류 발생:", error);
     }
 };
+
 
 // 게시글 조회 함수
 const fetchPostDetail = async (postId) => {
@@ -249,14 +260,13 @@ const fetchPostDetail = async (postId) => {
         if (data.success) {
             renderPostDetail(data.post); // 받은 데이터를 표시
         } else {
-            console.error(data.message);
         }
     } catch (error) {
         console.error("게시글 상세 조회 오류:", error);
     }
 };
 
-// =============================== 신고 목록=====================================
+// =========================================================================== 신고 목록=====================================
 // 필터링된 신고 데이터를 가져오는 함수
 const fetchFilteredReports = async (page = 1, keyword = reportKeyword, filterType = reportFilterType) => {
     try {
@@ -274,12 +284,6 @@ const fetchFilteredReports = async (page = 1, keyword = reportKeyword, filterTyp
 const fetchReports = async (page = 1) => {
     try {
         const response = await fetch(`/admin/report-list?page=${page}`);
-
-        // 응답 상태 확인
-        if (!response.ok) {
-            console.error(`서버 응답 오류: ${response.status}`);
-            return;
-        }
 
         const data = await response.json();
         renderReports(data.reports);
