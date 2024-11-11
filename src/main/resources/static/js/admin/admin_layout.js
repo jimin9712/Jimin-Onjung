@@ -192,7 +192,7 @@ const renderAnswer = (inquiryAnswer) => {
         console.error("answerContainer 요소를 찾을 수 없습니다.");
     }
 };
-// ========================== 페이지네이션 렌더링 함수 (문의 목록) =========================================
+    // ========================== 페이지네이션 렌더링 함수 (문의 목록) =========================================
 const paginationContainer = document.querySelector(".pagination-list.inquiry-page");
 
 // 페이지네이션을 렌더링하는 함수
@@ -201,40 +201,40 @@ const renderPagination = (pagination, keyword = '', filterType = '') => {
 
     // 첫 페이지 링크 추가
     paginationHTML += `<li class="pagination-first">
-        <a href="#" data-page="1" class="pagination-first-link">«</a></li>`;
+<a href="#" data-page="1" class="pagination-first-link">«</a></li>`;
 
     // 이전 페이지 링크가 있을 경우 추가
     if (pagination.prev) {
         paginationHTML += `<li class="pagination-prev">
-            <a href="#" data-page="${pagination.startPage - 1}" class="pagination-prev-link">‹</a></li>`;
+    <a href="#" data-page="${pagination.startPage - 1}" class="pagination-prev-link">‹</a></li>`;
     }
 
     // 현재 페이지 범위 내의 페이지 번호를 추가
     for (let i = pagination.startPage; i <= pagination.endPage; i++) {
         paginationHTML += `<li class="pagination-page ${pagination.page === i ? 'active' : ''}">
-            <a href="#" data-page="${i}" class="pagination-page-link">${i}</a></li>`;
+    <a href="#" data-page="${i}" class="pagination-page-link">${i}</a></li>`;
     }
 
     // 다음 페이지 링크가 있을 경우 추가
     if (pagination.next) {
         paginationHTML += `<li class="pagination-next">
-            <a href="#" data-page="${pagination.endPage + 1}" class="pagination-next-link">›</a></li>`;
+    <a href="#" data-page="${pagination.endPage + 1}" class="pagination-next-link">›</a></li>`;
     }
 
     // 마지막 페이지 링크 추가
     paginationHTML += `<li class="pagination-last">
-        <a href="#" data-page="${pagination.realEnd}" class="pagination-last-link">»</a></li>`;
+<a href="#" data-page="${pagination.realEnd}" class="pagination-last-link">»</a></li>`;
 
     // 생성된 HTML을 페이지네이션 컨테이너에 삽입
     paginationContainer.innerHTML = paginationHTML;
 
-    // 모든 페이지 링크에 클릭 이벤트 리스너 추가
+    // 페이지네이션 클릭 이벤트 리스너 추가
     document.querySelectorAll(".pagination-page-link, .pagination-prev-link, .pagination-next-link, .pagination-first-link, .pagination-last-link").forEach(link => {
         link.addEventListener("click", (e) => {
             e.preventDefault(); // 기본 링크 클릭 동작 방지
             const page = e.target.getAttribute("data-page"); // 클릭한 링크의 페이지 번호 가져오기
-            fetchFilteredInquiries(page, inquiryKeyword, inquiryFilterType); // 해당 페이지의 데이터를 가져오는 함수 호출
-            resetSelectAllInquiriesCheckbox();// 페이지 변경 시 전체 선택 체크박스 해제
+            fetchFilteredInquiries(page, keyword, filterType); // 해당 페이지의 데이터를 가져오는 함수 호출
+            resetSelectAllInquiriesCheckbox(); // 페이지 변경 시 전체 선택 체크박스 해제
         });
     });
 };
@@ -263,17 +263,17 @@ const renderNotice = (notis) => {
 const renderNoticePagination = (pagination, keyword = '') => {
     let notiPagination = ''; // HTML 내용을 저장할 변수 초기화
 
-    // 이전 페이지 버튼 추가
-    if (pagination.prev) {
-        notiPagination += `
-        <div class="pagination-num-container" id="page-prev-button">
-            <a data-page="${pagination.startPage - 1}" class="pagination-num" style="padding: 12px;">
-                <svg type="arrow12" viewBox="0 0 12 12" class="iFpvod" style="transform: rotate(-180deg);">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M3.68888 11.0004C3.85188 11.0004 4.01388 10.9424 4.13688 10.8264L8.81688 6.43738C9.06088 6.20738 9.06088 5.83638 8.81588 5.60738L4.07988 1.17438C3.83288 0.942377 3.43288 0.942377 3.18588 1.17138C2.93888 1.40038 2.93788 1.77238 3.18388 2.00338L7.47788 6.02238L3.24088 9.99738C2.99588 10.2294 2.99688 10.6014 3.24488 10.8294C3.36788 10.9434 3.52888 11.0004 3.68888 11.0004Z"></path>
-                </svg>
-            </a>
-        </div>`;
-    }
+// 이전 페이지 버튼 추가
+if (pagination.prev) {
+    notiPagination += `
+    <div class="pagination-num-container" id="page-prev-button">
+        <a data-page="${pagination.startPage - 1}" class="pagination-num" style="padding: 12px;">
+            <svg type="arrow12" viewBox="0 0 12 12" class="iFpvod" style="transform: rotate(-180deg);">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M3.68888 11.0004C3.85188 11.0004 4.01388 10.9424 4.13688 10.8264L8.81688 6.43738C9.06088 6.20738 9.06088 5.83638 8.81588 5.60738L4.07988 1.17438C3.83288 0.942377 3.43288 0.942377 3.18588 1.17138C2.93888 1.40038 2.93788 1.77238 3.18388 2.00338L7.47788 6.02238L3.24088 9.99738C2.99588 10.2294 2.99688 10.6014 3.24488 10.8294C3.36788 10.9434 3.52888 11.0004 3.68888 11.0004Z"></path>
+            </svg>
+        </a>
+    </div>`;
+}
 
 // 페이지 번호 생성
 for (let i = pagination.startPage; i <= pagination.endPage; i++) {
@@ -315,7 +315,7 @@ if (pagination.next && pagination.page < pagination.realEnd) {
         });
     });
 };
-// ========================== 공지사항 조회 =======================================
+    // ========================== 공지사항 조회 =======================================
 const notificationContainer = document.querySelector(".notification-container"); // 공지사항 세부 내용 컨테이너
 const sidebarContainer = document.querySelector(".sidebar-container .sidebar-content"); // 사이드바 컨테이너
 
@@ -386,11 +386,19 @@ const renderSidebarNotices = (notices) => {
         });
     });
 };
-// ==================================게시글 목록==========================================================================
-const postContainer = document.querySelector(".ServiceTable_row_wrapper");
-
+    // ==================================게시글 목록==========================================================================
 // 게시글 목록 렌더링 함수
 const renderPosts = (posts) => {
+    console.log("렌더링할 게시글:", posts); // 게시글 데이터 확인
+    const postContainer = document.querySelector(".ServiceTable_row_wrapper");
+    if (!postContainer) {
+        console.error("postContainer 요소를 찾을 수 없습니다.");
+        return;
+    }
+    if (!posts.length) {
+        postContainer.innerHTML = "<p>조건에 맞는 결과가 없습니다.</p>";
+        return;
+    }
     let content = '';
     posts.forEach((post) => {
         content += `
@@ -403,16 +411,22 @@ const renderPosts = (posts) => {
                 <div class="ServiceTable_cell hit_ctn">${post.postViewCount}</div>
                 <div class="ServiceTable_cell reply_ctn">${post.replyCount}</div>
                 <div class="ServiceTable_cell post_kind">${post.postType}</div>
-                <div class="ServiceTable_cell"><button class="inquiry-button">조회</button></div>
+                <div class="ServiceTable_cell editBtn"><button class="inquiry-button">조회</button></div>
             </div>`;
     });
-    postContainer.innerHTML = content;
+    if (postContainer) {
+        postContainer.innerHTML = content;
+        console.log("게시글 목록이 렌더링되었습니다.");
+    } else {
+        console.error("postContainer 요소를 찾을 수 없습니다.");
+    }
+        selectAllPosts();
 };
 
 const postPagingContainer = document.querySelector(".pagination-list.post-page");
 
 // 페이지네이션 렌더링 함수
-const postPagination = (pagination,keyword,filterType='') => {
+const postPagination = (pagination,keyword ='',filterType='') => {
     let paginationHTML = '';
 
     // 첫 페이지로 이동 버튼
@@ -449,7 +463,7 @@ const postPagination = (pagination,keyword,filterType='') => {
         link.addEventListener("click", (e) => {
             e.preventDefault();
             const page = e.target.getAttribute("data-page");
-            fetchPosts(page); // 해당 페이지의 게시글 데이터를 가져오기
+            fetchFilteredPosts(page, keyword, filterType); // 해당 페이지의 게시글 데이터를 가져오기
             resetSelectAllPostsCheckbox();// 페이지 변경 시 전체 선택 체크박스 해제
         });
     });

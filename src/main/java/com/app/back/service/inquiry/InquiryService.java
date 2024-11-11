@@ -16,7 +16,7 @@ public interface InquiryService {
     //    목록
     public List<InquiryDTO> getList(Pagination pagination, Search search);
     //    필터 목록
-    public List<InquiryDTO> getFilterList(Pagination pagination, Search search);
+    public List<InquiryDTO> getFilterList(Pagination pagination, Search search,String filterType);
     //    조회
     public Optional<InquiryDTO> getPost(Long id);
     //    수정
@@ -30,8 +30,12 @@ public interface InquiryService {
     public int getTotal();
     //    검색 조건에 맞는 게시물 수
     public int getTotalWithSearch(Search search);
+//    필터 개수 수
+    public int getTotalWithFilter(Search search,String filterType);
+
 
     public List<InquiryDTO> findByMemberId(Long memberId);
     public List<InquiryDTO> findByMemberIdAndDateRange(Long memberId, String startDate, String endDate);
+
 
 }
