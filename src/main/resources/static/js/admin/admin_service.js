@@ -232,24 +232,25 @@ fetchPosts();
 
 const deleteSelectedPosts = async (selectedIds) => {
     try {
-        const response = await fetch("/admin/delete-posts", {
-            method: "DELETE",
+        const response = await fetch("/delete-reports", {
+            method: "PATCH",  // PATCH 메서드를 사용하여 부분 업데이트 요청
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(selectedIds), // 배열을 JSON 형식으로 전송
+            body: JSON.stringify(selectedIds),  // 선택된 게시글 ID 배열을 전송
         });
 
         if (response.ok) {
-            alert("선택한 게시글이 삭제되었습니다.");
-            fetchPosts(); // 게시글 목록 새로고침
+            alert("선택한 게시글이 삭제되었습니다.");  // 삭제 성공 메시지
+            fetchReports();  // 신고 목록 새로고침
         } else {
-            console.error("삭제 실패");
+            console.error("삭제 실패:", response.status);
         }
     } catch (error) {
         console.error("삭제 요청 중 오류 발생:", error);
     }
 };
+
 
 // 게시글 조회 함수
 const fetchPostDetail = async (postId) => {

@@ -350,14 +350,16 @@ selectAllPosts();
 // 삭제 버튼 클릭 시 이벤트
 document.getElementById("deleteSelectedBtn").addEventListener("click", () => {
     const selectedCheckboxes = document.querySelectorAll(".postCheckbox:checked");
-    const selectedIds = Array.from(selectedCheckboxes).map(checkbox => checkbox.closest(".ServiceTable_row").querySelector(".post_ID").textContent.trim());
+    const selectedIds = Array.from(selectedCheckboxes).map(
+        (checkbox) => checkbox.closest(".ServiceTable_row").querySelector(".post_ID").textContent.trim()
+    );
 
     if (selectedIds.length === 0) {
         alert("삭제할 게시글을 선택하세요.");
         return;
     }
 
-    deleteSelectedPosts(selectedIds); // 삭제 요청 함수 호출
+    updateSelectedPostStatus(selectedIds, "0"); // 선택한 게시글의 상태를 0(삭제)로 변경
 });
 
 // 조회 버튼 클릭 이벤트 리스너
