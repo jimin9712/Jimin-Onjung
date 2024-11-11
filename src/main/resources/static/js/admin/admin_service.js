@@ -1,5 +1,5 @@
 // 필터링된 문의 데이터를 가져오는 함수
-const fetchFilteredInquiries = async (page = 1, keyword = inquiryKeyword, filterType = inquiryFilterType) => {
+const fetchFilteredInquiries = async (page = 1, keyword = inquiryKeyword, filterType = '최신순') => {
     try {
         const response = await fetch(`/admin/inquiry-page?page=${page}&query=${keyword}&filterType=${filterType}`);
         const data = await response.json();
@@ -28,7 +28,7 @@ const fetchInquiries = async (page = 1) => {
 };
 
 // 초기 데이터 로드
-fetchInquiries(); // 첫 페이지의 데이터를 로드합니다.
+fetchFilteredInquiries(1, '', '최신순'); // 페이지 1, 빈 검색어, "최신순" 필터
 // ==================================================================================================답변하기
 // 답변하기 버튼을 눌렀을 때
 document.addEventListener("DOMContentLoaded", () => {
@@ -228,28 +228,7 @@ const fetchPosts = async (page = 1) => {
         console.error("게시글 데이터를 불러오는 중 오류 발생:", error);
     }
 };
-fetchPosts();
-
-const deleteSelectedPosts = async (selectedIds) => {
-    try {
-        const response = await fetch("/delete-reports", {
-            method: "PATCH",  // PATCH 메서드를 사용하여 부분 업데이트 요청
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(selectedIds),  // 선택된 게시글 ID 배열을 전송
-        });
-
-        if (response.ok) {
-            alert("선택한 게시글이 삭제되었습니다.");  // 삭제 성공 메시지
-            fetchReports();  // 신고 목록 새로고침
-        } else {
-            console.error("삭제 실패:", response.status);
-        }
-    } catch (error) {
-        console.error("삭제 요청 중 오류 발생:", error);
-    }
-};
+fetchFilteredPosts(1,'','작성일 순');
 
 
 // 게시글 조회 함수
@@ -263,6 +242,26 @@ const fetchPostDetail = async (postId) => {
         }
     } catch (error) {
         console.error("게시글 상세 조회 오류:", error);
+    }
+};
+const deleteSelectedPosts = async (selectedIds) => {
+    try {
+        const response = await fetch("/admin/delete-posts", {
+            method: "PATCH",  // PATCH 메서드를 사용하여 부분 업데이트 요청
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(selectedIds),  // 선택된 게시글 ID 배열을 전송
+        });
+
+        if (response.ok) {
+            alert("선택한 게시글이 삭제되었습니다.");  // 삭제 성공 메시지
+            fetchFilteredPosts(1,'','작성일 순');  // 신고 목록 새로고침
+        } else {
+            console.error("삭제 실패:", response.status);
+        }
+    } catch (error) {
+        console.error("삭제 요청 중 오류 발생:", error);
     }
 };
 
@@ -294,11 +293,29 @@ const fetchReports = async (page = 1) => {
     }
 };
 
-fetchReports();
+fetchFilteredReports(1,'','신고일 순');
 
 
+const deleteSelectedReports = async (selectedIds) => {
+    try {
+        const response = await fetch("/admin/delete-reports", {
+            method: "PATCH",  // PATCH 메서드를 사용하여 부분 업데이트 요청
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(selectedIds),  // 선택된 게시글 ID 배열을 전송
+        });
 
-
+        if (response.ok) {
+            alert("선택한 게시글이 삭제되었습니다.");  // 삭제 성공 메시지
+            fetchFilteredReports(1,'','신고일 순');  // 신고 목록 새로고침
+        } else {
+            console.error("삭제 실패:", response.status);
+        }
+    } catch (error) {
+        console.error("삭제 요청 중 오류 발생:", error);
+    }
+};
 
 
 

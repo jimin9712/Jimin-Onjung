@@ -21,6 +21,7 @@ create table tbl_post (
 
 select * from tbl_post;
 
+
 insert into tbl_post(id, post_title, post_summary, post_content,post_view_count, post_type, post_status, member_id)
 values(151,'제목입니다zz','후원 요약zz1','후원 내용z1z',100,'VOLUNTEER','VISIBLE',2);
 
