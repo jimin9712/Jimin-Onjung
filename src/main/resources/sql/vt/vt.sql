@@ -13,6 +13,7 @@ select *from tbl_post order by post_view_count desc;
 select *from tbl_member;
 select * from tbl_vt;
 
+
 select v.id, p.id, m.id, p.post_title
 from tbl_vt v
          join tbl_post p on v.id = p.id
