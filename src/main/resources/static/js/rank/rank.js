@@ -115,6 +115,11 @@
 //     },
 // ];
 
+const monthInput = document.querySelector("input#selected-month");
+const month = new Date().getMonth()+1;
+monthInput.value = month;
+console.log(month);
+
 const renderRankings = (rankings, containerClass) => {
     const listContainer = document.querySelector(containerClass);
     let i = 0;
@@ -150,7 +155,7 @@ const renderRankings = (rankings, containerClass) => {
                     </a>
                 </div>
 <!--                <p class="user-rank rank-number">${user.rank}</p>-->
-                <p class="user-rank rank-number">${i}</p>
+                <p class="user-rank rank-number">${i+1}</p>
                 <div class="nick-wrap">
                     <div class="user-nick-default user-nick-wrapper">
 <!--                        <p title="${user.username}">
@@ -196,24 +201,6 @@ headerWrap.addEventListener("click", () => {
     const isVisible = bottomWrap.style.visibility === "visible";
     bottomWrap.style.visibility = isVisible ? "hidden" : "visible";
     arrow.style.transform = isVisible ? "rotate(90deg)" : "rotate(-90deg)";
-});
-
-// 항목 클릭 시 필터 업데이트 및 드롭다운 닫기
-items.forEach((item) => {
-    item.addEventListener("click", () => {
-        // 모든 항목의 활성화 클래스 제거
-        items.forEach((i) => i.classList.remove("active"));
-        // 선택된 항목에 활성화 클래스 추가
-        item.classList.add("active");
-        // 선택된 항목의 텍스트를 input에 반영
-        inputField.value = item.textContent;
-        // 드롭다운 닫기
-        bottomWrap.style.visibility = "hidden";
-        arrow.style.transform = "rotate(90deg)";
-        const page = new URLSearchParams(window.location.search).get('page') == null ? 1 : new URLSearchParams(window.location.search).get('page');
-        const month = document.querySelector("input#selected-month").value.trim().substring(6,7);
-        fetchFilteredRanking(page, month, item.textContent);
-    });
 });
 
 // 드롭다운 외부 클릭 시 닫기
@@ -386,7 +373,6 @@ const dateDisplay = document.querySelector(
     ".react-datepicker-input-container input"
 );
 const monthElements = document.querySelectorAll(".react-datepicker-month-text");
-const monthInput = document.querySelector("input#month");
 const currentYear = 2024;
 const today = new Date();
 
@@ -412,7 +398,6 @@ monthElements.forEach((monthElement, index) => {
         const selectedMonth = index + 1;
         dateDisplay.value = `${currentYear}년 ${selectedMonth}월`;
 
-        monthInput.value = dateDisplay.value.trim().substring(6,7);
 
         // 모든 월에서 active 클래스 제거 후, 클릭한 월에 추가
         monthElements.forEach((el) =>
@@ -428,22 +413,30 @@ monthElements.forEach((monthElement, index) => {
     });
 });
 
+// 항목 클릭 시 필터 업데이트 및 드롭다운 닫기
+items.forEach((item) => {
+    item.addEventListener("click", () => {
+        const monthInput = document.querySelector("input#selected-month");
+        const month = monthInput.value.length === 8 ? monthInput.value.substring(6, 7) : monthInput.value.substring(6, 8);
+        // 모든 항목의 활성화 클래스 제거
+        items.forEach((i) => i.classList.remove("active"));
+        // 선택된 항목에 활성화 클래스 추가
+        item.classList.add("active");
+        // 선택된 항목의 텍스트를 input에 반영
+        inputField.value = item.textContent;
+        // 드롭다운 닫기
+        bottomWrap.style.visibility = "hidden";
+        arrow.style.transform = "rotate(90deg)";
+        const page = new URLSearchParams(window.location.search).get('page') == null ? 1 : new URLSearchParams(window.location.search).get('page');
+
+        fetchFilteredRanking(page, month, item.textContent);
+        console.log("출력 시작");
+        console.log(page);
+        console.log(item.textContent);
+    });
+});
+
 // ================================================================================================================================================================
-
-// 필터링된 랭킹 목록 가져오는 함수
-const fetchFilteredRanking = async (page, month, filterType) => {
-    try {
-        const response = await fetch(`/rank/rank-list?page=${page}&month=${month}&filterType=${filterType}`);
-        const data = await response.json();
-
-        showVolunteerGroups(data.volunteerGroups);
-        showPaging(data.pagination);
-    } catch (error) {
-        // 오류 처리
-        console.log("필터링된 랭킹 목록 가져오는 중 오류");
-    }
-};
-
 
 // 페이지 네비게이션을 표시하는 함수
 const showPaging = (pagination) => {
@@ -505,6 +498,21 @@ const showPaging = (pagination) => {
     // 페이지 네비게이션을 HTML 요소에 삽입
     pagingDiv.innerHTML = text;
 }
+
+// 필터링된 랭킹 목록 가져오는 함수
+const fetchFilteredRanking = async (page, month, filterType) => {
+    try {
+        const response = await fetch(`/rank/rank-list?page=${page}&month=${month}&filterType=${filterType}`);
+        const data = await response.json();
+        console.log("발룬티어그룹스: " + data.volunteerGroups);
+        console.log("페이지네이션 " + data.pagination);
+        showVolunteerGroups(data.volunteerGroups);
+        showPaging(data.pagination);
+    } catch (error) {
+        // 오류 처리
+        console.log("필터링된 랭킹 목록 가져오는 중 오류");
+    }
+};
 
 showVolunteerGroups(volunteerGroups);
 showPaging(pagination);

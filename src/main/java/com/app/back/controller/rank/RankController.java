@@ -25,35 +25,17 @@ public class RankController {
     private final RankService rankService;
 
     @GetMapping("/rank")
-    public String goToList(Pagination pagination, Model model, @RequestParam(value = "month", required = false) String month, @RequestParam(value = "filterType", required = false) String filterType) {
-        if(month == null) {
-            log.info("month 미 입력 : 첫 로딩");
-            month = new Date().getMonth() + 1 + "";
-            log.info("month : " + month);
-        }
+    public String goToList(Pagination pagination, Model model) {
 
-        if(Integer.parseInt(month) > 0 && Integer.parseInt(month) <= 12) {
-            model.addAttribute("vtRankMembers", rankService.selectTop5ByVt(Integer.parseInt(month)));
-            model.addAttribute("supportRankMembers", rankService.selectTop5BySupport(Integer.parseInt(month)));
-            model.addAttribute("donationRankMembers", rankService.selectTop5ByDonation(Integer.parseInt(month)));
+        model.addAttribute("vtRankMembers", rankService.selectTop5ByVt(new Date().getMonth() + 1));
+        model.addAttribute("supportRankMembers", rankService.selectTop5BySupport(new Date().getMonth() + 1));
+        model.addAttribute("donationRankMembers", rankService.selectTop5ByDonation(new Date().getMonth() + 1));
 
-            log.info("회원 봉사 랭킹 : {}", model.getAttribute("vtRankMembers"));
-            log.info("회원 후원 랭킹 : {}", model.getAttribute("supportRankMembers"));
-            log.info("회원 기부 랭킹 : {}", model.getAttribute("donationRankMembers"));
-        } else {
-            log.info("오류 : month 범위 오류");
-        }
+        log.info("회원 봉사 랭킹 : {}", model.getAttribute("vtRankMembers"));
+        log.info("회원 후원 랭킹 : {}", model.getAttribute("supportRankMembers"));
+        log.info("회원 기부 랭킹 : {}", model.getAttribute("donationRankMembers"));
 
-        pagination.setOrder(filterType);
-        if (pagination.getOrder() == null || pagination.getOrder().equals("별점순")) {
-            pagination.setOrder("별점순"); // 기본 정렬 기준
-            log.info("별점순");
-        } else if (pagination.getOrder().equals("리뷰순")) {
-            pagination.setOrder("리뷰순");
-            log.info("리뷰순");
-        } else {
-            log.info("오류 : filterType 미 입력");
-        }
+        pagination.setOrder("별점순");
         pagination.setTotal(rankService.getAllVolunteerGroup());
         pagination.progressReview();
         model.addAttribute("volunteerGroups", rankService.getTop100VolunteerGroup(pagination));
@@ -69,7 +51,7 @@ public class RankController {
 
     @GetMapping("/rank/rank-list")
     @ResponseBody
-    public Map<String, Object> getList(Pagination pagination, Model model, @RequestParam("month") String month, @RequestParam(value = "filterType", required = false) String filterType) {
+    public Map<String, Object> getList(Pagination pagination, Model model, @RequestParam("month") String month, @RequestParam("filterType") String filterType) {
         Map<String, Object> result = new HashMap<>();
         if(month == null) {
             log.info("month 미 입력 : 첫 로딩");
@@ -108,6 +90,7 @@ public class RankController {
         log.info("페이지 : {}", pagination.getPage().toString());
         log.info("페이지네이션 시작 : {}", pagination.getStartRow());
         log.info("페이지네이션 끝 : {}", pagination.getEndRow());
+        log.info("들어옴dddd");
 
         return result;
     }
