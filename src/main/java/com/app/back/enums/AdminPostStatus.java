@@ -2,8 +2,8 @@
 package com.app.back.enums;
 
 public enum AdminPostStatus {
-    VISIBLE("1"),   // 보이는 상태
-    DELETED("0");   // 삭제된 상태
+    VISIBLE("VISIBLE"),   // 보이는 상태
+    DELETED("DELETED");   // 삭제된 상태
 
     private final String status;
 

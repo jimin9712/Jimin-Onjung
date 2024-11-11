@@ -57,6 +57,7 @@
     from tbl_report r
     join tbl_post p on r.post_id = p.id
     join tbl_member m on r.member_id = m.id
+    join tbl_member m1 on r.reported_member_id = m1.id
     <include refid="search"/>
     where r.report_status = #{pagination.order}
     order by

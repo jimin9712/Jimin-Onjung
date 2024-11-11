@@ -27,8 +27,15 @@ public Optional<PostDTO> getPost(Long id);
 public void delete(Long id);
 
 // 필터 조건에 맞는 게시글 수 조회
-public int getTotalWithFilter(Search search, AdminPostType filterType);
+public  int getTotalWithFilter(Search search, AdminPostType filterType);
+
 // 상태 업데이트 메서드
 public  void updateStatus(Long id, AdminPostStatus postStatus);
+
+// 삭제된 게시글을 제외한 목록
+List<PostDTO> getListWithoutDeleted(Pagination pagination, Search search);
+
+// 삭제된 게시글을 제외한 필터 목록
+List<PostDTO> getFilterListWithoutDeleted(Pagination pagination, Search search, AdminPostType filterType);
 
 }
