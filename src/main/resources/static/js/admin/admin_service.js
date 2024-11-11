@@ -259,7 +259,6 @@ const fetchPostDetail = async (postId) => {
         if (data.success) {
             renderPostDetail(data.post); // 받은 데이터를 표시
         } else {
-            console.error(data.message);
         }
     } catch (error) {
         console.error("게시글 상세 조회 오류:", error);
@@ -284,12 +283,6 @@ const fetchFilteredReports = async (page = 1, keyword = reportKeyword, filterTyp
 const fetchReports = async (page = 1) => {
     try {
         const response = await fetch(`/admin/report-list?page=${page}`);
-
-        // 응답 상태 확인
-        if (!response.ok) {
-            console.error(`서버 응답 오류: ${response.status}`);
-            return;
-        }
 
         const data = await response.json();
         renderReports(data.reports);

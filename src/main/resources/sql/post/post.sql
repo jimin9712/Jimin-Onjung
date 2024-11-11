@@ -22,10 +22,11 @@ create table tbl_post (
 select * from tbl_post;
 
 insert into tbl_post(id, post_title, post_summary, post_content,post_view_count, post_type, post_status, member_id)
-values(220,'제목입니다zz','후원 요약zz1','후원 내용z1z',100,'VOLUNTEER','VISIBLE',2);
+values(151,'제목입니다zz','후원 요약zz1','후원 내용z1z',100,'VOLUNTEER','VISIBLE',2);
 
 insert into tbl_post(id, post_title, post_summary, post_content,post_view_count, post_type, post_status, member_id)
 values(78,'봉사 게시글 제목','봉사 요약','봉사 내용',1,'SUPPORT','VISIBLE',22);
+
 
 SELECT * FROM tbl_post WHERE id = 1;
 

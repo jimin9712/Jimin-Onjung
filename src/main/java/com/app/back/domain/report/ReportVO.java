@@ -16,4 +16,7 @@ public class ReportVO {
     private String reportStatus;
     private Long postId;
     private Long memberId;
+    private Long reportedMemberId;
+    private String createdDate;
+    private String updatedDate;
 }
