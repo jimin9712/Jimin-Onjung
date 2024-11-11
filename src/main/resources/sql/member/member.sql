@@ -25,6 +25,7 @@ create table tbl_member (
 );
 select * from tbl_member;
 
+
 # UPDATE tbl_member
 # SET member_star_rate = 1.00
 # WHERE id = 6;
