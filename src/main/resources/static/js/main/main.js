@@ -218,3 +218,23 @@ function initializeMarquee() {
     document.querySelector(".rfm-marquee").appendChild(clone); // rfm-marquee에 복제본 추가
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+    fetch("/simple-rank?month=9")
+        .then(response => response.json())
+        .then(data => {
+            renderRankList(data.vtRankMembers, 'praise-rank-list');
+            renderRankList(data.supportRankMembers, 'contest-rank-list');
+            renderRankList(data.donationRankMembers, 'sales-rank-list');
+        })
+        .catch(error => console.error("Error:", error));
+});
+
+function renderRankList(rankData, listClassName) {
+    const rankList = document.querySelector(`.${listClassName}`);
+    rankData.forEach(member => {
+        const listItem = document.createElement("li");
+        // memberNickName과 createdDate를 사용하여 리스트에 추가
+        listItem.textContent = `${member.memberNickName} - 가입일: ${member.createdDate}`;
+        rankList.appendChild(listItem);
+    });
+}

@@ -44,7 +44,7 @@ public class RankController {
 
         pagination.setOrder(filterType);
         if (pagination.getOrder() == null || pagination.getOrder().equals("별점순")) {
-            pagination.setOrder("별점순"); // 기본 정렬 기준
+            pagination.setOrder("별점순");
             log.info("별점순");
         } else if (pagination.getOrder().equals("리뷰순")) {
             pagination.setOrder("리뷰순");
