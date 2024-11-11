@@ -4,7 +4,7 @@ const inquiryContainer = document.querySelector(".inquiryTable_container");
 // 문의 내역 렌더링
 const renderInquiries = (inquiries) => {
     let content = '';
-    content+=` <div
+    content+= `<div
                     class="inquiryTable_row inquiryTable_header"
             >
                 <div
@@ -414,7 +414,8 @@ const renderPosts = (posts) => {
                 <div class="ServiceTable_cell editBtn"><button class="inquiry-button">조회</button></div>
             </div>`;
     });
-        selectAllPosts();
+    postContainer.innerHTML = content; // 생성한 콘텐츠를 DOM에 추가
+    selectAllPosts();
 };
 
 const postPagingContainer = document.querySelector(".pagination-list.post-page");
@@ -647,8 +648,8 @@ const renderReports = (reports) => {
                 </div>
                 <div class="ServiceTable_cell post_ID reportTable">${report.id}</div>
                 <div class="ServiceTable_cell Join_date reportTable">${report.createdDate}</div>
-                <div class="ServiceTable_cell user_name reportTable">${report.memberNickName}</div>
-                <div class="ServiceTable_cell user_name reportTable">${report.memberNickName}</div>
+                <div class="ServiceTable_cell user_name reportTable">${report.reporterNickname}</div>
+                <div class="ServiceTable_cell user_name reportTable">${report.reportedNickname}</div>
                 <div class="ServiceTable_cell post_title reportTable">${report.postTitle}</div>
                 <div class="ServiceTable_cell report_Cause reportTable">${report.reportReason}</div>
                 <div class="ServiceTable_cell editBtn reportTable">

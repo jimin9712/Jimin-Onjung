@@ -350,14 +350,16 @@ selectAllPosts();
 // 삭제 버튼 클릭 시 이벤트
 document.getElementById("deleteSelectedBtn").addEventListener("click", () => {
     const selectedCheckboxes = document.querySelectorAll(".postCheckbox:checked");
-    const selectedIds = Array.from(selectedCheckboxes).map(checkbox => checkbox.closest(".ServiceTable_row").querySelector(".post_ID").textContent.trim());
+    const selectedIds = Array.from(selectedCheckboxes).map(
+        (checkbox) => checkbox.closest(".ServiceTable_row").querySelector(".post_ID").textContent.trim()
+    );
 
     if (selectedIds.length === 0) {
         alert("삭제할 게시글을 선택하세요.");
         return;
     }
 
-    deleteSelectedPosts(selectedIds); // 삭제 요청 함수 호출
+    updateSelectedPostStatus(selectedIds, "0"); // 선택한 게시글의 상태를 0(삭제)로 변경
 });
 
 // 조회 버튼 클릭 이벤트 리스너
@@ -376,7 +378,7 @@ const reportFilters = document.querySelectorAll(".sort-filter-option.report-list
 let reportKeyword = '';
 let reportFilterType = '신고일 순';
 
-// 고객센터 검색어 입력
+// 신고 검색어 입력
 reportSearchInput.addEventListener("keydown", (event) => {
     if (event.key === "Enter") {
         event.preventDefault();  // 폼 제출 방지
@@ -385,7 +387,7 @@ reportSearchInput.addEventListener("keydown", (event) => {
     }
 });
 
-// 고객센터 필터 버튼 클릭 시 필터에 맞는 데이터 불러오기
+// 신고 필터 버튼 클릭 시 필터에 맞는 데이터 불러오기
 reportFilters.forEach((option) => {
     option.addEventListener("click", () => {
         // classList : 동적으로 클래스를 추가하고 제거하여 필터가 선택되었음을 시각적 표시. 다른 필터는 비활성화 상태로 보이게하기위함
@@ -397,9 +399,9 @@ reportFilters.forEach((option) => {
     });
 });
 
-// 고객센터 문의 목록의 전체 선택 및 개별 선택 체크박스 관리
+// 신고 목록의 전체 선택 및 개별 선택 체크박스 관리
 const selectAllReports = () => {
-    const selectAllCheckbox = document.getElementById("selectAllReport");
+    const selectAllCheckbox = document.getElementById("selectAllReports");
     if (selectAllCheckbox) {
         selectAllCheckbox.addEventListener("change", function () {
             const checkboxes = document.querySelectorAll(".reportCheckbox");

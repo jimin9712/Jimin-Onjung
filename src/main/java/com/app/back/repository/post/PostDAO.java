@@ -4,6 +4,8 @@ import com.app.back.domain.post.Pagination;
 import com.app.back.domain.post.PostDTO;
 import com.app.back.domain.post.PostVO;
 import com.app.back.domain.post.Search;
+import com.app.back.enums.AdminPostStatus;
+import com.app.back.enums.AdminPostType;
 import com.app.back.mapper.post.PostMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -43,8 +45,9 @@ public class PostDAO {
         postMapper.updateById(postVO);
     }
 
-    public void delete(Long id) {postMapper.deleteById(id);}
-
+    public void delete(Long id) {
+        updateStatus(id, AdminPostStatus.DELETED);  // 상태 업데이트
+    }
     public void increaseViewCount(Long id){postMapper.increaseViewCountById(id);}
 
     //    게시글 전체 조회
@@ -52,8 +55,8 @@ public class PostDAO {
         return postMapper.selectAll(pagination, search);
     }
     //    필터된 게시글 전체 조회
-    public List<PostDTO> findFilterAll(Pagination pagination, Search search, String filterType) {
-        return postMapper.selectFilterAll(pagination, search, filterType); // Enum 이름을 그대로 전달
+    public List<PostDTO> findFilterAll(Pagination pagination, Search search, AdminPostType filterType) {
+        return postMapper.selectFilterAll(pagination, search, filterType.name()); // Enum 이름을 그대로 전달
     }
     //    게시글 조회
     public Optional<PostDTO> findById(Long id){
@@ -62,5 +65,12 @@ public class PostDAO {
 
     public int getTotalWithFilter(Search search, String filterType) {
         return postMapper.selectTotalWithFilter(search, filterType); // Enum 이름을 그대로 전달
+
     }
+    // 게시글 상태 업데이트 메서드
+    public void updateStatus(Long id, AdminPostStatus postStatus) {
+        // AdminPostStatus Enum 값을 String으로 변환하여 Mapper에 전달
+        postMapper.updateStatusById(id, postStatus.getStatus());
+    }
+
 }
