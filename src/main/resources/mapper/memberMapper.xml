@@ -96,8 +96,14 @@
         WHERE id = #{id}
     </update>
 
+    <select id="selectAllVolunteerGroup" resultType="int">
+        select count(id)
+        from tbl_member
+        where member_type = "ORGANIZATION"
+    </select>
+
     <select id="selectTop100VolunteerGroup" resultType="memberDTO">
-        select mr.id, mr.member_nickname, mr.member_introduction, mr.member_star_rate, mr.created_date, mr.count_r_id
+        select mr.id, mr.member_nickname, mr.member_introduction, mr.member_star_rate, mr.created_date, mr.count_r_id as count_review
         from tbl_post p join (
             select m.id, m.member_nickname, count(r.id) as count_r_id, m.member_star_rate, m.member_introduction, m.created_date
             from tbl_member m join tbl_review r
@@ -109,7 +115,7 @@
         order by
         <choose>
         <when test="pagination.order == '별점순'.toString()">mr.member_star_rate</when>
-        <otherwise>mr.count_r_id</otherwise>
+        <otherwise>count_review</otherwise>
         </choose>
         desc, mr.created_date asc
         limit #{pagination.startRow}, #{pagination.rowCount};

@@ -7,6 +7,7 @@ import com.app.back.mapper.member.MemberMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.lang.reflect.Member;
 import java.util.List;
 import java.util.Optional;
 
@@ -68,6 +69,8 @@ public class MemberDAO {
     }
 
     public List<MemberDTO> findTop100VolunteerGroup(Pagination pagination) { return memberMapper.selectTop100VolunteerGroup(pagination); }
+
+    public int selectAllVolunteerGroup() { return memberMapper.selectAllVolunteerGroup(); }
 
     // 해당 월에 봉사활동을 한 시간이 가장 많은 5명의 회원 목록
     public List<MemberDTO> selectTop5ByVt(int month) { return memberMapper.selectTop5ByVt(month); };
