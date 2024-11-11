@@ -51,12 +51,12 @@ public class PostDAO {
     public void increaseViewCount(Long id){postMapper.increaseViewCountById(id);}
 
     //    게시글 전체 조회
-    public List<PostDTO> findAll(Pagination pagination, Search search){
+    public List<PostDTO> findAll(Pagination pagination, Search search) {
         return postMapper.selectAll(pagination, search);
     }
     //    필터된 게시글 전체 조회
-    public List<PostDTO> findFilterAll(Pagination pagination, Search search, AdminPostType filterType) {
-        return postMapper.selectFilterAll(pagination, search, filterType.name()); // Enum 이름을 그대로 전달
+    public List<PostDTO> findFilterAll(Pagination pagination, Search search, String filterType) {
+        return postMapper.selectFilterAll(pagination, search, filterType);  // 필터 조건에 맞는 게시글 조회
     }
     //    게시글 조회
     public Optional<PostDTO> findById(Long id){
@@ -72,5 +72,15 @@ public class PostDAO {
         // AdminPostStatus Enum 값을 String으로 변환하여 Mapper에 전달
         postMapper.updateStatusById(id, postStatus.getStatus());
     }
+
+    public List<PostDTO> findAllWithNoDeleted(Pagination pagination, Search search) {
+        return postMapper.selectAllWithNoDeleted(pagination, search);  // 삭제된 게시글 제외
+    }
+
+    public List<PostDTO> findFilterAllWithNoDeleted(Pagination pagination, Search search, String filterType) {
+        return postMapper.selectFilterAllWithNoDeleted(pagination, search, filterType);  // 삭제된 게시글 제외한 필터 조건에 맞는 게시글 조회
+    }
+
+
 
 }

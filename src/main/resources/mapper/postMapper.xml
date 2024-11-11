@@ -38,6 +38,7 @@
     from tbl_post p
     join tbl_member m on p.member_id = m.id
     <include refid="search"/>
+    where p.post_status = 'VISIBLE'
     order by
     <choose>
         <when test="pagination.order == '작성일 순'">p.created_date</when>
@@ -64,6 +65,7 @@
     join tbl_member m on p.member_id = m.id
     <include refid="search"/>
     where p.post_type = #{filterType}
+    and p.post_status = 'VISIBLE'
     order by p.created_date desc
     limit #{pagination.startRow}, #{pagination.rowCount};
 </select>
@@ -77,6 +79,7 @@
 
 <select id="selectTotal">
     select count(*) from tbl_post
+    where post_status = 'VISIBLE'
 </select>
 
 <select id="selectTotalWithSearch">
@@ -84,6 +87,7 @@
     from tbl_post p
     <where>
         <include refid="search"/>
+        and p.post_status = 'VISIBLE'
     </where>
 </select>
 
@@ -95,6 +99,7 @@
         <if test="filterType != null">
             AND p.post_type = #{filterType}
         </if>
+        and p.post_status = 'VISIBLE'
     </where>
 </select>
 
@@ -103,6 +108,7 @@
     select *
     from tbl_post
     where id = #{id}
+    and post_status = 'VISIBLE'
 </select>
 
 <delete id="deleteById">
@@ -114,6 +120,7 @@
     select count(id)
     from tbl_post
     where post_type = #{postType}
+    and post_status = 'VISIBLE'
 </select>
 
 <select id="selectCurrentId" resultType="long">
@@ -136,9 +143,10 @@
 </update>
 
 <select id="selectTotalByPostType" resultType="int">
-    SELECT COUNT(*)
-    FROM tbl_post
-    WHERE post_type = #{postType}
+    select COUNT(*)
+    from tbl_post
+    where post_type = #{postType}
+    and post_status = 'VISIBLE'
 </select>
 
 </mapper>
