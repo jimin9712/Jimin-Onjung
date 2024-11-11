@@ -12,6 +12,6 @@ create table tbl_vt_record(
 select * from tbl_vt_record;
 
 insert into tbl_vt_record(id, vt_time, vt_date)
-VALUES (5,13, current_timestamp);
+VALUES (7,5, current_timestamp);
 
 alter table tbl_vt_record add column     vt_date date not null;

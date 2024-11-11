@@ -35,7 +35,7 @@ public class RankController {
         log.info("회원 기부 랭킹 : {}", model.getAttribute("donationRankMembers"));
 
         pagination.setOrder("별점순");
-        pagination.setTotal(rankService.getAllVolunteerGroup());
+        pagination.setTotal(rankService.getAllVolunteerGroup(pagination).size());
         pagination.progressReview();
         model.addAttribute("volunteerGroups", rankService.getTop100VolunteerGroup(pagination));
         model.addAttribute("pagination", pagination);
@@ -50,7 +50,7 @@ public class RankController {
 
     @GetMapping("/rank/rank-list")
     @ResponseBody
-    public RankDTO getList(Pagination pagination, Model model, @RequestParam("month") String month, @RequestParam("filterType") String filterType) {
+    public RankDTO getList(Pagination pagination, @RequestParam("month") String month, @RequestParam("filterType") String filterType) {
 
         RankDTO rankDTO = new RankDTO();
 
@@ -83,9 +83,10 @@ public class RankController {
         } else {
             log.info("오류 : filterType 미 입력");
         }
-        pagination.setTotal(rankService.getAllVolunteerGroup());
+        pagination.setTotal(rankService.getAllVolunteerGroup(pagination).size());
         pagination.progressReview();
         rankDTO.setVolunteerGroups(rankService.getTop100VolunteerGroup(pagination));
+        log.info("서비스 출력 : {}", rankService.getTop100VolunteerGroup(pagination));
         log.info("봉사활동 단체 회원 랭킹 목록 : {}", rankDTO.getVolunteerGroups());
         log.info("봉사활동 단체 회원 명수 : {}", rankService.getTop100VolunteerGroup(pagination).size());
         log.info("페이지 : {}", pagination.getPage().toString());
