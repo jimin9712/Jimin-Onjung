@@ -201,29 +201,29 @@ const renderPagination = (pagination, keyword = '', filterType = '') => {
 
     // 첫 페이지 링크 추가
     paginationHTML += `<li class="pagination-first">
-<a href="#" data-page="1" class="pagination-first-link">«</a></li>`;
+    <a  data-page="1" class="pagination-first-link">«</a></li>`;
 
     // 이전 페이지 링크가 있을 경우 추가
     if (pagination.prev) {
         paginationHTML += `<li class="pagination-prev">
-    <a href="#" data-page="${pagination.startPage - 1}" class="pagination-prev-link">‹</a></li>`;
+    <a href= data-page="${pagination.startPage - 1}" class="pagination-prev-link">‹</a></li>`;
     }
 
     // 현재 페이지 범위 내의 페이지 번호를 추가
     for (let i = pagination.startPage; i <= pagination.endPage; i++) {
         paginationHTML += `<li class="pagination-page ${pagination.page === i ? 'active' : ''}">
-    <a href="#" data-page="${i}" class="pagination-page-link">${i}</a></li>`;
+    <a href= data-page="${i}" class="pagination-page-link">${i}</a></li>`;
     }
 
     // 다음 페이지 링크가 있을 경우 추가
     if (pagination.next) {
         paginationHTML += `<li class="pagination-next">
-    <a href="#" data-page="${pagination.endPage + 1}" class="pagination-next-link">›</a></li>`;
+    <a href= data-page="${pagination.endPage + 1}" class="pagination-next-link">›</a></li>`;
     }
 
     // 마지막 페이지 링크 추가
     paginationHTML += `<li class="pagination-last">
-<a href="#" data-page="${pagination.realEnd}" class="pagination-last-link">»</a></li>`;
+<a href= data-page="${pagination.realEnd}" class="pagination-last-link">»</a></li>`;
 
     // 생성된 HTML을 페이지네이션 컨테이너에 삽입
     paginationContainer.innerHTML = paginationHTML;
@@ -351,10 +351,10 @@ const renderSidebarNotices = (notices) => {
     notices.forEach((notice) => {
         content += `
             <li>
-                <a href="#" data-id="${notice.id}" class="sidebar-item">${notice.postTitle}</a>
+                <a href= data-id="${notice.id}" class="sidebar-item">${notice.postTitle}</a>
             </li>`;
     });
-    content += `<li><a href="#" class="more-button">+ 더보기</a></li>`;
+    content += `<li><a href= class="more-button">+ 더보기</a></li>`;
 
     sidebarContainer.innerHTML = content;
 
@@ -426,29 +426,29 @@ const postPagination = (pagination,keyword ='',filterType='') => {
 
     // 첫 페이지로 이동 버튼
     paginationHTML += `<li class="pagination-first">
-        <a href="#" data-page="1" class="pagination-first-link">«</a></li>`;
+        <a href= data-page="1" class="pagination-first-link">«</a></li>`;
 
     // 이전 페이지 버튼
     if (pagination.prev) {
         paginationHTML += `<li class="pagination-prev">
-            <a href="#" data-page="${pagination.startPage - 1}" class="pagination-prev-link">‹</a></li>`;
+            <a href= data-page="${pagination.startPage - 1}" class="pagination-prev-link">‹</a></li>`;
     }
 
     // 페이지 번호 버튼
     for (let i = pagination.startPage; i <= pagination.endPage; i++) {
         paginationHTML += `<li class="pagination-page ${pagination.page === i ? 'active' : ''}">
-            <a href="#" data-page="${i}" class="pagination-page-link">${i}</a></li>`;
+            <a href= data-page="${i}" class="pagination-page-link">${i}</a></li>`;
     }
 
     // 다음 페이지 버튼
     if (pagination.next) {
         paginationHTML += `<li class="pagination-next">
-            <a href="#" data-page="${pagination.endPage + 1}" class="pagination-next-link">›</a></li>`;
+            <a href= data-page="${pagination.endPage + 1}" class="pagination-next-link">›</a></li>`;
     }
 
     // 마지막 페이지로 이동 버튼
     paginationHTML += `<li class="pagination-last">
-        <a href="#" data-page="${pagination.realEnd}" class="pagination-last-link">»</a></li>`;
+        <a href= data-page="${pagination.realEnd}" class="pagination-last-link">»</a></li>`;
 
     // 생성된 HTML을 페이지네이션 컨테이너에 삽입
     postPagingContainer.innerHTML = paginationHTML;
@@ -670,29 +670,29 @@ const reportPagination = (pagination, keyword = '', filterType = '') => {
 
     // 첫 페이지 링크 추가
     paginationHTML += `<li class="pagination-first">
-<a href="#" data-page="1" class="pagination-first-link">«</a></li>`;
+<a  data-page="1" class="pagination-first-link">«</a></li>`;
 
     // 이전 페이지 링크가 있을 경우 추가
     if (pagination.prev) {
         paginationHTML += `<li class="pagination-prev">
-    <a href="#" data-page="${pagination.startPage - 1}" class="pagination-prev-link">‹</a></li>`;
+    <a  data-page="${pagination.startPage - 1}" class="pagination-prev-link">‹</a></li>`;
     }
 
     // 현재 페이지 범위 내의 페이지 번호를 추가
     for (let i = pagination.startPage; i <= pagination.endPage; i++) {
         paginationHTML += `<li class="pagination-page ${pagination.page === i ? 'active' : ''}">
-    <a href="#" data-page="${i}" class="pagination-page-link">${i}</a></li>`;
+    <a  data-page="${i}" class="pagination-page-link">${i}</a></li>`;
     }
 
     // 다음 페이지 링크가 있을 경우 추가
     if (pagination.next) {
         paginationHTML += `<li class="pagination-next">
-    <a href="#" data-page="${pagination.endPage + 1}" class="pagination-next-link">›</a></li>`;
+    <a  data-page="${pagination.endPage + 1}" class="pagination-next-link">›</a></li>`;
     }
 
     // 마지막 페이지 링크 추가
     paginationHTML += `<li class="pagination-last">
-<a href="#" data-page="${pagination.realEnd}" class="pagination-last-link">»</a></li>`;
+<a  data-page="${pagination.realEnd}" class="pagination-last-link">»</a></li>`;
 
     // 생성된 HTML을 페이지네이션 컨테이너에 삽입
     reportPagePagination.innerHTML = paginationHTML;
