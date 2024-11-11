@@ -230,27 +230,6 @@ const fetchPosts = async (page = 1) => {
 };
 fetchFilteredPosts(1,'','작성일 순');
 
-const deleteSelectedPosts = async (selectedIds) => {
-    try {
-        const response = await fetch("/delete-reports", {
-            method: "PATCH",  // PATCH 메서드를 사용하여 부분 업데이트 요청
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(selectedIds),  // 선택된 게시글 ID 배열을 전송
-        });
-
-        if (response.ok) {
-            alert("선택한 게시글이 삭제되었습니다.");  // 삭제 성공 메시지
-            fetchReports();  // 신고 목록 새로고침
-        } else {
-            console.error("삭제 실패:", response.status);
-        }
-    } catch (error) {
-        console.error("삭제 요청 중 오류 발생:", error);
-    }
-};
-
 
 // 게시글 조회 함수
 const fetchPostDetail = async (postId) => {
@@ -263,6 +242,26 @@ const fetchPostDetail = async (postId) => {
         }
     } catch (error) {
         console.error("게시글 상세 조회 오류:", error);
+    }
+};
+const deleteSelectedPosts = async (selectedIds) => {
+    try {
+        const response = await fetch("/admin/delete-posts", {
+            method: "PATCH",  // PATCH 메서드를 사용하여 부분 업데이트 요청
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(selectedIds),  // 선택된 게시글 ID 배열을 전송
+        });
+
+        if (response.ok) {
+            alert("선택한 게시글이 삭제되었습니다.");  // 삭제 성공 메시지
+            fetchFilteredPosts(1,'','작성일 순');  // 신고 목록 새로고침
+        } else {
+            console.error("삭제 실패:", response.status);
+        }
+    } catch (error) {
+        console.error("삭제 요청 중 오류 발생:", error);
     }
 };
 
@@ -297,8 +296,26 @@ const fetchReports = async (page = 1) => {
 fetchFilteredReports(1,'','신고일 순');
 
 
+const deleteSelectedReports = async (selectedIds) => {
+    try {
+        const response = await fetch("/admin/delete-reports", {
+            method: "PATCH",  // PATCH 메서드를 사용하여 부분 업데이트 요청
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(selectedIds),  // 선택된 게시글 ID 배열을 전송
+        });
 
-
+        if (response.ok) {
+            alert("선택한 게시글이 삭제되었습니다.");  // 삭제 성공 메시지
+            fetchFilteredReports(1,'','신고일 순');  // 신고 목록 새로고침
+        } else {
+            console.error("삭제 실패:", response.status);
+        }
+    } catch (error) {
+        console.error("삭제 요청 중 오류 발생:", error);
+    }
+};
 
 
 

@@ -363,7 +363,7 @@ document.getElementById("deleteSelectedBtn").addEventListener("click", () => {
         return;
     }
 
-    updateSelectedPostStatus(selectedIds, "0"); // 선택한 게시글의 상태를 0(삭제)로 변경
+    deleteSelectedPosts(selectedIds); // 선택한 게시글의 상태를 0(삭제)로 변경
 });
 
 // 조회 버튼 클릭 이벤트 리스너
@@ -442,7 +442,7 @@ document.querySelector(".deleteSelectedBtn.report-delete").addEventListener("cli
         return;
     }
 
-    deleteSelectedPosts(selectedIds); // 삭제 요청 함수 호출
+    deleteSelectedReports(selectedIds); // 삭제 요청 함수 호출
 });
 
 
