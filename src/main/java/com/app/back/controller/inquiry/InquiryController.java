@@ -144,8 +144,6 @@ public AdminDTO getNoticeList(Pagination pagination, Search search, @RequestPara
     return result;
 }
 
-
-
 // 공지사항 조회
 @GetMapping("/admin/notice-detail")
 @ResponseBody
@@ -164,8 +162,6 @@ public AdminDTO getNoticeRead(@RequestParam Long id) {
 
     return result;
 }
-
-
 
 @GetMapping("/admin/post-list")
 @ResponseBody
@@ -231,16 +227,16 @@ public AdminDTO getPostDetail(@RequestParam Long id) {
 
 // 게시글 삭제 (논리 삭제)
 @PatchMapping("/admin/delete-posts")
-public ResponseEntity<Void> deletePosts(@RequestBody List<Long> postIds) {
+public void deletePosts(@RequestBody List<Long> postIds) {
     postIds.forEach(postId -> postService.updateStatus(postId, AdminPostStatus.DELETED));
-    return ResponseEntity.noContent().build(); // 삭제 후 204 No Content 반환
 }
+
 // 게시글 상태 업데이트
 @PatchMapping("/admin/update-post-status")
-public ResponseEntity<Void> updatePostStatus(@RequestParam Long id, @RequestParam AdminPostStatus status) {
+public void updatePostStatus(@RequestParam Long id, @RequestParam AdminPostStatus status) {
     postService.updateStatus(id, status);
-    return ResponseEntity.ok().build();
 }
+
 
 @GetMapping("admin/report-list")
 @ResponseBody
@@ -273,10 +269,16 @@ public AdminDTO getReportList(Pagination pagination, Search search, @RequestPara
 
 // 신고 삭제 (논리 삭제)
 @PatchMapping("/admin/delete-reports")
-public ResponseEntity<Void> deleteReports(@RequestBody List<Long> reportIds) {
+public void deleteReports(@RequestBody List<Long> reportIds) {
     reportIds.forEach(reportService::deleteReport);
-    return ResponseEntity.noContent().build(); // 삭제 후 204 No Content 반환
 }
+
+
+@PatchMapping("/admin/update-report-status")
+public void updateReportStatus(@RequestBody Long reportId) {
+    reportService.updateReportStatus(reportId, "COMPLETE");
+}
+
 
 @GetMapping("/my-inquirys/{memberId}")
 @ResponseBody

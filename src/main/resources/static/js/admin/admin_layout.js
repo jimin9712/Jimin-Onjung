@@ -585,7 +585,6 @@ const renderPostDetail = (post, attachments) => {
     `;
 };
 // =============================== 신고 목록 =====================================
-
 // 신고 데이터 렌더링 함수
 const renderReports = (reports) => {
     const reportContainer = document.querySelector(".ServiceTable_container.report-page");

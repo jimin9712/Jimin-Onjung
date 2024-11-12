@@ -302,6 +302,32 @@ const deleteSelectedReports = async (selectedIds) => {
         console.error("삭제 요청 중 오류 발생:", error);
     }
 };
+// 상태 변경 버튼 클릭 이벤트
+document.querySelectorAll(".status-btn").forEach((button) => {
+    button.addEventListener("click", async (event) => {
+        const reportId = event.target.closest(".ServiceTable_row").querySelector(".post_ID").textContent.trim();
+
+        try {
+            const response = await fetch("/admin/update-report-status", {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(reportId),  // reportId 전송
+            });
+
+            if (response.ok) {
+                alert("상태가 '처리완료'로 변경되었습니다.");
+                fetchFilteredReports();  // 목록 새로고침
+            } else {
+                console.error("상태 변경 실패:", response.status);
+            }
+        } catch (error) {
+            console.error("상태 변경 요청 중 오류 발생:", error);
+        }
+    });
+});
+
 
 
 
