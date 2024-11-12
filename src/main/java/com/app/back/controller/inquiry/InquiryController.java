@@ -6,6 +6,8 @@ import com.app.back.domain.notice.NoticeDTO;
 import com.app.back.domain.post.Pagination;
 import com.app.back.domain.post.PostDTO;
 import com.app.back.domain.post.Search;
+import com.app.back.domain.reply.ReplyDTO;
+import com.app.back.domain.reply.ReplyVO;
 import com.app.back.domain.report.ReportDTO;
 import com.app.back.enums.AdminPostStatus;
 import com.app.back.enums.AdminPostType;
@@ -14,6 +16,7 @@ import com.app.back.service.inquiry.InquiryService;
 import com.app.back.service.inquiryAnswer.InquiryAnswerService;
 import com.app.back.service.notice.NoticeService;
 import com.app.back.service.post.PostService;
+import com.app.back.service.reply.ReplyService;
 import com.app.back.service.report.ReportService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +42,7 @@ public class InquiryController {
     private final NoticeService noticeService;
     private final PostService postService;
     private final ReportService reportService;
+    private final ReplyService replyService;
 
 @GetMapping("/admin")   // 관리자 페이지
 public List<InquiryDTO> admin(Pagination pagination, Search search) {
@@ -233,6 +237,27 @@ public void updatePostStatus(@RequestParam Long id, @RequestParam AdminPostStatu
     postService.updateStatus(id, status);
 }
 
+// 댓글 추가 API
+@PostMapping("/add")
+public String addReply(@RequestBody ReplyVO replyVO) {
+    replyService.addReply(replyVO);
+    return "댓글이 추가되었습니다.";
+}
+
+// 게시글에 대한 댓글 목록 조회 API
+@GetMapping("/{postId}")
+public List<ReplyDTO> getReplies(@PathVariable Long postId) {
+    return replyService.getRepliesByPostId(postId);  // 댓글 목록 조회
+}
+
+// 댓글 상태 변경 API
+@PatchMapping("/status")
+public String updateReplyStatus(@RequestParam Long id, @RequestParam String status) {
+    replyService.updateReplyStatus(id, status);  // 댓글 상태 업데이트
+    return "댓글 상태가 변경되었습니다.";
+}
+
+// 신고 목록
 @GetMapping("/admin/report-list")
 @ResponseBody
 public AdminDTO getReportList(Pagination pagination, Search search, @RequestParam(required = false) String query, @RequestParam(required = false) String filterType) {

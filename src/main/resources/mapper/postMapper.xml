@@ -71,7 +71,7 @@
 </select>
 
 
-<select id="selectById" resultType="postVO">
+<select id="selectById" resultType="postDTO">
     select *
     from tbl_post
     where id = #{id}
@@ -104,7 +104,7 @@
 </select>
 
 
-<select id="selectByPostId" resultType="postVO">
+<select id="selectByPostId" resultType="postDTO">
     select *
     from tbl_post
     where id = #{id}
