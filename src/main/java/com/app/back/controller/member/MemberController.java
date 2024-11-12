@@ -221,7 +221,7 @@ public class MemberController {
     }
 
     @GetMapping("/charge")
-    public String goToCharge(HttpSession session, Model model){
+    public String goToCharge(HttpSession session){
         MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
 
         if (loginMember != null) {

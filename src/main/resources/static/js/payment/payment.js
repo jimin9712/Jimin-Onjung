@@ -76,6 +76,8 @@ async function completePayment(workPrice, memberProfileId) {
             console.log("서버에 결제 정보 전송 성공");
             fetchAccountBalance(memberProfileId);
             document.querySelector("input#payment-amount").value = "";
+            showTab("payment", document.querySelector("div#payment-tab").firstElementChild);
+            fetchPayments(memberProfileId);
         }
     } catch (error) {
         console.error("결제 완료 데이터 전송 중 오류 발생:", error);
