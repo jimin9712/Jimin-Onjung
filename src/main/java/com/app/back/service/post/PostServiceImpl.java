@@ -91,6 +91,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<PostDTO> getFilterListWithoutDeleted(Pagination pagination, Search search, AdminPostType filterType) {
         pagination.setOrder(filterType.name());
+        // 삭제되지 않은 게시물 중 특정 필터 조건과 검색어가 적용된 결과를 가져옴
         return postDAO.findFilterAllWithNoDeleted(pagination, search, filterType.name());
     }
 }
