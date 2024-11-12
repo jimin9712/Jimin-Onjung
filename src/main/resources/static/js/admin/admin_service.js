@@ -303,6 +303,38 @@ const deleteSelectedReports = async (selectedIds) => {
     }
 };
 
+// 상태 변경 버튼 클릭 이벤트
+const updateSelectedReportStatus = async () => {
+    // 체크된 신고 체크박스들 선택
+    const selectedCheckboxes = document.querySelectorAll(".reportCheckbox:checked");
+    const selectedIds = Array.from(selectedCheckboxes).map(checkbox => checkbox.getAttribute("data-id"));
+
+    // 선택된 체크박스가 없을 경우 경고 메시지 표시 후 종료
+    if (selectedIds.length === 0) {
+        alert("상태 변경할 신고 항목을 선택하세요.");
+        return;
+    }
+
+    // PATCH 요청으로 상태 변경
+    try {
+        const response = await fetch("/admin/update-report-status", {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ reportIds: selectedIds, status: "COMPLETE" }),
+        });
+
+        if (response.ok) {
+            alert("선택한 신고 항목의 상태가 'COMPLETE'로 변경되었습니다.");
+            fetchFilteredReports(); // 목록 새로고침
+        } else {
+            console.error("상태 변경 실패:", response.status);
+        }
+    } catch (error) {
+        console.error("상태 변경 요청 중 오류 발생:", error);
+    }
+};
 
 
 

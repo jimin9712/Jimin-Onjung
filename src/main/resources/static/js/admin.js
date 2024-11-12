@@ -31,7 +31,7 @@ submenus.forEach((submenu) => {
             (section) => submenu.textContent === section.dataset.value // 클릭된 서브메뉴와 일치하는 섹션 찾기
         );
         selectedSection[0].classList.add("selected"); // 해당 섹션 선택
-        resetSearchAndPage(); // 검색어와 페이지 초기화
+        // resetSearchAndPage(); // 검색어와 페이지 초기화
         resetSelectAllPostsCheckbox(); // 전체 선택 체크박스 해제
         resetSelectAllInquiriesCheckbox();
         resetSelectAllReportsCheckbox();
@@ -444,6 +444,15 @@ document.querySelector(".deleteSelectedBtn.report-delete").addEventListener("cli
 
     deleteSelectedReports(selectedIds); // 삭제 요청 함수 호출
 });
+// 상태 변경 클릭 시 이벤트
+document.querySelectorAll(".addServiceBtn").forEach((button) => {
+    button.addEventListener("click", () => {
+        // 상태 변경 함수 호출
+        updateSelectedReportStatus();
+    });
+});
+
+
 
 
 
