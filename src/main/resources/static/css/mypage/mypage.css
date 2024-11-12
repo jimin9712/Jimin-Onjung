@@ -889,7 +889,7 @@ img {
 
 .dGtdjO > .withdraw-input > .input-box > span {
     font-size: 16px;
-    line-height: 24px;
+    line-height: 20px;
     letter-spacing: -0.5px;
     font-weight: 700;
 }
@@ -1717,5 +1717,9 @@ p {
 
 input#payment-amount {
     border: none;
-    height:
+    width: 106px;
+    margin-left: 235px;
+    line-height: 16px;
+    text-align: end;
+    font-size: 14px;
 }

@@ -18,7 +18,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class PostDAO {
     private final PostMapper postMapper;
-    private final MemberMapper memberMapper;
 
     public void save(PostVO postVO) {
         postMapper.insert(postVO);

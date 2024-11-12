@@ -159,3 +159,14 @@ const showTab = (tabId, element) => {
 
     element.parentElement.classList.add("active");
 };
+
+const Items = document.querySelectorAll(".lnb-item");
+if(isCharge) {
+    const chargeTab = document.querySelector("div#charge-tab");
+    Items.forEach((i) => i.classList.remove("active"));
+    chargeTab.classList.add("active");
+    console.log("시작--------------")
+    console.log(isCharge);
+    console.log("----------------");
+    showTab("charge", chargeTab.firstElementChild);
+}
