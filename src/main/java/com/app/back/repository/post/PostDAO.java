@@ -70,7 +70,7 @@ public class PostDAO {
     // 게시글 상태 업데이트 메서드
     public void updateStatus(Long id, AdminPostStatus postStatus) {
         // AdminPostStatus Enum 값을 String으로 변환하여 Mapper에 전달
-        postMapper.updateStatusById(id, postStatus.getStatus());
+        postMapper.updateStatusById(id, postStatus.name());
     }
 
     public List<PostDTO> findAllWithNoDeleted(Pagination pagination, Search search) {

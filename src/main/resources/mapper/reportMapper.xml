@@ -40,7 +40,8 @@
         join tbl_member m on r.member_id = m.id
         join tbl_member m1 on r.reported_member_id = m1.id
     <include refid="search"/>
-    order by r.id desc
+    where p.post_status = 'VISIBLE'
+    order by p.created_date desc
     limit #{pagination.startRow}, #{pagination.rowCount};
 </select>
 
@@ -59,41 +60,41 @@
     join tbl_member m on r.member_id = m.id
     join tbl_member m1 on r.reported_member_id = m1.id
     <include refid="search"/>
-    where r.report_status = #{pagination.order}
-    order by
-    <choose>
-        <when test="pagination.order == 'recent'">p.created_date</when>
-        <otherwise>r.report_status</otherwise>
-    </choose> desc
+    where r.report_status = #{filterType}
+    and p.post_status = 'VISIBLE'
+    order by p.created_date desc
     limit #{pagination.startRow}, #{pagination.rowCount};
 </select>
 
 <select id="selectById" resultType="reportDTO">
     select id, post_title, post_content
     from tbl_post
-    where id = #{id}
+    where id = #{id} and post_status = 'VISIBLE'
 </select>
 
 <select id="selectTotal">
-    select count(*) from tbl_report
+    select count(*)
+    from tbl_report r
+        join tbl_post p on r.post_id = p.id
+    where p.post_status = 'VISIBLE'
 </select>
 
 <select id="selectTotalWithSearch">
     select count(*)
     from tbl_report r
-    join tbl_post p on r.post_id = p.id
+        join tbl_post p on r.post_id = p.id
     <include refid="search"/>
+    and p.post_status = 'VISIBLE'
 </select>
 
 <select id="selectTotalWithFilter" resultType="int">
     select count(*)
     from tbl_report r
-    join tbl_post p on r.post_id = p.id
-    join tbl_member m on r.member_id = m.id
+        join tbl_post p on r.post_id = p.id
+        join tbl_member m on r.member_id = m.id
     <include refid="search"/>
-    <if test="filterType != null">
-        and r.report_status = #{filterType}
-    </if>
+    where p.post_status = 'VISIBLE'
+    and r.report_status = #{filterType}
 </select>
 
 <update id="updateById">

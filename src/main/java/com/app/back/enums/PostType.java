@@ -20,14 +20,5 @@ public enum PostType {
         return displayName;
     }
 
-//  displayName을 PostType으로 변환하는 메서드
-    public static PostType fromDisplayName(String displayName) {
-        for (PostType type : PostType.values()) {
-            if (type.getDisplayName().equals(displayName)) {
-                return type;
-            }
-        }
-        return null; // No match found
-    }
 }
 

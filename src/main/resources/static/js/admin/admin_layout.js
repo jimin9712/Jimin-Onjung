@@ -68,7 +68,7 @@ const renderInquiries = (inquiries) => {
                 <div class="inquiryTable_cell">${inquiry.memberNickName}</div>
                 <div class="inquiryTable_cell">${inquiry.inquiryEmail}</div>
                 <div class="inquiryTable_cell">${inquiry.inquiryStatus}</div>
-                <div class="inquiryTable_cell"><button class="editBtn">답변하기</button></div>
+                <div class="inquiryTable_cell"><button class="editBtn inquiryBtn">답변하기</button></div>
             </div>`;
     });
 
@@ -185,8 +185,6 @@ const renderAnswer = (inquiryAnswer) => {
                     </form>
                 </div>
             </div>`;
-        const answerForm = document.getElementById("new-request");
-        answerForm.addEventListener("submit", handleAnswerSubmit);
 
     } else {
         console.error("answerContainer 요소를 찾을 수 없습니다.");
@@ -472,7 +470,6 @@ const renderPostDetail = (post, attachments) => {
         console.error("container-main-body 요소를 찾을 수 없습니다.");
         return;
     }
-
     postDetailContainer.innerHTML = `
         <section class="main-info-wrap">
             <section class="main-info">
@@ -584,6 +581,49 @@ const renderPostDetail = (post, attachments) => {
         </section>
     `;
 };
+
+// 댓글 렌더링 함수
+const renderComments = (comments) => {
+    const commentSection = document.getElementById("comment-section");
+    commentSection.innerHTML = "";
+
+    comments.forEach((comment) => {
+        const isAuthor = comment.author ? '<p class="comment">작성자</p>' : "";
+
+        const commentHTML = `
+            <article class="comment-container">
+                <div class="contest-comment-show">
+                    <div>
+                        <div class="comment-card">
+                            <div class="contest-comment-userinfo">
+                                <a href="/m/${comment.user}" class="profile-avatar-container avatar">
+                                    <img src="${comment.profile}" />
+                                </a>
+                                <div class="nick">
+                                    <div class="nickname-container user-nick-wrapper">
+                                        <p class="nickname-text">
+                                            <a class="user-nick nick" href="/m/${comment.user}">
+                                                ${comment.user}
+                                            </a>
+                                        </p>
+                                    </div>
+                                    ${isAuthor}
+                                </div>
+                                <p>| ${comment.date}</p>
+                            </div>
+                            <div class="contest-comment-content">
+                                <div>${comment.content}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        `;
+
+        commentSection.insertAdjacentHTML("beforeend", commentHTML);
+    });
+};
+
 // =============================== 신고 목록 =====================================
 // 신고 데이터 렌더링 함수
 const renderReports = (reports) => {
