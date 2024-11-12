@@ -444,7 +444,7 @@
                                                                 <label class="fItXBi toggle">
                                                                     <input type="checkbox" id="filter-6months-payment" onchange="applyFilterPayments(memberId, 6)" />6개월
                                                                 </label>
-                                                                <button id="Initialization-payment" class="gPdSFi" onclick="initializePaymentSection(memberId)">
+                                                                <button id="Initialization-payment" class="gPdSFi">
                                                                     <svg viewBox="0 0 12 12" class="refresh-svg">
                                                                         <path d="M5.792 9.584C3.698 9.584 2 7.886 2 5.792C2 3.698 3.698 2 5.792 2C7.887 2 9.584 3.698 9.584 5.792"
                                                                               stroke-width="1.2" stroke-linecap="round" fill="#ffffff"></path>
@@ -754,9 +754,18 @@
                                                                         가상계좌
                                                                         잔액
                                                                     </p>
-                                                                    <span
-                                                                        >0원</span
+                                                                    <span id="account-balance"
+                                                                        ></span
                                                                     >
+                                                                </div>
+                                                                <div
+                                                                        class="input-box"
+                                                                >
+                                                                    <p>
+                                                                        충전할 금액
+                                                                    </p>
+                                                                    <input type="text" id="payment-amount"/>
+                                                                    <span>원</span>
                                                                 </div>
                                                                 <button
                                                                     class="jNNRuG withdraw-btn"
@@ -1599,6 +1608,14 @@
     <div th:replace="~{main/footer :: footer}"></div>
 
     </body>
+    <script th:inline="javascript">
+        const member = [[${member}]];
+    </script>
+    <script
+            src="https://js.bootpay.co.kr/bootpay-5.0.1.min.js"
+            type="application/javascript"
+    ></script>
     <script src="/js/mypage/mypage.js"></script>
     <script src="/js/mypage/mypage-event.js"></script>
+    <script src="/js/payment/payment.js"></script>
 </html>

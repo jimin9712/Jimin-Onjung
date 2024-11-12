@@ -14,7 +14,7 @@ public interface PaymentMapper {
     public List<PaymentDTO> selectAll();
     public void update(PaymentDTO paymentDTO);
     public void deleteById(Long id);
-
+    public int selectTotalPaymentByMemberId(Long memberId);
     public List<PaymentDTO> selectByMemberId(@Param("memberId") Long memberId);
     public List<PaymentDTO> selectByMemberIdAndDateRange(
             @Param("memberId") Long memberId,
