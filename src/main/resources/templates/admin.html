@@ -905,8 +905,7 @@
                         </div>
                     </div>
                 </section>
-                            </div>
-                        </section>
+
                         <section
                             class="admin-page"
                             data-value="공지사항 목록"
@@ -999,7 +998,7 @@
                                                 class="form-field-agreements"
                                                 style="clear: both"
                                         >
-                                            <p id="request-agreements">
+                                            <p id="notification-agreements">
                                                 (주)온정은 정보통신망 이용촉진 및 정보보호
                                                 등 관한 법률을 준수하며 고객님의 개인정보를
                                                 수집하고 소중하게 다루고 있습니다. 1. 수집
@@ -1022,34 +1021,10 @@
                                             <input
                                                     type="checkbox"
                                                     value="on"
-                                                    id="request-agreements-check"
+                                                    id="notification-agreements-check"
                                                     name="request-agreements-check"
                                             />
                                         </div>
-                                        <div class="form-field required">
-                                            <label for="request-description">답변 작성</label>
-                                            <textarea
-                                                    name="request-description"
-                                                    id="request-description"
-                                            ></textarea>
-                                            <input
-                                                    type="hidden"
-                                                    name="request-description-input"
-                                                    id="request-description-input"
-                                                    value="text/plain"
-                                                    style="display: none"
-                                                    autocomplete="off"
-                                            />
-                                        </div>
-                                        <footer>
-                                            <input
-                                                    type="submit"
-                                                    name="submit"
-                                                    id="submit-button"
-                                                    value="답변제출"
-                                                    style="margin-bottom: 30px;"
-                                            />
-                                        </footer>
                                     </form>
                                 </div>
                             </div>
@@ -3009,9 +2984,7 @@
     <!-- 관리자 홈 -->
     <script src="/js/admin/admin_service.js"></script>
     <script src="/js/admin/admin_layout.js"></script>
-    <script src="/js/admin/admin_new.js"></script>
     <script src="/js/admin.js"></script>
-
 
     <script src="/js/adminPage/admin_page/admin.js"></script>
     <!-- 회원 목록 -->
@@ -3019,7 +2992,7 @@
     <script src="/js/adminPage/admin_page/admin.js"></script>
     <script src="/js/adminPage/admin_user/modal_user.js"></script>
     <!-- 공지사항 목록 -->
-<!--     <script src="/static/js/admin.js"> -->
+    <!--     <script src="/static/js/admin.js"> -->
     <!-- 공지사항 조회 -->
     <script src="/js/help/help-notification-inquiry.js"></script>
     <!-- 고객센터 문의 목록 -->
@@ -3032,4 +3005,5 @@
     <!-- 게시글 조회 -->
     <script src="/js/donation/donation-inquiry.js"></script>
 
+    <script src="/js/admin_new.js"></script>
 </html>
