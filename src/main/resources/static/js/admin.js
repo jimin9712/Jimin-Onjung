@@ -5,19 +5,19 @@ const inquiryButtons = document.querySelectorAll("button.inquiry-button");
 // NodeList에 filter 메서드를 추가
 NodeList.prototype.filter = Array.prototype.filter;
 
-// 고객센터 문의 목록과 공지사항 목록의 검색어와 페이지를 초기화하는 함수
-const resetSearchAndPage = () => {
-    inquiryKeyword = ''; // 고객센터 문의 검색어 초기화
-    if (inquirySearchInput) inquirySearchInput.value = ''; // 검색 입력 필드 초기화
-    // inquiryFilterType = '최신순'; // 또는 기본값으로 설정
-    postKeyword='';
-    // postFilterType = '작성일 순';
-    if(postSearchInput) postSearchInput.value='';
-    reportKeyword='';
-    // reportFilterType = '신고일 순';
-    if(reportSearchInput) reportSearchInput.value='';
-
-};
+// // 고객센터 문의 목록과 공지사항 목록의 검색어와 페이지를 초기화하는 함수
+// const resetSearchAndPage = () => {
+//     inquiryKeyword = ''; // 고객센터 문의 검색어 초기화
+//     if (inquirySearchInput) inquirySearchInput.value = ''; // 검색 입력 필드 초기화
+//     // inquiryFilterType = '최신순'; // 또는 기본값으로 설정
+//     postKeyword='';
+//     // postFilterType = '작성일 순';
+//     if(postSearchInput) postSearchInput.value='';
+//     reportKeyword='';
+//     // reportFilterType = '신고일 순';
+//     if(reportSearchInput) reportSearchInput.value='';
+//
+// };
 
 
 
