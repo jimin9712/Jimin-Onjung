@@ -4,7 +4,9 @@ import com.app.back.domain.Util.EmailUtil;
 import com.app.back.domain.member.MemberDTO;
 import com.app.back.domain.member.MemberVO;
 import com.app.back.enums.MemberLoginType;
+import com.app.back.service.donation_record.DonationRecordService;
 import com.app.back.service.member.MemberService;
+import com.app.back.service.payment.PaymentService;
 import com.app.back.service.rank.RankService;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpSession;
@@ -27,6 +29,8 @@ public class MemberController {
     private final MemberService memberService;
     private final EmailUtil emailUtil;
     private final RankService rankService;
+    private final PaymentService paymentService;
+    private final DonationRecordService donationRecordService;
 
     @GetMapping("/member/signup")
     public String goToSignup() {
@@ -209,8 +213,20 @@ public class MemberController {
             model.addAttribute("member", loginMember);
             return "mypage/mypage";
         } else {
+            log.info("왜 안나오오오오옴");
             return "redirect:/member/login";
         }
+    }
+
+    @GetMapping("/mypage/account-balance/{memberId}")
+    @ResponseBody
+    public int getAccountBalance(@PathVariable Long memberId) {
+        int accountBalance = paymentService.getTotalPayments(memberId) - donationRecordService.getTotalDonationByMemberId(memberId);
+        log.info("충전한 돈 : {} ", paymentService.getTotalPayments(memberId));
+        log.info("기부한 돈 : {} ", donationRecordService.getTotalDonationByMemberId(memberId));
+        log.info("accountBalance : {} ", accountBalance);
+
+        return accountBalance;
     }
 
     @GetMapping("/member/info")

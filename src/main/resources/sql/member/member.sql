@@ -26,9 +26,10 @@ create table tbl_member (
 select * from tbl_member;
 
 
-# UPDATE tbl_member
-# SET member_star_rate = 1.00
-# WHERE id = 6;
+UPDATE tbl_member
+SET member_email = '746aa1357@naver.com'
+WHERE id = 33;
+
 insert into tbl_member(id, member_email, member_password, member_nickname)
 values(33, '결제테스트@naver.com', '1234567', '결제테스트용아이디');
 

@@ -12,6 +12,7 @@ public interface PaymentService {
     public List<PaymentDTO> findAll();
     public void update(PaymentDTO paymentDTO);
     public void deleteById(Long id);
+    public int getTotalPayments(Long memberId);
     public List<PaymentDTO> findByMemberId(Long memberId);
     public List<PaymentDTO> findByMemberIdAndDateRange(Long memberId, String startDate, String endDate);
 }
