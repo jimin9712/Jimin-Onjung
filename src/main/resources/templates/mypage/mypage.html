@@ -155,6 +155,7 @@
                                                             </div>
                                                             <div
                                                                 class="lnb-item"
+                                                                id="charge-tab"
                                                             >
                                                                 <a
                                                                     href="#"
@@ -1610,6 +1611,7 @@
     </body>
     <script th:inline="javascript">
         const member = [[${member}]];
+        const isCharge = [[${charge}]]
     </script>
     <script
             src="https://js.bootpay.co.kr/bootpay-5.0.1.min.js"
