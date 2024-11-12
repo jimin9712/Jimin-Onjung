@@ -68,7 +68,7 @@ const renderInquiries = (inquiries) => {
                 <div class="inquiryTable_cell">${inquiry.memberNickName}</div>
                 <div class="inquiryTable_cell">${inquiry.inquiryEmail}</div>
                 <div class="inquiryTable_cell">${inquiry.inquiryStatus}</div>
-                <div class="inquiryTable_cell"><button class="editBtn">답변하기</button></div>
+                <div class="inquiryTable_cell"><button class="editBtn inquiryBtn">답변하기</button></div>
             </div>`;
     });
 
@@ -185,8 +185,6 @@ const renderAnswer = (inquiryAnswer) => {
                     </form>
                 </div>
             </div>`;
-        const answerForm = document.getElementById("new-request");
-        answerForm.addEventListener("submit", handleAnswerSubmit);
 
     } else {
         console.error("answerContainer 요소를 찾을 수 없습니다.");

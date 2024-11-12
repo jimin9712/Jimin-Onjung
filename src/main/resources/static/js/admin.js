@@ -233,38 +233,49 @@ inquiryFilters.forEach((option) => {
     });
 });
 
-const inquiryAnswerButtons = document.querySelectorAll(
-    ".inquiryTable_cell button.editBtn"
-);
-const inquirySubButton = document.getElementById("submit-button");
-
-// 답변하기 버튼 클릭 시 고객센터 문의 답변 섹션으로 이동
-inquiryAnswerButtons.forEach((inquiryAnswerButton) => {
-    inquiryAnswerButton.addEventListener("click", (e) => {
-        sections.forEach((section) => {
-            section.classList.remove("selected"); // 모든 섹션 선택 해제
-        });
+// 고객센터 문의 조회
+document.querySelector(".inquiryTable_container").addEventListener("click", async (event) => {
+    if (event.target.classList.contains("editBtn")) { // 버튼의 클래스가 editBtn일 때만 실행
+        sections.forEach((section) => section.classList.remove("selected")); // 모든 섹션 선택 해제
         const inquiryAnswerSection = Array.from(sections).find(
-            (section) => section.dataset.value === "고객센터 문의 답변" // 고객센터 문의 답변 섹션 찾기
+            (section) => section.dataset.value === "고객센터 문의 답변"
         );
-        inquiryAnswerSection.classList.add("selected"); // 해당 섹션 선택
+
+            inquiryAnswerSection.classList.add("selected");
+            // 선택된 문의의 ID 가져오기
+            const inquiryId = event.target.closest(".data_row").getAttribute("data-id");
+            // 문의 데이터를 서버에서 가져와 화면에 렌더링
+            const inquiryData = await fetchInquiryData(inquiryId);
+                renderAnswer(inquiryData);
+    }
+});
+document.addEventListener("DOMContentLoaded", () => {
+    // submit 버튼 클릭 이벤트 등록
+    document.addEventListener("click", async (e) => {
+        // "submit-button" ID를 가진 요소가 클릭된 경우
+        if (e.target.id === "submit-button") {
+            e.preventDefault();
+            // 답변 제출 폼의 데이터를 가져옴
+            const answerForm = document.getElementById("new-request");
+            const inquiryId = answerForm.querySelector('input[name="request-title"]').getAttribute("data-id");
+            const answerContent = answerForm.querySelector('textarea[name="answer-content"]').value;
+            // 답변을 서버로 전송하고, 성공 시 목록으로 이동
+            const success = await submitAnswer(inquiryId, answerContent);
+            if (success) {
+                sections.forEach((section) => section.classList.remove("selected"));
+                // '고객센터 문의 목록' 섹션을 찾아 선택
+                const inquiryListSection = Array.from(sections).find(
+                    (section) => section.dataset.value === "고객센터 문의 목록"
+                );
+                if (inquiryListSection) {
+                    inquiryListSection.classList.add("selected");
+                    fetchFilteredInquiries(1, "", "최신순");
+                }
+            }
+        }
     });
 });
 
-// 제출 버튼 클릭 시 고객센터 문의 목록 섹션으로 이동
-document.addEventListener("DOMContentLoaded", () => {
-    // inquirySubButton 클릭 시 고객센터 문의 목록 섹션만 보이도록 설정
-    const inquirySubButton = document.getElementById("submit-button");
-
-    if (inquirySubButton) {
-        inquirySubButton.addEventListener("click", () => {
-            sections.forEach((section) => section.classList.remove("selected"));
-            const inquiryListSection = Array.from(sections).find(
-                (section) => section.dataset.value === "고객센터 문의 목록"
-            );
-        });
-    }
-});
 
 // 고객센터 문의 목록의 전체 선택 및 개별 선택 체크박스 관리
 const selectAllInquiries = () => {

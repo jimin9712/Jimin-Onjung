@@ -270,8 +270,6 @@ public AdminDTO getReportList(Pagination pagination, Search search, @RequestPara
     return result;
 }
 
-
-
 // 신고 삭제 (softdelete)
 // foreach 내부에는 새로운 변수 이름을 사용해야 함
 @PatchMapping("/admin/delete-reports")

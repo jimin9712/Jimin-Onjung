@@ -29,79 +29,45 @@ const fetchInquiries = async (page = 1) => {
 
 // 초기 데이터 로드
 fetchFilteredInquiries(1, '', '최신순'); // 페이지 1, 빈 검색어, "최신순" 필터
-// ==================================================================================================답변하기
-// 답변하기 버튼을 눌렀을 때
-document.addEventListener("DOMContentLoaded", () => {
-    const sections = document.querySelectorAll("section.admin-page");
-
-    document.querySelector(".inquiryTable_container").addEventListener("click", async (event) => {
-        if (event.target.classList.contains("editBtn")) {
-            sections.forEach((section) => section.classList.remove("selected")); // 모든 섹션 선택 해제
-            // sections은 모든 .admin-page 섹션을 담고있는 nodeList이고, Array.from을 통해서 NodeList를 배열로 변환하여 배열 메서드를 사용할 수 있게 한다.
-            const inquiryAnswerSection = Array.from(sections).find(
-                // dataset : JavaScript에서 HTML 요소의 데이터 속성에 접근하고 조작할 수 있도록 해주는 특수한 속성
-                // 특정 정보를 HTML 요소에 저장하고 싶을 때 유용하게 사용할 수 있다.
-                (section) => section.dataset.value === "고객센터 문의 답변"
-            );
-            if (inquiryAnswerSection) {
-                inquiryAnswerSection.classList.add("selected"); // 고객센터 문의 답변 섹션에 selected 추가
-                //event.target.closest : 이벤트가 발생한 요소의 가장 가까운 ex).notification 클래스를 찾으며 즉 .notification 클래스를 가진
-                // 요소가 클릭된 요소와 같은 레벨이거나 상위에 있을 때 그요소를 가져오는 역할을 한다.
-                const inquiryId = event.target.closest(".data_row").getAttribute("data-id"); // 게시글 ID 가져오기
-                try {
-                    const response = await fetch(`/admin/inquiry-answer?id=${inquiryId}`);
-                    if (response.ok) {
-                        const data = await response.json();
-                        renderAnswer(data.inquiry); // 받아온 데이터 렌더링
-                    } else {
-                    }
-                } catch (error) {
-                }
-            } else {
-            }
+// ==========================================답변하기========================================================
+// 문의 조회
+const fetchInquiryData = async (inquiryId) => {
+    console.log("fetchInquiryData 호출 - ID:", inquiryId); // fetchInquiryData 호출 확인
+    try {
+        const response = await fetch(`/admin/inquiry-answer?id=${inquiryId}`);
+        console.log("fetchInquiryData 응답 상태:", response.ok); // 응답 상태 확인
+        if (response.ok) {
+            const data = await response.json();
+            console.log("fetchInquiryData 응답 데이터:", data); // 응답 데이터 확인
+            return data.inquiries[0]; // 문의 데이터를 반환 (inquiries 배열의 첫 요소)
+        } else {
+            console.error("fetchInquiryData - 문의 데이터를 가져오는 데 실패했습니다.");
         }
-    });
-});
-// ======================================================================================================== 답변제출
-// 답변 제출을 눌렀을 때
-const handleAnswerSubmit = async (event) => {
-    event.preventDefault();
+    } catch (error) {
+        console.error("fetchInquiryData - 에러 발생:", error);
+    }
+};
 
-    const form = event.target;
-    const inquiryId = form.querySelector('input[name="request-title"]').getAttribute("data-id");
-    const answerContent = form.querySelector('textarea[name="answer-content"]').value;
-    const payload = {
-        inquiryId: inquiryId,
-        inquiryAnswer: answerContent,
-    };
+
+// 답변 데이터를 서버로 전송하는 함수
+const submitAnswer = async (inquiryId, answerContent) => {
     try {
         const response = await fetch('/admin/inquiry-answer', {
             method: 'POST',
-            body: JSON.stringify(payload),
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ inquiryId, inquiryAnswer: answerContent }),
         });
-        console.log("서버 응답 상태:", response.ok); // 응답 상태 확인
+
         if (response.ok) {
             alert("답변이 제출되었습니다.");
-            fetchFilteredInquiries(1,"", "최신순");
-
-            sections.forEach((section) => {
-                section.classList.remove("selected");
-            });
-            const inquiryListSection = Array.from(sections).find(
-                (section) => section.dataset.value === "고객센터 문의 목록"
-            );
-            if (inquiryListSection) {
-                inquiryListSection.classList.add("selected");
-            } else {
-            }
+            return true;
         } else {
-            const errorText = await response.text();
+            console.error("답변 제출에 실패했습니다.");
         }
     } catch (error) {
+        console.error("답변 제출 중 에러 발생:", error);
     }
+    return false;
 };
 
 // ======================================================================================= 여기서부터 공지사항
