@@ -244,9 +244,9 @@ const noticeContainer = document.querySelector(".notification-list-wrap");
 const pagingNotice = document.querySelector(".pagination-wrap.notification-table");
 
 // 공지사항 목록 렌더링 함수
-const renderNotice = (notis) => {
+const renderNotice = (notices) => {
     let content = '';
-    notis.forEach((notice) => {
+    notices.forEach((notice) => {
         content +=
             `<li class="notification-container" >
                 <a data-id="${notice.id}" class="notification noit-admin">
@@ -345,10 +345,10 @@ const renderNoticeDetail = (notice) => {
     }
 };
 
-const renderSidebarNotices = (notices) => {
+const renderSidebarNotices = (notice) => {
     let content = '';
 
-    notices.forEach((notice) => {
+    notice.forEach((notice) => {
         content += `
             <li>
                 <a data-id="${notice.id}" class="sidebar-item ">${notice.postTitle}</a>

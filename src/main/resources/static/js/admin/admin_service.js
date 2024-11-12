@@ -111,7 +111,7 @@ const fetchNotices = async (page = 1) => {
         const response = await fetch(`/admin/notice-list?page=${page}`);
         // JSON 데이터를 HTML로 렌더링
         const data = await response.json();
-        renderNotice(data.notis);
+        renderNotice(data.notices);
         renderNoticePagination(data.pagination); // 페이지네이션 렌더링
     } catch (error) {
         console.error("공지사항 데이터를 불러오는 중 오류 발생:", error);
@@ -125,7 +125,7 @@ const fetchFilteredNotices = async (page, keyword) => {
     try {
         const response = await fetch(`/admin/notice-list?page=${page}&query=${keyword}`);
         const data = await response.json();
-        renderNotice(data.notis); // 공지사항 목록 렌더링
+        renderNotice(data.notices); // 공지사항 목록 렌더링
         renderNoticePagination(data.pagination, keyword); // 페이지네이션 렌더링
     } catch (error) {
         console.error("공지사항 데이터를 불러오는 중 오류 발생:", error);
@@ -148,36 +148,22 @@ document.querySelector(".notification-list-wrap").addEventListener("click", asyn
         if (notificationInquirySection) {
             notificationInquirySection.classList.add("selected"); // 공지사항 조회 섹션에 selected 추가
 
-            try {
-                const response = await fetch(`/admin/notice-detail?id=${noticeId}`);
-                const data = await response.json();
+            const response = await fetch(`/admin/notice-detail?id=${noticeId}`);
+            const data = await response.json();
 
-                if (data.success) {
-                    renderNoticeDetail(data.inquiry);  // 공지사항 세부 내용 렌더링
-                } else {
-                    console.error(data.message);
-                }
-            } catch (error) {
-                console.error("공지사항 데이터 로드 중 오류 발생:", error);
-            }
-        } else {
-            console.error("공지사항 조회 섹션을 찾을 수 없습니다.");
+            renderNoticeDetail(data.notice);  // 공지사항 세부 내용 렌더링
         }
     }
 });
 
-// 공지사항 상세 정보 가져오기
+// 공지사항 세부 내용 조회 함수 정의
 const fetchNoticeDetail = async (noticeId) => {
     try {
         const response = await fetch(`/admin/notice-detail?id=${noticeId}`);
         const data = await response.json();
-        if (data.success) {
-            renderNoticeDetail(data.inquiry); // 상세 정보 렌더링
-        } else {
-            console.error(data.message);
-        }
+        renderNoticeDetail(data.notice);  // 공지사항 세부 내용 렌더링
     } catch (error) {
-        console.error("공지사항 상세 정보 불러오기 오류:", error);
+        console.error("공지사항 세부 내용을 불러오는 중 오류 발생:", error);
     }
 };
 
@@ -186,7 +172,7 @@ const fetchRecentNotices = async () => {
     try {
         const response = await fetch('/admin/notice-list?limit=10'); // 최신 10개 공지사항 가져오기
         const data = await response.json();
-        renderSidebarNotices(data.notis); // 가져온 공지사항을 사이드바에 렌더링
+        renderSidebarNotices(data.notices); // 가져온 공지사항을 사이드바에 렌더링
     } catch (error) {
         console.error("사이드바 공지사항 불러오기 오류:", error);
     }
@@ -256,7 +242,7 @@ const deleteSelectedPosts = async (selectedIds) => {
 
         if (response.ok) {
             alert("선택한 게시글이 삭제되었습니다.");  // 삭제 성공 메시지
-            fetchFilteredPosts(1,'','작성일 순');  // 신고 목록 새로고침
+            fetchFilteredPosts();  // 신고 목록 새로고침
         } else {
             console.error("삭제 실패:", response.status);
         }
@@ -308,7 +294,7 @@ const deleteSelectedReports = async (selectedIds) => {
 
         if (response.ok) {
             alert("선택한 게시글이 삭제되었습니다.");  // 삭제 성공 메시지
-            fetchFilteredReports(1,'','신고일 순');  // 신고 목록 새로고침
+            fetchFilteredReports();  // 신고 목록 새로고침
         } else {
             console.error("삭제 실패:", response.status);
         }

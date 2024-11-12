@@ -1,5 +1,6 @@
 package com.app.back.mapper.volunteer;
 
+import com.app.back.domain.alarm.AlarmDTO;
 import com.app.back.domain.donation.DonationDTO;
 import com.app.back.domain.review.ReviewDTO;
 import com.app.back.domain.volunteer.Pagination;
@@ -29,6 +30,7 @@ public interface VolunteerMapper {
     public void deleteById(Long id);
 
     public List<VolunteerDTO> selectByMemberId(@Param("memberId") Long memberId); // 반환 타입 수정
+
     public List<VolunteerDTO> selectByMemberIdAndDateRange(
             @Param("memberId") Long memberId,
             @Param("startDate") String startDate,
