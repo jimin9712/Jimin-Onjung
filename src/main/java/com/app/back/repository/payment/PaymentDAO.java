@@ -33,6 +33,10 @@ public class PaymentDAO {
         paymentMapper.deleteById(id);
     }
 
+    public int getTotalPaymentByMemberId(Long memberId) {
+        return paymentMapper.selectTotalPaymentByMemberId(memberId);
+    }
+
     public List<PaymentDTO> findByMemberId(Long memberId) {
         return paymentMapper.selectByMemberId(memberId);
     }

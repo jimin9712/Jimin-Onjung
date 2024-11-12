@@ -1222,20 +1222,32 @@ const renderPayments = (payments) => {
                     </tr>
                 </thead>
                 <tbody class="news-center-table-body">
-                    ${payments
-            .map(
-                (payment) => `
-                            <tr class="news-data-rows" data-id="${payment.id}">
-                                <td>${payment.id}</td>
-                                <td>${payment.paymentStatus}</td>
-                                <td>${payment.paymentAmount.toLocaleString()} 원</td>
-                                <td>${new Date(payment.createdDate).toLocaleDateString('ko-KR')}</td>
-                            </tr>`
-            )
-            .join("")}
                 </tbody>
             </table>
         `;
+        payments.forEach((payment) => {
+            let paymentContent = ``;
+            if(payment.paymentStatus === ("COMPLETED")) {
+
+                paymentContent = `
+                            <tr class="news-data-rows" data-id="${payment.id}">
+                                <td>${payment.id}</td>
+                                <td>결제 완료</td>
+                                <td>${payment.paymentAmount.toLocaleString()} 원</td>
+                                <td>${new Date(payment.createdDate).toLocaleDateString('ko-KR')}</td>
+                            </tr>`;
+            } else {
+                paymentContent = `
+                            <tr class="news-data-rows" data-id="${payment.id}">
+                                <td>${payment.id}</td>
+                                <td>결제 취소</td>
+                                <td>${payment.paymentAmount.toLocaleString()} 원</td>
+                                <td>${new Date(payment.createdDate).toLocaleDateString('ko-KR')}</td>
+                            </tr>`;
+            }
+            paymentList.querySelector("tbody.news-center-table-body").innerHTML += paymentContent;
+        })
+
     }
 
     document.getElementById("payment-totalCount").textContent = payments.length;
@@ -1250,14 +1262,31 @@ const fetchPayments = async (memberId) => {
         const data = await response.json();
         console.log("결제 데이터:", data);
         renderPayments(data);
+        console.log("ffetch들ㅇ어옴");
     } catch (error) {
         console.error("결제 데이터 불러오기 오류:", error);
         alert("결제 데이터를 불러오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.");
     }
 };
 
+// 가상계좌 잔액 가져오기 함수
+const fetchAccountBalance = async (memberId) => {
+    try {
+        const response = await fetch(`/mypage/account-balance/${memberId}`);
+        if (!response.ok) throw new Error("서버에서 가상계좌 데이터를 가져오는데 실패했습니다.");
+
+        const data = await response.json();
+        console.log("가상계좌 데이터: ", data);
+        accountBalanceWrap.innerText = data + "원";
+    } catch (error) {
+        console.error("가상계좌 데이터 불러오기 오류: ", error) ;
+        alert("가상계좌 데이터를 불러오는데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.");
+    }
+}
+
 const initializePaymentSection = (memberId) => {
     fetchPayments(memberId);
+    console.log("이니셜들어옴");
 
     const paymentToggleElements = document.querySelectorAll("#payment .fItXBi.toggle");
 
@@ -1624,9 +1653,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         initializePaymentSection(memberId);
         // 내 알림 섹션 초기화
         initializeAlarmsSection(memberId);
-
-
-
 
     } catch (error) {
         console.error("초기화 중 오류:", error);

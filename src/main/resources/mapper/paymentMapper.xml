@@ -3,11 +3,8 @@
 <mapper namespace="com.app.back.mapper.payment.PaymentMapper">
 
     <insert id="insert" parameterType="paymentDTO">
-        insert into tbl_payment(
-            payment_status,payment_amount,member_id,created_date,updated_date
-        ) values (
-                  #{paymentStatus},#{paymentAmount},#{memberId},current_timestamp,current_timestamp
-                         )
+        insert into tbl_payment(payment_status,payment_amount,member_id,created_date,updated_date)
+        values (#{paymentStatus},#{paymentAmount},#{memberId},current_timestamp,current_timestamp)
     </insert>
 
     <select id="selectById" parameterType="long" resultType="paymentDTO">
@@ -48,7 +45,7 @@
     <select id="selectTotalPaymentByMemberId" resultType="int">
         SELECT COALESCE(SUM(payment_amount), 0)
         FROM tbl_payment
-        WHERE member_id = #{memberId}
+        WHERE member_id = #{memberId} and payment_status = "COMPLETED"
     </select>
 
     <select id="selectByMemberId" parameterType="long" resultType="paymentDTO">

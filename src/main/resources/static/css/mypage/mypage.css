@@ -835,6 +835,7 @@ img {
     line-height: 23px;
     letter-spacing: -0.5px;
     font-weight: 700;
+    margin-top: 8px;
 }
 
 .jNNRuG .visual-correction {
@@ -1714,3 +1715,7 @@ p {
     font-size: 12px;
 }
 
+input#payment-amount {
+    border: none;
+    height:
+}

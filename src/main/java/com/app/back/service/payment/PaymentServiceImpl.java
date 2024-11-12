@@ -41,6 +41,11 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
+    public int getTotalPayments(Long memberId) {
+        return paymentDAO.getTotalPaymentByMemberId(memberId);
+    }
+
+    @Override
     public List<PaymentDTO> findByMemberId(Long memberId) {
         return paymentDAO.findByMemberId(memberId);
     }
