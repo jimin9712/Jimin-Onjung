@@ -44,6 +44,13 @@ public interface PostMapper {
 
     public List<PostDTO> selectFilterAll(@Param("pagination") Pagination pagination, @Param("search")Search search ,@Param("filterType") String filterType);
 
+    // 전체 조회 (삭제된 게시글 제외)
+    public List<PostDTO> selectAllWithNoDeleted(@Param("pagination") Pagination pagination, @Param("search") Search search);
+
+    // 필터링된 게시글 조회 (삭제된 게시글 제외)
+    public List<PostDTO> selectFilterAllWithNoDeleted(@Param("pagination") Pagination pagination, @Param("search") Search search, @Param("filterType") String filterType);
+
+
     //    조회
     public Optional<PostDTO> selectById(Long id);
 
@@ -52,7 +59,10 @@ public interface PostMapper {
     //    검색 결과 개수 조회
     public int selectTotalWithSearch(@Param("search") Search search);
 
-    int selectTotalWithFilter(@Param("search") Search search, @Param("filterType") String filterType);
+    public int selectTotalWithFilter(@Param("search") Search search, @Param("filterType") String filterType);
+
+    // 상태 업데이트 메서드
+    public void updateStatusById(@Param("id") Long id, @Param("postStatus") String postStatus);
   
     public int selectTotalByPostType(String postType);
 

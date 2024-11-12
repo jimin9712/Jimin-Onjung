@@ -1,123 +1,15 @@
-// // 칭찬 후기 데이터
-// const praiseRankings = [
-//     {
-//         rank: 1,
-//         username: "CORKSTUDIO",
-//         avatarUrl:
-//             "https://cdn-dantats.stunning.kr/prod/users/fa970db0-abdd-4b41-a512-de0e18e3d27c/avatar/ZswD8qqqrARGSgFX.11.jpg.small?q=60&t=crop&s=60x60&f=webp",
-//         profileUrl: "/m/chldbrhks",
-//     },
-//     {
-//         rank: 1,
-//         username: "TOT DESIGN",
-//         avatarUrl:
-//             "https://cdn-dantats.stunning.kr/prod/users/b3a2e74d-5c60-40e4-b927-47fe6181b32c/avatar/9yJS4JUeSWJJfqof.TOT%20DESIGN.png.small?q=60&t=crop&s=60x60&f=webp",
-//         profileUrl: "/m/yeendh",
-//     },
-//     {
-//         rank: 3,
-//         username: "amh_design",
-//         avatarUrl:
-//             "https://cdn-dantats.stunning.kr/prod/users/d9df8a2e-a4e7-49fb-897f-e856ff2534a6/avatar/FMmojjUhq9uznLLx.%E1%84%86%E1%85%AE%E1%84%8C%E1%85%A6-1.png.small?q=60&t=crop&s=60x60&f=webp",
-//         profileUrl: "/m/amh_design",
-//     },
-//     {
-//         rank: 4,
-//         username: "flatlee Design",
-//         avatarUrl:
-//             "https://cdn-dantats.stunning.kr/prod/users/d7fdcd38-73be-43ce-b074-29c0d5cb7287/avatar/myJqLNnZ7JnNMAsg.%ED%94%84%EB%A1%9C%ED%95%84.png.small?q=60&t=crop&s=60x60&f=webp",
-//         profileUrl: "/m/algml7958",
-//     },
-//     {
-//         rank: 5,
-//         username: "CW_Design",
-//         avatarUrl:
-//             "https://cdn-dantats.stunning.kr/prod/users/48a8eab5-0e2d-4152-8da4-781097f3fbbf/avatar/KGMk2XNBvyv9pBs9.%E1%84%85%E1%85%A1%E1%84%8B%E1%85%AE%E1%84%83%E1%85%B3%E1%84%86%E1%85%A1%E1%84%8F%E1%85%A6%E1%86%BA.jpg.small?q=60&t=crop&s=60x60&f=webp",
-//         profileUrl: "/m/cw_design",
-//     },
-// ];
-//
-// // 콘테스트 우승 데이터
-// const contestRankings = [
-//     {
-//         rank: 1,
-//         username: "미쁨",
-//         avatarUrl:
-//             "https://cdn-dantats.stunning.kr/prod/users/2d26a1b8-804b-4ffd-a112-9a2157abbca4/avatar/member_110055_1_211204022454.png.small?q=60&t=crop&s=60x60&f=webp",
-//         profileUrl: "/m/mibbem",
-//     },
-//     {
-//         rank: 2,
-//         username: "CORKSTUDIO",
-//         avatarUrl:
-//             "https://cdn-dantats.stunning.kr/prod/users/fa970db0-abdd-4b41-a512-de0e18e3d27c/avatar/ZswD8qqqrARGSgFX.11.jpg.small?q=60&t=crop&s=60x60&f=webp",
-//         profileUrl: "/m/chldbrhks",
-//     },
-//     {
-//         rank: 3,
-//         username: "B_M_K",
-//         avatarUrl:
-//             "https://cdn-dantats.stunning.kr/prod/users/50d38a26-704f-4597-9ce8-dd1a3aac28e0/avatar/p2VbzVLjPuYGWjhW.dfdfhdfg.JPG.small?q=60&t=crop&s=60x60&f=webp",
-//         profileUrl: "/m/bmk",
-//     },
-//     {
-//         rank: 4,
-//         username: "su_m",
-//         avatarUrl:
-//             "https://cdn-dantats.stunning.kr/prod/users/5201808f-3350-49c1-8da5-01235749fe61/avatar/iMF764CYZAHTVDJE.20240121_183001.jpg.small?q=60&t=crop&s=60x60&f=webp",
-//         profileUrl: "/m/sum",
-//     },
-//     {
-//         rank: 5,
-//         username: "M_j_d",
-//         avatarUrl:
-//             "https://cdn-dantats.stunning.kr/prod/users/2c088efa-2498-4b4d-8fc1-e6a7ea445fe5/avatar/member_84394_1_201130225428.jpg.small?q=60&t=crop&s=60x60&f=webp",
-//         profileUrl: "/m/mjd",
-//     },
-// ];
-//
-// // 상품 판매 데이터
-// const salesRankings = [
-//     {
-//         rank: 1,
-//         username: "TOT DESIGN",
-//         avatarUrl:
-//             "https://cdn-dantats.stunning.kr/prod/users/b3a2e74d-5c60-40e4-b927-47fe6181b32c/avatar/9yJS4JUeSWJJfqof.TOT%20DESIGN.png.small?q=60&t=crop&s=60x60&f=webp",
-//         profileUrl: "/m/yeendh",
-//     },
-//     {
-//         rank: 2,
-//         username: "flatlee Design",
-//         avatarUrl:
-//             "https://cdn-dantats.stunning.kr/prod/users/d7fdcd38-73be-43ce-b074-29c0d5cb7287/avatar/myJqLNnZ7JnNMAsg.%ED%94%84%EB%A1%9C%ED%95%84.png.small?q=60&t=crop&s=60x60&f=webp",
-//         profileUrl: "/m/algml7958",
-//     },
-//     {
-//         rank: 3,
-//         username: "waylog",
-//         avatarUrl:
-//             "https://cdn-dantats.stunning.kr/prod/users/32c093e6-3c5a-4bd1-801e-50c44f69b36b/avatar/PSQvNng2iFNbBDta.%E1%84%8B%E1%85%B0%E1%84%8B%E1%85%B5%E1%84%85%E1%85%A9%E1%84%80%E1%85%B3%E1%84%87%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%8C%E1%85%B5.jpg.small?q=60&t=crop&s=60x60&f=webp",
-//         profileUrl: "/m/waylog",
-//     },
-//     {
-//         rank: 4,
-//         username: "루나작명소",
-//         avatarUrl:
-//             "https://cdn-dantats.stunning.kr/prod/users/c993b21e-b558-4499-a5fd-4a55428da0e2/avatar/member_204238_1_220506043005.jpg.small?q=60&t=crop&s=60x60&f=webp",
-//         profileUrl: "/m/luna",
-//     },
-//     {
-//         rank: 5,
-//         username: "happyrecipe",
-//         avatarUrl:
-//             "https://cdn-dantats.stunning.kr/prod/users/4e475da7-e017-426e-82d2-ef8f8f3f11a9/avatar/hoc2MRNFP7YcZxAe.%E1%84%92%E1%85%A2%E1%84%91%E1%85%B5%E1%84%85%E1%85%A6%E1%84%89%E1%85%B5%E1%84%91%E1%85%B5%20%E1%84%85%E1%85%A9%E1%84%80%E1%85%A9_new-05.jpg.small?q=60&t=crop&s=60x60&f=webp",
-//         profileUrl: "/m/happyrecipe",
-//     },
-// ];
+globalThis.page = 1;
+
+const monthInput = document.querySelector("input#selected-month");
+const month = new Date().getMonth()+1;
+monthInput.value = month;
+console.log(month);
 
 const renderRankings = (rankings, containerClass) => {
     const listContainer = document.querySelector(containerClass);
     let i = 0;
+
+    listContainer.innerHTML = '';
 
     rankings.forEach((user) => {
         let svgColor = null;
@@ -150,7 +42,7 @@ const renderRankings = (rankings, containerClass) => {
                     </a>
                 </div>
 <!--                <p class="user-rank rank-number">${user.rank}</p>-->
-                <p class="user-rank rank-number">${i}</p>
+                <p class="user-rank rank-number">${i+1}</p>
                 <div class="nick-wrap">
                     <div class="user-nick-default user-nick-wrapper">
 <!--                        <p title="${user.username}">
@@ -198,24 +90,6 @@ headerWrap.addEventListener("click", () => {
     arrow.style.transform = isVisible ? "rotate(90deg)" : "rotate(-90deg)";
 });
 
-// 항목 클릭 시 필터 업데이트 및 드롭다운 닫기
-items.forEach((item) => {
-    item.addEventListener("click", () => {
-        // 모든 항목의 활성화 클래스 제거
-        items.forEach((i) => i.classList.remove("active"));
-        // 선택된 항목에 활성화 클래스 추가
-        item.classList.add("active");
-        // 선택된 항목의 텍스트를 input에 반영
-        inputField.value = item.textContent;
-        // 드롭다운 닫기
-        bottomWrap.style.visibility = "hidden";
-        arrow.style.transform = "rotate(90deg)";
-        const page = new URLSearchParams(window.location.search).get('page') == null ? 1 : new URLSearchParams(window.location.search).get('page');
-        const month = document.querySelector("input#selected-month").value.trim().substring(6,7);
-        fetchFilteredRanking(page, month, item.textContent);
-    });
-});
-
 // 드롭다운 외부 클릭 시 닫기
 document.addEventListener("click", (event) => {
     if (!filterContainer.contains(event.target)) {
@@ -226,6 +100,7 @@ document.addEventListener("click", (event) => {
 
 const showVolunteerGroups = (volunteerGroups) => {
     const container = document.querySelector(".expert-list-container");
+    container.innerHTML = '';
     volunteerGroups.forEach((volunteerGroup) => {
         let cardHTML = `
     <div class="expert-card-container expert-card">
@@ -386,7 +261,6 @@ const dateDisplay = document.querySelector(
     ".react-datepicker-input-container input"
 );
 const monthElements = document.querySelectorAll(".react-datepicker-month-text");
-const monthInput = document.querySelector("input#month");
 const currentYear = 2024;
 const today = new Date();
 
@@ -412,7 +286,6 @@ monthElements.forEach((monthElement, index) => {
         const selectedMonth = index + 1;
         dateDisplay.value = `${currentYear}년 ${selectedMonth}월`;
 
-        monthInput.value = dateDisplay.value.trim().substring(6,7);
 
         // 모든 월에서 active 클래스 제거 후, 클릭한 월에 추가
         monthElements.forEach((el) =>
@@ -422,28 +295,34 @@ monthElements.forEach((monthElement, index) => {
 
         tabLoop.classList.remove("active");
         console.log("month hi" + selectedMonth + "월");
-        const page = new URLSearchParams(window.location.search).get('page') == null ? 1 : new URLSearchParams(window.location.search).get('page');
         const filterType = document.querySelector('div.item.active').textContent;
-        fetchFilteredRanking(page, selectedMonth, filterType);
+        fetchFilteredRanking(globalThis.page, selectedMonth, filterType);
+    });
+});
+
+// 항목 클릭 시 필터 업데이트 및 드롭다운 닫기
+items.forEach((item) => {
+    item.addEventListener("click", () => {
+        const monthInput = document.querySelector("input#selected-month");
+        const month = monthInput.value.length === 8 ? monthInput.value.substring(6, 7) : monthInput.value.substring(6, 8);
+        // 모든 항목의 활성화 클래스 제거
+        items.forEach((i) => i.classList.remove("active"));
+        // 선택된 항목에 활성화 클래스 추가
+        item.classList.add("active");
+        // 선택된 항목의 텍스트를 input에 반영
+        inputField.value = item.textContent;
+        // 드롭다운 닫기
+        bottomWrap.style.visibility = "hidden";
+        arrow.style.transform = "rotate(90deg)";
+
+        fetchFilteredRanking(globalThis.page, month, item.textContent);
+        console.log("출력 시작");
+        console.log(page);
+        console.log(item.textContent);
     });
 });
 
 // ================================================================================================================================================================
-
-// 필터링된 랭킹 목록 가져오는 함수
-const fetchFilteredRanking = async (page, month, filterType) => {
-    try {
-        const response = await fetch(`/rank/rank-list?page=${page}&month=${month}&filterType=${filterType}`);
-        const data = await response.json();
-
-        showVolunteerGroups(data.volunteerGroups);
-        showPaging(data.pagination);
-    } catch (error) {
-        // 오류 처리
-        console.log("필터링된 랭킹 목록 가져오는 중 오류");
-    }
-};
-
 
 // 페이지 네비게이션을 표시하는 함수
 const showPaging = (pagination) => {
@@ -504,7 +383,36 @@ const showPaging = (pagination) => {
 
     // 페이지 네비게이션을 HTML 요소에 삽입
     pagingDiv.innerHTML = text;
+
+    document.querySelectorAll("a.page-btn").forEach((link) => {
+        link.addEventListener("click", (e) => {
+            e.preventDefault();
+            const page = e.target.textContent;
+            const monthInput = document.querySelector("input#selected-month");
+            const month = monthInput.value.length === 8 ? monthInput.value.substring(6, 7) : monthInput.value.substring(6, 8);
+            const filterType = document.querySelector('div.item.active').textContent;
+            fetchFilteredRanking(page, month, filterType); // 해당 페이지의 게시글 데이터를 가져오기
+        });
+    });
 }
+
+// 필터링된 랭킹 목록 가져오는 함수
+const fetchFilteredRanking = async (page, month, filterType) => {
+    try {
+        const response = await fetch(`/rank/rank-list?page=${page}&month=${month}&filterType=${filterType}`);
+        const data = await response.json();
+        renderRankings(data.vtRankMembers, ".praise-rank-list");
+        renderRankings(data.supportRankMembers, ".contest-rank-list");
+        renderRankings(data.donationRankMembers, ".sales-rank-list");
+        showVolunteerGroups(data.volunteerGroups);
+        showPaging(data.pagination);
+        globalThis.page = data.pagination.page;
+
+    } catch (error) {
+        // 오류 처리
+        console.log("필터링된 랭킹 목록 가져오는 중 오류");
+    }
+};
 
 showVolunteerGroups(volunteerGroups);
 showPaging(pagination);

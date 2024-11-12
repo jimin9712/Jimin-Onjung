@@ -6,6 +6,7 @@ import com.app.back.domain.post.Pagination;
 import com.app.back.domain.post.PostDTO;
 import com.app.back.domain.post.Search;
 import com.app.back.domain.report.ReportDTO;
+import com.app.back.enums.AdminPostStatus;
 import com.app.back.enums.AdminPostType;
 import com.app.back.enums.PostType;
 import com.app.back.service.inquiry.InquiryService;
@@ -116,6 +117,7 @@ public Map<String, Object> submitAnswer(@RequestBody InquiryAnswerDTO inquiryAns
     }
     return result;
 }
+
 //  공지사항 목록
 @GetMapping("/admin/notice-list")
 @ResponseBody
@@ -205,12 +207,6 @@ public Map<String, Object> getPostList(Pagination pagination, Search search, @Re
     return result;
 }
 
-@DeleteMapping("/admin/delete-posts")
-public ResponseEntity<Void> deletePosts(@RequestBody List<Long> postIds) {
-    postIds.forEach(postService::delete); // 각 postId를 이용해 게시글 삭제
-    return ResponseEntity.noContent().build(); // 삭제 후 204 No Content 반환
-}
-
 @GetMapping("/admin/post-detail")
 @ResponseBody
 public Map<String, Object> getPostDetail(@RequestParam Long id) {
@@ -225,6 +221,18 @@ public Map<String, Object> getPostDetail(@RequestParam Long id) {
         result.put("message", "Post not found");
     }
     return result;
+}
+// 게시글 삭제 (논리 삭제)
+@PatchMapping("/admin/delete-posts")
+public ResponseEntity<Void> deletePosts(@RequestBody List<Long> postIds) {
+    postIds.forEach(postId -> postService.updateStatus(postId, AdminPostStatus.DELETED));
+    return ResponseEntity.noContent().build(); // 삭제 후 204 No Content 반환
+}
+// 게시글 상태 업데이트
+@PatchMapping("/admin/update-post-status")
+public ResponseEntity<Void> updatePostStatus(@RequestParam Long id, @RequestParam AdminPostStatus status) {
+    postService.updateStatus(id, status);
+    return ResponseEntity.ok().build();
 }
 
 // 전체 신고 목록 조회
@@ -256,11 +264,11 @@ public Map<String, Object> getReportList(Pagination pagination, Search search, @
     return result;
 }
 
-// 신고 삭제
-@DeleteMapping("/delete-reports")
+// 신고 삭제 (논리 삭제)
+@PatchMapping("/admin/delete-reports")
 public ResponseEntity<Void> deleteReports(@RequestBody List<Long> reportIds) {
     reportIds.forEach(reportService::deleteReport);
-    return ResponseEntity.noContent().build();
+    return ResponseEntity.noContent().build(); // 삭제 후 204 No Content 반환
 }
 
 

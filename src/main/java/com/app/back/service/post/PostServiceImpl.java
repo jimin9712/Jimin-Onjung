@@ -3,6 +3,7 @@ package com.app.back.service.post;
 import com.app.back.domain.post.Pagination;
 import com.app.back.domain.post.PostDTO;
 import com.app.back.domain.post.Search;
+import com.app.back.enums.AdminPostStatus;
 import com.app.back.enums.AdminPostType;
 import com.app.back.repository.post.PostDAO;
 import lombok.RequiredArgsConstructor;
@@ -26,14 +27,15 @@ public class PostServiceImpl implements PostService {
     public int getTotal(String postType) {
         return postDAO.getTotal(postType);
     }
-    public int getPostTotal(){
+
+    public int getPostTotal() {
         return postDAO.getPostTotal();
     }
+
     @Override
     public int getTotalWithSearch(Search search) {
         return postDAO.getTotalWithSearch(search);
     }
-
 
     @Override
     public List<PostDTO> getList(Pagination pagination, Search search) {
@@ -41,15 +43,15 @@ public class PostServiceImpl implements PostService {
         if (pagination.getOrder().equals("작성일 순") || pagination.getOrder().equals("조회수 순") || pagination.getOrder().equals("댓글수 순")) {
             return postDAO.findAll(pagination, search);
         } else {
-            // displayName으로 AdminPostType을 찾고, enum을 기반으로 필터링
+            // "작성일 순" 외의 값에 대해서는 AdminPostType의 displayName에 맞는 값을 찾고, 그 값에 맞는 데이터를 필터링
             AdminPostType postTypeEnum = AdminPostType.fromDisplayName(pagination.getOrder());
-            return postDAO.findFilterAll(pagination, search, postTypeEnum.getDisplayName());
+            return postDAO.findFilterAll(pagination, search, postTypeEnum.name());
         }
     }
 
     @Override
     public List<PostDTO> getFilterList(Pagination pagination, Search search, AdminPostType filterType) {
-        pagination.setOrder(filterType.name());  // Enum의 이름을 그대로 사용
+        pagination.setOrder(filterType.name());
         return postDAO.findFilterAll(pagination, search, filterType.name());
     }
 
@@ -60,7 +62,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void delete(Long id) {
-        postDAO.delete(id);
+        updateStatus(id, AdminPostStatus.DELETED);
     }
 
     @Override
@@ -68,4 +70,27 @@ public class PostServiceImpl implements PostService {
         return postDAO.getTotalWithFilter(search, filterType.name()); // Enum 이름을 직접 사용
     }
 
+    @Override
+    public void updateStatus(Long id, AdminPostStatus postStatus) {
+
+        postDAO.updateStatus(id, postStatus);
+    }
+
+    @Override
+    public List<PostDTO> getListWithoutDeleted(Pagination pagination, Search search) {
+        // 작성일 순, 조회수 순, 댓글수 순은 일반 정렬로 처리
+        if (pagination.getOrder().equals("작성일 순") || pagination.getOrder().equals("조회수 순") || pagination.getOrder().equals("댓글수 순")) {
+            return postDAO.findAllWithNoDeleted(pagination, search);
+        } else {
+            // "작성일 순" 외의 값에 대해서는 AdminPostType의 displayName에 맞는 값을 찾고, 그 값에 맞는 데이터를 필터링
+            AdminPostType postTypeEnum = AdminPostType.fromDisplayName(pagination.getOrder());
+            return postDAO.findFilterAllWithNoDeleted(pagination, search, postTypeEnum.name());
+        }
+    }
+
+    @Override
+    public List<PostDTO> getFilterListWithoutDeleted(Pagination pagination, Search search, AdminPostType filterType) {
+        pagination.setOrder(filterType.name());
+        return postDAO.findFilterAllWithNoDeleted(pagination, search, filterType.name());
+    }
 }

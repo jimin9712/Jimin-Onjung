@@ -25,9 +25,13 @@ create table tbl_member (
 );
 select * from tbl_member;
 
+
 # UPDATE tbl_member
 # SET member_star_rate = 1.00
 # WHERE id = 6;
+insert into tbl_member(id, member_email, member_password, member_nickname)
+values(33, '결제테스트@naver.com', '1234567', '결제테스트용아이디');
+
 
 insert into tbl_member(id, member_email, member_password, member_nickname)
 values(33, '결제테스트@naver.com', '1234567', '결제테스트용아이디');
@@ -57,3 +61,4 @@ SELECT reset_uuid FROM tbl_member WHERE reset_uuid IS NOT NULL;
 UPDATE tbl_member
 SET reset_uuid = '98a8eb28-1a1a-401e-b302-c1e033ee12b4'
 WHERE member_email = 'ljm21000@gmail.com';
+
