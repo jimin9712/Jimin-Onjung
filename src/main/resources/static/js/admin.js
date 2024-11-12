@@ -394,11 +394,16 @@ reportSearchInput.addEventListener("keydown", (event) => {
 // 신고 필터 버튼 클릭 시 필터에 맞는 데이터 불러오기
 reportFilters.forEach((option) => {
     option.addEventListener("click", () => {
+        console.log("클릭됨")
         // classList : 동적으로 클래스를 추가하고 제거하여 필터가 선택되었음을 시각적 표시. 다른 필터는 비활성화 상태로 보이게하기위함
         reportFilters.forEach((opt) => opt.classList.remove("selected")); // 모든 필터 초기화
         option.classList.add("selected"); // 선택된 필터만 활성화
 
-        reportFilterType = option.textContent.trim();
+        // 선택된 필터에 따라 filterType을 설정
+        console.log(option.textContent.trim());
+        reportFilterType = option.textContent.trim() == "신고일 순" ? '신고일 순' : option.textContent.trim() === '신고 처리 완료' ? 'COMPLETE' : 'WAITING';
+
+        console.log(reportFilterType)
         fetchFilteredReports(1, reportKeyword, reportFilterType); // 필터 조건으로 데이터 불러오기
     });
 });
@@ -445,12 +450,21 @@ document.querySelector(".deleteSelectedBtn.report-delete").addEventListener("cli
     deleteSelectedReports(selectedIds); // 삭제 요청 함수 호출
 });
 // 상태 변경 클릭 시 이벤트
-document.querySelectorAll(".addServiceBtn").forEach((button) => {
-    button.addEventListener("click", () => {
-        // 상태 변경 함수 호출
-        updateSelectedReportStatus();
-    });
+document.querySelector(".addServiceBtn").addEventListener("click", () => {
+    const selectedCheckboxes = document.querySelectorAll(".reportCheckbox:checked");
+    const selectedIds = Array.from(selectedCheckboxes).map(checkbox => checkbox.closest(".ServiceTable_row").querySelector(".post_ID").textContent.trim());
+    console.log(selectedIds)
+
+    // 선택된 체크박스가 없을 경우 경고 메시지 표시 후 종료
+    if (selectedIds.length === 0) {
+        alert("상태 변경할 신고 항목을 선택하세요.");
+        return;
+    }
+
+    // 상태 변경 함수 호출
+    updateSelectedReportStatus(selectedIds);
 });
+
 
 
 

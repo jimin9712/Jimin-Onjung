@@ -85,7 +85,7 @@ const handleAnswerSubmit = async (event) => {
         console.log("서버 응답 상태:", response.ok); // 응답 상태 확인
         if (response.ok) {
             alert("답변이 제출되었습니다.");
-            fetchInquiries();
+            fetchFilteredInquiries(1,"", "최신순");
 
             sections.forEach((section) => {
                 section.classList.remove("selected");
@@ -241,8 +241,8 @@ const deleteSelectedPosts = async (selectedIds) => {
         });
 
         if (response.ok) {
-            alert("선택한 게시글이 삭제되었습니다.");  // 삭제 성공 메시지
-            fetchFilteredPosts();  // 신고 목록 새로고침
+            alert("선택한 게시글이 삭제되었습니다.");  // 게시글 삭제 성공 메시지
+            fetchFilteredPosts();  // 게시글 목록 새로고침
         } else {
             console.error("삭제 실패:", response.status);
         }
@@ -260,6 +260,7 @@ const fetchFilteredReports = async (page = 1, keyword = reportKeyword, filterTyp
 
         renderReports(data.reports);
         reportPagination(data.pagination, keyword, filterType);
+        console.log(data.pagination.total);
         resetSelectAllReportsCheckbox();
     } catch (error) {
         console.error("신고 데이터를 가져오는 중 오류 발생:", error);
@@ -304,16 +305,7 @@ const deleteSelectedReports = async (selectedIds) => {
 };
 
 // 상태 변경 버튼 클릭 이벤트
-const updateSelectedReportStatus = async () => {
-    // 체크된 신고 체크박스들 선택
-    const selectedCheckboxes = document.querySelectorAll(".reportCheckbox:checked");
-    const selectedIds = Array.from(selectedCheckboxes).map(checkbox => checkbox.getAttribute("data-id"));
-
-    // 선택된 체크박스가 없을 경우 경고 메시지 표시 후 종료
-    if (selectedIds.length === 0) {
-        alert("상태 변경할 신고 항목을 선택하세요.");
-        return;
-    }
+const updateSelectedReportStatus = async (selectedIds) => {
 
     // PATCH 요청으로 상태 변경
     try {
@@ -322,7 +314,7 @@ const updateSelectedReportStatus = async () => {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ reportIds: selectedIds, status: "COMPLETE" }),
+            body: JSON.stringify({selectedIds }),
         });
 
         if (response.ok) {

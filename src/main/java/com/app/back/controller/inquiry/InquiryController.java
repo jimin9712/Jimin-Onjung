@@ -17,8 +17,6 @@ import com.app.back.service.post.PostService;
 import com.app.back.service.report.ReportService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.web.bind.annotation.*;
@@ -29,9 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -48,7 +44,8 @@ public class InquiryController {
 public List<InquiryDTO> admin(Pagination pagination, Search search) {
     return inquiryService.getList(pagination, search);
 }
-
+//  @RequestBody : HTTP 요청의 본문(body)에 포함된 JSON, XML, 또는 다른 형태의 데이터를 자바 객체로 매핑
+//  @RequestParam :  URL의 쿼리 파라미터 또는 폼 데이터에서 특정 키-값 쌍을 메서드 파라미터로 매핑
 @GetMapping("/admin/inquiry-page")
 @ResponseBody
 public AdminDTO getInquiryList(Pagination pagination, Search search, @RequestParam(required = false) String query, @RequestParam(required = false) String filterType) {
@@ -79,7 +76,7 @@ public AdminDTO getInquiryList(Pagination pagination, Search search, @RequestPar
     return adminDTO;
 }
 
-    //  문의 조회
+//  문의 조회
 @GetMapping("/admin/inquiry-answer")
 @ResponseBody
 public AdminDTO getInquiryAnswer(@RequestParam Long id) {
@@ -88,9 +85,13 @@ public AdminDTO getInquiryAnswer(@RequestParam Long id) {
 
     if (inquiry.isPresent()) {
         result.setInquiries(List.of(inquiry.get()));
-        result.setPagination(new Pagination());  // 기본 Pagination 객체 설정
+        result.setPagination(new Pagination());
+        result.setSuccess(true);
     } else {
         result.setInquiries(List.of());
+        result.setPagination(new Pagination());
+        result.setSuccess(false);
+        result.setMessage("문의가 없습니다");
     }
 
     return result;
@@ -102,19 +103,14 @@ public AdminDTO getInquiryAnswer(@RequestParam Long id) {
 public AdminDTO submitAnswer(@RequestBody InquiryAnswerDTO inquiryAnswerDTO) {
     AdminDTO result = new AdminDTO();
 
-    try {
-        inquiryAnswerService.write(inquiryAnswerDTO); // 답변 서비스 호출
-        inquiryService.updateInquiryStatus(inquiryAnswerDTO.getInquiryId(), "COMPLETE"); // 문의 상태 변경
+    inquiryAnswerService.write(inquiryAnswerDTO); // 답변 서비스 호출
+    inquiryService.updateInquiryStatus(inquiryAnswerDTO.getInquiryId(), "COMPLETE"); // 문의 상태 변경
 
-        result.setInquiries(List.of());  // 성공 시 빈 리스트 반환
-        result.setPagination(new Pagination()); // 기본 Pagination 객체 설정
-    } catch (Exception e) {
-        result.setInquiries(List.of());
-    }
+    result.setInquiries(List.of());  // 성공 시 빈 리스트 반환
+    result.setPagination(new Pagination()); // 기본 Pagination 객체 설정
 
     return result;
 }
-
 
 //  공지사항 목록
 @GetMapping("/admin/notice-list")
@@ -145,65 +141,61 @@ public AdminDTO getNoticeList(Pagination pagination, Search search, @RequestPara
     return result;
 }
 
-
-
 // 공지사항 조회
 @GetMapping("/admin/notice-detail")
 @ResponseBody
 public AdminDTO getNoticeRead(@RequestParam Long id) {
     Optional<NoticeDTO> notice = noticeService.getPost(id);
-
     AdminDTO result = new AdminDTO();
 
     if (notice.isPresent()) {
-        result.setSuccess(true); // success 필드 설정
-        result.setNotice(notice.get()); // 조회된 notice를 AdminDTO의 필드에 담기
+        result.setSuccess(true);
+        result.setNotice(notice.get());
     } else {
-        result.setSuccess(false); // 실패 처리
-        result.setMessage("조회를 못 했어요"); // 실패 메시지
+        result.setSuccess(false);
+        result.setMessage("조회를 못 했어요");
     }
 
     return result;
 }
-
-
 
 @GetMapping("/admin/post-list")
 @ResponseBody
 public AdminDTO getPostList(Pagination pagination, Search search, @RequestParam(required = false) String query, @RequestParam(required = false) String filterType) {
     search.setKeyword(query);
     int total;
-
+    log.info("받은 필터 타입: {}", filterType); // 필터 타입 확인 로그
+    // 필터 타입이 null이거나 기본 "작성일 순"일 경우
     if (filterType == null || filterType.equals("작성일 순")) {
-        pagination.setOrder("작성일 순");
-        total = postService.getTotalWithSearch(search);
-    } else if (filterType.equals("조회수 순") || filterType.equals("댓글수 순")) {
-        pagination.setOrder(filterType);
-        total = postService.getTotalWithSearch(search);
-    } else {
-        try {
-            AdminPostType postTypeEnum = AdminPostType.fromDisplayName(filterType); // displayName으로 변환
-            total = postService.getTotalWithFilter(search, postTypeEnum);
-        } catch (IllegalArgumentException e) {
-            total = 0;
-        }
+        pagination.setOrder("작성일 순"); // 기본 정렬 순서를 설정
+        total = postService.getTotalWithSearch(search); // 검색된 게시글의 총 개수 조회
+    }
+    // 조회수 순 또는 댓글수 순일 경우
+    else if (filterType.equals("조회수 순") || filterType.equals("댓글수 순")) {
+        pagination.setOrder(filterType); // 조회수 또는 댓글수를 기준으로 정렬 설정
+        total = postService.getTotalWithSearch(search); // 검색된 게시글의 총 개수 조회
+    }
+    // 게시글 유형으로 필터링할 경우
+    else {
+        AdminPostType postTypeEnum = AdminPostType.fromDisplayName(filterType);
+        total = postService.getTotalWithFilter(search, postTypeEnum); // 필터된 게시글의 총 개수 조회
     }
 
+    // 총 개수를 페이지네이션에 설정하고 페이지 계산을 진행
     pagination.setTotal(total);
     pagination.progress();
 
     List<PostDTO> posts;
+
+    // 설정된 정렬 조건에 따라 게시글 목록 조회
     if (pagination.getOrder() != null && (pagination.getOrder().equals("작성일 순") || pagination.getOrder().equals("조회수 순") || pagination.getOrder().equals("댓글수 순"))) {
-        posts = postService.getList(pagination, search);
+        posts = postService.getList(pagination, search); // 기본 또는 조회수, 댓글수 순으로 게시글 목록 조회
     } else {
-        try {
-            AdminPostType postTypeEnum = AdminPostType.fromDisplayName(filterType); // displayName으로 변환
-            posts = postService.getFilterList(pagination, search, postTypeEnum);
-        } catch (IllegalArgumentException e) {
-            posts = List.of();
-        }
+        AdminPostType postTypeEnum = AdminPostType.fromDisplayName(filterType);
+        posts = postService.getFilterList(pagination, search, postTypeEnum);
     }
 
+    // 결과 데이터를 AdminDTO에 설정하여 반환
     AdminDTO result = new AdminDTO();
     result.setPosts(posts);
     result.setPagination(pagination);
@@ -211,59 +203,66 @@ public AdminDTO getPostList(Pagination pagination, Search search, @RequestParam(
     return result;
 }
 
-
 @GetMapping("/admin/post-detail")
 @ResponseBody
 public AdminDTO getPostDetail(@RequestParam Long id) {
     Optional<PostDTO> post = postService.getPost(id);
-
     AdminDTO result = new AdminDTO();
 
     if (post.isPresent()) {
-        result.setSuccess(true); // success 필드 설정
-        result.setPost(post.get()); // 조회된 post를 AdminDTO의 필드에 담기
+        result.setSuccess(true);
+        result.setPost(post.get());
     } else {
-        result.setSuccess(false); // 실패 처리
-        result.setMessage("Post not found"); // 실패 메시지
+        result.setSuccess(false);
+        result.setMessage("Post not found");
     }
-
     return result;
 }
 
 // 게시글 삭제 (논리 삭제)
 @PatchMapping("/admin/delete-posts")
+@ResponseBody
 public void deletePosts(@RequestBody List<Long> postIds) {
     postIds.forEach(postId -> postService.updateStatus(postId, AdminPostStatus.DELETED));
 }
 
 // 게시글 상태 업데이트
 @PatchMapping("/admin/update-post-status")
+@ResponseBody
 public void updatePostStatus(@RequestParam Long id, @RequestParam AdminPostStatus status) {
     postService.updateStatus(id, status);
 }
 
-@GetMapping("admin/report-list")
+@GetMapping("/admin/report-list")
 @ResponseBody
 public AdminDTO getReportList(Pagination pagination, Search search, @RequestParam(required = false) String query, @RequestParam(required = false) String filterType) {
     search.setKeyword(query);
-
     int total;
+    log.info("받은 필터 타입: {}", filterType); // 필터 타입 확인 로그
+    // 필터 타입이 설정되어 있는 경우에만 필터 적용
     if (filterType == null || filterType.equals("신고일 순")) {
-        total = reportService.getTotalReportsWithSearch(search);
+        pagination.setOrder("신고일 순"); // 기본 정렬 순서를 설정
+        total = reportService.getTotalReportsWithSearch(search); // 검색된 신고의 총 개수 조회
     } else {
-        total = reportService.getTotalReportsWithFilter(search, filterType);
+        total = reportService.getTotalReportsWithFilter(search, filterType); // 필터된 신고의 총 개수 조회
+        log.info("필터 '{}' 적용된 신고 개수: {}", filterType, total); // 필터 적용 결과 개수 출력
     }
 
+    // 페이지네이션에 총 개수 설정 및 페이지 계산
     pagination.setTotal(total);
     pagination.progress();
 
     List<ReportDTO> reports;
-    if (filterType == null || filterType.equals("신고일 순")) {
-        reports = reportService.getAllReports(pagination, search);
+
+    // 설정된 정렬 조건에 따라 신고 목록 조회
+    if (pagination.getOrder() != null && pagination.getOrder().equals("신고일 순")) {
+        reports = reportService.getAllReports(pagination, search); // 신고일 순으로 전체 신고 목록 조회
     } else {
         reports = reportService.getFilteredReports(pagination, search, filterType);
+        log.info("필터 '{}' 적용하여 가져온 신고 개수: {}건", filterType, reports.size()); // 필터 적용된 결과 개수 출력
     }
 
+    // 결과 데이터를 AdminDTO에 설정하여 반환
     AdminDTO result = new AdminDTO();
     result.setReports(reports);
     result.setPagination(pagination);
@@ -271,18 +270,25 @@ public AdminDTO getReportList(Pagination pagination, Search search, @RequestPara
     return result;
 }
 
+
+
 // 신고 삭제 (softdelete)
+// foreach 내부에는 새로운 변수 이름을 사용해야 함
 @PatchMapping("/admin/delete-reports")
+@ResponseBody
 public void deleteReports(@RequestBody List<Long> reportIds) {
-    reportIds.forEach(reportService::deleteReport);
+    log.info("삭제할 아이디: {}", reportIds);
+    reportIds.forEach(reportId -> postService.updateStatus(reportId,AdminPostStatus.DELETED));
+    log.info("신고 ID {} 상태를 DELETED로 설정", reportIds);
 }
 
-// 게시글 상태 업데이트
-@PatchMapping("/admin/update-report-statu")
-public void updateReportStatus(@RequestParam Long id, @RequestParam AdminPostStatus status) {
-    postService.updateStatus(id, status);
+// 신고 목록 상태 업데이트
+@PatchMapping("/admin/update-report-status")
+@ResponseBody
+public void updateReportStatus(@RequestBody AdminDTO adminDTO) {
+    List<Long> selectedIds = adminDTO.getSelectedIds();
+    selectedIds.forEach(id -> reportService.updateReportStatus(id, AdminReportStatus.COMPLETE));
 }
-
 
 @GetMapping("/my-inquirys/{memberId}")
 @ResponseBody
