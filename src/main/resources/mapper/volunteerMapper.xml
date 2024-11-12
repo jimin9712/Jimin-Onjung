@@ -37,7 +37,6 @@
         limit #{pagination.startRow}, #{pagination.rowCount}
     </select>
 
-
     <select id="selectTotal">
         select count(*) from tbl_vt
     </select>
@@ -52,8 +51,6 @@
                  join tbl_attachment at on at.post_id = p.id
         where v.id = #{id}
     </select>
-
-
 
     <update id="updateNowRecruitment">
         update tbl_vt
@@ -105,6 +102,10 @@
         delete from tbl_vt
         WHERE ID = #{id}
     </delete>
+
+    <select id="findByMemberId" parameterType="long" resultType="VolunteerDTO">
+        SELECT * FROM tbl_post WHERE member_id = #{memberId}
+    </select>
 
 </mapper>
         <!--    <select id="selectByViewCount" resultType="volunteerDTO">-->

@@ -1,9 +1,12 @@
 package com.app.back.service.volunteer;
 
-import com.app.back.domain.donation.DonationDTO;
+
 import com.app.back.domain.volunteer.Pagination;
 import com.app.back.domain.volunteer.VolunteerDTO;
+import com.app.back.exception.GlobalExceptionHandler;
+import com.app.back.exception.UserNotAuthenticatedException;
 import com.app.back.repository.attachment.AttachmentDAO;
+import com.app.back.repository.member.MemberDAO;
 import com.app.back.repository.post.PostDAO;
 import com.app.back.repository.volunteer.VolunteerDAO;
 import lombok.RequiredArgsConstructor;
@@ -21,10 +24,12 @@ import java.util.Optional;
 @Primary // 우선 순위가 높은 서비스
 @RequiredArgsConstructor // 생성자 자동 생성
 @Transactional(rollbackFor = Exception.class) // 예외 발생 시 롤백 처리
+@Slf4j
 public class VolunteerServiceImpl implements VolunteerService {
     private final VolunteerDAO volunteerDAO;
     private final PostDAO postDAO;
     private final AttachmentDAO attachmentDAO;
+    private final MemberDAO memberDAO;
 
 
     @Override
@@ -64,6 +69,10 @@ public class VolunteerServiceImpl implements VolunteerService {
     }
 
     @Override
+    public List<VolunteerDTO> getMemberId(Long memberId){
+        return volunteerDAO.findMemberId(memberId);}
+
+    @Override
     public void update(VolunteerDTO volunteerDTO, List<String> uuids, List<String> realNames, List<String> paths, List<String> sizes, List<MultipartFile> files, List<Long> ids) throws IOException {
         postDAO.update(volunteerDTO.toPostVO());
         volunteerDAO.update(volunteerDTO.toVO());
@@ -87,13 +96,30 @@ public class VolunteerServiceImpl implements VolunteerService {
 
     @Override
     public void delete(Long id) {
-        volunteerDAO.delete(id);
+        try {
+            volunteerDAO.delete(id);
+            log.info("Volunteer with ID {} has been deleted.", id);
+        } catch (Exception e) {
+            log.error("Error deleting Volunteer with ID {}: {}", id, e.getMessage());
+            throw e; // 필요에 따라 커스텀 예외로 변경할 수 있습니다.
+        }
     }
 
     @Override
     public List<VolunteerDTO> findByMemberId(Long memberId) {
-        return volunteerDAO.findByMemberId(memberId);
+        if (memberId != null){
+            log.info("세션에서 가져오는 memberID: {}", memberId);
+            return volunteerDAO.findByMemberId(memberId);
+        } else {
+            log.warn("세션에서 memberID를 찾지 못하였습니다. 로그인 페이지로 이동합니다.");
+            try {
+                throw new UserNotAuthenticatedException("로그인이 필요합니다.");
+            } catch (UserNotAuthenticatedException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
+
     @Override
     public List<VolunteerDTO> findByMemberIdAndDateRange(Long memberId, String startDate, String endDate) {
         return volunteerDAO.findByMemberIdAndDateRange(memberId, startDate, endDate);
