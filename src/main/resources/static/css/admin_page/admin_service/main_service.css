@@ -79,6 +79,7 @@
 }
 
 .ServiceTable_cell {
+    width: 120px;
     display: table-cell;
     padding: 10px 25px 10px 25px;
     box-sizing: border-box;
