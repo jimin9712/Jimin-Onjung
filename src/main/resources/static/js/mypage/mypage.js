@@ -170,3 +170,7 @@ if(isCharge) {
     console.log("----------------");
     showTab("charge", chargeTab.firstElementChild);
 }
+if(donationAmount > 0) {
+    const paymentAmountInput = document.querySelector("input#payment-amount");
+    paymentAmountInput.value = donationAmount;
+}

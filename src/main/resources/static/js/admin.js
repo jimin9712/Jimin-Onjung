@@ -30,8 +30,8 @@ submenus.forEach((submenu) => {
         const selectedSection = sections.filter(
             (section) => submenu.textContent === section.dataset.value // 클릭된 서브메뉴와 일치하는 섹션 찾기
         );
-        selectedSection[0].classList.add("selected"); // 해당 섹션 선택
-        resetSearchAndPage(); // 검색어와 페이지 초기화
+        selectedSection.classList.add("selected"); // 해당 섹션 선택
+        // resetSearchAndPage(); // 검색어와 페이지 초기화
         resetSelectAllPostsCheckbox(); // 전체 선택 체크박스 해제
         resetSelectAllInquiriesCheckbox();
         resetSelectAllReportsCheckbox();

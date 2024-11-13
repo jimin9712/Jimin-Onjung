@@ -3,6 +3,7 @@ package com.app.back.controller.donation;
 import com.app.back.domain.donation.DonationDTO;
 import com.app.back.domain.donation.DonationVO;
 import com.app.back.domain.donation_record.DonationRecordDTO;
+import com.app.back.domain.member.MemberDTO;
 import com.app.back.domain.post.Pagination;
 import com.app.back.domain.review.ReviewDTO;
 import com.app.back.service.attachment.AttachmentService;
@@ -38,11 +39,20 @@ public class DonationController {
     private final HttpSession session;
 
     @GetMapping("donation-write")
-    public String goToWriteForm(DonationDTO donationDTO) { return "donation/donation-write"; }
+    public String goToWriteForm(HttpSession session, Model model) {
+        MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
+        if (loginMember != null) {
+            model.addAttribute("member", loginMember);
+        } else {
+            return "redirect:/member/login";
+        }
+
+        return "donation/donation-write";
+    }
 
     @PostMapping("donation-write")
     public RedirectView donationWrite(DonationDTO donationDTO, @RequestParam("uuid") List<String> uuids, @RequestParam("realName") List<String> realNames, @RequestParam("path") List<String> paths, @RequestParam("size") List<String> sizes, @RequestParam("file") List<MultipartFile> files) throws IOException {
-        donationDTO.setMemberId(1L);
+
         donationDTO.setPostType("DONATION");
 
         if (donationDTO.getPostTitle() == null || donationDTO.getPostContent() == null) {
@@ -64,6 +74,13 @@ public class DonationController {
 
     @GetMapping("donation-list")
     public String goToList(Pagination pagination, Model model, @RequestParam(required = false) String filterType) {
+        MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
+        if (loginMember != null) {
+            model.addAttribute("member", loginMember);
+        } else {
+            return "redirect:/member/login";
+        }
+
         if (pagination.getOrder() == null) {
             pagination.setOrder("created_date desc, n.id desc"); // 기본 정렬 기준
         } else {
@@ -80,7 +97,14 @@ public class DonationController {
     }
 
     @GetMapping("donation-inquiry")
-    public String goToInquiry( @RequestParam("postId") Long postId, Model model) {
+    public String goToInquiry( HttpSession session, @RequestParam("postId") Long postId, Model model) {
+        MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
+        if (loginMember != null) {
+            model.addAttribute("member", loginMember);
+        } else {
+            return "redirect:/member/login";
+        }
+
         Optional<DonationDTO> donationDTO = donationService.getById(postId);
 
         if (donationDTO.isPresent()) {
