@@ -30,7 +30,7 @@ submenus.forEach((submenu) => {
         const selectedSection = sections.filter(
             (section) => submenu.textContent === section.dataset.value // 클릭된 서브메뉴와 일치하는 섹션 찾기
         );
-        selectedSection.classList.add("selected"); // 해당 섹션 선택
+        selectedSection[0].classList.add("selected"); // 해당 섹션 선택
         // resetSearchAndPage(); // 검색어와 페이지 초기화
         resetSelectAllPostsCheckbox(); // 전체 선택 체크박스 해제
         resetSelectAllInquiriesCheckbox();
@@ -38,7 +38,7 @@ submenus.forEach((submenu) => {
 
         // 선택된 섹션에 따라 데이터 목록을 처음 페이지로 다시 로드
         if (submenu.textContent === "고객센터 문의 목록") {
-            fetchFilteredInquiries(1, inquiryKeyword, inquiryFilterType); // 고객센터 문의 첫 페이지로
+            fetchFilteredInquiries(1, inquiryKeyword, inquiryFilterType);
         } else if (submenu.textContent === "공지사항 목록") {
             fetchNotices(1); // 공지사항 첫 페이지로
         }else if (submenu.textContent === "게시글 목록") {
@@ -233,38 +233,49 @@ inquiryFilters.forEach((option) => {
     });
 });
 
-const inquiryAnswerButtons = document.querySelectorAll(
-    ".inquiryTable_cell button.editBtn"
-);
-const inquirySubButton = document.getElementById("submit-button");
-
-// 답변하기 버튼 클릭 시 고객센터 문의 답변 섹션으로 이동
-inquiryAnswerButtons.forEach((inquiryAnswerButton) => {
-    inquiryAnswerButton.addEventListener("click", (e) => {
-        sections.forEach((section) => {
-            section.classList.remove("selected"); // 모든 섹션 선택 해제
-        });
+// 고객센터 문의 조회
+document.querySelector(".inquiryTable_container").addEventListener("click", async (event) => {
+    if (event.target.classList.contains("editBtn")) { // 버튼의 클래스가 editBtn일 때만 실행
+        sections.forEach((section) => section.classList.remove("selected")); // 모든 섹션 선택 해제
         const inquiryAnswerSection = Array.from(sections).find(
-            (section) => section.dataset.value === "고객센터 문의 답변" // 고객센터 문의 답변 섹션 찾기
+            (section) => section.dataset.value === "고객센터 문의 답변"
         );
-        inquiryAnswerSection.classList.add("selected"); // 해당 섹션 선택
+
+            inquiryAnswerSection.classList.add("selected");
+            // 선택된 문의의 ID 가져오기
+            const inquiryId = event.target.closest(".data_row").getAttribute("data-id");
+            // 문의 데이터를 서버에서 가져와 화면에 렌더링
+            const inquiryData = await fetchInquiryData(inquiryId);
+                renderAnswer(inquiryData);
+    }
+});
+document.addEventListener("DOMContentLoaded", () => {
+    // submit 버튼 클릭 이벤트 등록
+    document.addEventListener("click", async (e) => {
+        // "submit-button" ID를 가진 요소가 클릭된 경우
+        if (e.target.id === "submit-button") {
+            e.preventDefault();
+            // 답변 제출 폼의 데이터를 가져옴
+            const answerForm = document.getElementById("new-request");
+            const inquiryId = answerForm.querySelector('input[name="request-title"]').getAttribute("data-id");
+            const answerContent = answerForm.querySelector('textarea[name="answer-content"]').value;
+            // 답변을 서버로 전송하고, 성공 시 목록으로 이동
+            const success = await submitAnswer(inquiryId, answerContent);
+            if (success) {
+                sections.forEach((section) => section.classList.remove("selected"));
+                // '고객센터 문의 목록' 섹션을 찾아 선택
+                const inquiryListSection = Array.from(sections).find(
+                    (section) => section.dataset.value === "고객센터 문의 목록"
+                );
+                if (inquiryListSection) {
+                    inquiryListSection.classList.add("selected");
+                    fetchFilteredInquiries(1, "", "최신순");
+                }
+            }
+        }
     });
 });
 
-// 제출 버튼 클릭 시 고객센터 문의 목록 섹션으로 이동
-document.addEventListener("DOMContentLoaded", () => {
-    // inquirySubButton 클릭 시 고객센터 문의 목록 섹션만 보이도록 설정
-    const inquirySubButton = document.getElementById("submit-button");
-
-    if (inquirySubButton) {
-        inquirySubButton.addEventListener("click", () => {
-            sections.forEach((section) => section.classList.remove("selected"));
-            const inquiryListSection = Array.from(sections).find(
-                (section) => section.dataset.value === "고객센터 문의 목록"
-            );
-        });
-    }
-});
 
 // 고객센터 문의 목록의 전체 선택 및 개별 선택 체크박스 관리
 const selectAllInquiries = () => {
@@ -366,13 +377,84 @@ document.getElementById("deleteSelectedBtn").addEventListener("click", () => {
     deleteSelectedPosts(selectedIds); // 선택한 게시글의 상태를 0(삭제)로 변경
 });
 
-// 조회 버튼 클릭 이벤트 리스너
-document.querySelector(".post-filter-wrapper").addEventListener("click", (event) => {
+// 게시글 조회 버튼 클릭 이벤트 리스너
+document.querySelector(".post-filter-wrapper").addEventListener("click", async (event) => {
     if (event.target.classList.contains("inquiry-button")) {
         const postId = event.target.closest(".ServiceTable_row").querySelector(".post_ID").textContent.trim();
-        fetchPostDetail(postId); // 조회 함수 호출
+
+        // 모든 섹션 숨기기 및 selected 클래스 제거
+        document.querySelectorAll(".admin-page").forEach(section => {
+            section.classList.remove("selected");
+        });
+
+        // 게시글 조회 섹션만 보이도록 설정하고 selected 클래스 추가
+        const postDetailSection = document.querySelector(".admin-page[data-value='게시글 조회']");
+        if (postDetailSection) {
+            postDetailSection.classList.add("selected");
+
+            // 조회 데이터를 로드하여 화면에 표시
+            const postData = await fetchPostDetail(postId);
+            if (postData) {
+                renderPostDetail(postData);
+                renderComments(postData.comments); // 댓글도 함께 렌더링
+            } else {
+                console.error("게시글 데이터를 가져오지 못했습니다.");
+            }
+        }
     }
 });
+
+// 고쳐야해 ==============================================================
+// 댓글 상태 변경 버튼 클릭 이벤트
+document.querySelectorAll('.status-change-btn').forEach(button => {
+    button.addEventListener('click', (event) => {
+        const replyId = event.target.getAttribute('data-reply-id');  // 댓글 ID 가져오기
+        const currentStatus = event.target.getAttribute('data-status'); // 현재 상태 가져오기
+        const newStatus = (currentStatus === 'VISIBLE') ? 'HIDDEN' : 'VISIBLE'; // 상태 변경 (toggle)
+
+        // 댓글 상태 업데이트 함수 호출
+        updateReplyStatus(replyId, newStatus);
+
+        // 버튼 상태와 텍스트 변경
+        event.target.setAttribute('data-status', newStatus);
+        event.target.textContent = newStatus === 'VISIBLE' ? '숨기기' : '표시하기'; // 버튼 텍스트 변경
+
+        // 댓글 상태 텍스트 업데이트
+        const statusElement = document.querySelector(`#reply-${replyId} .reply-status span`);
+        statusElement.textContent = newStatus;
+    });
+});
+
+// ========================================================================
+
+document.querySelector(".tab-style.tabs .tab").addEventListener("click", function () {
+    // 댓글 탭 클릭 시 댓글 섹션 표시
+    const commentSection = document.querySelector(".content-container.comment");
+    commentSection.style.display = "block"; // 댓글 섹션 보이기
+
+    // 댓글 목록 렌더링
+    const postId = document.querySelector('.post-detail').getAttribute('data-id'); // 게시글 ID를 가져와서 댓글을 불러옴
+    fetchComments(postId); // 댓글을 다시 불러오기
+});
+
+// 댓글 작성 버튼 클릭 이벤트 처리
+const setupCommentSubmitButton = (postId) => {
+    const commentTextarea = document.getElementById("comment-content");
+    const submitButton = document.querySelector(".submit-comment-button");
+
+    submitButton.addEventListener("click", async () => {
+        const commentText = commentTextarea.value.trim();
+        if (commentText) {
+            const success = await submitComment(postId, commentText);
+            if (success) {
+                commentTextarea.value = "";
+                submitButton.disabled = true;
+                fetchComments(postId); // 댓글을 다시 불러옵니다
+            }
+        }
+    })
+};
+
 
 // =============================== 신고 목록 =====================================
 const reportSearchInput = document.querySelector(".Filter_searchInput.report-page-search");
@@ -394,11 +476,16 @@ reportSearchInput.addEventListener("keydown", (event) => {
 // 신고 필터 버튼 클릭 시 필터에 맞는 데이터 불러오기
 reportFilters.forEach((option) => {
     option.addEventListener("click", () => {
+        console.log("클릭됨")
         // classList : 동적으로 클래스를 추가하고 제거하여 필터가 선택되었음을 시각적 표시. 다른 필터는 비활성화 상태로 보이게하기위함
         reportFilters.forEach((opt) => opt.classList.remove("selected")); // 모든 필터 초기화
         option.classList.add("selected"); // 선택된 필터만 활성화
 
-        reportFilterType = option.textContent.trim();
+        // 선택된 필터에 따라 filterType을 설정
+        console.log(option.textContent.trim());
+        reportFilterType = option.textContent.trim() == "신고일 순" ? '신고일 순' : option.textContent.trim() === '신고 처리 완료' ? 'COMPLETE' : 'WAITING';
+
+        console.log(reportFilterType)
         fetchFilteredReports(1, reportKeyword, reportFilterType); // 필터 조건으로 데이터 불러오기
     });
 });
@@ -444,6 +531,24 @@ document.querySelector(".deleteSelectedBtn.report-delete").addEventListener("cli
 
     deleteSelectedReports(selectedIds); // 삭제 요청 함수 호출
 });
+// 상태 변경 클릭 시 이벤트
+document.querySelector(".addServiceBtn").addEventListener("click", () => {
+    const selectedCheckboxes = document.querySelectorAll(".reportCheckbox:checked");
+    const selectedIds = Array.from(selectedCheckboxes).map(checkbox => checkbox.closest(".ServiceTable_row").querySelector(".post_ID").textContent.trim());
+    console.log(selectedIds)
+
+    // 선택된 체크박스가 없을 경우 경고 메시지 표시 후 종료
+    if (selectedIds.length === 0) {
+        alert("상태 변경할 신고 항목을 선택하세요.");
+        return;
+    }
+
+    // 상태 변경 함수 호출
+    updateSelectedReportStatus(selectedIds);
+});
+
+
+
 
 
 

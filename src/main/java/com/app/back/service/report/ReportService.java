@@ -3,6 +3,7 @@ package com.app.back.service.report;
 import com.app.back.domain.post.Pagination;
 import com.app.back.domain.post.Search;
 import com.app.back.domain.report.ReportDTO;
+import com.app.back.enums.AdminReportStatus;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,7 +25,7 @@ public interface ReportService {
     public void updateReport(ReportDTO reportDTO);
 
     // 신고 상태 업데이트
-    public void updateReportStatus(Long id, String status);
+    public void updateReportStatus(Long id, AdminReportStatus status);
 
     // 신고 삭제
     public void deleteReport(Long id);

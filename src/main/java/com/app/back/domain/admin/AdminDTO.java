@@ -27,6 +27,6 @@ public class AdminDTO {
     private String message;
     private NoticeDTO notice;
     private PostDTO post;
-
+    private List<Long> selectedIds;
 
 }
