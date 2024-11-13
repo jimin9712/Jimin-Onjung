@@ -241,7 +241,7 @@ public String showPostDetail(@RequestParam("postId") Long postId, Model model, H
 
     return "post/post-detail";
 }
-
+// 이용 후기 조회 모달창
 @GetMapping("/admin/review-detail")
 @ResponseBody
 public ResponseEntity<AdminDTO> getReviewDetail(@RequestParam Long reviewId) {
