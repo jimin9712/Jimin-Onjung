@@ -376,87 +376,18 @@ document.getElementById("deleteSelectedBtn").addEventListener("click", () => {
 
     deleteSelectedPosts(selectedIds); // 선택한 게시글의 상태를 0(삭제)로 변경
 });
+// ================================ 게시글 조회 =================================================================================
 
-// 게시글 조회 버튼 클릭 이벤트 리스너
+
 document.querySelector(".post-filter-wrapper").addEventListener("click", async (event) => {
     if (event.target.classList.contains("inquiry-button")) {
         const postId = event.target.closest(".ServiceTable_row").querySelector(".post_ID").textContent.trim();
-
-        // 모든 섹션 숨기기 및 selected 클래스 제거
-        document.querySelectorAll(".admin-page").forEach(section => {
-            section.classList.remove("selected");
-        });
-
-        // 게시글 조회 섹션만 보이도록 설정하고 selected 클래스 추가
-        const postDetailSection = document.querySelector(".admin-page[data-value='게시글 조회']");
-        if (postDetailSection) {
-            postDetailSection.classList.add("selected");
-
-            // 조회 데이터를 로드하여 화면에 표시
-            const postData = await fetchPostDetail(postId);
-            if (postData) {
-                renderPostDetail(postData);
-                renderComments(postData.comments); // 댓글도 함께 렌더링
-            } else {
-                console.error("게시글 데이터를 가져오지 못했습니다.");
-            }
-        }
+        const postType = event.target.closest(".ServiceTable_row").querySelector(".post_kind").textContent.trim();
+        await navigateToPostPage(postType, postId);
     }
 });
 
-// 고쳐야해 ==============================================================
-// 댓글 상태 변경 버튼 클릭 이벤트
-document.querySelectorAll('.status-change-btn').forEach(button => {
-    button.addEventListener('click', (event) => {
-        const replyId = event.target.getAttribute('data-reply-id');  // 댓글 ID 가져오기
-        const currentStatus = event.target.getAttribute('data-status'); // 현재 상태 가져오기
-        const newStatus = (currentStatus === 'VISIBLE') ? 'HIDDEN' : 'VISIBLE'; // 상태 변경 (toggle)
-
-        // 댓글 상태 업데이트 함수 호출
-        updateReplyStatus(replyId, newStatus);
-
-        // 버튼 상태와 텍스트 변경
-        event.target.setAttribute('data-status', newStatus);
-        event.target.textContent = newStatus === 'VISIBLE' ? '숨기기' : '표시하기'; // 버튼 텍스트 변경
-
-        // 댓글 상태 텍스트 업데이트
-        const statusElement = document.querySelector(`#reply-${replyId} .reply-status span`);
-        statusElement.textContent = newStatus;
-    });
-});
-
-// ========================================================================
-
-document.querySelector(".tab-style.tabs .tab").addEventListener("click", function () {
-    // 댓글 탭 클릭 시 댓글 섹션 표시
-    const commentSection = document.querySelector(".content-container.comment");
-    commentSection.style.display = "block"; // 댓글 섹션 보이기
-
-    // 댓글 목록 렌더링
-    const postId = document.querySelector('.post-detail').getAttribute('data-id'); // 게시글 ID를 가져와서 댓글을 불러옴
-    fetchComments(postId); // 댓글을 다시 불러오기
-});
-
-// 댓글 작성 버튼 클릭 이벤트 처리
-const setupCommentSubmitButton = (postId) => {
-    const commentTextarea = document.getElementById("comment-content");
-    const submitButton = document.querySelector(".submit-comment-button");
-
-    submitButton.addEventListener("click", async () => {
-        const commentText = commentTextarea.value.trim();
-        if (commentText) {
-            const success = await submitComment(postId, commentText);
-            if (success) {
-                commentTextarea.value = "";
-                submitButton.disabled = true;
-                fetchComments(postId); // 댓글을 다시 불러옵니다
-            }
-        }
-    })
-};
-
-
-// =============================== 신고 목록 =====================================
+// ============================== 신고 목록 ==================================================================
 const reportSearchInput = document.querySelector(".Filter_searchInput.report-page-search");
 const reportFilters = document.querySelectorAll(".sort-filter-option.report-list");
 

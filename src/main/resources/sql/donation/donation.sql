@@ -16,4 +16,4 @@ alter table tbl_donation
     change column currnet_point current_point int default 0;
 
 insert into tbl_donation(id,goal_point,current_point,donation_s_date, donation_e_date)
-values (40,200000,0,'2024-12-04','2025-06-02');
+values (101,200000,0,'2024-12-04','2025-06-02');
