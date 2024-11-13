@@ -19,6 +19,7 @@ public class AlarmVO {
     private String createdDate;
     private boolean isRead;
     private String alarmType;
+    private Long postId;
 
     public AlarmDTO toDTO() {
         AlarmDTO alarmDTO = new AlarmDTO();
@@ -28,6 +29,7 @@ public class AlarmVO {
         alarmDTO.setCreatedDate(createdDate);
         alarmDTO.setRead(isRead);
         alarmDTO.setAlarmType(alarmType);
+        alarmDTO.setPostId(postId);
         return alarmDTO;
     }
 }

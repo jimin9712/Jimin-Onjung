@@ -1,5 +1,6 @@
 package com.app.back.repository.post;
 
+import com.app.back.domain.member.MemberDTO;
 import com.app.back.domain.post.Pagination;
 import com.app.back.domain.post.PostDTO;
 import com.app.back.domain.post.PostVO;
@@ -36,10 +37,6 @@ public class PostDAO {
     }
 
     public Long selectCurrentId() { return postMapper.selectCurrentId(); };
-
-//    public PostVO findById(Long id) {
-//        return postMapper.selectById(id);
-//    }
 
     public void update(PostVO postVO) {
         postMapper.updateById(postVO);

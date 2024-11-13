@@ -20,6 +20,11 @@ public class RankServiceImpl implements RankService {
     private final MemberDAO memberDAO;
 
     @Override
+    // 모든 봉사활동 단체 회원 수
+    public List<MemberDTO> getAllVolunteerGroup(Pagination pagination) {
+        return memberDAO.selectAllVolunteerGroup(pagination);
+    }
+
     // 랭킹에 따른 봉사활동 단체 회원 목록
     public List<MemberDTO> getTop100VolunteerGroup(Pagination pagination) {
         return memberDAO.findTop100VolunteerGroup(pagination);

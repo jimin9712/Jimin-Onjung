@@ -1,3 +1,5 @@
+const accountBalanceWrap = document.querySelector("span#account-balance");
+
 document.addEventListener("DOMContentLoaded", () => {
     // 모든 lnb-item 요소를 선택
     const Items = document.querySelectorAll(".lnb-item");
@@ -127,6 +129,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 // 봉사활동 횟수 조회
                 fetchVolunteerData(`/vt-records/total-vt-count/${memberId}`, "vtCount", "회");
+
+                // 가상계죄 데이터 불러오기
+                fetchAccountBalance(memberId);
             } else {
                 alert("회원 정보를 가져오지 못했습니다.");
             }
@@ -135,6 +140,7 @@ document.addEventListener("DOMContentLoaded", () => {
             console.error("회원 정보 조회 실패:", error);
             alert("회원 정보를 불러오는 중 오류가 발생했습니다.");
         });
+
 });
 
 // z-index로 화면 보이기 / 숨기기 - 클릭 이벤트 추가
@@ -153,3 +159,18 @@ const showTab = (tabId, element) => {
 
     element.parentElement.classList.add("active");
 };
+
+const Items = document.querySelectorAll(".lnb-item");
+if(isCharge) {
+    const chargeTab = document.querySelector("div#charge-tab");
+    Items.forEach((i) => i.classList.remove("active"));
+    chargeTab.classList.add("active");
+    console.log("시작--------------")
+    console.log(isCharge);
+    console.log("----------------");
+    showTab("charge", chargeTab.firstElementChild);
+}
+if(donationAmount > 0) {
+    const paymentAmountInput = document.querySelector("input#payment-amount");
+    paymentAmountInput.value = donationAmount;
+}

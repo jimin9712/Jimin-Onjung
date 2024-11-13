@@ -18,11 +18,11 @@ public class ReviewServiceTests {
     @Test
     public void testWrite() throws IOException {
         ReviewDTO reviewDTO = new ReviewDTO();
-        reviewDTO.setPostTitle("dsfsdf3");
-        reviewDTO.setPostContent("s3dsfsd");
-        reviewDTO.setMemberId(13L);
+        reviewDTO.setPostTitle("후기3");
+        reviewDTO.setPostContent("후기3");
+        reviewDTO.setMemberId(3L);
         reviewDTO.setPostType("REVIEW");
-        reviewDTO.setVtGroupName("봉사단체7");
+        reviewDTO.setVtGroupName("봉사단체13");
         reviewDTO.setReviewStarRate(5.00);
         reviewService.write(reviewDTO, null, null, null, null, null);
     }

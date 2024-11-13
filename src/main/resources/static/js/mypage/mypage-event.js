@@ -1222,20 +1222,32 @@ const renderPayments = (payments) => {
                     </tr>
                 </thead>
                 <tbody class="news-center-table-body">
-                    ${payments
-            .map(
-                (payment) => `
-                            <tr class="news-data-rows" data-id="${payment.id}">
-                                <td>${payment.id}</td>
-                                <td>${payment.paymentStatus}</td>
-                                <td>${payment.paymentAmount.toLocaleString()} 원</td>
-                                <td>${new Date(payment.createdDate).toLocaleDateString('ko-KR')}</td>
-                            </tr>`
-            )
-            .join("")}
                 </tbody>
             </table>
         `;
+        payments.forEach((payment) => {
+            let paymentContent = ``;
+            if(payment.paymentStatus === ("COMPLETED")) {
+
+                paymentContent = `
+                            <tr class="news-data-rows" data-id="${payment.id}">
+                                <td>${payment.id}</td>
+                                <td>결제 완료</td>
+                                <td>${payment.paymentAmount.toLocaleString()} 원</td>
+                                <td>${new Date(payment.createdDate).toLocaleDateString('ko-KR')}</td>
+                            </tr>`;
+            } else {
+                paymentContent = `
+                            <tr class="news-data-rows" data-id="${payment.id}">
+                                <td>${payment.id}</td>
+                                <td>결제 취소</td>
+                                <td>${payment.paymentAmount.toLocaleString()} 원</td>
+                                <td>${new Date(payment.createdDate).toLocaleDateString('ko-KR')}</td>
+                            </tr>`;
+            }
+            paymentList.querySelector("tbody.news-center-table-body").innerHTML += paymentContent;
+        })
+
     }
 
     document.getElementById("payment-totalCount").textContent = payments.length;
@@ -1250,14 +1262,31 @@ const fetchPayments = async (memberId) => {
         const data = await response.json();
         console.log("결제 데이터:", data);
         renderPayments(data);
+        console.log("ffetch들ㅇ어옴");
     } catch (error) {
         console.error("결제 데이터 불러오기 오류:", error);
         alert("결제 데이터를 불러오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.");
     }
 };
 
+// 가상계좌 잔액 가져오기 함수
+const fetchAccountBalance = async (memberId) => {
+    try {
+        const response = await fetch(`/mypage/account-balance/${memberId}`);
+        if (!response.ok) throw new Error("서버에서 가상계좌 데이터를 가져오는데 실패했습니다.");
+
+        const data = await response.json();
+        console.log("가상계좌 데이터: ", data);
+        accountBalanceWrap.innerText = data + "원";
+    } catch (error) {
+        console.error("가상계좌 데이터 불러오기 오류: ", error) ;
+        alert("가상계좌 데이터를 불러오는데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.");
+    }
+}
+
 const initializePaymentSection = (memberId) => {
     fetchPayments(memberId);
+    console.log("이니셜들어옴");
 
     const paymentToggleElements = document.querySelectorAll("#payment .fItXBi.toggle");
 
@@ -1318,6 +1347,148 @@ const fetchFilteredPayments = async (memberId, startDate, endDate) => {
         alert("필터된 결제 데이터를 불러오는 중 문제가 발생했습니다.");
     }
 };
+/********************* 알림 섹션 **********************/
+// 알림 렌더링 함수
+const renderAlarms = (alarms) => {
+    const alarmsList = document.getElementById("notice-list");
+    const alarmsEmpty = document.getElementById("alarms-empty");
+    const totalCountLabel = document.getElementById("notice-totalCount");
+
+    alarmsList.innerHTML = '';
+    totalCountLabel.textContent = alarms.length;
+
+    if (alarms.length === 0) {
+        alarmsEmpty.style.display = 'block';
+        alarmsList.style.display = 'none';
+        return;
+    } else {
+        alarmsEmpty.style.display = 'none';
+        alarmsList.style.display = 'block';
+    }
+
+    alarms.forEach(alarm => {
+        const alarmCard = document.createElement('div');
+        alarmCard.classList.add('alarm-card');
+        alarmCard.style.cursor = 'pointer';
+
+        const notiContentDiv = document.createElement('div');
+        notiContentDiv.classList.add('noti-content');
+
+        const kzXcJaDiv = document.createElement('div');
+        kzXcJaDiv.classList.add('kzXcJa');
+
+        const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        svg.setAttribute("color", "#101C33");
+        svg.setAttribute("viewBox", "0 0 24 24");
+        svg.setAttribute("class", "cAfwXx");
+        svg.innerHTML = `
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M15.0389 18.359H17.3334L18.8572 18.359C19.4884 18.359 20 17.8793 20 17.2876C20 16.6958 19.4884 16.2157 18.8572 16.2157H18.4762V9.42955C18.4762 6.00442 15.4496 3 11.9999 3C8.5502 3 5.52366 6.00442 5.52366 9.42955V16.2157H5.14276C4.51119 16.2157 4 16.6958 4 17.2876C4 17.8793 4.51119 18.359 5.14276 18.359L6.66642 18.359H8.96114C9.07945 19.8339 10.3972 21 12 21C13.6028 21 14.9205 19.8339 15.0389 18.359ZM12.7263 18.359H11.2737C11.3718 18.6474 11.6604 18.8571 12 18.8571C12.3396 18.8571 12.6282 18.6474 12.7263 18.359ZM16.1906 16.2157H7.80964V9.42955C7.80964 7.14599 9.76774 5.1429 11.9999 5.1429C14.2321 5.1429 16.1906 7.14599 16.1906 9.42955V16.2157Z"></path>
+        `;
+        kzXcJaDiv.appendChild(svg);
+
+        const dataDiv = document.createElement('div');
+        dataDiv.setAttribute('data-forloop', alarm.id);
+
+        const innerDiv = document.createElement('div');
+        const contentDiv = document.createElement('div');
+        contentDiv.classList.add('noti-card-desc');
+        contentDiv.textContent = alarm.alarmContent;
+
+        let starDiv = null;
+        if (!alarm.read) {
+            starDiv = document.createElement('div');
+            starDiv.classList.add('star');
+            starDiv.textContent = '*';
+            contentDiv.appendChild(starDiv);
+        }
+
+        const dateDiv = document.createElement('div');
+        dateDiv.classList.add('noti-card-desc');
+        dateDiv.textContent = new Date(alarm.createdDate).toLocaleDateString('ko-KR');
+
+        innerDiv.appendChild(contentDiv);
+        innerDiv.appendChild(dateDiv);
+        dataDiv.appendChild(innerDiv);
+        kzXcJaDiv.appendChild(dataDiv);
+        notiContentDiv.appendChild(kzXcJaDiv);
+        alarmCard.appendChild(notiContentDiv);
+
+        // 클릭 이벤트
+        const postId = typeof alarm.postId === 'number' ? alarm.postId : null;
+        alarmCard.addEventListener('click', async () => {
+            if (postId) {
+                navigateToAlarmPage(alarm.alarmType, postId); // 페이지 이동
+            }
+            if (!alarm.read && starDiv) {
+                await markAlarmAsRead(alarm.id, alarm.alarmType, postId, starDiv); // 읽음 처리
+            }
+        });
+
+        alarmsList.appendChild(alarmCard);
+    });
+};
+
+const navigateToAlarmPage = (alarmType, postId) => {
+    let url = '';
+    switch (alarmType) {
+        case 'vt':
+            url = `/volunteer/volunteer-inquiry/${postId}`;
+            break;
+        case 'donation':
+            url = `/donation/donation-inquiry/${postId}`;
+            break;
+        case 'support':
+            url = `/support/support-inquiry/${postId}`;
+            break;
+        case 'reply':
+            url = `/reply/reply-inquiry/${postId}`;
+            break;
+        default:
+            console.warn(`alarmType 못 받아옴: ${alarmType}`);
+            return;
+    }
+    if (url) {
+        window.location.href = url;
+    }
+};
+
+// 알림을 읽음으로 표시하는 함수
+const markAlarmAsRead = async (alarmId, alarmType, postId, starDiv) => {
+    try {
+        const response = await fetch(`/alarm/${alarmId}/read`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ alarmType, postId })
+        });
+
+        if (response.ok && starDiv) {
+            starDiv.remove();
+        }
+    } catch (error) {
+        console.error('Error marking alarm as read:', error);
+    }
+};
+
+// 알림 데이터 가져오기 함수
+const fetchAlarms = async (memberId) => {
+    try {
+        const response = await fetch(`/alarm/mypage-member/${memberId}`);
+        if (!response.ok) throw new Error('서버로부터 알림 데이터를 가져오는 데 실패했습니다.');
+
+        const data = await response.json();
+        renderAlarms(data);
+    } catch (error) {
+        console.error("알림 데이터 불러오기 오류:", error);
+    }
+};
+
+// 알림 섹션 초기화 함수
+const initializeAlarmsSection = (memberId) => {
+    fetchAlarms(memberId);
+};
+
 /*********************공통*********************/
 
 // 모든 .fItXBi.toggle 요소를 선택
@@ -1480,9 +1651,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         initializeApplicationSection(memberId);
         // 결제하기 섹션 초기화
         initializePaymentSection(memberId);
-
-
-
+        // 내 알림 섹션 초기화
+        initializeAlarmsSection(memberId);
 
     } catch (error) {
         console.error("초기화 중 오류:", error);

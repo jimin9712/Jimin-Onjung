@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface RankService {
+    // 모든 봉사활동 단체 회원 수
+    public List<MemberDTO> getAllVolunteerGroup(Pagination pagination);
+
     // 랭킹에 따른 봉사활동 단체 회원 목록
     public List<MemberDTO> getTop100VolunteerGroup(Pagination pagination);
 
