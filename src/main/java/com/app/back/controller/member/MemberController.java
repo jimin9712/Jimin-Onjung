@@ -206,14 +206,16 @@ public class MemberController {
     }
 
     @GetMapping("/mypage/mypage")
-    public String goToMypage(HttpSession session, Model model, @RequestParam(required = false) Boolean charge){
+    public String goToMypage(HttpSession session, Model model, @RequestParam(required = false) Boolean charge, @RequestParam(required = false) int donationAmount){
         MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
 
         if (loginMember != null) {
             model.addAttribute("member", loginMember);
             charge = charge != null ? true : false;
             model.addAttribute("charge", charge);
+            model.addAttribute("donationAmount", donationAmount);
             log.info("차지 : {} ", charge);
+            log.info("도네이션 어마운트 : {} ", donationAmount);
             return "mypage/mypage";
         } else {
             return "redirect:/member/login";
@@ -227,6 +229,18 @@ public class MemberController {
         if (loginMember != null) {
             log.info("charge로 감");
             return "redirect:/mypage/mypage?charge=true";
+        } else {
+            return "redirect:/member/login";
+        }
+    }
+
+    @GetMapping("/donation/charge/{donationAmount}")
+    public String goToChargeForDonation(HttpSession session, PathVariable donationAmount) {
+        MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
+
+        if (loginMember != null) {
+            log.info("donationCharge로 감");
+            return "redirect:/mypage/mypage?donationAmount=" + donationAmount;
         } else {
             return "redirect:/member/login";
         }

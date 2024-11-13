@@ -1,7 +1,9 @@
 package com.app.back.controller.donation_record;
 
 import com.app.back.domain.donation_record.DonationRecordDTO;
+import com.app.back.domain.member.MemberDTO;
 import com.app.back.service.donation_record.DonationRecordService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +20,12 @@ public class DonationRecordController {
     private final DonationRecordService donationRecordService;
 
     @PostMapping("/write")
-    public void createDonationRecord(@RequestBody DonationRecordDTO donationRecordDTO) {
+    public void createDonationRecord(@RequestBody DonationRecordDTO donationRecordDTO, @RequestParam("donationId") Long donationId, @RequestParam("donationAmount") int donationAmount, HttpSession session) {
+        MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
+        donationRecordDTO.setMemberId(loginMember.getId());
+        donationRecordDTO.setDonationId(donationId);
+        donationRecordDTO.setDonationAmount(donationAmount);
+
         donationRecordService.save(donationRecordDTO);
     }
 
