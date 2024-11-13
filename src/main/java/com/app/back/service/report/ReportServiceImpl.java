@@ -3,6 +3,7 @@ package com.app.back.service.report;
 import com.app.back.domain.post.Pagination;
 import com.app.back.domain.post.Search;
 import com.app.back.domain.report.ReportDTO;
+import com.app.back.enums.AdminReportStatus;
 import com.app.back.repository.report.ReportDAO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -43,10 +44,9 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public void updateReportStatus(Long id, String status) {
+    public void updateReportStatus(Long id, AdminReportStatus status) {
         reportDAO.updateStatus(id, status);
     }
-
     @Override
     public void deleteReport(Long id) {
         reportDAO.delete(id);
