@@ -9,4 +9,7 @@ create table tbl_review(
 select * from tbl_review;
 
 delete from tbl_review
-where id = 606
+where id = 606;
+
+insert into tbl_review(id,vt_group_name,review_star_rate)
+values (161,'바보',0.00);

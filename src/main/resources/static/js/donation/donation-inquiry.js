@@ -219,3 +219,24 @@ reportSubmitBtn.onclick = function () {
     alert("게시글 신고가 완료되었습니다.");
     modal.style.display = "none"; // 신고하기 버튼 클릭 후 모달 닫기
 };
+// =====================================관리자=====================================================
+
+document.addEventListener("DOMContentLoaded", () => {
+    const AdminBtn = document.querySelector(".donation-btn-container.report-wrap");
+    console.log("JavaScript에서 가져온 AdminBtn:", AdminBtn);
+    console.log("세션에서 전달된 사용자 정보:", member);
+    console.log(member.memberType);
+    console.log(member.memberLoginType);
+    // 세션의 member 정보가 존재하는지 확인
+    if (member.memberLoginType === "ADMIN") {
+        document.querySelectorAll(".donation-btn-style2.admin-btn").forEach(btn => {
+            btn.style.display = "block";
+        });
+    } else {
+        document.querySelectorAll(".donation-btn-style2.admin-btn").forEach(btn => {
+            btn.style.display = "none";
+        });
+    }
+});
+
+// ==========================================================================================

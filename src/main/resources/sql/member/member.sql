@@ -25,11 +25,12 @@ create table tbl_member (
 );
 select * from tbl_member;
 
+
 # UPDATE tbl_member
 # SET member_star_rate = 1.00
 # WHERE id = 6;
-insert into tbl_member(id, member_email, member_password, member_nickname)
-values(33, '결제테스트@naver.com', '1234567', '결제테스트용아이디');
+insert into tbl_member(id, member_email, member_password, member_nickname,member_login_type)
+values(3, '윤주현@naver.com', '1234567', '결제테스트용아이디','ADMIN');
 
 
 insert into tbl_member(id, member_email, member_password, member_nickname)

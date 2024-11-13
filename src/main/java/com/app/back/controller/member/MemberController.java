@@ -1,6 +1,7 @@
 package com.app.back.controller.member;
 
 import com.app.back.domain.Util.EmailUtil;
+import com.app.back.domain.member.LoginResponseDTO;
 import com.app.back.domain.member.MemberDTO;
 import com.app.back.domain.member.MemberVO;
 import com.app.back.enums.MemberLoginType;
@@ -21,6 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+
 
 @Controller
 @RequiredArgsConstructor
@@ -51,7 +53,7 @@ public class MemberController {
 
     @PostMapping("/member/login")
     @ResponseBody
-    public ResponseEntity<String> login(
+    public ResponseEntity<LoginResponseDTO> login(
             @RequestBody MemberDTO memberDTO,
             HttpSession session) {
         // 로그인 시도
@@ -59,13 +61,31 @@ public class MemberController {
         if (member.isPresent()) {
             log.info("로그인 성공, MemberVO: {}", member.get());
             MemberDTO memberDTOFromVO = member.get().toDTO();
+            // 세션에 로그인된 사용자 정보 저장
             session.setAttribute("loginMember", memberDTOFromVO);
-            session.setAttribute("loginType", MemberLoginType.NORMAL);
-            log.info("로그인 성공: {}", memberDTOFromVO);
-            return ResponseEntity.ok("로그인 성공");
+            log.info("로그인 후 세션에 저장할 사용자 정보: {}", memberDTOFromVO);
+
+
+
+            MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
+            if (loginMember == null) {
+                log.info("세션에 저장된 로그인 정보가 없습니다.");
+            } else {
+                log.info("세션에서 가져온 로그인 정보: {}", loginMember);
+            }
+
+
+            // 로그 추가: 관리자 여부 확인
+            String memberType = memberDTOFromVO.getMemberLoginType();
+            log.info("로그인한 사용자 유형: {}", memberType);
+
+            // 사용자 유형에 따른 리다이렉트 URL 설정
+            String redirectUrl = "NORMAL".equals(memberDTOFromVO.getMemberLoginType()) ? "/main/main" : "/admin";
+            LoginResponseDTO responseDTO = new LoginResponseDTO(redirectUrl);
+
+            return ResponseEntity.ok(responseDTO);
         } else {
-            log.warn("로그인 실패: {}", memberDTO);
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 실패");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
 
