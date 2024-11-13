@@ -8,6 +8,7 @@ import com.app.back.domain.post.Pagination;
 import com.app.back.domain.post.PostDTO;
 import com.app.back.domain.post.Search;
 import com.app.back.domain.report.ReportDTO;
+import com.app.back.domain.review.ReviewDTO;
 import com.app.back.enums.AdminPostStatus;
 import com.app.back.enums.AdminPostType;
 import com.app.back.enums.AdminReportStatus;
@@ -16,9 +17,12 @@ import com.app.back.service.inquiryAnswer.InquiryAnswerService;
 import com.app.back.service.notice.NoticeService;
 import com.app.back.service.post.PostService;
 import com.app.back.service.report.ReportService;
+import com.app.back.service.review.ReviewService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
@@ -42,6 +46,7 @@ public class InquiryController {
     private final NoticeService noticeService;
     private final PostService postService;
     private final ReportService reportService;
+    private final ReviewService reviewService;
 
 @GetMapping("/admin")   // 관리자 페이지
 public List<InquiryDTO> admin(Pagination pagination, Search search, HttpSession session) {
@@ -223,17 +228,13 @@ public AdminDTO getPostList(Pagination pagination, Search search, @RequestParam(
 //}
 
 // 게시글 조회 페이지 이동
-@GetMapping("/post-detail")
+@GetMapping("admin/post-detail")
+@ResponseBody
 public String showPostDetail(@RequestParam("postId") Long postId, Model model, HttpSession session) {
     Optional<PostDTO> postDTO = postService.getPost(postId);
 
     if (postDTO.isPresent()) {
         model.addAttribute("post", postDTO.get());
-
-//        // 세션에서 loginMember를 가져와 관리자 여부 확인
-//        MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
-//
-//        model.addAttribute("member",loginMember);
     } else {
         log.info("포스트 조회 실패: 존재하지 않는 포스트 ID {}", postId);
     }
@@ -241,7 +242,22 @@ public String showPostDetail(@RequestParam("postId") Long postId, Model model, H
     return "post/post-detail";
 }
 
+@GetMapping("/admin/review-detail")
+@ResponseBody
+public ResponseEntity<AdminDTO> getReviewDetail(@RequestParam Long reviewId) {
+    Optional<ReviewDTO> review = reviewService.getById(reviewId);
+    AdminDTO response = new AdminDTO();
 
+    if (review.isPresent()) {
+        response.setSuccess(true);
+        response.setReview(review.get());
+    } else {
+        response.setSuccess(false);
+        response.setMessage("조회된 아이디가 없습니다.");
+    }
+
+    return ResponseEntity.ok(response);
+}
 
 // 게시글 삭제 (논리 삭제)
 @PatchMapping("/admin/delete-posts")

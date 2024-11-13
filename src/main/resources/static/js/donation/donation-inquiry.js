@@ -221,32 +221,22 @@ reportSubmitBtn.onclick = function () {
 };
 // =====================================관리자=====================================================
 
-// JavaScript에서 관리자 여부 확인 후 버튼 표시
-// document.addEventListener("DOMContentLoaded", () => {
-//     const isAdmin = document.querySelector(".report-wrap").getAttribute("data-admin") === "true";
-//     console.log("JavaScript에서 가져온 isAdmin:", isAdmin);
-//
-//     document.querySelectorAll(".admin-btn").forEach(btn => {
-//         btn.style.display = isAdmin ? "block" : "none";
-//     });
-// });
 document.addEventListener("DOMContentLoaded", () => {
-    const AdminBtn = document.querySelector(".report-wrap");
+    const AdminBtn = document.querySelector(".donation-btn-container.report-wrap");
     console.log("JavaScript에서 가져온 AdminBtn:", AdminBtn);
     console.log("세션에서 전달된 사용자 정보:", member);
     console.log(member.memberType);
     console.log(member.memberLoginType);
     // 세션의 member 정보가 존재하는지 확인
     if (member.memberLoginType === "ADMIN") {
-        document.querySelectorAll(".admin-btn").forEach(btn => {
+        document.querySelectorAll(".donation-btn-style2.admin-btn").forEach(btn => {
             btn.style.display = "block";
         });
     } else {
-        document.querySelectorAll(".admin-btn").forEach(btn => {
+        document.querySelectorAll(".donation-btn-style2.admin-btn").forEach(btn => {
             btn.style.display = "none";
         });
     }
 });
-
 
 // ==========================================================================================

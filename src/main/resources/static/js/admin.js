@@ -379,11 +379,11 @@ document.getElementById("deleteSelectedBtn").addEventListener("click", () => {
 // ================================ 게시글 조회 =================================================================================
 
 
-document.querySelector(".post-filter-wrapper").addEventListener("click", (event) => {
+document.querySelector(".post-filter-wrapper").addEventListener("click", async (event) => {
     if (event.target.classList.contains("inquiry-button")) {
         const postId = event.target.closest(".ServiceTable_row").querySelector(".post_ID").textContent.trim();
         const postType = event.target.closest(".ServiceTable_row").querySelector(".post_kind").textContent.trim();
-        navigateToPostPage(postType, postId);
+        await navigateToPostPage(postType, postId);
     }
 });
 

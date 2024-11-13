@@ -204,26 +204,89 @@ const deleteSelectedPosts = async (selectedIds) => {
     }
 };
 // ================================================게시글 조회===================================================================
-const navigateToPostPage = (postType, postId) => {
-    let url = '';
-    switch (postType) {
-        case 'VOLUNTEER':
-            url = `/volunteer/volunteer-inquiry?postId=${postId}`;
-            break;
-        case 'DONATION':
-            url = `/donation/donation-inquiry?postId=${postId}`;
-            break;
-        case 'SUPPORT':
-            url = `/support/support-inquiry?postId=${postId}`;
-            break;
-        default:
-            console.warn(`postType 못 받아옴: ${postType}`);
-            return;
+// 리뷰 데이터를 모달에 표시하는 함수
+function renderReviewModalContent(data) {
+    const modalTitle = document.querySelector("#review-modal .modal-title");
+    const modalBody = document.querySelector("#review-modal .modal-body");
+    const modalRating = document.querySelector("#review-modal .modal-rating");
+
+    // 성공한 경우 리뷰 내용을 모달에 표시
+    if (data.success) {
+        modalTitle.textContent = data.review.postTitle || "이용후기에 대한 제목이 없음";
+        modalBody.textContent = data.review.postContent || "이용후기에 대한 내용이 없음";
+        modalRating.textContent = `Rating: ${data.review.reviewStarRate || "이용후기에 대한 평점이 없음"}`;
     }
-    if (url) {
-        window.location.href = url;
+    // 실패한 경우 오류 메시지를 모달에 표시
+    else {
+        modalTitle.textContent = "오류";
+        modalBody.textContent = data.message || "조회된 아이디가 없습니다.";
+        modalRating.textContent = ""; // 오류 시 평점 내용 제거
+    }
+
+    document.querySelector('#review-modal').style.display = 'block';
+}
+
+// '이용 후기' 모달 열기 함수
+const openReviewModal = async (reviewId) => {
+    try {
+        const response = await fetch(`/admin/review-detail?reviewId=${reviewId}`);
+
+        if (!response.ok) {
+            throw new Error("리뷰 데이터를 불러오는 데 실패했습니다.");
+        }
+
+        const data = await response.json();
+        // 모달 내용 렌더링
+        renderReviewModalContent(data);
+        // 모달을 보이도록 설정
+        document.querySelector('#review-modal').style.display = 'block';
+
+    } catch (error) {
+        console.error('리뷰 데이터를 가져오는 중 오류:', error);
     }
 };
+
+// 게시글 조회 시 해당 postType에 따라 페이지 이동 또는 모달 열기
+const navigateToPostPage = (postType, postId) => {
+    if (postType === 'REVIEW') {
+        // REVIEW 타입일 경우 모달을 엽니다.
+        openReviewModal(postId);
+    } else {
+        // 다른 타입은 기존 URL로 이동합니다.
+        let url = '';
+        switch (postType) {
+            case 'VOLUNTEER':
+                url = `/volunteer/volunteer-inquiry?postId=${postId}`;
+                break;
+            case 'DONATION':
+                url = `/donation/donation-inquiry?postId=${postId}`;
+                break;
+            case 'SUPPORT':
+                url = `/support/support-inquiry?postId=${postId}`;
+                break;
+            default:
+                console.warn(`postType 못 받아옴: ${postType}`);
+                return;
+        }
+        if (url) {
+            window.location.href = url;
+        }
+    }
+};
+
+// 모달을 닫는 함수
+const closeModal = () => {
+    document.querySelector('#review-modal').style.display = 'none';
+};
+
+// 모달 외부 클릭 시 닫히게 설정
+window.addEventListener("click", (event) => {
+    const modal = document.querySelector("#review-modal");
+    if (event.target === modal) {
+        closeModal();
+    }
+});
+
 
 // =========================================================================== 신고 목록=====================================
 // 필터링된 신고 데이터를 가져오는 함수
