@@ -2,6 +2,7 @@ package com.app.back.controller.inquiry;
 import com.app.back.domain.admin.AdminDTO;
 import com.app.back.domain.inquiry.InquiryDTO;
 import com.app.back.domain.inquiry_answer.InquiryAnswerDTO;
+import com.app.back.domain.member.MemberDTO;
 import com.app.back.domain.notice.NoticeDTO;
 import com.app.back.domain.post.Pagination;
 import com.app.back.domain.post.PostDTO;
@@ -228,16 +229,18 @@ public String showPostDetail(@RequestParam("postId") Long postId, Model model, H
 
     if (postDTO.isPresent()) {
         model.addAttribute("post", postDTO.get());
-        // 세션에서 ADMIN 키로 관리자 여부를 확인하고 모델에 추가
-        Boolean isAdmin = (Boolean) session.getAttribute("ADMIN");
-        // 세션에서 `ADMIN` 값 추가
-        model.addAttribute("ADMIN", isAdmin != null && isAdmin);
+
+//        // 세션에서 loginMember를 가져와 관리자 여부 확인
+//        MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
+//
+//        model.addAttribute("member",loginMember);
     } else {
-        return "redirect:/post/list";
+        log.info("포스트 조회 실패: 존재하지 않는 포스트 ID {}", postId);
     }
 
     return "post/post-detail";
 }
+
 
 
 // 게시글 삭제 (논리 삭제)

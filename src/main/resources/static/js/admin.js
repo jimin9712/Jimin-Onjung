@@ -380,7 +380,6 @@ document.getElementById("deleteSelectedBtn").addEventListener("click", () => {
 
 
 document.querySelector(".post-filter-wrapper").addEventListener("click", (event) => {
-    console.log("클릭됐어")
     if (event.target.classList.contains("inquiry-button")) {
         const postId = event.target.closest(".ServiceTable_row").querySelector(".post_ID").textContent.trim();
         const postType = event.target.closest(".ServiceTable_row").querySelector(".post_kind").textContent.trim();

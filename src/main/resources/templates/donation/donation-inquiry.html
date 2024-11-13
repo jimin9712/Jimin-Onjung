@@ -235,9 +235,9 @@
                                     <div class="right-title-wrap end">
                                         <div class="right-title-container">
                                             <div class="report-container">
-                                                <div>
-                                                    <button type="button">수정</button>
-                                                    <button type="button">삭제</button>
+                                                <div class="report-wrap">
+                                                    <button type="button" class="admin-btn" style="display: none">수정</button>
+                                                    <button type="button" class="admin-btn" style="display: none">삭제</button>
                                                 </div>
                                                 <span
                                                     class="for-report"
@@ -393,7 +393,8 @@
     </body>
     <script th:inline="javascript">
         const donation = [[${donation}]];
-        const attachments = [[${attachments}]]
+        const attachments = [[${attachments}]];
+        const member = [[${session.loginMember}]];
     </script>
     <script src="/js/donation/donation-inquiry.js"></script>
 </html>

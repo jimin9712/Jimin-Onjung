@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.File;
@@ -115,9 +117,10 @@ public class NoticeController {
 
             return "help/help-notification-inquiry"; // 조회 페이지로 이동
         } else {
-            return "redirect:/help/help-notification-list"; // 없는 경우 목록 페이지로 리다이렉트
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Notice not found"); // 없는 경우 404 오류 발생
         }
     }
+
 
 
 }
