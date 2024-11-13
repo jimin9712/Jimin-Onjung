@@ -183,79 +183,6 @@ const fetchPosts = async (page = 1) => {
 fetchFilteredPosts(1,'','작성일 순');
 
 
-// 게시글 조회 함수
-const fetchPostDetail = async (postId) => {
-    try {
-        const response = await fetch(`/admin/post-detail?id=${postId}`);
-        const data = await response.json();
-        console.log("받은 게시글 데이터:", data); // 데이터 확인
-
-        if (data.success) {
-            // attachments가 데이터에 존재하지 않으면 빈 배열로 전달
-            renderPostDetail(data.post, data.post.attachments || []);
-        } else {
-            console.error("게시글 데이터가 존재하지 않습니다.");
-        }
-    } catch (error) {
-        console.error("게시글 상세 조회 오류:", error);
-    }
-};
-
-// 댓글 작성 함수
-const submitComment = async (postId, commentContent) => {
-    try {
-        const response = await fetch(`/admin/post-comment`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ postId, commentContent })
-        });
-
-        if (response.ok) {
-            alert("댓글이 제출되었습니다.");
-            return true;
-        } else {
-            console.error("댓글 제출에 실패했습니다.");
-        }
-    } catch (error) {
-        console.error("댓글 제출 중 에러 발생:", error);
-    }
-    return false;
-};
-
-// 댓글을 가져오는 함수
-const fetchComments = async (postId) => {
-    try {
-        const response = await fetch(`/admin/post-comments?id=${postId}`);
-        const data = await response.json();
-        renderComments(data.comments);
-    } catch (error) {
-        console.error("댓글을 가져오는 중 오류 발생:", error);
-    }
-};
-
-// 댓글 상태를 변경하는 함수
-async function updateReplyStatus(replyId, status) {
-    try {
-        // 상태 변경 API 호출
-        const response = await fetch(`/admin/replies/status?id=${replyId}&status=${status}`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-
-        if (response.ok) {
-            alert('댓글 상태가 변경되었습니다.');
-        } else {
-            const error = await response.text();
-            alert(`상태 변경 실패: ${error}`);
-        }
-    } catch (error) {
-        console.error("댓글 상태 변경 중 오류 발생:", error);
-    }
-}
-
-
 const deleteSelectedPosts = async (selectedIds) => {
     try {
         const response = await fetch("/admin/delete-posts", {
@@ -274,6 +201,27 @@ const deleteSelectedPosts = async (selectedIds) => {
         }
     } catch (error) {
         console.error("삭제 요청 중 오류 발생:", error);
+    }
+};
+// ================================================게시글 조회===================================================================
+const navigateToPostPage = (postType, postId) => {
+    let url = '';
+    switch (postType) {
+        case 'VOLUNTEER':
+            url = `/volunteer/volunteer-inquiry?postId=${postId}`;
+            break;
+        case 'DONATION':
+            url = `/donation/donation-inquiry?postId=${postId}`;
+            break;
+        case 'SUPPORT':
+            url = `/support/support-inquiry?postId=${postId}`;
+            break;
+        default:
+            console.warn(`postType 못 받아옴: ${postType}`);
+            return;
+    }
+    if (url) {
+        window.location.href = url;
     }
 };
 

@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+
 @Controller
 @RequiredArgsConstructor
 @Slf4j
@@ -60,7 +61,11 @@ public class MemberController {
             log.info("로그인 성공, MemberVO: {}", member.get());
             MemberDTO memberDTOFromVO = member.get().toDTO();
             session.setAttribute("loginMember", memberDTOFromVO);
-            session.setAttribute("loginType", MemberLoginType.NORMAL);
+
+            // memberType을 통해 관리자 여부 확인 및 응답 데이터 구성
+            boolean isAdmin = "ADMIN".equalsIgnoreCase(memberDTOFromVO.getMemberType());
+            session.setAttribute("ADMIN", isAdmin);
+
             log.info("로그인 성공: {}", memberDTOFromVO);
             return ResponseEntity.ok("로그인 성공");
         } else {

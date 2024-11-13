@@ -6,8 +6,6 @@ import com.app.back.domain.notice.NoticeDTO;
 import com.app.back.domain.post.Pagination;
 import com.app.back.domain.post.PostDTO;
 import com.app.back.domain.post.Search;
-import com.app.back.domain.reply.ReplyDTO;
-import com.app.back.domain.reply.ReplyVO;
 import com.app.back.domain.report.ReportDTO;
 import com.app.back.enums.AdminPostStatus;
 import com.app.back.enums.AdminPostType;
@@ -16,11 +14,12 @@ import com.app.back.service.inquiry.InquiryService;
 import com.app.back.service.inquiryAnswer.InquiryAnswerService;
 import com.app.back.service.notice.NoticeService;
 import com.app.back.service.post.PostService;
-import com.app.back.service.reply.ReplyService;
 import com.app.back.service.report.ReportService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 
 import org.springframework.web.bind.annotation.*;
 
@@ -42,10 +41,9 @@ public class InquiryController {
     private final NoticeService noticeService;
     private final PostService postService;
     private final ReportService reportService;
-    private final ReplyService replyService;
 
 @GetMapping("/admin")   // 관리자 페이지
-public List<InquiryDTO> admin(Pagination pagination, Search search) {
+public List<InquiryDTO> admin(Pagination pagination, Search search, HttpSession session) {
     return inquiryService.getList(pagination, search);
 }
 //  @RequestBody : HTTP 요청의 본문(body)에 포함된 JSON, XML, 또는 다른 형태의 데이터를 자바 객체로 매핑
@@ -207,21 +205,40 @@ public AdminDTO getPostList(Pagination pagination, Search search, @RequestParam(
     return result;
 }
 
-@GetMapping("/admin/post-detail")
-@ResponseBody
-public AdminDTO getPostDetail(@RequestParam Long id) {
-    Optional<PostDTO> post = postService.getPost(id);
-    AdminDTO result = new AdminDTO();
+//  게시글 조회
+//@GetMapping("/admin/post-detail")
+//public AdminDTO getPostDetail(@RequestParam Long id) {
+//    Optional<PostDTO> post = postService.getPost(id);
+//    AdminDTO result = new AdminDTO();
+//
+//    if (post.isPresent()) {
+//        result.setSuccess(true);
+//        result.setPost(post.get());
+//    } else {
+//        result.setSuccess(false);
+//        result.setMessage("Post not found");
+//    }
+//    return result;
+//}
 
-    if (post.isPresent()) {
-        result.setSuccess(true);
-        result.setPost(post.get());
+// 게시글 조회 페이지 이동
+@GetMapping("/post-detail")
+public String showPostDetail(@RequestParam("postId") Long postId, Model model, HttpSession session) {
+    Optional<PostDTO> postDTO = postService.getPost(postId);
+
+    if (postDTO.isPresent()) {
+        model.addAttribute("post", postDTO.get());
+        // 세션에서 ADMIN 키로 관리자 여부를 확인하고 모델에 추가
+        Boolean isAdmin = (Boolean) session.getAttribute("ADMIN");
+        // 세션에서 `ADMIN` 값 추가
+        model.addAttribute("ADMIN", isAdmin != null && isAdmin);
     } else {
-        result.setSuccess(false);
-        result.setMessage("Post not found");
+        return "redirect:/post/list";
     }
-    return result;
+
+    return "post/post-detail";
 }
+
 
 // 게시글 삭제 (논리 삭제)
 @PatchMapping("/admin/delete-posts")
@@ -235,26 +252,6 @@ public void deletePosts(@RequestBody List<Long> postIds) {
 @ResponseBody
 public void updatePostStatus(@RequestParam Long id, @RequestParam AdminPostStatus status) {
     postService.updateStatus(id, status);
-}
-
-// 댓글 추가 API
-@PostMapping("/add")
-public String addReply(@RequestBody ReplyVO replyVO) {
-    replyService.addReply(replyVO);
-    return "댓글이 추가되었습니다.";
-}
-
-// 게시글에 대한 댓글 목록 조회 API
-@GetMapping("/{postId}")
-public List<ReplyDTO> getReplies(@PathVariable Long postId) {
-    return replyService.getRepliesByPostId(postId);  // 댓글 목록 조회
-}
-
-// 댓글 상태 변경 API
-@PatchMapping("/status")
-public String updateReplyStatus(@RequestParam Long id, @RequestParam String status) {
-    replyService.updateReplyStatus(id, status);  // 댓글 상태 업데이트
-    return "댓글 상태가 변경되었습니다.";
 }
 
 // 신고 목록
