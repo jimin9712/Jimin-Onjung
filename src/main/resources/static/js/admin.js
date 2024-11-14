@@ -306,7 +306,7 @@ function resetSelectAllInquiriesCheckbox() {
 selectAllInquiries();
 
 // 삭제 버튼 클릭 시 이벤트
-document.querySelector(".deleteSelectedBtn.inquirty-delete").addEventListener("click", () => {
+document.querySelector(".deleteSelectedBtn.inquiry-delete").addEventListener("click", () => {
     const selectedCheckboxes = document.querySelectorAll(".inquiryCheckbox:checked");
     // 각 체크박스에서 문의 ID를 가져와 배열로 저장
     const selectedIds = Array.from(selectedCheckboxes).map((checkbox) =>
