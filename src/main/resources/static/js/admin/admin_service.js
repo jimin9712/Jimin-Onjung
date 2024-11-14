@@ -4,8 +4,8 @@ const fetchFilteredInquiries = async (page = 1, keyword = inquiryKeyword, filter
         const response = await fetch(`/admin/inquiry-page?page=${page}&query=${keyword}&filterType=${filterType}`);
         const data = await response.json();
 
-        renderInquiries(data.inquiries);
-        renderPagination(data.pagination, keyword, filterType);
+        await renderInquiries(data.inquiries,data.pagination, keyword, filterType);
+
         console.log("js에서 선택된 필터 : " +filterType)
         resetSelectAllInquiriesCheckbox();
     } catch (error) {

@@ -2,7 +2,7 @@
 const inquiryContainer = document.querySelector(".inquiryTable_container");
 
 // 문의 내역 렌더링
-const renderInquiries = (inquiries) => {
+const renderInquiries = async (inquiries,pagination, keyword = '', filterType = '') => {
     let content = '';
     content += `<div
                     class="inquiryTable_row inquiryTable_header"
@@ -73,11 +73,15 @@ const renderInquiries = (inquiries) => {
     });
 
     if (inquiryContainer) {
+
         inquiryContainer.innerHTML = content;
         selectAllInquiries();
+        alert("Dd")
+
     } else {
         console.error("inquiryContainer 요소를 찾을 수 없습니다.");
     }
+    renderPagination(pagination, keyword, filterType);
 };
 // ========================== 답변 렌더링 함수 ==========================
 // 답변 렌더링 함수
@@ -223,6 +227,7 @@ const renderPagination = (pagination, keyword = '', filterType = '') => {
         <a href="#" data-page="${pagination.realEnd}" class="pagination-last-link">»</a></li>`;
 
     // 생성된 HTML을 페이지네이션 컨테이너에 삽입
+    console.log(paginationContainer)
     paginationContainer.innerHTML = paginationHTML;
 
     // 페이지네이션 클릭 이벤트 리스너 추가
