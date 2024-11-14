@@ -4,7 +4,7 @@ const inquiryContainer = document.querySelector(".inquiryTable_container");
 // 문의 내역 렌더링
 const renderInquiries = (inquiries) => {
     let content = '';
-    content+= `<div
+    content += `<div
                     class="inquiryTable_row inquiryTable_header"
             >
                 <div
@@ -56,7 +56,7 @@ const renderInquiries = (inquiries) => {
                 >
                     Action
                 </div>
-            </div>`
+            </div>`;
     inquiries.forEach((inquiry) => {
         content +=
             `<div class="inquiryTable_row data_row" data-id="${inquiry.id}">

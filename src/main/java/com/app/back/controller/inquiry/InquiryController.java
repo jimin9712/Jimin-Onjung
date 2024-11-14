@@ -70,6 +70,8 @@ public AdminDTO getInquiryList(Pagination pagination, Search search, @RequestPar
     pagination.setTotal(total);
     pagination.progress();
 
+    log.info("컨트롤러 총 합 "+total);
+
     List<InquiryDTO> inquiries;
     if (filterType == null || filterType.equals("최신순")) {
         inquiries = inquiryService.getList(pagination, search);
@@ -83,6 +85,13 @@ public AdminDTO getInquiryList(Pagination pagination, Search search, @RequestPar
 
     return adminDTO;
 }
+// 문의 목록 삭제 (논리 삭제)
+@PatchMapping("/admin/delete-inquirys")
+@ResponseBody
+public void deleteInquirys(@RequestBody List<Long> inquriyIds) {
+    inquriyIds.forEach(inquriyId -> postService.updateStatus(inquriyId, AdminPostStatus.DELETED));
+}
+
 
 //  문의 조회
 @GetMapping("/admin/inquiry-answer")

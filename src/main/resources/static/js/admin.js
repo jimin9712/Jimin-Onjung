@@ -203,9 +203,8 @@ notificationLinks.forEach((notificationLink) => {
 });
 
 
-
 //============================================================================고객센터============================
-const inquirySearchInput = document.querySelector(".Filter_searchInput");
+const inquirySearchInput = document.querySelector(".Filter_searchInput.inquiry-page-search");
 const inquiryFilters = document.querySelectorAll(".sort-filter-option.inquiry-list");
 
 // 전역 변수로 현재 검색어와 필터를 저장
@@ -305,6 +304,21 @@ function resetSelectAllInquiriesCheckbox() {
 
 selectAllInquiries();
 
+// 삭제 버튼 클릭 시 이벤트
+document.querySelector(".deleteSelectedBtn.inquirty-delete").addEventListener("click", () => {
+    const selectedCheckboxes = document.querySelectorAll(".inquiryCheckbox:checked");
+    // 각 체크박스에서 문의 ID를 가져와 배열로 저장
+    const selectedIds = Array.from(selectedCheckboxes).map((checkbox) =>
+        checkbox.closest(".data_row").getAttribute("data-id")
+    );
+
+    if (selectedIds.length === 0) {
+        alert("삭제할 게시글을 선택하세요.");
+        return;
+    }
+
+    deleteSelectedInquirys(selectedIds); // 선택한 게시글의 상태를 0(삭제)로 변경
+});
 // =====================================게시글 목록============================================
 const postSearchInput = document.querySelector(".Filter_searchInput.post-page-search");
 const postFilters = document.querySelectorAll(".post-filter-option");
@@ -398,6 +412,7 @@ let reportFilterType = '신고일 순';
 // 신고 검색어 입력
 reportSearchInput.addEventListener("keydown", (event) => {
     if (event.key === "Enter") {
+        console.log("클릭")
         event.preventDefault();  // 폼 제출 방지
         reportKeyword = reportSearchInput.value.trim();  // 검색어를 전역 변수에 저장
         fetchFilteredReports(1, reportKeyword, reportFilterType);  // 검색어로 데이터 불러오기

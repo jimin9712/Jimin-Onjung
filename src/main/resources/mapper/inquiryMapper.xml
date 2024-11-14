@@ -40,6 +40,7 @@
             join tbl_post p on i.id = p.id
             join tbl_member m on p.member_id = m.id
     <include refid="search"/>
+    where p.post_status = 'VISIBLE'
     order by p.created_date desc
     limit #{pagination.startRow}, #{pagination.rowCount};
 </select>
@@ -60,6 +61,7 @@
              join tbl_member m on p.member_id = m.id
     <include refid="search"/>
     where i.inquiry_type = #{pagination.order}
+    and p.post_status = 'VISIBLE'
     order by
     <choose>
     <when test="pagination.order == '최신순'.toString()">p.created_date</when>
