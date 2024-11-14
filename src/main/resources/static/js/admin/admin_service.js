@@ -1,11 +1,12 @@
 // 필터링된 문의 데이터를 가져오는 함수
-const fetchFilteredInquiries = async (page = 1, keyword = inquiryKeyword, filterType = '최신순') => {
+const fetchFilteredInquiries = async (page = 1, keyword = inquiryKeyword, filterType = inquiryFilterType) => {
     try {
         const response = await fetch(`/admin/inquiry-page?page=${page}&query=${keyword}&filterType=${filterType}`);
         const data = await response.json();
 
         renderInquiries(data.inquiries);
         renderPagination(data.pagination, keyword, filterType);
+        console.log("js에서 선택된 필터 : " +filterType)
         resetSelectAllInquiriesCheckbox();
     } catch (error) {
         console.error("데이터 가져오는 중 오류 발생:", error);

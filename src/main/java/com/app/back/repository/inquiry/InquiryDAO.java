@@ -28,9 +28,9 @@ public class InquiryDAO {
     public List<InquiryDTO> findAll(Pagination pagination, Search search){
         return inquiryMapper.selectAll(pagination, search);
     }
-    //    필터된 게시글 전체 조회
-    public List<InquiryDTO> findFilterAll(Pagination pagination, Search search,String filterType){
-        return inquiryMapper.selectFilterAll(pagination, search,filterType);
+    // 필터된 게시글 조회
+    public List<InquiryDTO> findFilterAll(Pagination pagination, Search search, String filterType) {
+        return inquiryMapper.selectFilterAll(pagination, search, filterType);
     }
     //    게시글 전체 개수 조회
     public int getTotal(){
@@ -59,7 +59,7 @@ public class InquiryDAO {
     //    삭제
     public void delete(Long id) {inquiryMapper.deleteById(id);}
 
-    // **필터 조건에 맞는 전체 개수 조회 메서드 추가**
+    // 필터 조건에 맞는 전체 개수 조회
     public int getTotalWithFilter(Search search, String filterType) {
         return inquiryMapper.selectTotalWithFilter(search, filterType);
     }

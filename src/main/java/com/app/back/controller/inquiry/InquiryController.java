@@ -61,30 +61,42 @@ public AdminDTO getInquiryList(Pagination pagination, Search search, @RequestPar
     search.setKeyword(query);
 
     int total;
+
+    // 필터 타입이 null이거나 기본 "최신순"일 경우
     if (filterType == null || filterType.equals("최신순")) {
-        total = inquiryService.getTotalWithSearch(search);
+        pagination.setOrder("최신순"); // 기본 정렬 순서를 설정
+        total = inquiryService.getTotalWithSearch(search); // 검색된 문의의 총 개수 조회
     } else {
+        // "일반 문의"와 "봉사단체 가입 문의" 필터를 변환하고 필터된 총 개수 조회
+        if ("일반 문의".equals(filterType)) {
+            filterType = "NORMAL";
+        } else if ("봉사단체 가입 문의".equals(filterType)) {
+            filterType = "VOLUNTEER";
+        }
         total = inquiryService.getTotalWithFilter(search, filterType);
     }
 
+    // 총 개수를 페이지네이션에 설정하고 페이지 계산을 진행
     pagination.setTotal(total);
     pagination.progress();
 
-    log.info("컨트롤러 총 합 "+total);
-
     List<InquiryDTO> inquiries;
-    if (filterType == null || filterType.equals("최신순")) {
-        inquiries = inquiryService.getList(pagination, search);
+
+    // 설정된 정렬 조건에 따라 문의 목록 조회
+    if (pagination.getOrder() != null && pagination.getOrder().equals("최신순")) {
+        inquiries = inquiryService.getList(pagination, search); // 기본 정렬로 문의 목록 조회
     } else {
-        inquiries = inquiryService.getFilterList(pagination, search, filterType);
+        inquiries = inquiryService.getFilterList(pagination, search, filterType); // 필터된 문의 목록 조회
     }
 
+    // 결과 데이터를 AdminDTO에 설정하여 반환
     AdminDTO adminDTO = new AdminDTO();
     adminDTO.setInquiries(inquiries);
     adminDTO.setPagination(pagination);
 
     return adminDTO;
 }
+
 // 문의 목록 삭제 (논리 삭제)
 @PatchMapping("/admin/delete-inquirys")
 @ResponseBody
@@ -182,8 +194,8 @@ public AdminDTO getPostList(Pagination pagination, Search search, @RequestParam(
     search.setKeyword(query);
     int total;
     log.info("받은 필터 타입: {}", filterType); // 필터 타입 확인 로그
-    // 필터 타입이 null이거나 기본 "작성일 순"일 경우
-    if (filterType == null || filterType.equals("작성일 순")) {
+
+    if (filterType == null || filterType.equals("작성일 순")) { // 필터 타입이 null이거나 기본 "작성일 순"일 경우
         pagination.setOrder("작성일 순"); // 기본 정렬 순서를 설정
         total = postService.getTotalWithSearch(search); // 검색된 게시글의 총 개수 조회
     }
