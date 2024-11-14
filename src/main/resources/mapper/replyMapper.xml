@@ -6,4 +6,17 @@
         values (#{id}, #{replyContent}, #{replyStatus},#{memberId},#{postId});
     </insert>
 
+    <select id="postReplyAll" resultType="ReplyDTO">
+        select id, reply_content, reply_status, created_date, updated_date,member_id, post_id
+        from tbl_reply
+        where post_id = #{postId} AND reply_status = 'VISIBLE'
+        order BY created_date DESC
+    </select>
+
+    <update id="updateStatusById">
+        update tbl_reply
+        set reply_status = #{status}
+        where id = #{id}
+    </update>
+
 </mapper>

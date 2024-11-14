@@ -68,7 +68,7 @@ const renderInquiries = (inquiries) => {
                 <div class="inquiryTable_cell">${inquiry.memberNickName}</div>
                 <div class="inquiryTable_cell">${inquiry.inquiryEmail}</div>
                 <div class="inquiryTable_cell">${inquiry.inquiryStatus}</div>
-                <div class="inquiryTable_cell"><button class="editBtn">답변하기</button></div>
+                <div class="inquiryTable_cell"><button class="editBtn inquiryBtn">답변하기</button></div>
             </div>`;
     });
 
@@ -185,8 +185,6 @@ const renderAnswer = (inquiryAnswer) => {
                     </form>
                 </div>
             </div>`;
-        const answerForm = document.getElementById("new-request");
-        answerForm.addEventListener("submit", handleAnswerSubmit);
 
     } else {
         console.error("answerContainer 요소를 찾을 수 없습니다.");
@@ -466,127 +464,7 @@ const postPagination = (pagination,keyword ='',filterType='') => {
 
 };
 
-const renderPostDetail = (post, attachments) => {
-    const postDetailContainer = document.querySelector(".container-main-body");
-
-    if (!postDetailContainer) {
-        console.error("container-main-body 요소를 찾을 수 없습니다.");
-        return;
-    }
-
-    postDetailContainer.innerHTML = `
-        <section class="main-info-wrap">
-            <section class="main-info">
-                <section class="left">
-                    <div class="content-wrapper">
-                        <div class="main-thumbnail-container">
-                            <div class="main-thumbnail" width="100%">
-                                <div>
-                                    <img src="${post.thumbnailUrl || 'https://via.placeholder.com/570'}" 
-                                         alt="${post.postTitle} 이미지" 
-                                         style="width: 570px; height: 570px;" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tabs-navigation-wrapper tab-wrapper">
-                        <div class="tab-style tabs">
-                            <div class="active tab">내용</div>
-                            <div class="tab">댓글<label class="tab-sticker">2</label></div>
-                        </div>
-                    </div>
-                    <div class="content-wrap">
-                        <section class="content-container">
-                            <section class="content-introduce">
-                                <div class="content-title row-title">한 줄 요약</div>
-                                <div class="content-content row-content">${post.postSummary}</div>
-                            </section>
-                        </section>
-                        <section class="content-title-container">
-                            <div class="content-title row-title">목표 포인트</div>
-                            <div class="content-content row-content">50000</div>
-                        </section>
-                        <section class="content-title-container">
-                            <div class="content-title row-title">내용</div>
-                            <div class="content-content row-content">${post.postContent}</div>
-                        </section>
-                        <section class="attach-title-container">
-                            <div class="content-title row-title">첨부파일</div>
-                            <div class="content-content row-content">
-                                <ul class="attach-list attachments">
-                                    ${attachments.map(file => `
-                                        <li>
-                                            <p class="file-name">${file.attachmentFileRealName}</p>
-                                            <span class="file-download">
-                                                <a href="${file.attachmentFilePath}/${file.attachmentFileName}" download="${file.attachmentFileRealName}" class="attach-save">저장</a>
-                                            </span>
-                                        </li>
-                                    `).join('')}
-                                </ul>
-                            </div>
-                        </section>
-                    </div>
-                </section>
-                <section class="right">
-                    <div class="sticky-box">
-                        <div class="right-title-wrap end">
-                            <div class="right-title-container">
-                                <h2 class="title">${post.postTitle}</h2>
-                                <div class="user-info">
-                                    <a href="/m/${post.userId}" class="avatar-container avatar">
-                                        <img src="${post.userAvatar || 'https://via.placeholder.com/256'}" />
-                                    </a>
-                                    <div class="user-info-text-wrapper">
-                                        <p class="user-nick-container company" title="${post.memberNickName}">
-                                            <a class="user-nick nick" href="/m/${post.userId}">${post.memberNickName}</a>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <section class="prize-wrap prize">
-                                <div class="help">
-                                    <p>목표 포인트</p>
-                                </div>
-                                <div class="total-prize"></div>
-                                <ul class="prizes">
-                                    <div class="graph-wrap">
-                                        <div class="graph-status">
-                                            <span><strong class="num"></strong>%</span>
-                                        </div>
-                                        <div class="graph-bar"><span></span></div>
-                                    </div>
-                                </ul>
-                            </section>
-                            <div class="row-line"></div>
-                            <section class="info-box-container meta">
-                                <div class="right-info-style info-box">
-                                    <div class="title">모금 기간</div>
-                                    <div class="content">6일</div>
-                                    <div class="sub-content"><span>24.10.05 ~ 24.10.11</span></div>
-                                </div>
-                                <div class="right-info-style info-box">
-                                    <div class="title">참여 인원 수</div>
-                                    <div class="content">3명</div>
-                                </div>
-                                <div class="right-info-style info-box">
-                                    <div class="title">조회수</div>
-                                    <div class="content">${post.viewCount}</div>
-                                </div>
-                            </section>
-                            <div class="donation-btn-wrap">
-                                <div class="donation-btn-container tooltip">
-                                    <a class="donation-btn-style"><span class="visual-correction">기부하기</span></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </section>
-        </section>
-    `;
-};
 // =============================== 신고 목록 =====================================
-
 // 신고 데이터 렌더링 함수
 const renderReports = (reports) => {
     const reportContainer = document.querySelector(".ServiceTable_container.report-page");

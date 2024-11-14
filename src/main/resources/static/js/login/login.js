@@ -27,9 +27,10 @@ document.getElementById("login-btn").addEventListener("click", async function (e
                 memberPassword: password
             })
         });
-
+        const result = await response.json();
         if (response.ok) {
-            window.location.href = "/main/main";
+            const redirectUrl = result.redirectUrl;
+            window.location.href = redirectUrl;
         } else {
             warningMsg.style.display = "block";
             warningMsg.innerText = "가입되어 있지 않은 이메일이거나 이메일 또는 비밀번호가 일치하지 않습니다.";

@@ -23,7 +23,7 @@ from tbl_vt v
 # DESCRIBE tbl_vt;
 
 INSERT INTO tbl_vt (id, recruitment_count, vt_s_date, vt_e_date)
-VALUES (40, 13, '2024-11-03', '2024-11-12');
+VALUES (23, 13, '2024-11-03', '2024-11-12');
 
 # drop table tbl_vt;
 

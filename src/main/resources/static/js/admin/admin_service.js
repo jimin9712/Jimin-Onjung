@@ -29,79 +29,45 @@ const fetchInquiries = async (page = 1) => {
 
 // 초기 데이터 로드
 fetchFilteredInquiries(1, '', '최신순'); // 페이지 1, 빈 검색어, "최신순" 필터
-// ==================================================================================================답변하기
-// 답변하기 버튼을 눌렀을 때
-document.addEventListener("DOMContentLoaded", () => {
-    const sections = document.querySelectorAll("section.admin-page");
-
-    document.querySelector(".inquiryTable_container").addEventListener("click", async (event) => {
-        if (event.target.classList.contains("editBtn")) {
-            sections.forEach((section) => section.classList.remove("selected")); // 모든 섹션 선택 해제
-            // sections은 모든 .admin-page 섹션을 담고있는 nodeList이고, Array.from을 통해서 NodeList를 배열로 변환하여 배열 메서드를 사용할 수 있게 한다.
-            const inquiryAnswerSection = Array.from(sections).find(
-                // dataset : JavaScript에서 HTML 요소의 데이터 속성에 접근하고 조작할 수 있도록 해주는 특수한 속성
-                // 특정 정보를 HTML 요소에 저장하고 싶을 때 유용하게 사용할 수 있다.
-                (section) => section.dataset.value === "고객센터 문의 답변"
-            );
-            if (inquiryAnswerSection) {
-                inquiryAnswerSection.classList.add("selected"); // 고객센터 문의 답변 섹션에 selected 추가
-                //event.target.closest : 이벤트가 발생한 요소의 가장 가까운 ex).notification 클래스를 찾으며 즉 .notification 클래스를 가진
-                // 요소가 클릭된 요소와 같은 레벨이거나 상위에 있을 때 그요소를 가져오는 역할을 한다.
-                const inquiryId = event.target.closest(".data_row").getAttribute("data-id"); // 게시글 ID 가져오기
-                try {
-                    const response = await fetch(`/admin/inquiry-answer?id=${inquiryId}`);
-                    if (response.ok) {
-                        const data = await response.json();
-                        renderAnswer(data.inquiry); // 받아온 데이터 렌더링
-                    } else {
-                    }
-                } catch (error) {
-                }
-            } else {
-            }
+// ==========================================답변하기========================================================
+// 문의 조회
+const fetchInquiryData = async (inquiryId) => {
+    console.log("fetchInquiryData 호출 - ID:", inquiryId); // fetchInquiryData 호출 확인
+    try {
+        const response = await fetch(`/admin/inquiry-answer?id=${inquiryId}`);
+        console.log("fetchInquiryData 응답 상태:", response.ok); // 응답 상태 확인
+        if (response.ok) {
+            const data = await response.json();
+            console.log("fetchInquiryData 응답 데이터:", data); // 응답 데이터 확인
+            return data.inquiries[0]; // 문의 데이터를 반환 (inquiries 배열의 첫 요소)
+        } else {
+            console.error("fetchInquiryData - 문의 데이터를 가져오는 데 실패했습니다.");
         }
-    });
-});
-// ======================================================================================================== 답변제출
-// 답변 제출을 눌렀을 때
-const handleAnswerSubmit = async (event) => {
-    event.preventDefault();
+    } catch (error) {
+        console.error("fetchInquiryData - 에러 발생:", error);
+    }
+};
 
-    const form = event.target;
-    const inquiryId = form.querySelector('input[name="request-title"]').getAttribute("data-id");
-    const answerContent = form.querySelector('textarea[name="answer-content"]').value;
-    const payload = {
-        inquiryId: inquiryId,
-        inquiryAnswer: answerContent,
-    };
+
+// 답변 데이터를 서버로 전송하는 함수
+const submitAnswer = async (inquiryId, answerContent) => {
     try {
         const response = await fetch('/admin/inquiry-answer', {
             method: 'POST',
-            body: JSON.stringify(payload),
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ inquiryId, inquiryAnswer: answerContent }),
         });
-        console.log("서버 응답 상태:", response.ok); // 응답 상태 확인
+
         if (response.ok) {
             alert("답변이 제출되었습니다.");
-            fetchInquiries();
-
-            sections.forEach((section) => {
-                section.classList.remove("selected");
-            });
-            const inquiryListSection = Array.from(sections).find(
-                (section) => section.dataset.value === "고객센터 문의 목록"
-            );
-            if (inquiryListSection) {
-                inquiryListSection.classList.add("selected");
-            } else {
-            }
+            return true;
         } else {
-            const errorText = await response.text();
+            console.error("답변 제출에 실패했습니다.");
         }
     } catch (error) {
+        console.error("답변 제출 중 에러 발생:", error);
     }
+    return false;
 };
 
 // ======================================================================================= 여기서부터 공지사항
@@ -217,19 +183,6 @@ const fetchPosts = async (page = 1) => {
 fetchFilteredPosts(1,'','작성일 순');
 
 
-// 게시글 조회 함수
-const fetchPostDetail = async (postId) => {
-    try {
-        const response = await fetch(`/admin/post-detail?id=${postId}`);
-        const data = await response.json();
-        if (data.success) {
-            renderPostDetail(data.post); // 받은 데이터를 표시
-        } else {
-        }
-    } catch (error) {
-        console.error("게시글 상세 조회 오류:", error);
-    }
-};
 const deleteSelectedPosts = async (selectedIds) => {
     try {
         const response = await fetch("/admin/delete-posts", {
@@ -241,8 +194,8 @@ const deleteSelectedPosts = async (selectedIds) => {
         });
 
         if (response.ok) {
-            alert("선택한 게시글이 삭제되었습니다.");  // 삭제 성공 메시지
-            fetchFilteredPosts();  // 신고 목록 새로고침
+            alert("선택한 게시글이 삭제되었습니다.");  // 게시글 삭제 성공 메시지
+            fetchFilteredPosts();  // 게시글 목록 새로고침
         } else {
             console.error("삭제 실패:", response.status);
         }
@@ -250,6 +203,90 @@ const deleteSelectedPosts = async (selectedIds) => {
         console.error("삭제 요청 중 오류 발생:", error);
     }
 };
+// ================================================게시글 조회===================================================================
+// 리뷰 데이터를 모달에 표시하는 함수
+function renderReviewModalContent(data) {
+    const modalTitle = document.querySelector("#review-modal .modal-title");
+    const modalBody = document.querySelector("#review-modal .modal-body");
+    const modalRating = document.querySelector("#review-modal .modal-rating");
+
+    // 성공한 경우 리뷰 내용을 모달에 표시
+    if (data.success) {
+        modalTitle.textContent = data.review.postTitle || "이용후기에 대한 제목이 없음";
+        modalBody.textContent = data.review.postContent || "이용후기에 대한 내용이 없음";
+        modalRating.textContent = `Rating: ${data.review.reviewStarRate || "이용후기에 대한 평점이 없음"}`;
+    }
+    // 실패한 경우 오류 메시지를 모달에 표시
+    else {
+        modalTitle.textContent = "오류";
+        modalBody.textContent = data.message || "조회된 아이디가 없습니다.";
+        modalRating.textContent = ""; // 오류 시 평점 내용 제거
+    }
+
+    document.querySelector('#review-modal').style.display = 'block';
+}
+
+// '이용 후기' 모달 열기 함수
+const openReviewModal = async (reviewId) => {
+    try {
+        const response = await fetch(`/admin/review-detail?reviewId=${reviewId}`);
+
+        if (!response.ok) {
+            throw new Error("리뷰 데이터를 불러오는 데 실패했습니다.");
+        }
+
+        const data = await response.json();
+        // 모달 내용 렌더링
+        renderReviewModalContent(data);
+        // 모달을 보이도록 설정
+        document.querySelector('#review-modal').style.display = 'block';
+
+    } catch (error) {
+        console.error('리뷰 데이터를 가져오는 중 오류:', error);
+    }
+};
+
+// 게시글 조회 시 해당 postType에 따라 페이지 이동 또는 모달 열기
+const navigateToPostPage = (postType, postId) => {
+    if (postType === 'REVIEW') {
+        // REVIEW 타입일 경우 모달을 엽니다.
+        openReviewModal(postId);
+    } else {
+        // 다른 타입은 기존 URL로 이동합니다.
+        let url = '';
+        switch (postType) {
+            case 'VOLUNTEER':
+                url = `/volunteer/volunteer-inquiry?postId=${postId}`;
+                break;
+            case 'DONATION':
+                url = `/donation/donation-inquiry?postId=${postId}`;
+                break;
+            case 'SUPPORT':
+                url = `/support/support-inquiry?postId=${postId}`;
+                break;
+            default:
+                console.warn(`postType 못 받아옴: ${postType}`);
+                return;
+        }
+        if (url) {
+            window.location.href = url;
+        }
+    }
+};
+
+// 모달을 닫는 함수
+const closeModal = () => {
+    document.querySelector('#review-modal').style.display = 'none';
+};
+
+// 모달 외부 클릭 시 닫히게 설정
+window.addEventListener("click", (event) => {
+    const modal = document.querySelector("#review-modal");
+    if (event.target === modal) {
+        closeModal();
+    }
+});
+
 
 // =========================================================================== 신고 목록=====================================
 // 필터링된 신고 데이터를 가져오는 함수
@@ -260,6 +297,7 @@ const fetchFilteredReports = async (page = 1, keyword = reportKeyword, filterTyp
 
         renderReports(data.reports);
         reportPagination(data.pagination, keyword, filterType);
+        console.log(data.pagination.total);
         resetSelectAllReportsCheckbox();
     } catch (error) {
         console.error("신고 데이터를 가져오는 중 오류 발생:", error);
@@ -302,7 +340,56 @@ const deleteSelectedReports = async (selectedIds) => {
         console.error("삭제 요청 중 오류 발생:", error);
     }
 };
+// 상태 변경 버튼 클릭 이벤트
+document.querySelectorAll(".status-btn").forEach((button) => {
+    button.addEventListener("click", async (event) => {
+        const reportId = event.target.closest(".ServiceTable_row").querySelector(".post_ID").textContent.trim();
 
+        try {
+            const response = await fetch("/admin/update-report-status", {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(reportId),  // reportId 전송
+            });
+
+            if (response.ok) {
+                alert("상태가 '처리완료'로 변경되었습니다.");
+                fetchFilteredReports();  // 목록 새로고침
+            } else {
+                console.error("상태 변경 실패:", response.status);
+            }
+        } catch (error) {
+            console.error("상태 변경 요청 중 오류 발생:", error);
+        }
+    });
+});
+
+
+// 상태 변경 버튼 클릭 이벤트
+const updateSelectedReportStatus = async (selectedIds) => {
+
+    // PATCH 요청으로 상태 변경
+    try {
+        const response = await fetch("/admin/update-report-status", {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({selectedIds }),
+        });
+
+        if (response.ok) {
+            alert("선택한 신고 항목의 상태가 'COMPLETE'로 변경되었습니다.");
+            fetchFilteredReports(); // 목록 새로고침
+        } else {
+            console.error("상태 변경 실패:", response.status);
+        }
+    } catch (error) {
+        console.error("상태 변경 요청 중 오류 발생:", error);
+    }
+};
 
 
 

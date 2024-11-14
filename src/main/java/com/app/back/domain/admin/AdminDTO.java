@@ -5,6 +5,7 @@ import com.app.back.domain.notice.NoticeDTO;
 import com.app.back.domain.post.PostDTO;
 import com.app.back.domain.report.ReportDTO;
 import com.app.back.domain.post.Pagination;
+import com.app.back.domain.review.ReviewDTO;
 import lombok.*;
 import org.springframework.stereotype.Component;
 
@@ -27,6 +28,7 @@ public class AdminDTO {
     private String message;
     private NoticeDTO notice;
     private PostDTO post;
-
+    private List<Long> selectedIds;
+    private ReviewDTO review;
 
 }

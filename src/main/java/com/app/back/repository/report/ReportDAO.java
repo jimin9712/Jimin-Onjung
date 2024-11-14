@@ -4,6 +4,7 @@ import com.app.back.domain.post.Pagination;
 import com.app.back.domain.post.Search;
 import com.app.back.domain.report.ReportDTO;
 import com.app.back.domain.report.ReportVO;
+import com.app.back.enums.AdminReportStatus;
 import com.app.back.mapper.report.ReportMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -42,10 +43,9 @@ public class ReportDAO {
     }
 
     // 신고 상태 업데이트
-    public void updateStatus(Long id, String status) {
-        reportMapper.updateStatus(id, status);
+    public void updateStatus(Long id, AdminReportStatus status) {
+        reportMapper.updateStatus(id, status.name());  // Enum name()으로 변환하여 상태 업데이트
     }
-
     // 신고 삭제
     public void delete(Long id) {
         reportMapper.deleteById(id);
