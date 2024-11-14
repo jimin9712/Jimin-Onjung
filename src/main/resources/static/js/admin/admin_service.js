@@ -29,6 +29,28 @@ const fetchInquiries = async (page = 1) => {
 
 // 초기 데이터 로드
 fetchFilteredInquiries(1, '', '최신순'); // 페이지 1, 빈 검색어, "최신순" 필터
+
+const deleteSelectedInquirys = async (selectedIds) => {
+    try {
+        const response = await fetch("/admin/delete-inquirys", {
+            method: "PATCH",  // PATCH 메서드를 사용하여 부분 업데이트 요청
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(selectedIds),  // 선택된 게시글 ID 배열을 전송
+        });
+
+        if (response.ok) {
+            alert("선택한 게시글이 삭제되었습니다.");  // 게시글 삭제 성공 메시지
+            fetchFilteredInquiries();  // 게시글 목록 새로고침
+        } else {
+            console.error("삭제 실패:", response.status);
+        }
+    } catch (error) {
+        console.error("삭제 요청 중 오류 발생:", error);
+    }
+};
+
 // ==========================================답변하기========================================================
 // 문의 조회
 const fetchInquiryData = async (inquiryId) => {
@@ -181,7 +203,6 @@ const fetchPosts = async (page = 1) => {
     }
 };
 fetchFilteredPosts(1,'','작성일 순');
-
 
 const deleteSelectedPosts = async (selectedIds) => {
     try {
@@ -340,32 +361,6 @@ const deleteSelectedReports = async (selectedIds) => {
         console.error("삭제 요청 중 오류 발생:", error);
     }
 };
-// 상태 변경 버튼 클릭 이벤트
-document.querySelectorAll(".status-btn").forEach((button) => {
-    button.addEventListener("click", async (event) => {
-        const reportId = event.target.closest(".ServiceTable_row").querySelector(".post_ID").textContent.trim();
-
-        try {
-            const response = await fetch("/admin/update-report-status", {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(reportId),  // reportId 전송
-            });
-
-            if (response.ok) {
-                alert("상태가 '처리완료'로 변경되었습니다.");
-                fetchFilteredReports();  // 목록 새로고침
-            } else {
-                console.error("상태 변경 실패:", response.status);
-            }
-        } catch (error) {
-            console.error("상태 변경 요청 중 오류 발생:", error);
-        }
-    });
-});
-
 
 // 상태 변경 버튼 클릭 이벤트
 const updateSelectedReportStatus = async (selectedIds) => {
@@ -377,7 +372,7 @@ const updateSelectedReportStatus = async (selectedIds) => {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({selectedIds }),
+            body: JSON.stringify({selectedIds}),
         });
 
         if (response.ok) {
