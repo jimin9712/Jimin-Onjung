@@ -226,8 +226,8 @@ inquiryFilters.forEach((option) => {
         // classList : 동적으로 클래스를 추가하고 제거하여 필터가 선택되었음을 시각적 표시. 다른 필터는 비활성화 상태로 보이게하기위함
         inquiryFilters.forEach((opt) => opt.classList.remove("selected")); // 모든 필터 초기화
         option.classList.add("selected"); // 선택된 필터만 활성화
-
         inquiryFilterType = option.textContent.trim();
+        console.log("inquiryFilterType 타입 : "+ inquiryFilterType );
         fetchFilteredInquiries(1, inquiryKeyword, inquiryFilterType); // 필터 조건으로 데이터 불러오기
     });
 });
@@ -248,6 +248,7 @@ document.querySelector(".inquiryTable_container").addEventListener("click", asyn
                 renderAnswer(inquiryData);
     }
 });
+
 document.addEventListener("DOMContentLoaded", () => {
     // submit 버튼 클릭 이벤트 등록
     document.addEventListener("click", async (e) => {

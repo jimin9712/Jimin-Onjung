@@ -21,27 +21,27 @@ public class InquiryMapperTests {
     @Test
     public void testwrite() {
         InquiryDTO inquiryDTO = new InquiryDTO();
-        inquiryDTO.setId(1L);
-        inquiryDTO.setPostStatus("VISIBLE");
-        inquiryDTO.setInquiryEmail("test@gmail.com");
-        inquiryDTO.setInquiryPhone("010-1234-5678");
+        inquiryDTO.setId(205L);
+        inquiryDTO.setPostStatus("");
+        inquiryDTO.setInquiryEmail("152@gmail.com");
+        inquiryDTO.setInquiryPhone("2222222222");
         inquiryDTO.setInquiryType("VOLUNTEER");
-        inquiryDTO.setPostTitle("봉사단체 가입 문의 1");
-        inquiryDTO.setPostContent("1번내용");
+        inquiryDTO.setPostTitle("152번제목");
+        inquiryDTO.setPostContent("152번내용");
         inquiryMapper.insert(inquiryDTO.toVO());
     }
     @Test
     public void testWriteMultiple() {
-        for (long i =11; i <= 150; i++) {
+        for (long i =1; i <= 150; i++) {
             InquiryDTO inquiryDTO = new InquiryDTO();
             inquiryDTO.setId(i);
             inquiryDTO.setPostStatus("");
             inquiryDTO.setInquiryEmail(i+ "@gmail.com");
             inquiryDTO.setInquiryPhone("i");
             if (i % 2 == 0) {
-                inquiryDTO.setInquiryType("일반 문의");
+                inquiryDTO.setInquiryType("NORMAL");
             } else {
-                inquiryDTO.setInquiryType("봉사단체 가입 문의");
+                inquiryDTO.setInquiryType("VOLUNTEER");
             }
             inquiryDTO.setPostTitle(i + "번 제목");
             inquiryDTO.setPostContent(i + "번 내용");
