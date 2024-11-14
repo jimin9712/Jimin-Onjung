@@ -60,15 +60,10 @@
              join tbl_post p on i.id = p.id
              join tbl_member m on p.member_id = m.id
     <include refid="search"/>
-    where i.inquiry_type = #{pagination.order}
-    and p.post_status = 'VISIBLE'
-    order by
-    <choose>
-    <when test="pagination.order == '최신순'.toString()">p.created_date</when>
-    <otherwise>i.inquiry_type</otherwise>
-    </choose>
-    desc
-        limit #{pagination.startRow}, #{pagination.rowCount};
+    where p.post_status = 'VISIBLE'
+    and i.inquiry_type = #{filterType}
+    order by p.created_date desc
+    limit #{pagination.startRow}, #{pagination.rowCount};
 </select>
 
 <select id="selectById" resultType="inquiryDTO">
@@ -78,13 +73,18 @@
 </select>
 
 <select id="selectTotal">
-    select count(*) from tbl_inquiry
+    select count(*)
+    from tbl_inquiry i
+    join tbl_post p on i.id = p.id
+    where p.post_status = 'VISIBLE'
 </select>
 
 <select id="selectTotalWithSearch">
-    select count(*) from tbl_post p join tbl_inquiry i
-    on p.id = i.id
+    select count(*)
+    from tbl_inquiry i
+    join tbl_post p on i.id = p.id
     <include refid="search"/>
+    and p.post_status = 'VISIBLE'
 </select>
 
 <select id="selectTotalWithFilter" resultType="int">
@@ -93,9 +93,8 @@
     join tbl_post p on i.id = p.id
     join tbl_member m on p.member_id = m.id
     <include refid="search"/>
-    <if test="filterType != null">
-        and i.inquiry_type = #{filterType}
-    </if>
+    where p.post_status = 'VISIBLE'
+    and i.inquiry_type = #{filterType}
 </select>
 
 
