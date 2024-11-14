@@ -586,7 +586,47 @@ const reportPagination = (pagination, keyword = '', filterType = '') => {
 });
 };
 
+// 고객센터 문의 목록의 전체 선택 및 개별 선택 체크박스 관리
+const selectAllInquiries = () => {
+    const selectAllCheckbox = document.getElementById("selectAllInquiries");
+    if (selectAllCheckbox) {
+        selectAllCheckbox.addEventListener("change", function () {
+            const checkboxes = document.querySelectorAll(".inquiryCheckbox");
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = this.checked;
+            });
+        });
+    }
 
+    // 개별 체크박스 클릭 시 전체 선택 체크박스 상태 업데이트
+    document.querySelectorAll(".inquiryCheckbox").forEach(checkbox => {
+        checkbox.addEventListener("change", function () {
+            const allChecked = document.querySelectorAll(".inquiryCheckbox:checked").length === document.querySelectorAll(".inquiryCheckbox").length;
+            selectAllCheckbox.checked = allChecked;
+        });
+    });
+};
+
+// 신고 목록의 전체 선택 및 개별 선택 체크박스 관리
+const selectAllReports = () => {
+    const selectAllCheckbox = document.getElementById("selectAllReports");
+    if (selectAllCheckbox) {
+        selectAllCheckbox.addEventListener("change", function () {
+            const checkboxes = document.querySelectorAll(".reportCheckbox");
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = this.checked;
+            });
+        });
+    }
+
+    // 개별 체크박스 클릭 시 전체 선택 체크박스 상태 업데이트
+    document.querySelectorAll(".reportCheckbox").forEach(checkbox => {
+        checkbox.addEventListener("change", function () {
+            const allChecked = document.querySelectorAll(".reportCheckbox:checked").length === document.querySelectorAll(".reportCheckbox").length;
+            selectAllCheckbox.checked = allChecked;
+        });
+    });
+};
 
 
 
