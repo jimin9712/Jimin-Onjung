@@ -2,7 +2,7 @@
 const inquiryContainer = document.querySelector(".inquiryTable_container");
 
 // 문의 내역 렌더링
-const renderInquiries = (inquiries) => {
+const renderInquiries = async (inquiries) => {
     let content = '';
     content += `<div
                     class="inquiryTable_row inquiryTable_header"
