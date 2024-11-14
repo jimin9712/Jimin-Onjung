@@ -549,3 +549,20 @@ a {
     gap: 20px;
 }
 
+@media (min-width: 1024px) {
+    .notification-wrap {
+        flex-direction: row-reverse;
+        justify-content: space-between;
+        width: 920px;
+    }
+}
+
+.notification-inquiry-container {
+    gap: 16px;
+    justify-content: flex-start;
+    border-bottom: 1px solid rgb(233, 235, 237);
+}
+
+.notification-write-form, .notification-update-form {
+    margin-top: 40px;
+}

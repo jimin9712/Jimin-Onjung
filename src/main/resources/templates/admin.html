@@ -414,8 +414,8 @@
                         </section>
                         <section class="admin-page" data-value="공지사항 작성">
                             <div style="max-width: 1080px; margin: 24px 16px 0;">
-                                <h1>공지사항 내용</h1>
-                                <div class="form">
+                                <h1>공지사항 작성</h1>
+                                <div class="form notification-write-form">
                                     <form
                                             class="request-form"
                                             data-form
@@ -437,7 +437,7 @@
                                         </div>
                                         <div class="form-field-gap"></div>
                                         <div class="form-field required">
-                                            <label for="request-description">문의 내용</label>
+                                            <label for="request-description">공지사항 내용</label>
                                             <textarea
                                                     name="request-description"
                                             >마이페이지를 열었더니 제가 이전에 충전한 포인트가 없어졌는데 이거 왜 그런건가요? 사진 첨부해서 보냅니다.</textarea>
@@ -465,21 +465,6 @@
                                 <section class="sidebar-container">
                                     <section class="sidebar" style="width: 259.4px; margin-top: 24px;">
                                         <h3 class="sidebar-title" style="height: 54px;">공지사항</h3>
-                                        <div class="donation-btn-container report-wrap">
-                                            <a class="donation-btn-style2 go-update admin-btn"
-                                            ><span
-                                                    class="visual-correction"
-                                            >수정하기</span
-                                            ></a
-                                            >
-                                            <div class="space"></div>
-                                            <a class="donation-btn-style2 go-delete admin-btn"
-                                            ><span
-                                                    class="visual-correction"
-                                            >삭제하기</span
-                                            ></a
-                                            >
-                                        </div>
                                         <ul style="height: 445.4px;" class="sidebar-content">
                                             <li>
                                                 <a
@@ -566,8 +551,23 @@
                                             </li>
                                         </ul>
                                     </section>
+                                    <div class="donation-btn-container report-wrap">
+                                        <a class="donation-btn-style2 go-update admin-btn"
+                                        ><span
+                                                class="visual-correction"
+                                        >수정하기</span
+                                        ></a
+                                        >
+                                        <div class="space"></div>
+                                        <a class="donation-btn-style2 go-delete admin-btn"
+                                        ><span
+                                                class="visual-correction"
+                                        >삭제하기</span
+                                        ></a
+                                        >
+                                    </div>
                                 </section>
-                                <article class="notification-container" style="margin: 24px 16px;">
+                                <article class="notification-inquiry-container" style="margin: 24px 16px;">
                                     <header class="notification-header">
                                         <h1 style="font-size: 20px">
                                             10.22 사이트 업데이트 내용 및 새로운 후원
@@ -596,7 +596,7 @@
                                                 </p>
                                                 <p>&nbsp;</p>
                                                 <p>
-                                                    미운영 시간에 남겨주신 문의 내용은
+                                                    미운영 시간에 남겨주신 공지사항 내용은
                                                     다음 정상 영업일 10/10 (목) 운영
                                                     시간 내,
                                                 </p>
@@ -614,6 +614,54 @@
                                     </section>
                                 </article>
                             </div>
+                        </section>
+                        <section class="admin-page" data-value="공지사항 수정">
+                        <div style="max-width: 1080px; margin: 24px 16px 0;">
+                            <h1>공지사항 수정</h1>
+                            <div class="form notification-update-form">
+                                <form
+                                        class="request-form"
+                                        data-form
+                                        data-form-type="request"
+                                        action="/help/write"
+                                        accept-charset="UTF-8"
+                                        method="post"
+                                >
+                                    <div class="form-field required">
+                                        <label for="request-title">공지사항 제목</label>
+                                        <input
+                                                type="text"
+                                                name="request-title"
+                                                maxlength="150"
+                                                size="150"
+                                                placeholder="간단한 제목을 입력해주세요."
+                                                value="마이페이지에서 문제가 발생했는데 해결해주세요."
+                                        />
+                                    </div>
+                                    <div class="form-field-gap"></div>
+                                    <div class="form-field required">
+                                        <label for="request-description">공지사항 내용</label>
+                                        <textarea
+                                                name="request-description"
+                                        >마이페이지를 열었더니 제가 이전에 충전한 포인트가 없어졌는데 이거 왜 그런건가요? 사진 첨부해서 보냅니다.</textarea>
+                                        <input
+                                                type="hidden"
+                                                name="request-description-input"
+                                                value="text/plain"
+                                                style="display: none"
+                                                autocomplete="off"
+                                        />
+                                    </div>
+                                    <footer>
+                                        <input
+                                                type="submit"
+                                                name="submit"
+                                                value="제출"
+                                        />
+                                    </footer>
+                                </form>
+                            </div>
+                        </div>
                         </section>
                         <section
                             class="admin-page"
@@ -644,7 +692,7 @@
                                             <span class="sort-filter-option inquiry-list"
                                                 >봉사단체 가입 문의</span
                                             >
-                                        </div>ㅅ 
+                                        </div>
                                         <!-- Action Buttons -->
                                         <div class="action-buttons">
                                             <input
@@ -693,7 +741,7 @@
                                             <div
                                                     class="inquiryTable_cell inquiry-headerCell"
                                             >
-                                                문의 내용
+                                                공지사항 내용
                                             </div>
                                             <div
                                                     class="inquiryTable_cell inquiry-headerCell"
@@ -984,7 +1032,7 @@
                             </div>
                             <div class="form-field-gap"></div>
                             <div class="form-field required">
-                                <label for="request-description">문의 내용</label>
+                                <label for="request-description">공지사항 내용</label>
                                 <textarea
                                     name="request-description"
                                     id="request-description"
