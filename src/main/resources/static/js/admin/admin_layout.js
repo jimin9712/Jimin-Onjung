@@ -247,8 +247,8 @@ const renderNotice = (notices) => {
     notices.forEach((notice) => {
         content +=
             `<li class="notification-container" >
+                <input type="checkbox" class="notification-list-checkbox">
                 <a data-id="${notice.id}" class="notification noit-admin">
-                    <input type="checkbox">
                     <p class="notification-num">${notice.id}</p>
                     <h4 class="notification-title">${notice.postTitle}</h4>
                     <p class="notification-date noit-date-admin">${notice.createdDate}</p>
