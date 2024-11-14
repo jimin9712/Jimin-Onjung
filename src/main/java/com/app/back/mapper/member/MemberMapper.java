@@ -36,7 +36,6 @@ public interface MemberMapper {
 
     public Optional<MemberVO> selectByMemberEmail(String email);
 
-
     public void updatePassword(MemberVO memberVO);
 
     public int getTotalVtTimeByMemberId(@Param("memberId") Long memberId);
@@ -44,6 +43,9 @@ public interface MemberMapper {
     public int getVtCountByMemberId(@Param("memberId") Long memberId);
 
     public void updateProfile(MemberVO memberVO);  // 프로필 업데이트 메서드 선언
+
+    //  전체 봉사활동 단체 회원 목록
+    public List<MemberDTO> selectAllVolunteerGroup(@Param("pagination") Pagination pagination);
 
     // 랭킹에 따른 봉사활동 단체 회원 목록
     public List<MemberDTO> selectTop100VolunteerGroup(@Param("pagination") Pagination pagination);

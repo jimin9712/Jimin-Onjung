@@ -328,6 +328,7 @@
                                             <div
                                                 class="donation-btn-container tooltip"
                                             >
+                                                <input type="text" id="donation-amount-input" style="display: none; text-align: end" placeholder="기부할 금액을 입력하세요. ex) 10000">
                                                 <a class="donation-btn-style"
                                                     ><span
                                                         class="visual-correction"
@@ -388,6 +389,7 @@
         </div>
     </body>
     <script th:inline="javascript">
+        const member = [[${member}]]
         const donation = [[${donation}]];
         const attachments = [[${attachments}]];
         const member = [[${session.loginMember}]];

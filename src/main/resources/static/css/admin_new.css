@@ -80,3 +80,268 @@ a, address, article, aside, audio, b, big, blockquote, body, button, canvas, cap
     overflow-y: auto;
     position: relative;
 }
+
+
+
+.GNB-bar-container {
+    box-shadow: 0 1px 0 0 rgba(10, 22, 70, .06);
+    display: -ms-flexbox;
+    display: flex;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    z-index: 16;
+    background-color: #fff;
+    padding: 0 16px;
+    width: 100%;
+    height: 72px;
+}
+
+.GNB-bar-flex {
+    display: flex;
+    flex: 1 1;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.studio-logo-container {
+    padding: 0;
+    display: flex;
+    align-items: center;
+    min-width: 240px
+}
+
+button:not(:disabled) {
+    cursor: pointer;
+}
+
+.studio-logo {
+    background-image: url(/static/images/corporation/saramin.svg);
+    width: 142px;
+    height: 35px;
+    display: block;
+    margin-right: 8px;
+    margin-bottom: 4px;
+    outline: 0;
+    background-size: cover;
+}
+
+button, input, optgroup, select, textarea {
+    color: inherit;
+    font: inherit;
+    margin: 0;
+}
+
+button {
+    background: transparent;
+    border: none;
+}
+
+.admin-page-logo {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.5;
+    margin-right: 8px;
+    color: #868e96;
+}
+
+.GNB-bar-rightBox {
+    justify-content: flex-end;
+    grid-gap: 24px;
+    gap: 24px;
+}
+
+.project-info-container {
+    padding: 0;
+    position: relative;
+    margin-right: 0;
+}
+
+.project-info-button {
+    height: 37px;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    border: 1px solid #f2f4f6;
+    background-color: #f9fafb;
+    padding: 0 16px;
+    width: 100%;
+    color: #868e96;
+    gap: 4px;
+}
+
+.project-info-button .project-info-emphasis {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.5;
+    color: #00c4c4;
+}
+
+button, input, span, textarea {
+    font-family: inherit;
+}
+
+.exit-buttons-container {
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    align-items: center;
+    gap: 0;
+}
+
+.exit-buttons-container .exit-buttons-button[class*=button-button]:last-child {
+    border-radius: 0 4px 4px 0;
+}
+
+.exit-buttons-container .exit-buttons-button[class*=button-button] {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.5;
+    display: block;
+    border-color: #e9ecef;
+    padding: 8px 24px;
+    height: auto;
+    color: #495057;
+}
+
+.button-button span {
+    display: inline-flex;
+    align-items: center;
+    vertical-align: top;
+}
+
+.button-button .button-children {
+    vertical-align: top;
+}
+
+/* 사이드바 영역 */
+
+.app-layout-container .sidebar-layout-wrap {
+    display: flex;
+    padding-top: 72px;
+    height: 100%;
+}
+
+.sidebar-layout-container {
+    display: flex;
+    position: relative;
+    transform: none;
+    transition: none;
+    z-index: 0;
+    width: 240px;
+    height: 100%;
+    min-width: 240px;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    flex-flow: column;
+    background-color: #fff;
+}
+
+.sidebar-layout-content {
+    padding-bottom: 80px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.menu-items-section {
+    padding: 0;
+}
+
+.menu-items-section:first-of-type, .menu-items-section:nth-of-type(2) {
+    border-bottom: 1px solid #f2f4f6;
+}
+
+.MenuItems_menu.MenuItems_hasSubmenu {
+    display: block;
+    outline: none;
+    border: none;
+    width: 100%;
+}
+
+.MenuItems_menu {
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    align-items: center;
+    cursor: pointer;
+    padding: 12px 16px;
+    width: 100%;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+    background-color: transparent;
+    touch-action: manipulation;
+}
+
+.MenuItems_active .MenuItems_label {
+    color: #212529;
+    font-weight: 700;
+}
+
+.MenuItems_menu .MenuItems_label {
+    font-size: 14px;
+    line-height: 1.5;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.MenuItems_menu .MenuItems_label svg {
+    width: 16px;
+    height: 16px;
+}
+
+.withIcon_icon {
+    display: block;
+    transform: scale(1);
+    transition: transform 0.3s ease-out;
+    fill: currentColor;
+}
+
+.MenuItems_menu.MenuItems_hasSubmenu .MenuItems_downIcon.MenuItems_open_1 {
+    transform: rotate(0deg);
+}
+
+.MenuItems_menu.MenuItems_hasSubmenu .MenuItems_downIcon {
+    position: absolute;
+    top: 50%;
+    right: 16px;
+    margin-top: -8px;
+    color: #adb5bd;
+}
+
+.MenuItems_menu .MenuItems_label svg {
+    width: 16px;
+    height: 16px;
+}
+
+.MenuItems_submenuContainer {
+    transition: max-height 0.3s ease-out;
+    max-height: 0;
+    overflow-y: hidden;
+    height: 0;
+}
+
+.MenuItems_submenuContainer .MenuItems_submenu {
+    display: block;
+    background-color: #f9fafb;
+    cursor: pointer;
+    padding: 12px 16px 12px 44px;
+    color: #495057;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.5;
+}
+

@@ -5,11 +5,16 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Onjung - 마이페이지</title>
         <link rel="stylesheet" href="/css/mypage/mypage.css" />
+        <link rel="stylesheet" href="/css/main/footer.css"/>
+        <link rel="stylesheet" href="/css/main/login-header-no-noti.css">
         <style>
             @import url(https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap);
         </style>
     </head>
     <body>
+    <div>
+        <th:block th:replace="~{main/login-header-no-noti :: header}"></th:block>
+    </div>
         <div id="root">
             <div id="app" class="app">
                 <div class="wrap">
@@ -117,6 +122,7 @@
                                                         >
                                                             <div
                                                                 class="lnb-item"
+                                                                id="payment-tab"
                                                             >
                                                                 <a
                                                                     href="#"
@@ -150,6 +156,7 @@
                                                             </div>
                                                             <div
                                                                 class="lnb-item"
+                                                                id="charge-tab"
                                                             >
                                                                 <a
                                                                     href="#"
@@ -227,7 +234,7 @@
                                                                     href="#"
                                                                     class="side-baner-content"
                                                                     onclick="showTab('gratitude', this)"
-                                                                    >기부 감사ㄹ
+                                                                    >기부 감사
                                                                     인사</a
                                                                 >
                                                             </div>
@@ -439,7 +446,7 @@
                                                                 <label class="fItXBi toggle">
                                                                     <input type="checkbox" id="filter-6months-payment" onchange="applyFilterPayments(memberId, 6)" />6개월
                                                                 </label>
-                                                                <button id="Initialization-payment" class="gPdSFi" onclick="initializePaymentSection(memberId)">
+                                                                <button id="Initialization-payment" class="gPdSFi">
                                                                     <svg viewBox="0 0 12 12" class="refresh-svg">
                                                                         <path d="M5.792 9.584C3.698 9.584 2 7.886 2 5.792C2 3.698 3.698 2 5.792 2C7.887 2 9.584 3.698 9.584 5.792"
                                                                               stroke-width="1.2" stroke-linecap="round" fill="#ffffff"></path>
@@ -749,9 +756,18 @@
                                                                         가상계좌
                                                                         잔액
                                                                     </p>
-                                                                    <span
-                                                                        >0원</span
+                                                                    <span id="account-balance"
+                                                                        ></span
                                                                     >
+                                                                </div>
+                                                                <div
+                                                                        class="input-box"
+                                                                >
+                                                                    <p>
+                                                                        충전할 금액
+                                                                    </p>
+                                                                    <input type="text" id="payment-amount"/>
+                                                                    <span>원</span>
                                                                 </div>
                                                                 <button
                                                                     class="jNNRuG withdraw-btn"
@@ -876,88 +892,35 @@
                                                     </section>
                                                 </div>
 
-                                                <!-- 내 알림 -->
-                                                <div
-                                                    id="notice"
-                                                    class="profile-contents-box-wrap tab-content"
-                                                >
+                                                <!-- 알림 섹션 -->
+                                                <div id="notice" class="profile-contents-box-wrap tab-content">
                                                     <main class="fErMe">
-                                                        <header
-                                                            class="right-contents-header"
-                                                        >
-                                                            <div
-                                                                class="kBJTCS"
-                                                                style="
-                                                                    position: relative;
-                                                                "
-                                                            >
-                                                                <div
-                                                                    class="header-title"
-                                                                >
-                                                                    알림 센터
-                                                                </div>
-                                                                <div
-                                                                    class="header-desc"
-                                                                >
-                                                                    <span
-                                                                        class="fendym"
-                                                                        >최근
-                                                                        10개의
-                                                                        알림까지
-                                                                        보여집니다.<br />
-                                                                    </span>
-                                                                    <span
-                                                                        class="star"
-                                                                        style="
-                                                                            top: 63px;
-                                                                            left: -3px;
-                                                                        "
-                                                                        >*</span
-                                                                    >
-                                                                    <span
-                                                                        class="announcement"
-                                                                        >&nbsp;
-                                                                        은(는)
-                                                                        읽지
-                                                                        않은
-                                                                        알림입니다.
-                                                                    </span>
+                                                        <header class="right-contents-header">
+                                                            <div class="kBJTCS" style="position: relative;">
+                                                                <div class="header-title">알림 센터</div>
+                                                                <div class="header-desc">
+                                                                    <span class="fendym">최근 10개의 알림까지 보여집니다.<br /></span>
+                                                                    <span class="star" style="top: 63px; left: -3px;">*</span>
+                                                                    <span class="announcement">&nbsp;은(는) 읽지 않은 알림입니다.</span>
                                                                 </div>
                                                             </div>
-                                                            <div
-                                                                class="gwjPhp"
-                                                            ></div>
+                                                            <div class="gwjPhp"></div>
                                                         </header>
                                                         <div class="bqkLME tabs">
                                                             <div class="active tab">
                                                                 <div class="tab-item">
                                                                     전체
-                                                                    <label id="notice-totalCount" class="gQDBHp" th:text="${#lists.size(allAlarms)}">0</label>
+                                                                    <label id="notice-totalCount" class="gQDBHp">0</label>
                                                                 </div>
                                                             </div>
                                                         </div>
 
-                                                        <div
-                                                            class="kjzWjC empty"
-                                                        >
+                                                        <div class="kjzWjC empty">
                                                             <div class="content-inner" style="margin: 0px;">
                                                                 <div id="notice-list" class="notice-list" style="display: block;">
-                                                                    <div th:each="notification : ${allAlarms}">
-                                                                        <div class="kzXcJa" th:data-forloop="${notification.id}">
-                                                                            <svg color="#101C33" viewBox="0 0 24 24" class="cAfwXx">
-                                                                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                                                                      d="M15.0389 18.359H17.3334L18.8572 18.359C19.4884 18.359 20 17.8793 20 17.2876C20 16.6958 19.4884 16.2157 18.8572 16.2157H18.4762V9.42955C18.4762 6.00442 15.4496 3 11.9999 3C8.5502 3 5.52366 6.00442 5.52366 9.42955V16.2157H5.14276C4.51119 16.2157 4 16.6958 4 17.2876C4 17.8793 4.51119 18.359 5.14276 18.359L6.66642 18.359H8.96114C9.07945 19.8339 10.3972 21 12 21C13.6028 21 14.9205 19.8339 15.0389 18.359ZM12.7263 18.359H11.2737C11.3718 18.6474 11.6604 18.8571 12 18.8571C12.3396 18.8571 12.6282 18.6474 12.7263 18.359ZM16.1906 16.2157H7.80964V9.42955C7.80964 7.14599 9.76774 5.1429 11.9999 5.1429C14.2321 5.1429 16.1906 7.14599 16.1906 9.42955V16.2157Z">
-                                                                                </path>
-                                                                            </svg>
-                                                                            <div>
-                                                                                <div class="noti-card-desc" th:text="${notification.alarmContent}"></div>
-                                                                                <div class="noti-card-desc" th:text="${notification.createdDate}"></div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
                                                                 </div>
-                                                                <div class="empty-component">
-                                                                    <div class="kjzWjC empty" style="display: none;">
+                                                                <div class="empty-component" id="alarms-empty" style="display: none;">
+                                                                    <div class="kjzWjC empty">
                                                                         <div class="empty-image">
                                                                             <img name="SlightlySmilingFace" src="https://cdn-dantats.stunning.kr/static/emoji/SlightlySmilingFace32px.png" class="hkAQYM"/>
                                                                         </div>
@@ -967,10 +930,10 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-
                                                         </div>
                                                     </main>
                                                 </div>
+
                                                 <!-- 봉사 활동 내역 섹션 -->
                                                 <div
                                                         id="volunteer-record"
@@ -1644,7 +1607,19 @@
             </div>
         </div>
         </div>
+    <div th:replace="~{main/footer :: footer}"></div>
+
     </body>
+    <script th:inline="javascript">
+        const member = [[${member}]];
+        const isCharge = [[${charge}]];
+        const donationAmount = [[${donationAmount}]];
+    </script>
+    <script
+            src="https://js.bootpay.co.kr/bootpay-5.0.1.min.js"
+            type="application/javascript"
+    ></script>
     <script src="/js/mypage/mypage.js"></script>
     <script src="/js/mypage/mypage-event.js"></script>
+    <script src="/js/payment/payment.js"></script>
 </html>

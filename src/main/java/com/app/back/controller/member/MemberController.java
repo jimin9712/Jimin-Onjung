@@ -5,7 +5,10 @@ import com.app.back.domain.member.LoginResponseDTO;
 import com.app.back.domain.member.MemberDTO;
 import com.app.back.domain.member.MemberVO;
 import com.app.back.enums.MemberLoginType;
+import com.app.back.service.donation_record.DonationRecordService;
 import com.app.back.service.member.MemberService;
+import com.app.back.service.payment.PaymentService;
+import com.app.back.service.rank.RankService;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -18,10 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 
 @Controller
@@ -30,6 +30,9 @@ import java.util.UUID;
 public class MemberController {
     private final MemberService memberService;
     private final EmailUtil emailUtil;
+    private final RankService rankService;
+    private final PaymentService paymentService;
+    private final DonationRecordService donationRecordService;
 
     @GetMapping("/member/signup")
     public String goToSignup() {
@@ -223,15 +226,55 @@ public class MemberController {
     }
 
     @GetMapping("/mypage/mypage")
-    public String goToMypage(HttpSession session, Model model){
+    public String goToMypage(HttpSession session, Model model, @RequestParam(required = false) Boolean charge, @RequestParam(required = false) int donationAmount){
         MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
 
         if (loginMember != null) {
             model.addAttribute("member", loginMember);
+            charge = charge != null ? true : false;
+            model.addAttribute("charge", charge);
+            model.addAttribute("donationAmount", donationAmount);
+            log.info("차지 : {} ", charge);
+            log.info("도네이션 어마운트 : {} ", donationAmount);
             return "mypage/mypage";
         } else {
             return "redirect:/member/login";
         }
+    }
+
+    @GetMapping("/charge")
+    public String goToCharge(HttpSession session){
+        MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
+
+        if (loginMember != null) {
+            log.info("charge로 감");
+            return "redirect:/mypage/mypage?charge=true";
+        } else {
+            return "redirect:/member/login";
+        }
+    }
+
+    @GetMapping("/donation/charge/{donationAmount}")
+    public String goToChargeForDonation(HttpSession session, PathVariable donationAmount) {
+        MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
+
+        if (loginMember != null) {
+            log.info("donationCharge로 감");
+            return "redirect:/mypage/mypage?donationAmount=" + donationAmount;
+        } else {
+            return "redirect:/member/login";
+        }
+    }
+
+    @GetMapping("/mypage/account-balance/{memberId}")
+    @ResponseBody
+    public int getAccountBalance(@PathVariable Long memberId) {
+        int accountBalance = paymentService.getTotalPayments(memberId) - donationRecordService.getTotalDonationByMemberId(memberId);
+        log.info("충전한 돈 : {} ", paymentService.getTotalPayments(memberId));
+        log.info("기부한 돈 : {} ", donationRecordService.getTotalDonationByMemberId(memberId));
+        log.info("accountBalance : {} ", accountBalance);
+
+        return accountBalance;
     }
 
     @GetMapping("/member/info")
@@ -288,5 +331,38 @@ public class MemberController {
     @GetMapping("/introduction/introduction")
     public String goTOIntroduction() {
         return "introduction/introduction";
+    }
+
+    @GetMapping("/simple-rank")
+    @ResponseBody
+    public Map<String, Object> getSimpleRank(@RequestParam(value = "month", required = false) String month) {
+        if (month == null) {
+            log.info("month 미 입력 : 첫 로딩");
+            month = String.valueOf(new Date().getMonth() + 1);
+            log.info("month : " + month);
+        }
+
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            int monthInt = Integer.parseInt(month);
+            if (monthInt > 0 && monthInt <= 12) {
+                response.put("vtRankMembers", rankService.selectTop5ByVt(monthInt));
+                response.put("supportRankMembers", rankService.selectTop5BySupport(monthInt));
+                response.put("donationRankMembers", rankService.selectTop5ByDonation(monthInt));
+
+                log.info("회원 봉사 랭킹 : {}", response.get("vtRankMembers"));
+                log.info("회원 후원 랭킹 : {}", response.get("supportRankMembers"));
+                log.info("회원 기부 랭킹 : {}", response.get("donationRankMembers"));
+            } else {
+                log.info("오류 : month 범위 오류");
+                response.put("error", "Invalid month range");
+            }
+        } catch (NumberFormatException e) {
+            log.error("Invalid month format: {}", month, e);
+            response.put("error", "Invalid month format");
+        }
+
+        return response;
     }
 }

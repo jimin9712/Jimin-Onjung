@@ -8,6 +8,41 @@ const postContentWrap = document.querySelector("div.post-content");
 const updateButton = document.querySelector("a.go-update");
 const deleteButton = document.querySelector("a.go-delete");
 const attachmentList = document.querySelector("ul.attach-list.attachments");
+const donationButton = document.querySelector("a.donation-btn-style");
+const donationAmountInput = document.querySelector("input#donation-amount-input");
+const donationButtonContainer = document.querySelector("div.donation-btn-container.tooltip");
+const donationDetailSection = document.querySelector("section.info-box-container.meta");
+let inputFlag = false;
+
+donationButton.addEventListener("click", () => {
+    if(donationAmountInput.style.display === "none") {
+        donationAmountInput.style.display = "block";
+        donationButtonContainer.style = "flex-direction: column; gap: 10px";
+        donationDetailSection.style["margin-bottom"] = "10px";
+        inputFlag = true;
+    } else if(donationAmountInput.style.display === "block" && inputFlag){
+        fetchAccountBalance(member.id);
+        inputFlag = false;
+    };
+});
+
+const fetchAccountBalance = async (memberId) => {
+    try {
+        const response = await fetch(`/mypage/account-balance/${memberId}`);
+        if (!response.ok) throw new Error("서버에서 가상계좌 데이터를 가져오는데 실패했습니다.");
+
+        const data = await response.json();
+        console.log("가상계좌 데이터: ", data);
+        if(parseInt(donationAmountInput.value) <= data) {
+            donationButton.href = `/donation-records/write/donationId=${new URL(location.href).searchParams.get('postId')}&donationAmount=${donationAmountInput.value}`;
+        } else {
+            donationButton.href = `/donation/charge/${parseInt(donationAmountInput.value) - data}`;
+        };
+    } catch (error) {
+        console.error("가상계좌 데이터 불러오기 오류: ", error) ;
+        alert("가상계좌 데이터를 불러오는데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.");
+    }
+}
 
 postSummaryWrap.innerText = donation.postSummary;
 goalPointWrap.innerText = donation.goalPoint;
