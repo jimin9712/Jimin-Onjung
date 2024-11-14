@@ -310,7 +310,7 @@ if (pagination.next && pagination.page < pagination.realEnd) {
         link.addEventListener("click", (e) => {
             e.preventDefault();
             const page = e.target.getAttribute("data-page"); // 클릭한 링크의 페이지 번호 가져오기
-            fetchNotices(page, keyword); // 해당 페이지의 데이터를 가져오는 함수 호출
+            fetchFilteredNotices(page, keyword); // 해당 페이지의 데이터를 가져오는 함수 호출
         });
     });
 };
@@ -324,7 +324,7 @@ const renderNoticeDetail = (notice) => {
         // 공지사항 조회 렌더링
         notificationContainer.innerHTML = `
             <header class="notification-header">
-                <h1 style="font-size: 20px">
+                <h1 data-id="${notice.id}" style="font-size: 20px">
                     ${notice.postTitle}
                 </h1>
             </header>
