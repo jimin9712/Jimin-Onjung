@@ -247,7 +247,7 @@ const renderNotice = (notices) => {
     notices.forEach((notice) => {
         content +=
             `<li class="notification-container" >
-                <input type="checkbox">
+                <input type="checkbox" class="notification-list-checkbox">
                 <a data-id="${notice.id}" class="notification noit-admin">
                     <p class="notification-num">${notice.id}</p>
                     <h4 class="notification-title">${notice.postTitle}</h4>
@@ -315,7 +315,7 @@ if (pagination.next && pagination.page < pagination.realEnd) {
     });
 };
     // ========================== 공지사항 조회 =======================================
-const notificationContainer = document.querySelector(".notification-container"); // 공지사항 세부 내용 컨테이너
+const notificationContainer = document.querySelector(".notification-inquiry-container"); // 공지사항 세부 내용 컨테이너
 const sidebarContainer = document.querySelector(".sidebar-container .sidebar-content"); // 사이드바 컨테이너
 
 // 공지사항 조회 렌더링하는 함수

@@ -32,19 +32,20 @@ submenus.forEach((submenu) => {
         );
         selectedSection[0].classList.add("selected"); // 해당 섹션 선택
         // resetSearchAndPage(); // 검색어와 페이지 초기화
-        resetSelectAllPostsCheckbox(); // 전체 선택 체크박스 해제
-        resetSelectAllInquiriesCheckbox();
-        resetSelectAllReportsCheckbox();
+
 
         // 선택된 섹션에 따라 데이터 목록을 처음 페이지로 다시 로드
         if (submenu.textContent === "고객센터 문의 목록") {
             fetchFilteredInquiries(1, inquiryKeyword, inquiryFilterType);
+            resetSelectAllInquiriesCheckbox();
         } else if (submenu.textContent === "공지사항 목록") {
             fetchNotices(1); // 공지사항 첫 페이지로
         }else if (submenu.textContent === "게시글 목록") {
             fetchFilteredPosts(1,postKeyword,postFilterType);
+            resetSelectAllPostsCheckbox(); // 전체 선택 체크박스 해제
         }else if (submenu.textContent === "신고 목록") {
             fetchFilteredReports(1,reportKeyword,reportFilterType);
+            resetSelectAllReportsCheckbox();
         }
     });
 });
@@ -356,7 +357,7 @@ function resetSelectAllPostsCheckbox() {
 selectAllPosts();
 
 // 삭제 버튼 클릭 시 이벤트
-document.getElementById("deleteSelectedBtn").addEventListener("click", () => {
+document.querySelector(".deleteSelectedBtn.post-page-btn").addEventListener("click", () => {
     const selectedCheckboxes = document.querySelectorAll(".postCheckbox:checked");
     const selectedIds = Array.from(selectedCheckboxes).map(
         (checkbox) => checkbox.closest(".ServiceTable_row").querySelector(".post_ID").textContent.trim()
