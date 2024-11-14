@@ -4,7 +4,6 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <!-- 관리자 홈 -->
-        <link rel="stylesheet" href="/css/admin_new.css">
         <link
             rel="stylesheet"
             href="/css/admin_page/amdin_main/sub_main.css"
@@ -56,6 +55,8 @@
             rel="stylesheet"
             href="/css/donation/donation-inquiry.css"
         />
+
+        <link rel="stylesheet" href="/css/admin_new.css">
 
         <title>관리자 페이지</title>
     </head>
@@ -349,23 +350,25 @@
                             <div class="notification-list notification-table">
                                 <div class="ServiceHeader_container">
                                     <h2 class="ServiceHeader_title">공지사항 목록</h2>
-                                    <div class="action-buttons">
-
-                                        <button id="notification-write-button">작성하기</button>
-                                        <button
-                                                id="deleteSelectedBtn"
-                                                class="deleteSelectedBtn report-delete"
-                                        >
-                                            게시글 삭제
-                                        </button>
-                                        <input
-                                                type="text"
-                                                class="Filter_searchInput report-page-search"
-                                                placeholder="검색어 입력"
-                                        />
+                                    <div class="action-buttons-wrap">
+                                        <button id="notification-write-button" class="deleteSelectedBtn notice-delete">작성하기</button>
+                                        <div class="action-buttons">
+                                            <button
+                                                    id="deleteSelectedBtn"
+                                                    class="deleteSelectedBtn notice-delete"
+                                            >
+                                                게시글 삭제
+                                            </button>
+                                            <input
+                                                    type="text"
+                                                    class="Filter_searchInput notice-page-search"
+                                                    placeholder="검색어 입력"
+                                            />
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="list-top">
+                                    <input type="checkbox">
                                     <div class="category-notification-num">번호</div>
                                     <div class="category-notification-title noti-title-admin">제목</div>
                                     <div class="category-notification-date notification-table noti-date-admin">작성일</div>
@@ -411,7 +414,7 @@
                         </section>
                         <section class="admin-page" data-value="공지사항 작성">
                             <div style="max-width: 1080px; margin: 24px 16px 0;">
-                                <h1>공지사항 작성</h1>
+                                <h1>공지사항 내용</h1>
                                 <div class="form">
                                     <form
                                             class="request-form"
@@ -446,37 +449,13 @@
                                                     autocomplete="off"
                                             />
                                         </div>
-                                        <div
-                                                class="form-field-agreements"
-                                                style="clear: both"
-                                        >
-                                            <p id="notification-agreements">
-                                                (주)온정은 정보통신망 이용촉진 및 정보보호
-                                                등 관한 법률을 준수하며 고객님의 개인정보를
-                                                수집하고 소중하게 다루고 있습니다. 1. 수집
-                                                및 이용 항목 : 이메일, 이름, 연락처 2. 수집
-                                                및 이용 목적 : 앱 이용 문의에 대한 답변 관련
-                                                업무 3, 보유 및 이용 기간 : 수집 목적이
-                                                달성되면 모든 개인정보를 파기합니다. 동의를
-                                                하지 않을 경우 문의한 내용에 대한 답변에
-                                                제한이 있을 수 있습니다.
-                                            </p>
-                                            <label for="request-agreements-check" class="checked"
-                                            >동의합니다.</label
-                                            >
+                                        <footer>
                                             <input
-                                                    name="request-agreements-check"
-                                                    type="hidden"
-                                                    value="off"
-                                                    autocomplete="off"
+                                                    type="submit"
+                                                    name="submit"
+                                                    value="제출"
                                             />
-                                            <input
-                                                    type="checkbox"
-                                                    value="on"
-                                                    id="notification-agreements-check"
-                                                    name="request-agreements-check"
-                                            />
-                                        </div>
+                                        </footer>
                                     </form>
                                 </div>
                             </div>
@@ -486,6 +465,21 @@
                                 <section class="sidebar-container">
                                     <section class="sidebar" style="width: 259.4px; margin-top: 24px;">
                                         <h3 class="sidebar-title" style="height: 54px;">공지사항</h3>
+                                        <div class="donation-btn-container report-wrap">
+                                            <a class="donation-btn-style2 go-update admin-btn"
+                                            ><span
+                                                    class="visual-correction"
+                                            >수정하기</span
+                                            ></a
+                                            >
+                                            <div class="space"></div>
+                                            <a class="donation-btn-style2 go-delete admin-btn"
+                                            ><span
+                                                    class="visual-correction"
+                                            >삭제하기</span
+                                            ></a
+                                            >
+                                        </div>
                                         <ul style="height: 445.4px;" class="sidebar-content">
                                             <li>
                                                 <a

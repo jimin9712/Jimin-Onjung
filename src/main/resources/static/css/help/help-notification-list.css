@@ -286,7 +286,6 @@ button {
 }
 
 .notification-num {
-    padding-left: 24px;
     font-size: 15px;
     line-height: 23px;
     letter-spacing: -0.5px;
@@ -314,6 +313,7 @@ button {
     font-weight: 500;
     color: rgb(142, 148, 160);
     width: 112px;
+    text-align: center;
 }
 
 .pagination-wrap {

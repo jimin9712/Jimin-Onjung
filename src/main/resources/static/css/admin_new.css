@@ -345,3 +345,207 @@ a {
     line-height: 1.5;
 }
 
+.donation-btn-container {
+    position: relative;
+    display: flex;
+    font-size: 12px;
+    line-height: 18px;
+    letter-spacing: -0.25px;
+}
+
+.donation-btn-style2 {
+    margin-top: 10px;
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+
+    align-items: center;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 0px;
+    text-align: center;
+    box-sizing: border-box;
+    color: rgb(38, 86, 246);
+    border: 1px solid rgb(38, 86, 246);
+    padding: 11px 20px;
+    font-size: 15px;
+    line-height: 23px;
+    letter-spacing: -0.5px;
+    font-weight: 700;
+    width: 100%;
+}
+
+.donation-btn-style2:hover {
+    background-color: rgb(244, 245, 248);
+}
+
+.space {
+    width: 40px;
+}
+
+.form footer input[type="submit"] {
+    min-width: auto;
+    width: 120px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 20px;
+    font-size: 15px;
+    font-weight: bold;
+    letter-spacing: -0.5px;
+    padding: 0;
+    background-color: rgba(31, 77, 234, 1);
+    border: 0;
+    color: #FFFFFF;
+    -webkit-appearance: button;
+    cursor: pointer;
+}
+
+.form footer input[type="submit"]:hover {
+    background-color: #0e2d95;
+}
+
+.list-top {
+    width: 920px;
+    display: flex;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    background-color: rgb(245, 248, 255);
+    color: rgb(64, 74, 92);
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.5px;
+    font-weight: 500;
+    padding: 12px 44px 12px 24px;
+    border-bottom: 1px solid rgb(233, 235, 237);
+}
+
+.notification.noit-admin {
+    height: 44px;
+}
+
+.notification {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    height: 72px;
+    padding: 12px;
+}
+
+.category-notification-num {
+    width: 120px;
+    padding-left: 24px;
+}
+
+.category-notification-title {
+    padding-left: 70px;
+    text-align: center;
+    width: 389px;
+}
+
+.category-notification-date.notification-table {
+    width: 546px;
+    text-align: end;
+}
+
+.notification-list-wrap {
+    height: 360px;
+}
+
+.notification-container {
+    display: flex;
+    gap: 16px;
+    justify-content: flex-start;
+    border-bottom: 1px solid rgb(233, 235, 237);
+}
+
+.notification-list-checkbox {
+    margin-left: 24px;
+}
+
+.notification-num {
+    font-size: 15px;
+    line-height: 23px;
+    letter-spacing: -0.5px;
+    font-weight: 500;
+    color: rgb(111, 119, 133);
+    width: 188px;
+    padding-left: 4px;
+}
+
+.notification-title {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.5px;
+    font-weight: 700;
+    width: 520px;
+    margin: 0;
+}
+
+.notification-date {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: -0.25px;
+    font-weight: 500;
+    color: rgb(142, 148, 160);
+    width: 112px;
+    text-align: center;
+    margin-left: 23px;
+}
+
+.action-buttons-wrap {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.action-buttons {
+    display: flex;
+    width: 398px;
+    gap: 8px;
+}
+
+.ServiceLayout_container {
+    width: 1200px;
+}
+
+.ServiceTable_header {
+    display: flex
+;
+    background-color: #f8f9fa;
+    font-weight: bold;
+    gap: 20px;
+}
+
+.headerCell:nth-child(1), .ServiceTable_cell:nth-child(1) {
+    width: 80px;
+}
+
+.ServiceTable_cell {
+    width: 320px;
+    display: table-cell;
+    padding: 10px 4px 10px 4px;
+    box-sizing: border-box;
+    text-align: center;
+    vertical-align: middle;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    border-bottom: 1px solid #dee2e6;
+    line-height: 32px;
+}
+
+.headerCell:nth-child(2), .ServiceTable_cell:nth-child(2) {
+    width: 76px;
+}
+
+.ServiceTable_header, .ServiceTable_row {
+    display: flex;
+    width: 100%;
+    gap: 20px;
+}
+
