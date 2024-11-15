@@ -106,10 +106,8 @@ const fetchNotices = async (page = 1) => {
         console.error("공지사항 데이터를 불러오는 중 오류 발생:", error);
     }
 };
-// 공지사항 목록 초기 로드
-fetchNotices(); // 초기 공지사항 데이터 로드
 
-//  공지사항 검색
+//  공지사항 필터
 const fetchFilteredNotices = async (page, keyword=noticeKeyword) => {
     try {
         const response = await fetch(`/admin/notice-list?page=${page}&query=${keyword}`);
@@ -120,6 +118,9 @@ const fetchFilteredNotices = async (page, keyword=noticeKeyword) => {
         console.error("공지사항 데이터를 불러오는 중 오류 발생:", error);
     }
 };
+// 공지사항 목록 초기 로드
+fetchFilteredNotices(1,''); // 초기 공지사항 데이터 로드
+
 // 공지사항 삭제버튼
 const deleteSelectedNotices = async (selectedIds) => {
     try {

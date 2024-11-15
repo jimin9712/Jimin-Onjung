@@ -280,7 +280,7 @@ for (let i = pagination.startPage; i <= pagination.endPage; i++) {
         // 현재 페이지인 경우
         notiPagination += `
             <div class="pagination-num-container">
-                <a class="pagination-num active">${i}</a>
+                <a data-page="${i}" class="pagination-num active">${i}</a>
             </div>`;
     } else {
         // 다른 페이지인 경우
@@ -308,9 +308,12 @@ if (pagination.next && pagination.page < pagination.realEnd) {
     // 클릭 이벤트 리스너 추가
     document.querySelectorAll(".pagination-num").forEach(link => {
         link.addEventListener("click", (e) => {
+            console.log("클릭");
             e.preventDefault();
             const page = e.target.getAttribute("data-page"); // 클릭한 링크의 페이지 번호 가져오기
+            console.log(page);
             fetchFilteredNotices(page, keyword); // 해당 페이지의 데이터를 가져오는 함수 호출
+            resetSelectAllPostsCheckbox();
         });
     });
 };
