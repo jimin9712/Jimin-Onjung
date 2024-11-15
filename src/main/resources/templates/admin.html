@@ -86,7 +86,7 @@
                                 aria-expanded="true"
                             >
                                 관리자 ID:
-                                <span class="project-info-emphasis">Yanawa</span>
+                                <span class="project-info-emphasis" id="admin-id-wrap"></span>
                                 <!-- <span class="ProjectInfo_text_info">정보</span> -->
                                 <!-- <svg
                                     viewBox="0 0 24 24"
@@ -2491,7 +2491,9 @@
     </body>
 
     <!-- 관리자 홈 -->
-
+<script th:inline="javascript">
+    const member = [[${session.loginMember}]];
+</script>
     <script src="/js/admin/admin_service.js"></script>
     <script src="/js/admin/admin_layout.js"></script>
     <script src="/js/admin.js"></script>
