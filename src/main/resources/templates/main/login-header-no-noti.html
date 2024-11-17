@@ -138,7 +138,7 @@
                                                      th:if="${member != null}"
                                                      th:src="${member.memberLoginType == 'KAKAO' && member.kakaoProfileURL != null} ? ${member.kakaoProfileURL} : (${member.profileFileName != null} ? '/profile/display?memberId=' + ${member.id} : '/images/default-profile.png')"
                                                      alt="프로필"
-                                                     onerror="this.onerror=null; this.src='/images/default-avatar.jpg';" />
+                                                     onerror="this.onerror=null; this.src='/images/default-profile.png';" />
                                             </div>
                                             <div
                                                 class="profile-popup util-popup"
@@ -163,7 +163,7 @@
                                                                         class="sc-fmrtwq imlsut avatar"
                                                                     >
                                                                        <img class="profile"
-                                                                            th:src="${member.memberLoginType == 'KAKAO' && member.kakaoProfileURL != null} ? ${member.kakaoProfileURL} : (${member.profileFileName != null} ? '/profile/display?memberId=' + ${member.id} : '/images/default-avatar.jpg')"
+                                                                            th:src="${member.memberLoginType == 'KAKAO' && member.kakaoProfileURL != null} ? ${member.kakaoProfileURL} : (${member.profileFileName != null} ? '/profile/display?memberId=' + ${member.id} : '/images/default-profile.png')"
                                                                             src="/images/default-avatar.jpg"
                                                                             alt="프로필 기본 이미지" />
                                                                     </span>
@@ -192,7 +192,8 @@
                                                                         class="sc-ehmtmk jqtfdi"
                                                                     >
                                                                         <span class="sc-ikwkjf hdbjzp nick"
-                                                                              th:text="${member.memberNickName}"></span>
+                                                                              th:text="${#strings.isEmpty(member.memberNickName) ? member.memberName : member.memberNickName}"></span>
+
 
                                                                     </p>
                                                                 </div>

@@ -865,7 +865,7 @@ const renderVolunteers = (volunteers) => {
                 </colgroup>
                 <thead class="news-center-table-head">
                     <tr>
-                        <th>활동 번호</th>
+                        <th>번호</th>
                         <th>게시글 제목</th> 
                         <th>봉사 시간</th>
                         <th>신청일</th>
@@ -1143,7 +1143,7 @@ const renderApplications = (applications) => {
                 </colgroup>
                 <thead class="news-center-table-head">
                     <tr>
-                        <th>신청 번호</th>
+                        <th>번호</th>
                         <th>활동 제목</th>
                         <th>신청 상태</th>
                         <th>회원명</th>

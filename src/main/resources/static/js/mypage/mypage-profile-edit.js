@@ -77,7 +77,7 @@ window.addEventListener("DOMContentLoaded", async () => {
         // 프로필 이미지 관련 요소 선택
         profileImageInput = document.getElementById("profileImageInput");
         profileImagePreview = document.getElementById("profileImagePreview");
-        profileThumbnail = document.getElementById("profileThumbnail"); // 프로필 썸네일 요소
+        profileThumbnail = document.getElementById("profileThumbnail");
 
         // 이미지 미리보기 기능 설정
         profileImageInput.addEventListener("change", (event) => {
