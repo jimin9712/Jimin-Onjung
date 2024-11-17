@@ -33,7 +33,7 @@ async function loadBanners() {
                                     </svg>
                                 </button>
                             </div>
-                            <img class="hkaqym banner-web-image" src="${support.attachmentFileName ? `/attachment/display?attachmentFileName=${support.attachmentFilePath + "/t_" + support.attachmentFileName + support.attachmentFileRealName}` : '/images/default-banner.jpg'}" alt="banner image">
+                            <img class="hkaqym banner-web-image" src="${support.attachmentFileName ? `/attachment/display?attachmentFileName=${support.attachmentFilePath + "/t_" + support.attachmentFileName + support.attachmentFileRealName}` : '/images/banner-img.jpg'}" alt="banner image">
                         </div>
                     </a>
                 </div>
