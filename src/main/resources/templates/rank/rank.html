@@ -14,12 +14,12 @@
         <link rel="stylesheet" href="/css/main/login-header-no-noti.css">
     </head>
     <body>
-<!--    <div th:if="${isLogin}">-->
-<!--        <th:block th:replace="~{main/login-header-no-noti :: header}"></th:block>-->
-<!--    </div>-->
-<!--    <div th:if="${!isLogin}">-->
-<!--        <th:block th:replace="~{main/basic-header :: header}"></th:block>-->
-<!--    </div>-->
+    <div th:if="${isLogin}">
+        <th:block th:replace="~{main/login-header-no-noti :: header}"></th:block>
+    </div>
+    <div th:if="${!isLogin}">
+        <th:block th:replace="~{main/basic-header :: header}"></th:block>
+    </div>
         <div class="content-container content">
             <main class="expert-rank-page">
                 <section class="top-rank">

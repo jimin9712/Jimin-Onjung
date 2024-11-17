@@ -158,7 +158,7 @@ async function loadReviews() {
                                     </div>
                                     <div class="user-info">
                                         <span class="cwvgid avatar">
-                                            <img src="${review.profileFileName ? `/profile/display?memberId=${review.memberId}` : 'default-avatar.jpg'}" alt="프로필">
+                                            <img src="${review.profileFileName ? `/profile/display?memberId=${review.memberId}` : 'default-profile.png'}" alt="프로필">
                                         </span>
                                         <div class="ktmctf user-nick-wrapper">
                                             <p class="jqtfdi">
