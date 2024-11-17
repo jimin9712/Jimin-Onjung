@@ -6,12 +6,12 @@
             <when test="memberPassword != null">
                 insert into tbl_member (
                 member_email, member_name, member_phone, member_password,
-                member_nickname, member_jung, member_point, member_type,
-                member_login_type, created_date, updated_date
+                member_nickname, member_jung, member_point,
+                 created_date, updated_date
                 ) values (
                 #{memberEmail}, #{memberName}, #{memberPhone}, #{memberPassword},
-                #{memberNickName}, #{memberJung}, #{memberPoint}, #{memberType},
-                #{memberLoginType}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
+                #{memberNickName}, #{memberJung}, #{memberPoint},
+                 CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
                 )
             </when>
             <otherwise>
