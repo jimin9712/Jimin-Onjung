@@ -54,16 +54,23 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
                     // 단체 회원이면 봉사 활동 신청 현황 보이고 아니면 안보임
                     // 단체 회원이면 기부 감사 인사가 안보이고 아니면 보임
-                const gratitudeTab = document.querySelector(".lnb-item a[onclick*='gratitude']")
-                const applicationTab = document.querySelector(".lnb-item a[onclick*='application']")
+                const gratitudeTab = document.querySelector(".lnb-item a[onclick*='gratitude']");
+                const applicationTab = document.querySelector(".lnb-item a[onclick*='application']");
+                const postscriptTab = document.querySelector(".lnb-item a[onclick*='postscript']");
+                const volunteerRecordTab = document.querySelector(".lnb-item a[onclick*='volunteer-record']");
+
                 if (data.memberType === "ORGANIZATION") {
                     gratitudeTab.parentElement.style.display = "none";
                     applicationTab.parentElement.style.display = "block";
+                    postscriptTab.parentElement.style.display = "none";
+                    volunteerRecordTab.parentElement.style.display = "none";
                 } else {
                     gratitudeTab.parentElement.style.display = "block";
                     applicationTab.parentElement.style.display = "none";
-
+                    postscriptTab.parentElement.style.display = "block";
+                    volunteerRecordTab.parentElement.style.display = "block";
                 }
+
 
                 // 지원 기록 및 기부 기록 조회 함수 정의
                 const fetchTotalPoints = (url, elementId, label) => {
