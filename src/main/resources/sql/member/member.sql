@@ -54,7 +54,7 @@ alter table tbl_member
 add column reset_uuid varchar(255) unique;
 
 delete from tbl_member
-where member_email = 'ljm21252@naver.com';
+where id = 16;
 
 SELECT reset_uuid FROM tbl_member WHERE reset_uuid IS NOT NULL;
 

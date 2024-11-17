@@ -15,3 +15,6 @@ insert into tbl_vt_record(id, vt_time, vt_date)
 VALUES (7,5, current_timestamp);
 
 alter table tbl_vt_record add column     vt_date date not null;
+
+delete from tbl_vt_record
+where id = 5;

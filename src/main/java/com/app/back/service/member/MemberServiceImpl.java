@@ -88,6 +88,7 @@ public class MemberServiceImpl implements MemberService {
         Optional<MemberVO> foundKakaoMember =
                 memberDAO.findByMemberKakaoEmail(memberVO.getKakaoEmail());
 
+
         if (foundKakaoMember.isEmpty()) {
             memberDAO.save(memberVO);
         }
