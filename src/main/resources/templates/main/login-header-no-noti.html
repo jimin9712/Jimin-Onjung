@@ -136,7 +136,7 @@
                                             <div class="opener">
                                                 <img class="profile"
                                                      th:if="${member != null}"
-                                                     th:src="${member.profileFileName != null} ? '/profile/display?memberId=' + ${member.id} : '/images/default-avatar.jpg'"
+                                                     th:src="${member.memberLoginType == 'KAKAO' && member.kakaoProfileURL != null} ? ${member.kakaoProfileURL} : (${member.profileFileName != null} ? '/profile/display?memberId=' + ${member.id} : '/images/default-profile.png')"
                                                      alt="프로필"
                                                      onerror="this.onerror=null; this.src='/images/default-avatar.jpg';" />
                                             </div>
@@ -162,10 +162,10 @@
                                                                     <span
                                                                         class="sc-fmrtwq imlsut avatar"
                                                                     >
-                                                                        <img class="profile"
-                                                                             th:src="${member.profileFileName != null} ? '/profile/display?memberId=' + ${member.id} : '/images/default-avatar.jpg'"
-                                                                             src="/images/default-avatar.jpg"
-                                                                             alt="프로필 기본 이미지" />
+                                                                       <img class="profile"
+                                                                            th:src="${member.memberLoginType == 'KAKAO' && member.kakaoProfileURL != null} ? ${member.kakaoProfileURL} : (${member.profileFileName != null} ? '/profile/display?memberId=' + ${member.id} : '/images/default-avatar.jpg')"
+                                                                            src="/images/default-avatar.jpg"
+                                                                            alt="프로필 기본 이미지" />
                                                                     </span>
                                                                     <div
                                                                         class="gnb-profile-box-user-edit-icon"
