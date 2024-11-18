@@ -182,7 +182,7 @@ public void deleteNotices(@RequestBody List<Long> noticeIds) {
 @PostMapping("/admin/add-notice")
 @ResponseBody
 public ResponseEntity<Void> addNotice(@RequestBody NoticeDTO noticeDTO) {
-    noticeDTO.setMemberId(2L); // memberId를 임의로 2로 설정
+    noticeDTO.setMemberId(777L);
     noticeService.write(noticeDTO);
     return ResponseEntity.status(HttpStatus.CREATED).build();
 }

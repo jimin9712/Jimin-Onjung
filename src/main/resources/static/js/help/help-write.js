@@ -100,6 +100,65 @@ attachInput.addEventListener("change", (e) => {
     });
 });
 
+document.addEventListener("DOMContentLoaded", () => {
+    const inquiryForm = document.querySelector("#new-request"); // 이름 변경
+    const requestTypeInput = document.querySelector(".request-type-input");
+    const inquiryEmailInput = document.querySelector("#requester-email");
+    const inquiryPhoneInput = document.querySelector("#requester-phone");
+    const titleInput = document.querySelector("#request-title");
+    const descriptionInput = document.querySelector("#request-description");
+    const agreementCheckbox = document.querySelector("#request-agreements-check");
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // 이메일 형식
+    const phoneRegex = /^[0-9]{10,11}$/; // 연락처 (10자리 또는 11자리 숫자)
+
+    inquiryForm.addEventListener("submit", (e) => {
+        e.preventDefault(); // 기본 폼 제출 동작 방지
+
+        let isValid = true;
+        const messages = [];
+
+        if (requestTypeInput.innerText.trim() === "-" || requestTypeInput.innerText.trim() === "") {
+            isValid = false;
+            messages.push("문의항목을 선택해주세요.");
+        }
+
+        if (!emailRegex.test(inquiryEmailInput.value.trim())) {
+            isValid = false;
+            messages.push("유효한 이메일 주소를 입력해주세요.");
+        }
+
+        if (!phoneRegex.test(inquiryPhoneInput.value.trim())) {
+            isValid = false;
+            messages.push("연락처는 10자리 또는 11자리 숫자로 입력해주세요.");
+        }
+
+        if (titleInput.value.trim() === "") {
+            isValid = false;
+            messages.push("제목을 입력해주세요.");
+        }
+
+        if (descriptionInput.value.trim() === "") {
+            isValid = false;
+            messages.push("설명을 입력해주세요.");
+        }
+
+        if (!agreementCheckbox.checked) {
+            isValid = false;
+            messages.push("개인정보 수집 및 이용에 동의해주세요.");
+        }
+
+        if (!isValid) {
+            alert(messages.join("\n"));
+            return; // 유효성 검사 실패 시 종료
+        }
+
+        alert("문의 작성이 완료되었습니다.");
+        HTMLFormElement.prototype.submit.call(inquiryForm); // 폼 제출
+    });
+});
+
+
 
 
 

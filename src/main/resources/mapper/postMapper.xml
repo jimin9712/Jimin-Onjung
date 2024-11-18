@@ -39,6 +39,7 @@
     join tbl_member m on p.member_id = m.id
     <include refid="search"/>
     where p.post_status = 'VISIBLE'
+    and p.post_type in ('VOLUNTEER', 'DONATION', 'SUPPORT', 'REVIEW')
     order by
     <choose>
         <when test="pagination.order == '작성일 순'">p.created_date</when>
@@ -66,6 +67,7 @@
     <include refid="search"/>
     where p.post_type = #{filterType}
     and p.post_status = 'VISIBLE'
+    and p.post_type in ('VOLUNTEER', 'DONATION', 'SUPPORT', 'REVIEW')
     order by p.created_date desc
     limit #{pagination.startRow}, #{pagination.rowCount};
 </select>
@@ -88,6 +90,7 @@
     <where>
         <include refid="search"/>
         and p.post_status = 'VISIBLE'
+        and p.post_type in ('VOLUNTEER', 'DONATION', 'SUPPORT', 'REVIEW')
     </where>
 </select>
 
@@ -106,9 +109,10 @@
 
 <select id="selectByPostId" resultType="postDTO">
     select *
-    from tbl_post
+    from tbl_post p
     where id = #{id}
-    and post_status = 'VISIBLE'
+    and p.post_status = 'VISIBLE'
+      and p.post_type in ('VOLUNTEER', 'DONATION', 'SUPPORT', 'REVIEW')
 </select>
 
 <delete id="deleteById">
@@ -118,9 +122,10 @@
 
 <select id="getTotal" resultType="int">
     select count(id)
-    from tbl_post
-    where post_type = #{postType}
-    and post_status = 'VISIBLE'
+    from tbl_post p
+    where p.post_type = #{postType}
+    and p.post_status = 'VISIBLE'
+      and p.post_type in ('VOLUNTEER', 'DONATION', 'SUPPORT', 'REVIEW')
 </select>
 
 <select id="selectCurrentId" resultType="long">
@@ -144,9 +149,10 @@
 
 <select id="selectTotalByPostType" resultType="int">
     select COUNT(*)
-    from tbl_post
-    where post_type = #{postType}
-    and post_status = 'VISIBLE'
+    from tbl_post p
+    where p.post_type = #{postType}
+    and p.post_status = 'VISIBLE'
+      and p.post_type in ('VOLUNTEER', 'DONATION', 'SUPPORT', 'REVIEW')
 </select>
 
 </mapper>
