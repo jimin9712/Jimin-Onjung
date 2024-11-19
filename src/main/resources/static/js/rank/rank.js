@@ -191,58 +191,7 @@ const showVolunteerGroups = (volunteerGroups) => {
                     </button>
                 </div>
             </div>
-            <div class="expert-card-right">
-                <div class="expert-card-portfolio-container 0">
-                    <div class="card-img-container cover expert-card-portfolio">
-                        <div class="card-image-default aspect-ratio-card-wrapper card-image">
-                            <div>
-                                <div class="observer"></div>
-                                <img src="https://cdn-dantats.stunning.kr/prod/portfolios/fa970db0-abdd-4b41-a512-de0e18e3d27c/covers/SETbxtvUCTbJgS5e.%E1%84%85%E1%85%A6%E1%84%86%E1%85%A1%E1%84%8B%E1%85%A5%E1%84%92%E1%85%A1%E1%86%A8%E1%84%8B%E1%85%AF%E1%86%AB-%E1%84%85%E1%85%A9%E1%84%80%E1%85%A9-t.jpg.small?s=1200x1200&amp;e=0x0&amp;t=crop&amp;q=100&amp;f=webp" alt="의 레마어학원 이미지"/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="expert-card-portfolio-container 1">
-                    <div class="card-img-container cover expert-card-portfolio">
-                        <div class="card-image-default aspect-ratio-card-wrapper card-image">
-                            <div>
-                                <div class="observer"></div>
-                                <img src="https://cdn-dantats.stunning.kr/prod/portfolios/fa970db0-abdd-4b41-a512-de0e18e3d27c/covers/X8f6VD8EW4NRfBde.%E1%84%86%E1%85%B5%E1%84%83%E1%85%A1%E1%86%B7365%E1%84%92%E1%85%A1%E1%86%AB%E1%84%8B%E1%85%B4%E1%84%8B%E1%85%AF%E1%86%AB-%E1%84%85%E1%85%A9%E1%84%80%E1%85%A9-th.jpg.small?s=1200x1200&amp;e=0x0&amp;t=crop&amp;q=100&amp;f=webp" alt="의 미담365한의원 이미지"/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="expert-card-portfolio-container 2">
-                    <div class="card-img-container cover expert-card-portfolio">
-                        <div class="card-image-default aspect-ratio-card-wrapper card-image">
-                            <div>
-                                <div class="observer"></div>
-                                <img src="https://cdn-dantats.stunning.kr/prod/portfolios/fa970db0-abdd-4b41-a512-de0e18e3d27c/covers/DYS9dfLWDvY6N9bS.%E1%84%87%E1%85%A5%E1%86%B7%E1%84%89%E1%85%A5%E1%86%A8%E1%84%8B%E1%85%A7%E1%86%BC%E1%84%8E%E1%85%B5%E1%84%80%E1%85%AA-%E1%84%85%E1%85%A9%E1%84%80%E1%85%A9-th.jpg.small?s=1200x1200&amp;e=0x0&amp;t=crop&amp;q=100&amp;f=webp" alt="의 범석영치과 이미지"/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="expert-card-portfolio-container 3">
-                    <div class="card-img-container cover expert-card-portfolio">
-                        <div class="card-image-default aspect-ratio-card-wrapper card-image">
-                            <div>
-                                <div class="observer"></div>
-                                <img src="https://cdn-dantats.stunning.kr/prod/portfolios/fa970db0-abdd-4b41-a512-de0e18e3d27c/covers/PNTd47hANiZx9M3Y.ESPE-Logo-th.jpg.small?s=1200x1200&amp;e=0x0&amp;t=crop&amp;q=100&amp;f=webp" alt="의 Espe 이미지"/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="expert-card-portfolio-container 4">
-                    <div class="card-img-container cover expert-card-portfolio">
-                        <div class="card-image-default aspect-ratio-card-wrapper card-image">
-                            <div>
-                                <div class="observer"></div>
-                                <img src="https://cdn-dantats.stunning.kr/prod/portfolios/fa970db0-abdd-4b41-a512-de0e18e3d27c/covers/5VbQaRNneCj4vNbY.%E1%84%8B%E1%85%A9%E1%86%AF%E1%84%87%E1%85%A1%E1%84%85%E1%85%B3%E1%86%AB%E1%84%8F%E1%85%B5%E1%84%8C%E1%85%B3-%E1%84%85%E1%85%A9%E1%84%80%E1%85%A9-th.jpg.small?s=1200x1200&amp;e=0x0&amp;t=crop&amp;q=100&amp;f=webp" alt="의 ALL바른키즈 이미지"/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+           
         </a>
     </div>
 `;
