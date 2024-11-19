@@ -5,26 +5,19 @@ const commentInputSection = document.querySelector(".contest-comment-input"); //
 const postSummaryWrap = document.querySelector("div.post-summary");
 const goalPointWrap = document.querySelector("div.goal-point");
 const postContentWrap = document.querySelector("div.post-content");
-const updateButton = document.querySelector("a.go-update");
-const deleteButton = document.querySelector("a.go-delete");
 const attachmentList = document.querySelector("ul.attach-list.attachments");
-const donationButton = document.querySelector("a.donation-btn-style");
+
 const donationAmountInput = document.querySelector("input#donation-amount-input");
 const donationButtonContainer = document.querySelector("div.donation-btn-container.tooltip");
 const donationDetailSection = document.querySelector("section.info-box-container.meta");
-let inputFlag = false;
+const postTitleWrap = document.querySelector("h2.post-title");
+const userNickNameWrap = document.querySelector("a.user-nickname");
+const donationDifference = document.querySelector("div.donation-difference");
+const donationPeriod = document.querySelector("span.donation-period");
+const donationButtonWrap = document.querySelector("div.donation-btn-wrap");
+const postViewCount = document.querySelector("div.post-view-count");
 
-donationButton.addEventListener("click", () => {
-    if(donationAmountInput.style.display === "none") {
-        donationAmountInput.style.display = "block";
-        donationButtonContainer.style = "flex-direction: column; gap: 10px";
-        donationDetailSection.style["margin-bottom"] = "10px";
-        inputFlag = true;
-    } else if(donationAmountInput.style.display === "block" && inputFlag){
-        fetchAccountBalance(member.id);
-        inputFlag = false;
-    };
-});
+let inputFlag = false;
 
 const fetchAccountBalance = async (memberId) => {
     try {
@@ -47,7 +40,60 @@ const fetchAccountBalance = async (memberId) => {
 postSummaryWrap.innerText = donation.postSummary;
 goalPointWrap.innerText = donation.goalPoint;
 postContentWrap.innerText = donation.postContent;
+postTitleWrap.innerText = donation.postTitle;
+userNickNameWrap.innerText = donation.memberNickName;
+userNickNameWrap.href = ``;
+donationDifference.innerText = new Date(donation.donationEDate).getDate() - new Date(donation.donationSDate).getDate() + 1;
+donationPeriod.innerText = `${donation.donationSDate} ~ ${donation.donationEDate}`;
+postViewCount.innerText = donation.postViewCount;
+console.log(donation.postViewCount);
 
+// donationButtonWrap.innerHTML = '';
+// let text = '';
+// if(member.id != donation.memberId) {
+//     text = `<div
+//                                                 class="donation-btn-container tooltip"
+//                                             >
+//                                                 <input type="text" id="donation-amount-input" style="display: none; text-align: end" placeholder="기부할 금액을 입력하세요. ex) 10000">
+//                                                 <a class="donation-btn-style"
+//                                                     ><span
+//                                                         class="visual-correction"
+//                                                         >기부하기</span
+//                                                     ></a
+//                                                 >
+//                                             </div>`;
+//     donationButtonWrap.append(text);
+const donationButton = document.querySelector("a.donation-btn-style");
+donationButton.addEventListener("click", () => {
+    if(donationAmountInput.style.display === "none") {
+        donationAmountInput.style.display = "block";
+        donationButtonContainer.style = "flex-direction: column; gap: 10px";
+        donationDetailSection.style["margin-bottom"] = "10px";
+        inputFlag = true;
+    } else if(donationAmountInput.style.display === "block" && inputFlag){
+        fetchAccountBalance(member.id);
+        inputFlag = false;
+    };
+});
+// } else {
+//     text = `<div class="donation-btn-container report-wrap">
+//                                                 <a class="donation-btn-style2 go-update admin-btn"
+//                                                     ><span
+//                                                         class="visual-correction"
+//                                                         >수정하기</span
+//                                                     ></a
+//                                                 >
+//                                                 <div class="space"></div>
+//                                                 <a class="donation-btn-style2 go-delete admin-btn"
+//                                                     ><span
+//                                                         class="visual-correction"
+//                                                         >삭제하기</span
+//                                                     ></a
+//                                                 >
+//                                             </div>`;
+// donationButtonWrap.append(text);
+const updateButton = document.querySelector("a.go-update");
+const deleteButton = document.querySelector("a.go-delete");
 
 updateButton.addEventListener("click", (e) => {
     location.href = `/donation/donation-update?postId=${donation.id}`;
@@ -56,23 +102,25 @@ updateButton.addEventListener("click", (e) => {
 deleteButton.addEventListener("click", (e) => {
     location.href = `/donation/donation-delete?postId=${donation.id}`;
 })
+// }
 
 attachmentList.innerHTML = '';
+let liText = '';
 const liElement = document.createElement("li");
 attachments.forEach((attachment) => {
-    let text = '';
-    text += `<p
+
+    liText += `<p
                 className="file-name"
                 title="1725933473451-0.jpg"
             >
-                1725933473451-0.jpg
+                ${attachment.attachmentFileRealName}
             </p>
             <span className="file-download"
             ><span className="size"
-            >42.8 KB</span
+            >${(attachment.attachmentFileSize / 1024).toFixed(1)} KB </span
             ><a
-                href="https://cdn-dantats.stunning.kr/prod/contest/de56377e-3288-4254-83e2-1ed3d14ba51c/attachments/dfiQd4P4mfYFmBaa/1725933473451-0.jpg"
-                download="1725933473451-0.jpg"
+                href="/attachment/download?fileName=${attachment.attachmentFilePath + "/" + attachment.attachmentFileName + attachment.attachmentFileRealName}"
+                download="${attachment.attachmentFileRealName}"
                 className="attach-save"
             ><span
                 className="visual-correction"
@@ -80,7 +128,9 @@ attachments.forEach((attachment) => {
             ></a
             ></span
             >`;
-})
+    liElement.innerHTML += liText;
+});
+attachmentList.append(liElement);
 
 // 탭 클릭 이벤트 처리
 tabs.forEach((tab, index) => {
@@ -107,8 +157,10 @@ tabs[0].classList.add("active"); // 첫 번째 탭 활성화
 commentSection.style.display = "none";
 commentInputSection.style.display = "none"; // 처음에는 댓글 작성 창 숨기기
 
-const totalPrize = 50000;
-const currentPrize = 30000; // 예시로 100% 이상을 넘는 값
+const totalPrize = parseInt(donation.goalPoint);
+const currentPrize = parseInt(donation.currentPoint); // 예시로 100% 이상을 넘는 값
+console.log(donation.currentPoint);
+console.log(currentPrize);
 
 // 퍼센트 계산 (100% 이상일 수 있음)
 const percentage = Math.floor((currentPrize / totalPrize) * 100);
@@ -224,54 +276,54 @@ submitButton.addEventListener("click", () => {
     }
 });
 
-// 모달 처리
-const modal = document.getElementById("profileModal");
-const reportBtn = document.getElementById("report-btn"); // 신고하기 버튼
-const span = document.getElementsByClassName("close")[0];
-const defaultImage = "https://www.wishket.com/static/img/default_avatar_c.png";
-
-// 신고하기 버튼 클릭 시 모달 열기
-reportBtn.onclick = () => {
-    modal.style.display = "block";
-};
-
-// 모달의 닫기 버튼 클릭 시 모달 닫기
-span.onclick = () => {
-    modal.style.display = "none";
-};
-
-// 모달 외부 클릭 시 모달 닫기
-window.onclick = (event) => {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-};
-
-// "신고하기" 버튼 클릭 시 alert 실행 및 모달 닫기
-const reportSubmitBtn = document.getElementById("reportSubmitBtn");
-
-reportSubmitBtn.onclick = function () {
-    alert("게시글 신고가 완료되었습니다.");
-    modal.style.display = "none"; // 신고하기 버튼 클릭 후 모달 닫기
-};
+// // 모달 처리
+// const modal = document.getElementById("profileModal");
+// const reportBtn = document.getElementById("report-btn"); // 신고하기 버튼
+// const span = document.getElementsByClassName("close")[0];
+// const defaultImage = "https://www.wishket.com/static/img/default_avatar_c.png";
+//
+// // 신고하기 버튼 클릭 시 모달 열기
+// reportBtn.onclick = () => {
+//     modal.style.display = "block";
+// };
+//
+// // 모달의 닫기 버튼 클릭 시 모달 닫기
+// span.onclick = () => {
+//     modal.style.display = "none";
+// };
+//
+// // 모달 외부 클릭 시 모달 닫기
+// window.onclick = (event) => {
+//     if (event.target == modal) {
+//         modal.style.display = "none";
+//     }
+// };
+//
+// // "신고하기" 버튼 클릭 시 alert 실행 및 모달 닫기
+// const reportSubmitBtn = document.getElementById("reportSubmitBtn");
+//
+// reportSubmitBtn.onclick = function () {
+//     alert("게시글 신고가 완료되었습니다.");
+//     modal.style.display = "none"; // 신고하기 버튼 클릭 후 모달 닫기
+// };
 // =====================================관리자=====================================================
 
-document.addEventListener("DOMContentLoaded", () => {
-    const AdminBtn = document.querySelector(".donation-btn-container.report-wrap");
-    console.log("JavaScript에서 가져온 AdminBtn:", AdminBtn);
-    console.log("세션에서 전달된 사용자 정보:", member);
-    console.log(member.memberType);
-    console.log(member.memberLoginType);
-    // 세션의 member 정보가 존재하는지 확인
-    if (member.memberLoginType === "ADMIN") {
-        document.querySelectorAll(".donation-btn-style2.admin-btn").forEach(btn => {
-            btn.style.display = "block";
-        });
-    } else {
-        document.querySelectorAll(".donation-btn-style2.admin-btn").forEach(btn => {
-            btn.style.display = "none";
-        });
-    }
-});
+// document.addEventListener("DOMContentLoaded", () => {
+const AdminBtn = document.querySelector(".donation-btn-container.report-wrap");
+console.log("JavaScript에서 가져온 AdminBtn:", AdminBtn);
+console.log("세션에서 전달된 사용자 정보:", member);
+console.log(member.memberType);
+console.log(member.memberLoginType);
+// 세션의 member 정보가 존재하는지 확인
+// if (member.memberLoginType === "ADMIN") {
+//     document.querySelectorAll(".donation-btn-style2.admin-btn").forEach(btn => {
+//         btn.style.display = "block";
+//     });
+// } else {
+//     document.querySelectorAll(".donation-btn-style2.admin-btn").forEach(btn => {
+//         btn.style.display = "none";
+//     });
+// }
+// });
 
 // ==========================================================================================

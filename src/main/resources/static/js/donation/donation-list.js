@@ -64,8 +64,10 @@ document.addEventListener("DOMContentLoaded", () => {
             item.classList.add("active");
             inputField.value = item.textContent.trim();
             inquiryFilterType = item.textContent.trim();
-            console.log("선택된 필터 타입:", inquiryFilterType);
-            fetchFilteredDonations(1, inquiryFilterType); // 필터 조건으로 데이터 불러오기
+            const filterType = document.querySelector('div.item.active').textContent.trim();
+            console.log("선택된 필터 타입:", filterType);
+            fetchFilteredDonations(globalThis.page, filterType);
+            console.log("필터입력했다"); // 필터 조건으로 데이터 불러오기
             closeDropdown();
         });
     });
@@ -94,4 +96,4 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 showDonationPosts(donations);
-showPaging();
+showPaging(pagination);

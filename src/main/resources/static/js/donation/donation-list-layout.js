@@ -1,14 +1,30 @@
+globalThis.page = 1;
+
 // 목록 반복
 const ulElement = document.getElementById("contest-list");
+// const items = document.querySelectorAll("div.item");
+//
+// items.forEach((item) => {
+//     item.addEventListener("click", (e) => {
+//         items.forEach((it) =>
+//             it.classList.remove("active")
+//         );
+//         item.classList.add("active");
+//         const filterType = document.querySelector('div.item.active').textContent.trim();
+//         fetchFilteredDonations(globalThis.page, filterType);
+//         console.log("필터입력했다");
+//     })
+// })
 
 const showDonationPosts = (donations) => {
     ulElement.innerHTML = '';
     const liElement = document.createElement("li");
     let text = '';
     donations.forEach((donation) => {
+        console.log(donation);
         const today = new Date();
         const endDay = new Date(donation.donationEDate);
-        let difference = endDay.getTime() - today.getTime();
+        let difference = endDay.getTime() - today.getTime() - 1;
         difference = Math.ceil(difference / (1000 * 60 * 60 * 24));
         text += `
             <a
@@ -36,7 +52,7 @@ const showDonationPosts = (donations) => {
                             <div
                                 class="outline-info-companyDesc"
                             >
-                                ${donation.postContent}
+                                ${donation.postSummary}
                             </div>
                         </div>
                       
@@ -197,7 +213,8 @@ const showDonationPosts = (donations) => {
 };
 
 // 페이지 네비게이션을 표시하는 함수
-const showPaging = () => {
+const showPaging = (pagination) => {
+    const pagingDiv = document.querySelector("nav.page-container.paginator");
     let text = ``; // HTML 내용을 저장할 변수 초기화
 
     // 이전 페이지 버튼 추가
@@ -254,4 +271,16 @@ const showPaging = () => {
 
     // 페이지 네비게이션을 HTML 요소에 삽입
     pagingDiv.innerHTML = text;
+
+    document.querySelectorAll("a.page-btn").forEach((link) => {
+        link.addEventListener("click", (e) => {
+            e.preventDefault();
+            const page = e.target.textContent.trim();
+            console.log("page : ", page);
+            const filterType = document.querySelector('div.item.active').textContent.trim();
+            console.log("필터타입은 : ", filterType);
+            fetchFilteredDonations(page, filterType); // 해당 페이지의 게시글 데이터를 가져오기
+        });
+    });
 }
+

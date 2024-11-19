@@ -32,7 +32,7 @@ html {
     text-size-adjust: none;
     background-color: #fff;
     font: 12px / 18px "Noto Sans KR", NanumGothic, "나눔고딕", "Nanum Gothic",
-        "맑은 고딕", "Malgun Gothic", Dotum;
+    "맑은 고딕", "Malgun Gothic", Dotum;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     margin: 0;
@@ -74,7 +74,7 @@ html {
 }
 .thumbnail-item {
     background: linear-gradient(0deg, rgba(0, 0, 0, 0.07), rgba(0, 0, 0, 0.07))
-        rgb(236, 236, 236);
+    rgb(236, 236, 236);
 }
 .slick-track::after {
     clear: both;
@@ -86,9 +86,9 @@ html {
     width: 100%;
     height: 200px;
     background: linear-gradient(
-        0deg,
-        rgba(0, 0, 0, 0.15) 0%,
-        rgba(0, 0, 0, 0) 96.05%
+            0deg,
+            rgba(0, 0, 0, 0.15) 0%,
+            rgba(0, 0, 0, 0) 96.05%
     );
 }
 main,
@@ -138,9 +138,9 @@ menu.sub-tab {
 }
 .tabs-navigation-wrapper {
     background-color: rgb(255, 255, 255);
-    position: sticky;
-    top: 110px;
-    z-index: 3;
+    /*position: sticky;*/
+    /*top: 110px;*/
+    /*z-index: 3;*/
 }
 .tabs-navigation-wrapper > div {
     margin-bottom: 0px;
@@ -231,6 +231,7 @@ menu.sub-tab {
     height: 100%;
     display: flex;
     padding-bottom: 30px;
+    justify-content: center;
 }
 .content-title-container {
     margin-bottom: 72px;
@@ -805,10 +806,10 @@ a {
     flex-wrap: wrap;
 }
 .comment-container
-    .contest-comment-show
-    .contest-comment-userinfo
-    > div
-    .comment {
+.contest-comment-show
+.contest-comment-userinfo
+> div
+.comment {
     margin: 0px 5px;
     font-size: 12px;
     line-height: 18px;

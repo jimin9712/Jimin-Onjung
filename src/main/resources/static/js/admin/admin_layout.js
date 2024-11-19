@@ -119,26 +119,7 @@ const renderAnswer = (inquiryAnswer) => {
                                 id="request-description"
                             >${inquiryAnswer.postContent}</textarea>
                         </div>
-                        <div class="form-field">
-                            <label for="request-attachments">첨부파일</label>
-                            <div id="upload-zone" class="upload-zone">
-                                <input
-                                    type="file"
-                                    multiple
-                                    id="attach-input"
-                                    data-fileupload="true"
-                                    data-dropzone="upload-dropzone"
-                                />
-                                <span>
-                                    <a>파일 추가</a>
-                                    또는 파일을 여기로 드래그
-                                </span>
-                            </div>
-                            <ul
-                                id="attachments-upload-pool"
-                                class="attachments-upload-pool"
-                            ></ul>
-                        </div>
+                        
                         <div class="form-field-agreements" style="clear: both">
                             <p id="request-agreements">
                                 (주)온정은 정보통신망 이용촉진 및 정보보호

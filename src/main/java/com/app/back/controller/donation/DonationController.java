@@ -1,6 +1,7 @@
 package com.app.back.controller.donation;
 
 import com.app.back.domain.donation.DonationDTO;
+import com.app.back.domain.donation.DonationListDTO;
 import com.app.back.domain.donation.DonationVO;
 import com.app.back.domain.donation_record.DonationRecordDTO;
 import com.app.back.domain.member.MemberDTO;
@@ -74,45 +75,69 @@ public class DonationController {
     }
 
     @GetMapping("donation-list")
-    public String goToList(Pagination pagination, Model model, @RequestParam(required = false) String filterType) {
+    public String goToList(Pagination pagination, Model model) {
         MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
-        if (loginMember != null) {
+        boolean isLoggedIn = (loginMember != null);
+
+        model.addAttribute("isLogin", isLoggedIn);
+        if (isLoggedIn) {
             model.addAttribute("member", loginMember);
-        } else {
-            return "redirect:/member/login";
         }
 
-        if (pagination.getOrder() == null) {
-            pagination.setOrder("created_date desc, n.id desc"); // 기본 정렬 기준
-        } else {
-            pagination.setOrder(filterType);
-        }
+        pagination.setOrder("최신등록순");
         pagination.setTotal(postService.getTotal("DONATION"));
+        log.info("총 도네이션 수: {}", pagination.getTotal());
         pagination.progressReview();
-        if(filterType == null || filterType.equals("최신등록순")) {
-            model.addAttribute("donations", donationService.getList(pagination));
-        } else {
-            model.addAttribute("donations", donationService.getFilterList(pagination));
-        }
+        model.addAttribute("pagination", pagination);
+        model.addAttribute("donations", donationService.getList(pagination));
+
         return "donation/donation-list";
+    }
+
+    @GetMapping("donation-list-filter")
+    @ResponseBody
+    public DonationListDTO getList(Pagination pagination, @RequestParam("filterType") String filterType) {
+        DonationListDTO donationListDTO = new DonationListDTO();
+        log.info("필터타입은 : {}", filterType);
+        pagination.setOrder(filterType);
+        pagination.setTotal(postService.getTotal("DONATION"));
+        log.info("총 도네이션 수: {}", pagination.getTotal());
+        pagination.progressReview();
+        donationListDTO.setPagination(pagination);
+        if(pagination.getOrder() == null || pagination.getOrder().equals("최신등록순")) {
+            donationListDTO.setDonations(donationService.getList(pagination));
+        } else if(pagination.getOrder().equals("조회순")){
+            donationListDTO.setDonations(donationService.getFilterList(pagination));
+        } else {
+            log.info("오류 : filterType 미 입력");
+        }
+        return donationListDTO;
     }
 
     @GetMapping("donation-inquiry")
     public String goToInquiry( HttpSession session, @RequestParam("postId") Long postId, Model model) {
         MemberDTO loginMember = (MemberDTO) session.getAttribute("loginMember");
-        if (loginMember != null) {
+        boolean isLoggedIn = (loginMember != null);
+
+        model.addAttribute("isLogin", isLoggedIn);
+        if (isLoggedIn) {
             model.addAttribute("member", loginMember);
+            model.addAttribute("isLogin", true);
         } else {
-            return "redirect:/member/login";
+            model.addAttribute("isLogin", false);
+        }
+        log.info("들어옴");
+        if (loginMember != null) {
+            log.info("멤버는 : {}", loginMember);
+            model.addAttribute("member", loginMember);
         }
 
         Optional<DonationDTO> donationDTO = donationService.getById(postId);
 
         if (donationDTO.isPresent()) {
             model.addAttribute("donation", donationDTO.get());
+            log.info("{}",donationDTO.get().getCurrentPoint());
             model.addAttribute("attachments", attachmentService.getList(postId));
-        } else {
-            return "redirect:/donation/donation-list";
         }
         return "donation/donation-inquiry";
     }

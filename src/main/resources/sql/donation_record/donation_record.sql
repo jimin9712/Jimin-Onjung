@@ -12,3 +12,4 @@ create table tbl_donation_record(
 
 select * from tbl_donation_record;
 
+ select * from tbl_donation;
