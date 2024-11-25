@@ -43,7 +43,7 @@
 
 <h2>5. 담당업무 </h2>
 <h4>5-1 프론트엔드</h4>
-<img src="./images/Onjung_front.png">
+<img src="./images/front.png">
 
 ▶랭킹
 <ul>
