@@ -39,4 +39,4 @@
 - Slack<br>
 
 <h2>4. ERD </h2>
-
+![ERD](./images/test2.png)
