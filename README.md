@@ -39,5 +39,4 @@
 - Slack<br>
 
 <h2>4. ERD </h2>
-![test2](https://github.com/user-attachments/assets/06e37b82-223e-440c-b7a6-1397aa8162a3)
 
