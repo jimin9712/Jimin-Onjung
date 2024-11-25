@@ -40,3 +40,7 @@
 
 <h2>4. ERD </h2>
 <img src="./images/test2.png">
+
+<h2>5. 담당업무 </h2>
+<strong>5-1 프론트엔드</strong>
+![image](https://github.com/user-attachments/assets/5f24e0ab-bd92-4991-9f2d-84f1cb9684de)
