@@ -43,4 +43,28 @@
 
 <h2>5. 담당업무 </h2>
 <strong>5-1 프론트엔드</strong>
-![image](https://github.com/user-attachments/assets/5f24e0ab-bd92-4991-9f2d-84f1cb9684de)
+<img src="./images/Onjung_front.png">
+
+▶랭킹
+<ul>
+<li>사용자 랭킹 출력</li>
+<li>봉사 단체 행킹 출력</li>
+</ul>
+
+▶이용 후기
+<ul>
+<li>이용 후기 작성</li>
+<li>이용 후기 수정</li>
+<li>이용 후기 목록</li>
+</ul>
+
+▶기부 게시판
+<ul>
+ <li>기부 게시판 작성</li></li>
+ <li>기부 게시판 수정</li>
+ <li>기부 게시찬 상세</li>
+ <li>기부 게시판 목록</li>
+</ul>
+
+<strong>5-2 백엔드</strong>
+<img src="./images/Onjung-back.png">
