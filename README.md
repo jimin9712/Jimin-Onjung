@@ -36,6 +36,7 @@
 - Kakao DEVELOPER API<br>
 - Cool SMS API<br>
 - SMTP Gmail API<br>
+- kakao pay<br>
 - Slack<br>
 
 <h2>4. ERD </h2>
